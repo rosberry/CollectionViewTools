@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-Powerful tool for making UICollectionView usage simple and comfortable.
+Effective framework, similar to TableViewTools for making your UICollectionView usage simple and comfortable. It allows you to move UICollectionView configuration and interaction logic to separated objects and simply register, add and remove cells from the collection view.
                        DESC
 
   s.homepage         = 'https://github.com/rosberry/CollectionViewTools'
