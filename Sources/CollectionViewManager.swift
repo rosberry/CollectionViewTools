@@ -230,16 +230,10 @@ extension CollectionViewManager {
 
         let indexPaths: [IndexPath] = cellItems.flatMap { cellItem in
             guard let row = sectionItem.cellItems.index(where: {$0 === cellItem}) else {
-                return nil
-            }
-            return IndexPath(item: row, section: sectionIndex)
-        }
-        
-        cellItems.forEach { cellItem in
-            guard let index = sectionItem.cellItems.index(where: { $0 === cellItem }) else {
                 fatalError("Unable to remove cell item which is not contained in this section item.")
             }
-            sectionItem.cellItems.remove(at: index)
+            sectionItem.cellItems.remove(at: row)
+            return IndexPath(item: row, section: sectionIndex)
         }
         
         collectionView.performBatchUpdates({
