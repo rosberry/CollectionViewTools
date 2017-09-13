@@ -32,9 +32,9 @@ open class CollectionViewManager: NSObject {
         }
     }
     
-    internal var _sectionItems = [SectionItem]() {
+    internal var _sectionItems = [CollectionViewSectionItemProtocol]() {
         didSet {
-            sectionItems.forEach { register($0) }
+            _sectionItems.forEach { register($0) }
         }
     }
     
@@ -146,7 +146,7 @@ open class CollectionViewManager: NSObject {
     
     // MARK: - Private
     
-    fileprivate func register(_ sectionItem: SectionItem) {
+    fileprivate func register(_ sectionItem: CollectionViewSectionItemProtocol) {
         sectionItem.cellItems.forEach { register($0) }
         sectionItem.reusableViewItems.forEach { $0.register(for: collectionView) }
     }
