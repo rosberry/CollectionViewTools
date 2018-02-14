@@ -242,12 +242,12 @@ extension CollectionViewManager {
             guard let row = sectionItem.cellItems.index(where: {$0 === cellItem}) else {
                 fatalError("Unable to remove cell item which is not contained in this section item.")
             }
-            sectionItem.cellItems.remove(at: row)
             return IndexPath(item: row, section: sectionIndex)
         }
         
         collectionView.performBatchUpdates({
             self.collectionView.deleteItems(at: indexPaths)
+            indexPaths.forEach { sectionItem.cellItems.remove(at: $0.row) }
         }, completion: completion)
     }
     
@@ -259,12 +259,12 @@ extension CollectionViewManager {
     ///   - completion: A closure that either specifies any additional actions which should be performed after removing.
     open func remove(cellItemsAt indexes: [Int], from sectionItem: SectionItem, completion: Completion? = nil) {
         let sectionIndex = _sectionItems.index { $0 === sectionItem }!
-        indexes.forEach { sectionItem.cellItems.remove(at: $0) }
         
         let indexPaths: [IndexPath] = indexes.flatMap { IndexPath(item: $0, section: sectionIndex) }
         
         collectionView.performBatchUpdates({
             self.collectionView.deleteItems(at: indexPaths)
+            indexes.forEach { sectionItem.cellItems.remove(at: $0) }
         }, completion: completion)
     }
 
