@@ -32,6 +32,16 @@ open class CollectionViewManager: NSObject {
         }
     }
     
+    /// Set this handler to update your data after moving cells in collection view.
+    ///
+    /// - Parameters:
+    ///    - collectionView: collection view where move action finished
+    ///    - sourceIndexPath: source index path
+    ///    - destinationIndexPath: destination index path
+    public var moveItemsHandler: ((_ collectionView: UICollectionView,
+                                   _ sourceIndexPath: IndexPath,
+                                   _ destinationIndexPath: IndexPath) -> Void)?
+    
     internal var _sectionItems = [CollectionViewSectionItemProtocol]() {
         didSet {
             _sectionItems.forEach { register($0) }

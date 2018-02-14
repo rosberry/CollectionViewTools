@@ -45,5 +45,6 @@ extension CollectionViewManager: UICollectionViewDataSource {
         }
         let cellItem = sourceSectionItem.cellItems.remove(at: sourceIndexPath.row)
         destinationIndexPathSectionItem.cellItems.insert(cellItem, at: destinationIndexPath.row)
+        moveItemsHandler?(collectionView, sourceIndexPath, destinationIndexPath)
     }
 }
