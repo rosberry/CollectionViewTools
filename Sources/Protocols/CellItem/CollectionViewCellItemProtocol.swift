@@ -8,16 +8,12 @@ import UIKit.UICollectionView
 
 // MARK: - CollectionViewCellItemProtocol
 
-public typealias CellItem = AnyCollectionViewCellItem<UICollectionViewCell>
-
 public protocol CollectionViewCellItemProtocol: AnyObject,
 CollectionViewReuseCellItemProtocol,
 CollectionViewSizeCellItemProtocol,
+CollectionViewConfigureCellItemProtocol,
 CollectionViewGeneralCellItemProtocol,
-CollectionViewCellItemDataSourcePrefetching {
-    associatedtype Cell: UICollectionViewCellProtocol
-    func configure(cell: Cell, at indexPath: IndexPath)
-}
+CollectionViewCellItemDataSourcePrefetching {}
 
 // MARK: - CollectionViewReuseCellItemProtocol
 
@@ -29,6 +25,12 @@ public protocol CollectionViewReuseCellItemProtocol {
 
 public protocol CollectionViewSizeCellItemProtocol {
     func size(for collectionView: UICollectionView, with layout: UICollectionViewLayout, at indexPath: IndexPath) -> CGSize
+}
+
+// MARK: - CollectionViewConfigureCellItemProtocol
+
+public protocol CollectionViewConfigureCellItemProtocol {
+    func cell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell
 }
 
 // MARK: - CollectionViewGeneralCellItemProtocol

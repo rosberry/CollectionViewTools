@@ -16,9 +16,7 @@ extension CollectionViewManager: UICollectionViewDataSource {
     open func collectionView(_ collectionView: UICollectionView,
                              cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellItem = self.cellItem(for: indexPath)!
-        let cell = collectionView.dequeueReusableCell(for: indexPath)
-        cellItem.configure(cell: cell, at: indexPath)
-        return cell
+        return cellItem.cell(for: collectionView, at: indexPath)
     }
     
     open func numberOfSections(in collectionView: UICollectionView) -> Int {

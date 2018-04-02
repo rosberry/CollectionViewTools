@@ -9,7 +9,7 @@ import UIKit.UICollectionView
 open class CollectionViewManager: NSObject {
     
     public typealias SectionItem = CollectionViewSectionItemProtocol
-//    public typealias CellItem = CellItem
+    public typealias CellItem = CollectionViewCellItemProtocol
     public typealias Completion = (Bool) -> Void
     
     /// `UICollectionView` object for managing
@@ -80,7 +80,7 @@ open class CollectionViewManager: NSObject {
     /// Accesses the cell item in the specified section and at the specified position.
     ///
     /// - Parameter indexPath: The index path of the cell item to access.
-    public subscript(indexPath: IndexPath) -> CellItem? {
+    public subscript(indexPath: IndexPath) -> CollectionViewCellItemProtocol? {
         return cellItem(for: indexPath)
     }
     
@@ -90,7 +90,7 @@ open class CollectionViewManager: NSObject {
     ///   - cellItems: Cell items to reload
     ///   - sectionItem: Section item that contains cell items to reload
     ///   - completion: A closure that either specifies any additional actions which should be performed after reloading.
-    open func reloadCellItems(_ cellItems: [CellItem],
+    open func reloadCellItems(_ cellItems: [CollectionViewCellItemProtocol],
                               inSectionItem sectionItem: CollectionViewSectionItemProtocol,
                               completion: Completion? = nil) {
         let section = sectionItems.index(where: {$0 === sectionItem})!
@@ -112,7 +112,7 @@ open class CollectionViewManager: NSObject {
     /// Invoking this method does not cause the delegate to receive a scrollViewDidScroll(_:) message, as is normal for programmatically invoked user interface operations.
     ///
     /// - Parameters:
-    ///   - cellItem: `CellItem` object, that responds for configuration of cell at the specified index path.
+    ///   - cellItem: `CollectionViewCellItemProtocol` object, that responds for configuration of cell at the specified index path.
     ///   - sectionItem: `CollectionViewSectionItemProtocol` object, that contains passed cell item
     ///   - scrollPosition: A constant that identifies a relative position in the collection view (top, middle, bottom) for item when scrolling concludes. See UICollectionViewScrollPosition for descriptions of valid constants.
     ///   - animated: true if you want to animate the change in position; false if it should be immediate.
@@ -156,12 +156,12 @@ open class CollectionViewManager: NSObject {
     
     // MARK: - Private
     
-    private func register(_ sectionItem: CollectionViewSectionItemProtocol) {
+    fileprivate func register(_ sectionItem: CollectionViewSectionItemProtocol) {
         sectionItem.cellItems.forEach { register($0) }
         sectionItem.reusableViewItems.forEach { $0.register(for: collectionView) }
     }
     
-    private func register(_ cellItem: CellItem) {
+    fileprivate func register(_ cellItem: CellItem) {
         collectionView.register(by: cellItem.reuseType)
     }
 }
