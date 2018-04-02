@@ -8,14 +8,14 @@ import UIKit.UICollectionView
 
 open class CollectionViewSectionItem: CollectionViewSectionItemProtocol {
     
-    open var cellItems: [CollectionViewCellItemProtocol]
+    open var cellItems: [CellItem]
     open var reusableViewItems: [CollectionViewReusableViewItemProtocol]
     
     public var minimumLineSpacing: CGFloat = 0
     public var minimumInteritemSpacing: CGFloat = 0
     public var insets: UIEdgeInsets = .zero
     
-    public init(cellItems: [CollectionViewCellItemProtocol] = [],
+    public init(cellItems: [CellItem] = [],
                 reusableViewItems: [CollectionViewReusableViewItemProtocol] = []) {
         self.cellItems = cellItems
         self.reusableViewItems = reusableViewItems

@@ -7,9 +7,25 @@
 import UIKit
 import CollectionViewTools
 
+class DataModel {
+    let title: String
+    let image: UIImage
+
+    init(title: String, image: UIImage) {
+        self.title = title
+        self.image = image
+    }
+}
+
 class MainViewController: UIViewController {
     
-    let images = [#imageLiteral(resourceName: "nightlife-1"), #imageLiteral(resourceName: "nightlife-2"), #imageLiteral(resourceName: "nightlife-3"), #imageLiteral(resourceName: "nightlife-4"), #imageLiteral(resourceName: "nightlife-5")]
+    private let dataModels = [
+        DataModel(title: "nightlife-1", image: #imageLiteral(resourceName: "nightlife-1")),
+        DataModel(title: "nightlife-2", image: #imageLiteral(resourceName: "nightlife-1")),
+        DataModel(title: "nightlife-3", image: #imageLiteral(resourceName: "nightlife-3")),
+        DataModel(title: "nightlife-4", image: #imageLiteral(resourceName: "nightlife-4")),
+        DataModel(title: "nightlife-5", image: #imageLiteral(resourceName: "nightlife-5"))
+    ]
     
     lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
@@ -28,11 +44,17 @@ class MainViewController: UIViewController {
     
     var imagesSectionItem: CollectionViewSectionItemProtocol {
         let sectionItem = CollectionViewSectionItem()
-        sectionItem.cellItems = images.map { ImageCellItem(image: $0) { [weak self] image in
-            let detailViewController = DetailViewController()
-            detailViewController.image = image
-            self?.navigationController?.pushViewController(detailViewController, animated: true)
-            }
+        sectionItem.cellItems = dataModels.map { model in
+            var cellItem = ImageAndTitleCellItem(image: model.image, title: model.title)
+//            cellItem.itemDidSelectHandler = { [weak self] (collectionView, indexPath) in
+//                guard let `self` = self else {
+//                    return
+//                }
+//                let detailViewController = DetailViewController()
+//                detailViewController.image = model.image
+//                self.navigationController?.pushViewController(detailViewController, animated: true)
+//            }
+            return AnyCollectionViewCellItem.init(cellItem)
         }
         return sectionItem
     }

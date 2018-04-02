@@ -9,7 +9,7 @@ import UIKit.UICollectionView
 public enum ReuseType {
     case byStoryboardIdentifier(String)
     case byNib(UINib, identifier: String)
-    case byClass(UICollectionViewCell.Type, identifier: String)
+    case byClass(UICollectionViewCellProtocol.Type, identifier: String)
     
     public var identifier: String {
         switch self {
@@ -19,8 +19,8 @@ public enum ReuseType {
         }
     }
     
-    public init(cellClass: UICollectionViewCell.Type) {
-        self = .byClass(cellClass, identifier: NSStringFromClass(cellClass))
+    public init(cellClass: UICollectionViewCellProtocol.Type) {
+        self = .byClass(cellClass, identifier: NSStringFromClass(cellClass as AnyClass))
     }
 }
 
@@ -28,8 +28,10 @@ public extension UICollectionView {
     
     func register(by type: ReuseType) {
         switch type {
-        case let .byNib(nib, identifier: identifier):          register(nib, forCellWithReuseIdentifier: identifier)
-        case let .byClass(cellClass, identifier: identifier):  register(cellClass, forCellWithReuseIdentifier: identifier)
+        case let .byNib(nib, identifier: identifier):
+            register(nib, forCellWithReuseIdentifier: identifier)
+        case let .byClass(cellClass, identifier: identifier):
+            register((cellClass as! UICollectionViewCell.Type), forCellWithReuseIdentifier: identifier)
         default: break
         }
     }
