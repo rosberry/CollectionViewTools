@@ -8,7 +8,7 @@ import UIKit.UICollectionView
 
 public protocol CollectionViewSectionItem: AnyObject {
     
-    var cellItems: [CollectionViewCellItem] { get set }
+    var cellItems: [CollectionViewManager.CellItem] { get set }
     var reusableViewItems: [CollectionViewReusableViewItem] { get set }
     
     func inset(for collectionView: UICollectionView, with layout: UICollectionViewLayout) -> UIEdgeInsets

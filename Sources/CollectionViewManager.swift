@@ -9,7 +9,7 @@ import UIKit.UICollectionView
 open class CollectionViewManager: NSObject {
     
     public typealias SectionItem = CollectionViewSectionItem
-    public typealias CellItem = CollectionViewCellItem
+    public typealias CellItem = AnyCollectionViewCellItem<UICollectionViewCell>
     public typealias Completion = (Bool) -> Void
     
     /// `UICollectionView` object for managing
@@ -80,7 +80,7 @@ open class CollectionViewManager: NSObject {
     /// Accesses the cell item in the specified section and at the specified position.
     ///
     /// - Parameter indexPath: The index path of the cell item to access.
-    public subscript(indexPath: IndexPath) -> CollectionViewCellItem? {
+    public subscript(indexPath: IndexPath) -> CellItem? {
         return cellItem(for: indexPath)
     }
     
@@ -90,7 +90,7 @@ open class CollectionViewManager: NSObject {
     ///   - cellItems: Cell items to reload
     ///   - sectionItem: Section item that contains cell items to reload
     ///   - completion: A closure that either specifies any additional actions which should be performed after reloading.
-    open func reloadCellItems(_ cellItems: [CollectionViewCellItem],
+    open func reloadCellItems(_ cellItems: [CellItem],
                               inSectionItem sectionItem: CollectionViewSectionItem,
                               completion: Completion? = nil) {
         let section = sectionItems.index(where: {$0 === sectionItem})!

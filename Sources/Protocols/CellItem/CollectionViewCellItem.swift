@@ -11,9 +11,10 @@ import UIKit.UICollectionView
 public protocol CollectionViewCellItem: AnyObject,
                                         CollectionViewReuseCellItem,
                                         CollectionViewSizeCellItem,
-                                        CollectionViewConfigureCellItem,
                                         CollectionViewGeneralCellItem,
                                         CollectionViewCellItemDataSource {
+    associatedtype Cell
+    func configure(cell: Cell, at indexPath: IndexPath)
 }
 
 // MARK: - CollectionViewReuseCellItemProtocol
@@ -26,12 +27,6 @@ public protocol CollectionViewReuseCellItem {
 
 public protocol CollectionViewSizeCellItem {
     func size(for collectionView: UICollectionView, with layout: UICollectionViewLayout, at indexPath: IndexPath) -> CGSize
-}
-
-// MARK: - CollectionViewConfigureCellItemProtocol
-
-public protocol CollectionViewConfigureCellItem {
-    func cell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell
 }
 
 // MARK: - CollectionViewGeneralCellItemProtocol
@@ -84,6 +79,8 @@ private enum AssociatedKeys {
     static var didUnhighlightHandler = "rsb_didUnhighlightHandler"
     static var didSelectHandler = "rsb_didSelectHandler"
     static var didDeselectHandler = "rsb_didDeselectHandler"
+    static var shouldSelectHandler = "rsb_shouldSelectHandler"
+    static var shouldDeselectHandler = "rsb_shouldDeselectHandler"
     static var willDisplayCellHandler = "rsb_willDisplayCellHandler"
     static var willDisplayViewHandler = "rsb_willDisplayViewHandler"
     static var didEndDisplayingCellHandler = "rsb_didEndDisplayingCellHandler"
@@ -137,6 +134,24 @@ public extension CollectionViewGeneralCellItem {
         }
         set {
             ClosureWrapper<ActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.didSelectHandler)
+        }
+    }
+    
+    var itemShouldSelectHandler: ActionResolver? {
+        get {
+            return ClosureWrapper<ActionResolver>.handler(for: self, key: &AssociatedKeys.shouldSelectHandler)
+        }
+        set {
+            ClosureWrapper<ActionResolver>.setHandler(newValue, for: self, key: &AssociatedKeys.shouldSelectHandler)
+        }
+    }
+    
+    var itemShouldDeselectHandler: ActionResolver? {
+        get {
+            return ClosureWrapper<ActionResolver>.handler(for: self, key: &AssociatedKeys.shouldDeselectHandler)
+        }
+        set {
+            ClosureWrapper<ActionResolver>.setHandler(newValue, for: self, key: &AssociatedKeys.shouldDeselectHandler)
         }
     }
     

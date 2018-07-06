@@ -10,9 +10,14 @@ import Foundation
 
 final class ImageCellItem: CollectionViewCellItem {
     
+    typealias Cell = ImageCollectionViewCell
+    private(set) var reuseType: ReuseType = .class(Cell.self)
     private let image: UIImage
     private let selectionHandler: (UIImage) -> Void
-    private(set) var reuseType: ReuseType = .class(ImageCollectionViewCell.self)
+    
+    func configure(cell: ImageCollectionViewCell, at indexPath: IndexPath) {
+        cell.imageView.image = image
+    }
     
     init(image: UIImage, selectionHandler: @escaping (UIImage) -> Void) {
         self.image = image
@@ -21,12 +26,6 @@ final class ImageCellItem: CollectionViewCellItem {
     
     func size(for collectionView: UICollectionView, at indexPath: IndexPath) -> CGSize {
         return collectionView.bounds.size
-    }
-    
-    func cell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: ImageCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
-        cell.imageView.image = image
-        return cell
     }
     
     func size(for collectionView: UICollectionView, with layout: UICollectionViewLayout, at indexPath: IndexPath) -> CGSize {
