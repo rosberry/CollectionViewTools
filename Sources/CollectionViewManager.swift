@@ -8,8 +8,8 @@ import UIKit.UICollectionView
 
 open class CollectionViewManager: NSObject {
     
-    public typealias SectionItem = CollectionViewSectionItemProtocol
-    public typealias CellItem = CollectionViewCellItemProtocol
+    public typealias SectionItem = CollectionViewSectionItem
+    public typealias CellItem = CollectionViewCellItem
     public typealias Completion = (Bool) -> Void
     
     /// `UICollectionView` object for managing
@@ -42,14 +42,14 @@ open class CollectionViewManager: NSObject {
                                    _ sourceIndexPath: IndexPath,
                                    _ destinationIndexPath: IndexPath) -> Void)?
     
-    internal var _sectionItems = [CollectionViewSectionItemProtocol]() {
+    internal var _sectionItems = [CollectionViewSectionItem]() {
         didSet {
             _sectionItems.forEach { register($0) }
         }
     }
     
     /// Array of `CollectionViewSectionItemProtocol` objects, which respond for configuration of specified section in collection view.
-    public var sectionItems: [CollectionViewSectionItemProtocol] {
+    public var sectionItems: [CollectionViewSectionItem] {
         get {
             return _sectionItems
         }
@@ -72,7 +72,7 @@ open class CollectionViewManager: NSObject {
     /// Accesses the section item at the specified position.
     ///
     /// - Parameter index: The index of the section item to access.
-    public subscript(index: Int) -> CollectionViewSectionItemProtocol? {
+    public subscript(index: Int) -> CollectionViewSectionItem? {
         guard index < _sectionItems.count else { return nil }
         return _sectionItems[index]
     }
@@ -80,7 +80,7 @@ open class CollectionViewManager: NSObject {
     /// Accesses the cell item in the specified section and at the specified position.
     ///
     /// - Parameter indexPath: The index path of the cell item to access.
-    public subscript(indexPath: IndexPath) -> CollectionViewCellItemProtocol? {
+    public subscript(indexPath: IndexPath) -> CollectionViewCellItem? {
         return cellItem(for: indexPath)
     }
     
@@ -90,8 +90,8 @@ open class CollectionViewManager: NSObject {
     ///   - cellItems: Cell items to reload
     ///   - sectionItem: Section item that contains cell items to reload
     ///   - completion: A closure that either specifies any additional actions which should be performed after reloading.
-    open func reloadCellItems(_ cellItems: [CollectionViewCellItemProtocol],
-                              inSectionItem sectionItem: CollectionViewSectionItemProtocol,
+    open func reloadCellItems(_ cellItems: [CollectionViewCellItem],
+                              inSectionItem sectionItem: CollectionViewSectionItem,
                               completion: Completion? = nil) {
         let section = sectionItems.index(where: {$0 === sectionItem})!
         var indexPaths = [IndexPath]()
@@ -156,7 +156,7 @@ open class CollectionViewManager: NSObject {
     
     // MARK: - Private
     
-    fileprivate func register(_ sectionItem: CollectionViewSectionItemProtocol) {
+    fileprivate func register(_ sectionItem: CollectionViewSectionItem) {
         sectionItem.cellItems.forEach { register($0) }
         sectionItem.reusableViewItems.forEach { $0.register(for: collectionView) }
     }
@@ -238,7 +238,7 @@ extension CollectionViewManager {
     open func remove(_ cellItems: [CellItem], from sectionItem: SectionItem, completion: Completion? = nil) {
         let sectionIndex = _sectionItems.index { $0 === sectionItem }!
 
-        let indexPaths: [IndexPath] = cellItems.flatMap { cellItem in
+        let indexPaths: [IndexPath] = cellItems.compactMap { cellItem in
             guard let row = sectionItem.cellItems.index(where: {$0 === cellItem}) else {
                 fatalError("Unable to remove cell item which is not contained in this section item.")
             }
@@ -260,7 +260,7 @@ extension CollectionViewManager {
     open func remove(cellItemsAt indexes: [Int], from sectionItem: SectionItem, completion: Completion? = nil) {
         let sectionIndex = _sectionItems.index { $0 === sectionItem }!
         
-        let indexPaths: [IndexPath] = indexes.flatMap { IndexPath(item: $0, section: sectionIndex) }
+        let indexPaths: [IndexPath] = indexes.compactMap { IndexPath(item: $0, section: sectionIndex) }
         
         collectionView.performBatchUpdates({
             self.collectionView.deleteItems(at: indexPaths)
@@ -279,7 +279,7 @@ extension CollectionViewManager {
     ///   - sectionItems: An array of `CollectionViewSectionItemProtocol` objects to insert
     ///   - indexes: An array of locations that specifies the sections to insert in the collection view. If a section already exists at the specified index location, it is moved down one index location.
     ///   - completion: A closure that either specifies any additional actions which should be performed after insertion.
-    open func insert(_ sectionItems: [CollectionViewSectionItemProtocol], at indexes: [Int], completion: Completion? = nil) {
+    open func insert(_ sectionItems: [CollectionViewSectionItem], at indexes: [Int], completion: Completion? = nil) {
         sectionItems.forEach { register($0) }
         zip(sectionItems, indexes).forEach { self._sectionItems.insert($0, at: $1) }
         
@@ -307,8 +307,8 @@ extension CollectionViewManager {
     /// - Parameters:
     ///   - sectionItems: An array of `CollectionViewSectionItemProtocol` objects to remove
     ///   - completion: A closure that either specifies any additional actions which should be performed after removing.
-    open func remove(_ sectionItems: [CollectionViewSectionItemProtocol], completion: Completion? = nil) {
-        let indexes = sectionItems.flatMap { sectionItem in self._sectionItems.index { $0 === sectionItem } }
+    open func remove(_ sectionItems: [CollectionViewSectionItem], completion: Completion? = nil) {
+        let indexes = sectionItems.compactMap { sectionItem in self._sectionItems.index { $0 === sectionItem } }
         indexes.forEach { self._sectionItems.remove(at: $0) }
         collectionView.deleteSections(IndexSet(indexes))
     }

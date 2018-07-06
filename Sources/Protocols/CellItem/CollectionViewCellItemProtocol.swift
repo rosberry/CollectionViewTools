@@ -8,28 +8,29 @@ import UIKit.UICollectionView
 
 // MARK: - CollectionViewCellItemProtocol
 
-public protocol CollectionViewCellItemProtocol: AnyObject,
-CollectionViewReuseCellItemProtocol,
-CollectionViewSizeCellItemProtocol,
-CollectionViewConfigureCellItemProtocol,
-CollectionViewGeneralCellItemProtocol,
-CollectionViewCellItemDataSourcePrefetching {}
+public protocol CollectionViewCellItem: AnyObject,
+                                        CollectionViewReuseCellItem,
+                                        CollectionViewSizeCellItem,
+                                        CollectionViewConfigureCellItem,
+                                        CollectionViewGeneralCellItem,
+                                        CollectionViewCellItemDataSource {
+}
 
 // MARK: - CollectionViewReuseCellItemProtocol
 
-public protocol CollectionViewReuseCellItemProtocol {
+public protocol CollectionViewReuseCellItem {
     var reuseType: ReuseType { get }
 }
 
 // MARK: - CollectionViewSizeCellItemProtocol
 
-public protocol CollectionViewSizeCellItemProtocol {
+public protocol CollectionViewSizeCellItem {
     func size(for collectionView: UICollectionView, with layout: UICollectionViewLayout, at indexPath: IndexPath) -> CGSize
 }
 
 // MARK: - CollectionViewConfigureCellItemProtocol
 
-public protocol CollectionViewConfigureCellItemProtocol {
+public protocol CollectionViewConfigureCellItem {
     func cell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell
 }
 
@@ -38,7 +39,7 @@ public protocol CollectionViewConfigureCellItemProtocol {
 public typealias ActionHandler = ((UICollectionView, IndexPath) -> Void)
 public typealias ActionResolver = ((UICollectionView, IndexPath) -> Bool)
 
-public protocol CollectionViewGeneralCellItemProtocol {
+public protocol CollectionViewGeneralCellItem {
     
     var itemShouldHighlightHandler: ActionResolver? { get set }
     var itemDidHighlightHandler: ActionHandler? { get set }
@@ -50,7 +51,7 @@ public protocol CollectionViewGeneralCellItemProtocol {
     var itemDidEndDisplayingCellHandler: ActionHandler? { get set }
     var itemDidEndDisplayingViewHandler: ActionHandler? { get set }
     var itemCanMoveHandler: ActionResolver? { get set }
-
+    
     func shouldHighlight(for collectionView: UICollectionView,
                          at indexPath: IndexPath) -> Bool
     func didHighlight(for collectionView: UICollectionView,
@@ -97,58 +98,98 @@ private enum AssociatedKeys {
     static var canMoveHandler = "rsb_canMoveHandler"
 }
 
-public extension CollectionViewGeneralCellItemProtocol {
+public extension CollectionViewGeneralCellItem {
     
     // MARK: - Handlers
     
     var itemShouldHighlightHandler: ActionResolver? {
-        get { return ClosureWrapper<ActionResolver>.handler(for: self, key: &AssociatedKeys.shouldHighlightHandler) }
-        set { ClosureWrapper<ActionResolver>.setHandler(newValue, for: self, key: &AssociatedKeys.shouldHighlightHandler) }
+        get {
+            return ClosureWrapper<ActionResolver>.handler(for: self, key: &AssociatedKeys.shouldHighlightHandler)
+        }
+        set {
+            ClosureWrapper<ActionResolver>.setHandler(newValue, for: self, key: &AssociatedKeys.shouldHighlightHandler)
+        }
     }
     
     var itemDidHighlightHandler: ActionHandler? {
-        get { return ClosureWrapper<ActionHandler>.handler(for: self, key: &AssociatedKeys.didHighlightHandler) }
-        set { ClosureWrapper<ActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.didHighlightHandler) }
+        get {
+            return ClosureWrapper<ActionHandler>.handler(for: self, key: &AssociatedKeys.didHighlightHandler)
+        }
+        set {
+            ClosureWrapper<ActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.didHighlightHandler)
+        }
     }
     
     var itemDidUnhighlightHandler: ActionHandler? {
-        get { return ClosureWrapper<ActionHandler>.handler(for: self, key: &AssociatedKeys.didUnhighlightHandler) }
-        set { ClosureWrapper<ActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.didUnhighlightHandler) }
+        get {
+            return ClosureWrapper<ActionHandler>.handler(for: self, key: &AssociatedKeys.didUnhighlightHandler)
+        }
+        set {
+            ClosureWrapper<ActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.didUnhighlightHandler)
+        }
     }
     
     var itemDidSelectHandler: ActionHandler? {
-        get { return ClosureWrapper<ActionHandler>.handler(for: self, key: &AssociatedKeys.didDeselectHandler) }
-        set { ClosureWrapper<ActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.didDeselectHandler) }
+        get {
+            return ClosureWrapper<ActionHandler>.handler(for: self, key: &AssociatedKeys.didDeselectHandler)
+        }
+        set {
+            ClosureWrapper<ActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.didDeselectHandler)
+        }
     }
     
     var itemDidDeselectHandler: ActionHandler? {
-        get { return ClosureWrapper<ActionHandler>.handler(for: self, key: &AssociatedKeys.didSelectHandler) }
-        set { ClosureWrapper<ActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.didSelectHandler) }
+        get {
+            return ClosureWrapper<ActionHandler>.handler(for: self, key: &AssociatedKeys.didSelectHandler)
+        }
+        set {
+            ClosureWrapper<ActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.didSelectHandler)
+        }
     }
     
     var itemWillDisplayCellHandler: ActionHandler? {
-        get { return ClosureWrapper<ActionHandler>.handler(for: self, key: &AssociatedKeys.willDisplayCellHandler) }
-        set { ClosureWrapper<ActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.willDisplayCellHandler) }
+        get {
+            return ClosureWrapper<ActionHandler>.handler(for: self, key: &AssociatedKeys.willDisplayCellHandler)
+        }
+        set {
+            ClosureWrapper<ActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.willDisplayCellHandler)
+        }
     }
     
     var itemWillDisplayViewHandler: ActionHandler? {
-        get { return ClosureWrapper<ActionHandler>.handler(for: self, key: &AssociatedKeys.willDisplayViewHandler) }
-        set { ClosureWrapper<ActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.willDisplayViewHandler) }
+        get {
+            return ClosureWrapper<ActionHandler>.handler(for: self, key: &AssociatedKeys.willDisplayViewHandler)
+        }
+        set {
+            ClosureWrapper<ActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.willDisplayViewHandler)
+        }
     }
     
     var itemDidEndDisplayingCellHandler: ActionHandler? {
-        get { return ClosureWrapper<ActionHandler>.handler(for: self, key: &AssociatedKeys.didEndDisplayingCellHandler) }
-        set { ClosureWrapper<ActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.didEndDisplayingCellHandler) }
+        get {
+            return ClosureWrapper<ActionHandler>.handler(for: self, key: &AssociatedKeys.didEndDisplayingCellHandler)
+        }
+        set {
+            ClosureWrapper<ActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.didEndDisplayingCellHandler)
+        }
     }
     
     var itemDidEndDisplayingViewHandler: ActionHandler? {
-        get { return ClosureWrapper<ActionHandler>.handler(for: self, key: &AssociatedKeys.didEndDisplayingViewHandler) }
-        set { ClosureWrapper<ActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.didEndDisplayingViewHandler) }
+        get {
+            return ClosureWrapper<ActionHandler>.handler(for: self, key: &AssociatedKeys.didEndDisplayingViewHandler)
+        }
+        set {
+            ClosureWrapper<ActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.didEndDisplayingViewHandler)
+        }
     }
     
     var itemCanMoveHandler: ActionResolver? {
-        get { return ClosureWrapper<ActionResolver>.handler(for: self, key: &AssociatedKeys.canMoveHandler) }
-        set { ClosureWrapper<ActionResolver>.setHandler(newValue, for: self, key: &AssociatedKeys.canMoveHandler) }
+        get {
+            return ClosureWrapper<ActionResolver>.handler(for: self, key: &AssociatedKeys.canMoveHandler)
+        }
+        set {
+            ClosureWrapper<ActionResolver>.setHandler(newValue, for: self, key: &AssociatedKeys.canMoveHandler)
+        }
     }
     
     func size(for collectionView: UICollectionView,

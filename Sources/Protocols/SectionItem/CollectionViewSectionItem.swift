@@ -1,22 +1,22 @@
 //
-//  CollectionViewSectionItemProtocol.swift
+//  CollectionViewSectionItem.swift
 //
 //  Copyright © 2017 Rosberry. All rights reserved.
 //
 
 import UIKit.UICollectionView
 
-public protocol CollectionViewSectionItemProtocol: AnyObject {
+public protocol CollectionViewSectionItem: AnyObject {
     
-    var cellItems: [CollectionViewCellItemProtocol] { get set }
-    var reusableViewItems: [CollectionViewReusableViewItemProtocol] { get set }
+    var cellItems: [CollectionViewCellItem] { get set }
+    var reusableViewItems: [CollectionViewReusableViewItem] { get set }
     
     func inset(for collectionView: UICollectionView, with layout: UICollectionViewLayout) -> UIEdgeInsets
     func minimumLineSpacing(for collectionView: UICollectionView, with layout: UICollectionViewLayout) -> CGFloat
     func minimumInteritemSpacing(for collectionView: UICollectionView, with layout: UICollectionViewLayout) -> CGFloat
 }
 
-public extension CollectionViewSectionItemProtocol {
+public extension CollectionViewSectionItem {
     
     func inset(for collectionView: UICollectionView, with layout: UICollectionViewLayout) -> UIEdgeInsets {
         return .zero

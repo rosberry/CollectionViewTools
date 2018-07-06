@@ -26,8 +26,8 @@ class MainViewController: UIViewController {
         return CollectionViewManager(collectionView: self.collectionView)
     }()
     
-    var imagesSectionItem: CollectionViewSectionItemProtocol {
-        let sectionItem = CollectionViewSectionItem()
+    var imagesSectionItem: CollectionViewSectionItem {
+        let sectionItem = GeneralCollectionViewSectionItem()
         sectionItem.cellItems = images.map { ImageCellItem(image: $0) { [weak self] image in
             let detailViewController = DetailViewController()
             detailViewController.image = image

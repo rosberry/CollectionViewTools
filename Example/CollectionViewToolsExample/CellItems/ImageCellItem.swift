@@ -8,7 +8,7 @@ import CollectionViewTools
 
 import Foundation
 
-final class ImageCellItem: CollectionViewCellItemProtocol {
+final class ImageCellItem: CollectionViewCellItem {
     
     private let image: UIImage
     private let selectionHandler: (UIImage) -> Void
