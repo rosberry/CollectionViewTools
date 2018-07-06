@@ -14,8 +14,23 @@
 		0ACA6FC91F626AF900782C1E /* ImageCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA6FC81F626AF900782C1E /* ImageCellItem.swift */; };
 		0ACA6FCC1F626D2E00782C1E /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA6FCB1F626D2E00782C1E /* ImageCollectionViewCell.swift */; };
 		0ACA6FCE1F6275D200782C1E /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA6FCD1F6275D200782C1E /* DetailViewController.swift */; };
-		FE6E86B21FB961B20027A8FE /* CollectionViewTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE6E86B31FB961B20027A8FE /* CollectionViewTools.framework */; };
+		FED796BA20EF6B3B0044B82F /* CollectionViewTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE6E86B31FB961B20027A8FE /* CollectionViewTools.framework */; };
+		FED796BB20EF6B3B0044B82F /* CollectionViewTools.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FE6E86B31FB961B20027A8FE /* CollectionViewTools.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FED796BC20EF6B3B0044B82F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				FED796BB20EF6B3B0044B82F /* CollectionViewTools.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0A37637F1F62556300A80613 /* CollectionViewToolsExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionViewToolsExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -35,7 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FE6E86B21FB961B20027A8FE /* CollectionViewTools.framework in Frameworks */,
+				FED796BA20EF6B3B0044B82F /* CollectionViewTools.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,6 +123,7 @@
 				0A37637B1F62556300A80613 /* Sources */,
 				0A37637C1F62556300A80613 /* Frameworks */,
 				0A37637D1F62556300A80613 /* Resources */,
+				FED796BC20EF6B3B0044B82F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
