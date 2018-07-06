@@ -12,8 +12,7 @@ final class ImageCellItem: CollectionViewCellItem {
     
     private let image: UIImage
     private let selectionHandler: (UIImage) -> Void
-    
-    var reuseType = ReuseType(cellClass: ImageCollectionViewCell.self)
+    private(set) var reuseType: ReuseType = .class(ImageCollectionViewCell.self)
     
     init(image: UIImage, selectionHandler: @escaping (UIImage) -> Void) {
         self.image = image
