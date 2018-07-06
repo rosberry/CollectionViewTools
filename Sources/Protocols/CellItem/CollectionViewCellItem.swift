@@ -44,38 +44,31 @@ public protocol CollectionViewGeneralCellItem {
     var itemShouldHighlightHandler: ActionResolver? { get set }
     var itemDidHighlightHandler: ActionHandler? { get set }
     var itemDidUnhighlightHandler: ActionHandler? { get set }
+    
     var itemDidSelectHandler: ActionHandler? { get set }
     var itemDidDeselectHandler: ActionHandler? { get set }
+    var itemShouldSelectHandler: ActionResolver? { get set }
+    var itemShouldDeselectHandler: ActionResolver? { get set }
+    
     var itemWillDisplayCellHandler: ActionHandler? { get set }
     var itemWillDisplayViewHandler: ActionHandler? { get set }
     var itemDidEndDisplayingCellHandler: ActionHandler? { get set }
     var itemDidEndDisplayingViewHandler: ActionHandler? { get set }
+    
     var itemCanMoveHandler: ActionResolver? { get set }
     
-    func shouldHighlight(for collectionView: UICollectionView,
-                         at indexPath: IndexPath) -> Bool
-    func didHighlight(for collectionView: UICollectionView,
-                      at indexPath: IndexPath)
-    func didUnhighlight(for collectionView: UICollectionView,
-                        at indexPath: IndexPath)
-    func shouldSelect(for collectionView: UICollectionView,
-                      at indexPath: IndexPath) -> Bool
-    func shouldDeselect(for collectionView: UICollectionView,
-                        at indexPath: IndexPath) -> Bool
-    func didSelect(for collectionView: UICollectionView,
-                   at indexPath: IndexPath)
-    func didDeselect(for collectionView: UICollectionView,
-                     at indexPath: IndexPath)
-    func willDisplay(cell: UICollectionViewCell,
-                     for collectionView: UICollectionView,
-                     at indexPath: IndexPath)
-    func willDisplay(view: UICollectionReusableView,
-                     for elementKind: String,
-                     for collectionView: UICollectionView,
-                     at indexPath: IndexPath)
-    func didEndDisplaying(cell: UICollectionViewCell,
-                          for collectionView: UICollectionView,
-                          at indexPath: IndexPath)
+    func shouldHighlight(for collectionView: UICollectionView, at indexPath: IndexPath) -> Bool
+    func didHighlight(for collectionView: UICollectionView, at indexPath: IndexPath)
+    func didUnhighlight(for collectionView: UICollectionView, at indexPath: IndexPath)
+    
+    func shouldSelect(for collectionView: UICollectionView, at indexPath: IndexPath) -> Bool
+    func shouldDeselect(for collectionView: UICollectionView, at indexPath: IndexPath) -> Bool
+    func didSelect(for collectionView: UICollectionView, at indexPath: IndexPath)
+    func didDeselect(for collectionView: UICollectionView, at indexPath: IndexPath)
+    
+    func willDisplay(cell: UICollectionViewCell, for collectionView: UICollectionView, at indexPath: IndexPath)
+    func willDisplay(view: UICollectionReusableView, for elementKind: String, for collectionView: UICollectionView, at indexPath: IndexPath)
+    func didEndDisplaying(cell: UICollectionViewCell, for collectionView: UICollectionView, at indexPath: IndexPath)
     func didEndDisplaying(view: UICollectionReusableView,
                           for elementKind: String,
                           for collectionView: UICollectionView,
@@ -192,50 +185,41 @@ public extension CollectionViewGeneralCellItem {
         }
     }
     
-    func size(for collectionView: UICollectionView,
-              with layout: UICollectionViewLayout,
-              at indexPath: IndexPath) -> CGSize {
+    // MARK: - Functions
+    
+    func size(for collectionView: UICollectionView, with layout: UICollectionViewLayout, at indexPath: IndexPath) -> CGSize {
         return CGSize(width: 50, height: 50)
     }
     
-    func shouldHighlight(for collectionView: UICollectionView,
-                         at indexPath: IndexPath) -> Bool {
+    func shouldHighlight(for collectionView: UICollectionView, at indexPath: IndexPath) -> Bool {
         return itemShouldHighlightHandler?(collectionView, indexPath) ?? true
     }
     
-    func didHighlight(for collectionView: UICollectionView,
-                      at indexPath: IndexPath) {
+    func didHighlight(for collectionView: UICollectionView, at indexPath: IndexPath) {
         itemDidHighlightHandler?(collectionView, indexPath)
     }
     
-    func didUnhighlight(for collectionView: UICollectionView,
-                        at indexPath: IndexPath) {
+    func didUnhighlight(for collectionView: UICollectionView, at indexPath: IndexPath) {
         itemDidUnhighlightHandler?(collectionView, indexPath)
     }
     
-    func shouldSelect(for collectionView: UICollectionView,
-                      at indexPath: IndexPath) -> Bool {
-        return true
+    func shouldSelect(for collectionView: UICollectionView, at indexPath: IndexPath) -> Bool {
+        return itemShouldSelectHandler?(collectionView, indexPath) ?? true
     }
     
-    func shouldDeselect(for collectionView: UICollectionView,
-                        at indexPath: IndexPath) -> Bool {
-        return true
+    func shouldDeselect(for collectionView: UICollectionView, at indexPath: IndexPath) -> Bool {
+        return itemShouldDeselectHandler?(collectionView, indexPath) ?? true
     }
     
-    func didSelect(for collectionView: UICollectionView,
-                   at indexPath: IndexPath) {
+    func didSelect(for collectionView: UICollectionView, at indexPath: IndexPath) {
         itemDidSelectHandler?(collectionView, indexPath)
     }
     
-    func didDeselect(for collectionView: UICollectionView,
-                     at indexPath: IndexPath) {
+    func didDeselect(for collectionView: UICollectionView, at indexPath: IndexPath) {
         itemDidDeselectHandler?(collectionView, indexPath)
     }
     
-    func willDisplay(cell: UICollectionViewCell,
-                     for collectionView: UICollectionView,
-                     at indexPath: IndexPath) {
+    func willDisplay(cell: UICollectionViewCell, for collectionView: UICollectionView, at indexPath: IndexPath) {
         itemWillDisplayCellHandler?(collectionView, indexPath)
     }
     
@@ -246,9 +230,7 @@ public extension CollectionViewGeneralCellItem {
         itemWillDisplayViewHandler?(collectionView, indexPath)
     }
     
-    func didEndDisplaying(cell: UICollectionViewCell,
-                          for collectionView: UICollectionView,
-                          at indexPath: IndexPath) {
+    func didEndDisplaying(cell: UICollectionViewCell, for collectionView: UICollectionView, at indexPath: IndexPath) {
         itemDidEndDisplayingCellHandler?(collectionView, indexPath)
     }
     
@@ -259,8 +241,7 @@ public extension CollectionViewGeneralCellItem {
         itemDidEndDisplayingViewHandler?(collectionView, indexPath)
     }
     
-    func canMove(for collectionView: UICollectionView,
-                 at indexPath: IndexPath) -> Bool {
+    func canMove(for collectionView: UICollectionView, at indexPath: IndexPath) -> Bool {
         return itemCanMoveHandler?(collectionView, indexPath) ?? false
     }
 }
