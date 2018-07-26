@@ -13,8 +13,7 @@ public protocol CollectionViewCellItem: AnyObject,
                                         CollectionViewSizeCellItem,
                                         CollectionViewGeneralCellItem,
                                         CollectionViewCellItemDataSource {
-    associatedtype Cell
-    func configure(cell: Cell, at indexPath: IndexPath)
+    func configure(cell: UICollectionViewCell, at indexPath: IndexPath)
 }
 
 // MARK: - CollectionViewReuseCellItemProtocol

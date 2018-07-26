@@ -15,8 +15,8 @@ final class ImageCellItem: CollectionViewCellItem {
     private let image: UIImage
     private let selectionHandler: (UIImage) -> Void
     
-    func configure(cell: ImageCollectionViewCell, at indexPath: IndexPath) {
-        cell.imageView.image = image
+    func configure(cell: UICollectionViewCell, at indexPath: IndexPath) {
+//        cell.imageView.image = image
     }
     
     init(image: UIImage, selectionHandler: @escaping (UIImage) -> Void) {

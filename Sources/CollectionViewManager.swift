@@ -9,7 +9,7 @@ import UIKit.UICollectionView
 open class CollectionViewManager: NSObject {
     
     public typealias SectionItem = CollectionViewSectionItem
-    public typealias CellItem = AnyCollectionViewCellItem<UICollectionViewCell>
+    public typealias CellItem = CollectionViewCellItem
     public typealias Completion = (Bool) -> Void
     
     /// `UICollectionView` object for managing

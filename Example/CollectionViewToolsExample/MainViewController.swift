@@ -29,11 +29,11 @@ class MainViewController: UIViewController {
     var imagesSectionItem: CollectionViewSectionItem {
         let sectionItem = GeneralCollectionViewSectionItem()
         sectionItem.cellItems = images.map {
-            AnyCollectionViewCellItem(ImageCellItem(image: $0) { [weak self] image in
+            ImageCellItem(image: $0) { [weak self] image in
                 let detailViewController = DetailViewController()
                 detailViewController.image = image
                 self?.navigationController?.pushViewController(detailViewController, animated: true)
-            })
+            }
         }
         return sectionItem
     }
