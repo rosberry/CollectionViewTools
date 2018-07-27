@@ -26,7 +26,7 @@ open class CollectionViewManager: NSObject {
                     self.collectionView.prefetchDataSource = self
                 }
                 else {
-                    fatalError("Prefetching allowed only on iOS versions greater than or equal to 10.0")
+                    print("[ERROR] Prefetching allowed only on iOS versions >= 10.0")
                 }
             }
         }
@@ -44,16 +44,19 @@ open class CollectionViewManager: NSObject {
     
     internal var _sectionItems = [CollectionViewSectionItem]() {
         didSet {
-            _sectionItems.forEach { register($0) }
+            _sectionItems.forEach { sectionItem in
+                register(sectionItem)
+            }
         }
     }
     
-    /// Array of `CollectionViewSectionItemProtocol` objects, which respond for configuration of specified section in collection view.
+    /// Array of `CollectionViewSectionItem` objects, which respond for configuration of specified section in collection view.
     public var sectionItems: [CollectionViewSectionItem] {
         get {
             return _sectionItems
         }
         set {
+            //TODO: Fix every time reload
             _sectionItems = newValue
             collectionView.reloadData()
         }
@@ -73,7 +76,9 @@ open class CollectionViewManager: NSObject {
     ///
     /// - Parameter index: The index of the section item to access.
     public subscript(index: Int) -> CollectionViewSectionItem? {
-        guard index < _sectionItems.count else { return nil }
+        guard (0..<_sectionItems.count).contains(index) else {
+            return nil
+        }
         return _sectionItems[index]
     }
     
@@ -84,46 +89,79 @@ open class CollectionViewManager: NSObject {
         return cellItem(for: indexPath)
     }
     
-    /// Reloads cells, associated with passed cell items inside specified section, associated with passed section item
+    /// Reloads cells, associated with passed cell items. If section item is nil this method search through all section items until found
+    /// all cell items which should be reload. If you have concrete section item it might be more efficient to set it.
     ///
     /// - Parameters:
     ///   - cellItems: Cell items to reload
     ///   - sectionItem: Section item that contains cell items to reload
     ///   - completion: A closure that either specifies any additional actions which should be performed after reloading.
     open func reloadCellItems(_ cellItems: [CellItem],
-                              inSectionItem sectionItem: CollectionViewSectionItem,
+                              inSectionItem sectionItem: CollectionViewSectionItem?,
                               completion: Completion? = nil) {
-        let section = sectionItems.index(where: {$0 === sectionItem})!
-        var indexPaths = [IndexPath]()
-        
-        for cellItem in cellItems {
-            guard let item = sectionItem.cellItems.index(where: {$0 === cellItem}) else {
-                fatalError("Unable to reload cell items that are not contained in section item.")
+        var indexPaths: [IndexPath] = []
+        if let sectionItem = sectionItem {
+            guard let section = sectionItems.index(where: { element in
+                element === sectionItem
+            }) else {
+                print("[ERROR] There are no sectionItem \(sectionItem) in sectionItems array")
+                return
             }
-            indexPaths.append(IndexPath(item: item, section: section))
+            
+            for cellItem in cellItems {
+                guard let item = sectionItem.cellItems.index(where: { element in
+                    element === cellItem
+                }) else {
+                    print("[ERROR] Unable to reload cell items that are not contained in section item")
+                    return
+                }
+                indexPaths.append(IndexPath(item: item, section: section))
+            }
+        }
+        else {
+            indexPaths = calculateIndexPaths(of: cellItems)
         }
         
-        collectionView.performBatchUpdates({
-            self.collectionView.reloadItems(at: indexPaths)
+        perform(updates: { collectionView in
+            collectionView?.reloadItems(at: indexPaths)
         }, completion: completion)
     }
     
     /// Scrolls through the collection view until a cell, associated with passed cell item is at a particular location on the screen.
     /// Invoking this method does not cause the delegate to receive a scrollViewDidScroll(_:) message, as is normal for programmatically invoked user interface operations.
+    /// If section item is nil this method tries to calculate index path by searching through all section items and cell items.
     ///
     /// - Parameters:
-    ///   - cellItem: `CollectionViewCellItemProtocol` object, that responds for configuration of cell at the specified index path.
-    ///   - sectionItem: `CollectionViewSectionItemProtocol` object, that contains passed cell item
+    ///   - cellItem: `CollectionViewCellItem` object, that responds for configuration of cell at the specified index path.
+    ///   - sectionItem: `CollectionViewSectionItem` object, that contains passed cell item
     ///   - scrollPosition: A constant that identifies a relative position in the collection view (top, middle, bottom) for item when scrolling concludes. See UICollectionViewScrollPosition for descriptions of valid constants.
     ///   - animated: true if you want to animate the change in position; false if it should be immediate.
     open func scroll(to cellItem: CellItem,
-                     in sectionItem: SectionItem,
+                     in sectionItem: SectionItem?,
                      at scrollPosition: UICollectionViewScrollPosition,
                      animated: Bool = true) {
-        let optionalSectionIndex = _sectionItems.index { $0 === sectionItem }
-        let optionalCellIndex = sectionItem.cellItems.index { $0 === cellItem }
-        guard let sectionIndex = optionalSectionIndex,
-            let cellIndex = optionalCellIndex else { return }
+        var section: Int?
+        if let index = _sectionItems.index(where: { element in
+            return element === sectionItem
+        }) {
+            section = index
+        }
+        else {
+            for (index, sectionItem) in _sectionItems.enumerated() where sectionItem.cellItems.contains(where: { element in
+                return cellItem === element
+            }) {
+                section = index
+            }
+        }
+        
+        guard let sectionIndex = section,
+              let cellIndex = _sectionItems[sectionIndex].cellItems.index(where: { element in
+                  return element === cellItem
+              }) else {
+            print("[ERROR] Can't scroll to cell item \(cellItem) because manager isn't contains it")
+            return
+        }
+        
         let indexPath = IndexPath(item: cellIndex, section: sectionIndex)
         collectionView.scrollToItem(at: indexPath, at: scrollPosition, animated: animated)
     }
@@ -154,35 +192,56 @@ open class CollectionViewManager: NSObject {
         return nil
     }
     
-    // MARK: - Private
-    
-    fileprivate func register(_ sectionItem: CollectionViewSectionItem) {
-        sectionItem.cellItems.forEach { register($0) }
-        sectionItem.reusableViewItems.forEach { $0.register(for: collectionView) }
+    /// Returns the index of the section item if possible.
+    ///
+    /// - Parameter sectionItem: The section item which index must be found
+    open func sectionIndex(for sectionItem: SectionItem) -> Int? {
+        return _sectionItems.index { element in
+            return element === sectionItem
+        }
     }
     
-    fileprivate func register(_ cellItem: CellItem) {
+    // MARK: - Registration
+    
+    /// Use this function to force cells and reusable views registration process if you override add/replace/reload methods
+    ///
+    /// - Parameter sectionItem: The section item with cell items which need to be registered
+    open func register(_ sectionItem: CollectionViewSectionItem) {
+        sectionItem.cellItems.forEach { cellItem in
+            register(cellItem)
+        }
+        sectionItem.reusableViewItems.forEach { reusableViewItem in
+            reusableViewItem.register(for: collectionView)
+        }
+    }
+    
+    /// Use this function to force cells registration process if you override add/replace/reload methods
+    ///
+    /// - Parameter cellItem: The cell item which need to be registered
+    open func register(_ cellItem: CellItem) {
         collectionView.register(by: cellItem.reuseType)
     }
-}
-
-// MARK: - Batch updates for cell items
-extension CollectionViewManager {
-
+    
+    // MARK: - Updates for cell items
+    
     /// Replaces all cell items which are contained in specified section item with new cell items, and then replaces cells at the corresponding index paths of collection view.
     ///
     /// - Parameters:
     ///   - cellItems: An array of cell items to set, which respond for cell configuration at specified index path
-    ///   - sectionItem: Section item within which cell items should be setted
+    ///   - sectionItem: Section item within which cell items should be set
     ///   - completion: A closure that either specifies any additional actions which should be performed after setting.
-    open func set(_ cellItems: [CellItem], to sectionItem: SectionItem, completion: Completion? = nil) {
-        cellItems.forEach { cellItem in
-            register(cellItem)
+    open func replaceAllCellItems(in sectionItem: SectionItem, with cellItems: [CellItem], completion: Completion? = nil) {
+        guard let section = sectionIndex(for: sectionItem) else {
+            return
         }
-        sectionItem.cellItems = cellItems
         
-        collectionView.performBatchUpdates({
-            self.collectionView.reloadData()
+        perform(updates: { collectionView in
+            cellItems.forEach { cellItem in
+                register(cellItem)
+            }
+            sectionItem.cellItems = cellItems
+            
+            collectionView?.reloadSections([section])
         }, completion: completion)
     }
     
@@ -194,19 +253,42 @@ extension CollectionViewManager {
     ///   - indexes: An array of locations, that contains indexes of positions where specified cell items should be inserted
     ///   - completion: A closure that either specifies any additional actions which should be performed after insertion.
     open func insert(_ cellItems: [CellItem], to sectionItem: SectionItem, at indexes: [Int], completion: Completion? = nil) {
-        zip(cellItems, indexes).forEach { cellItem, index in
-            precondition(index <= sectionItem.cellItems.count,
-                         "Unable to insert item at index that is larger than count of cell items in this section.")
-            register(cellItem)
-            sectionItem.cellItems.insert(cellItem, at: index)
+        guard let section = sectionIndex(for: sectionItem) else {
+            return
         }
         
-        let sectionIndex = _sectionItems.index { $0 === sectionItem }!
-        let indexPaths = indexes.map { IndexPath(item: $0, section: sectionIndex) }
-
-        collectionView.performBatchUpdates({
-            self.collectionView.insertItems(at: indexPaths)
+        perform(updates: { collectionView in
+            zip(cellItems, indexes).forEach { cellItem, index in
+                register(cellItem)
+                sectionItem.cellItems.insert(cellItem, at: index)
+            }
+            
+            let indexPaths: [IndexPath] = indexes.map { index in
+                return .init(row: index, section: section)
+            }
+            
+            collectionView?.insertItems(at: indexPaths)
         }, completion: completion)
+    }
+    
+    /// Inserts cell items to the specified section item, and then inserts cells at the end of the section.
+    ///
+    /// - Parameters:
+    ///   - cellItems: An array of cell items to insert, which respond for cell configuration at specified index path
+    ///   - sectionItem: Section item within which cell items should be inserted
+    ///   - completion: A closure that either specifies any additional actions which should be performed after insertion.
+    open func append(_ cellItems: [CellItem], to sectionItem: SectionItem, completion: Completion? = nil) {
+        insert(cellItems, to: sectionItem, at: Array(sectionItem.cellItems.count...cellItems.count), completion: completion)
+    }
+    
+    /// Inserts cell items to the specified section item, and then inserts cells at the beginning of the section.
+    ///
+    /// - Parameters:
+    ///   - cellItems: An array of cell items to insert, which respond for cell configuration at specified index path
+    ///   - sectionItem: Section item within which cell items should be inserted
+    ///   - completion: A closure that either specifies any additional actions which should be performed after insertion.
+    open func prepend(_ cellItems: [CellItem], to sectionItem: SectionItem, completion: Completion? = nil) {
+        insert(cellItems, to: sectionItem, at: Array(0...cellItems.count), completion: completion)
     }
     
     /// Replaces cell items inside the specified section item, and then replaces corresponding cells within section.
@@ -217,100 +299,167 @@ extension CollectionViewManager {
     ///   - sectionItem: Section item within which cell items should be replaced
     ///   - completion: A closure that either specifies any additional actions which should be performed after replacing.
     open func replace(cellItemsAt indexes: [Int], with cellItems: [CellItem], in sectionItem: SectionItem, completion: Completion? = nil) {
-        precondition(indexes.count == cellItems.count, "Count of indexes and count of replacement cell items should be equal.")
-        cellItems.forEach { register($0) }
-        zip(cellItems, indexes).forEach { sectionItem.cellItems[$1] = $0 }
+        guard let section = sectionIndex(for: sectionItem),
+              indexes.count > 0 else {
+            return
+        }
         
-        let sectionIndex = _sectionItems.index { $0 === sectionItem }!
-        let indexPaths = indexes.map { IndexPath(item: $0, section: sectionIndex) }
-        
-        collectionView.performBatchUpdates({
-            self.collectionView.reloadItems(at: indexPaths)
+        perform(updates: { collectionView in
+            cellItems.forEach { cellItem in
+                register(cellItem)
+            }
+            
+            if indexes.count == cellItems.count {
+                zip(cellItems, indexes).forEach { cellItem, index in
+                    sectionItem.cellItems[index] = cellItem
+                }
+                let indexPaths: [IndexPath] = indexes.map { index in
+                    return .init(row: index, section: section)
+                }
+                collectionView?.reloadItems(at: indexPaths)
+            }
+            else {
+                var removeIndexPaths: [IndexPath] = []
+                let firstIndex = indexes[0]
+                indexes.sorted().reversed().forEach { index in
+                    sectionItem.cellItems.remove(at: index)
+                    removeIndexPaths.append(.init(row: index, section: section))
+                }
+                
+                let insertIndexPaths: [IndexPath] = Array(firstIndex..<cellItems.count).map { index in
+                    return .init(row: index, section: section)
+                }
+                sectionItem.cellItems.insert(contentsOf: cellItems, at: firstIndex)
+                
+                collectionView?.deleteItems(at: removeIndexPaths)
+                collectionView?.insertItems(at: insertIndexPaths)
+            }
         }, completion: completion)
     }
     
-    /// Removes cell items, that are contained inside specified section item, and then removes cells at the corresponding locations.
+    /// Removes cell items and then removes cells at the corresponding locations.
     ///
     /// - Parameters:
     ///   - cellItems: Cell items to remove
-    ///   - sectionItem: Section item that contains cell items to remove
     ///   - completion: A closure that either specifies any additional actions which should be performed after removing.
-    open func remove(_ cellItems: [CellItem], from sectionItem: SectionItem, completion: Completion? = nil) {
-        let sectionIndex = _sectionItems.index { $0 === sectionItem }!
-
-        let indexPaths: [IndexPath] = cellItems.compactMap { cellItem in
-            guard let row = sectionItem.cellItems.index(where: {$0 === cellItem}) else {
-                fatalError("Unable to remove cell item which is not contained in this section item.")
+    open func remove(_ cellItems: [CellItem], completion: Completion? = nil) {
+        perform(updates: { collectionView in
+            let indexPaths = calculateIndexPaths(of: cellItems)
+            indexPaths.sorted().reversed().forEach { indexPath in
+                sectionItems[indexPath.section].cellItems.remove(at: indexPath.row)
             }
-            return IndexPath(item: row, section: sectionIndex)
-        }
-        
-        collectionView.performBatchUpdates({
-            self.collectionView.deleteItems(at: indexPaths)
-            indexPaths.forEach { sectionItem.cellItems.remove(at: $0.row) }
+            collectionView?.deleteItems(at: indexPaths)
         }, completion: completion)
     }
     
     /// Removes cell items, that are preserved at specified indexes inside section item, and then removes cells at the corresponding locations.
     ///
     /// - Parameters:
-    ///   - indexes: An array of locations, that contains indexes of cell items to remove inside specified section item
+    ///   - cellItems: Cell items to remove
     ///   - sectionItem: Section item that contains cell items to remove
     ///   - completion: A closure that either specifies any additional actions which should be performed after removing.
-    open func remove(cellItemsAt indexes: [Int], from sectionItem: SectionItem, completion: Completion? = nil) {
-        let sectionIndex = _sectionItems.index { $0 === sectionItem }!
+    open func removeCellItems(at indexes: [Int], from sectionItem: SectionItem, completion: Completion? = nil) {
+        guard let section = sectionIndex(for: sectionItem) else {
+            return
+        }
         
-        let indexPaths: [IndexPath] = indexes.compactMap { IndexPath(item: $0, section: sectionIndex) }
-        
-        collectionView.performBatchUpdates({
-            self.collectionView.deleteItems(at: indexPaths)
-            indexes.forEach { sectionItem.cellItems.remove(at: $0) }
+        perform(updates: { collectionView in
+            let indexPaths: [IndexPath] = indexes.map { index in
+                return .init(row: index, section: section)
+            }
+            
+            indexes.sorted().reversed().forEach { index in
+                sectionItem.cellItems.remove(at: index)
+            }
+            
+            collectionView?.deleteItems(at: indexPaths)
         }, completion: completion)
     }
-
-}
-
-// MARK: - Batch updates for section items
-extension CollectionViewManager {
+    
+    // MARK: - Section items
     
     /// Inserts one or more section items.
     ///
     /// - Parameters:
-    ///   - sectionItems: An array of `CollectionViewSectionItemProtocol` objects to insert
+    ///   - sectionItems: An array of `CollectionViewSectionItem` objects to insert
     ///   - indexes: An array of locations that specifies the sections to insert in the collection view. If a section already exists at the specified index location, it is moved down one index location.
     ///   - completion: A closure that either specifies any additional actions which should be performed after insertion.
     open func insert(_ sectionItems: [CollectionViewSectionItem], at indexes: [Int], completion: Completion? = nil) {
-        sectionItems.forEach { register($0) }
-        zip(sectionItems, indexes).forEach { self._sectionItems.insert($0, at: $1) }
-        
-        collectionView.performBatchUpdates({
-            self.collectionView.insertSections(IndexSet(indexes))
+        perform(updates: { collectionView in
+            sectionItems.forEach { sectionItem in
+                register(sectionItem)
+            }
+            zip(sectionItems, indexes).forEach { sectionItem, index in
+                _sectionItems.insert(sectionItem, at: index)
+            }
+            
+            collectionView?.insertSections(IndexSet(indexes))
         }, completion: completion)
+    }
+    
+    /// Inserts one or more section items to the end of the collection view
+    ///
+    /// - Parameters:
+    ///   - sectionItems: An array of `CollectionViewSectionItem` objects to insert
+    ///   - indexes: An array of locations that specifies the sections to insert in the collection view. If a section already exists at the specified index location, it is moved down one index location.
+    ///   - completion: A closure that either specifies any additional actions which should be performed after insertion.
+    open func append(_ sectionItems: [CollectionViewSectionItem], completion: Completion? = nil) {
+        insert(sectionItems, at: Array(self.sectionItems.count..<sectionItems.count), completion: completion)
+    }
+    
+    /// Inserts one or more section items to the beginning of the collection view
+    ///
+    /// - Parameters:
+    ///   - sectionItems: An array of `CollectionViewSectionItem` objects to insert
+    ///   - indexes: An array of locations that specifies the sections to insert in the collection view. If a section already exists at the specified index location, it is moved down one index location.
+    ///   - completion: A closure that either specifies any additional actions which should be performed after insertion.
+    open func prepend(_ sectionItems: [CollectionViewSectionItem], completion: Completion? = nil) {
+        insert(sectionItems, at: Array(0..<sectionItems.count), completion: completion)
     }
     
     /// Replaces one or more section items.
     ///
     /// - Parameters:
     ///   - indexes: An array of locations that specifies the sections to replace in the collection view.
-    ///   - sectionItems: An array of replacement `CollectionViewSectionItemProtocol` objects
+    ///   - sectionItems: An array of replacement `CollectionViewSectionItem` objects
     ///   - completion: A closure that either specifies any additional actions which should be performed after replacing.
     open func replace(sectionItemsAt indexes: [Int], with sectionItems: [SectionItem], completion: Completion? = nil) {
-        precondition(indexes.count == sectionItems.count, "Count of indexes and count of replacement section items should be equal.")
-        sectionItems.forEach { register($0) }
-        zip(sectionItems, indexes).forEach { self._sectionItems[$1] = $0 }
-        collectionView.performBatchUpdates({
-            self.collectionView.reloadSections(IndexSet(indexes))
+        guard indexes.count > 0 else {
+            return
+        }
+        perform(updates: { collectionView in
+            if indexes.count == sectionItems.count {
+                sectionItems.forEach { sectionItem in
+                    register(sectionItem)
+                }
+                zip(sectionItems, indexes).forEach { sectionItem, index in
+                    _sectionItems[index] = sectionItem
+                }
+                collectionView?.reloadSections(IndexSet(indexes))
+            }
+            else {
+                let firstIndex = indexes[0]
+                indexes.sorted().reversed().forEach { index in
+                    _sectionItems.remove(at: index)
+                }
+                
+                collectionView?.deleteSections(.init(indexes))
+                collectionView?.insertSections(.init(firstIndex..<sectionItems.count))
+            }
         }, completion: completion)
     }
     
     /// Removes one or more section items. Be sure that `CollectionViewManager` contains section items.
     /// - Parameters:
-    ///   - sectionItems: An array of `CollectionViewSectionItemProtocol` objects to remove
+    ///   - sectionItems: An array of `CollectionViewSectionItem` objects to remove
     ///   - completion: A closure that either specifies any additional actions which should be performed after removing.
     open func remove(_ sectionItems: [CollectionViewSectionItem], completion: Completion? = nil) {
-        let indexes = sectionItems.compactMap { sectionItem in self._sectionItems.index { $0 === sectionItem } }
-        indexes.forEach { self._sectionItems.remove(at: $0) }
-        collectionView.deleteSections(IndexSet(indexes))
+        let indexes = sectionItems.compactMap { sectionItem in
+            return _sectionItems.index { element in
+                element === sectionItem
+            }
+        }
+        remove(sectionItemsAt: indexes, completion: completion)
     }
     
     /// Removes one or more section items at spectified indexes.
@@ -318,10 +467,34 @@ extension CollectionViewManager {
     ///   - indexes: An array of locations that specifies the sections to remove. If a section exists after the specified index location, it is moved up by one index location.
     ///   - completion: A closure that either specifies any additional actions which should be performed after removing.
     open func remove(sectionItemsAt indexes: [Int], completion: Completion? = nil) {
-        indexes.forEach { self._sectionItems.remove(at: $0) }
-        collectionView.performBatchUpdates({
-            self.collectionView.deleteSections(IndexSet(indexes))
+        perform(updates: { collectionView in
+            indexes.forEach { index in
+                _sectionItems.remove(at: index)
+            }
+            collectionView?.deleteSections(IndexSet(indexes))
         }, completion: completion)
     }
-
+    
+    // MARK: - Private
+    
+    private func perform(updates: (UICollectionView?) -> Void, completion: Completion?) {
+        collectionView.performBatchUpdates({ [weak collectionView] in
+                                               updates(collectionView)
+                                           }, completion: completion)
+    }
+    
+    private func calculateIndexPaths(of cellItems: [CellItem]) -> [IndexPath] {
+        var indexPaths: [IndexPath] = []
+        outer: for (sectionIndex, sectionItem) in sectionItems.enumerated() {
+            for (cellIndex, cellItem) in sectionItem.cellItems.enumerated() where cellItems.contains(where: { element in
+                return cellItem === element
+            }) {
+                indexPaths.append(.init(row: cellIndex, section: sectionIndex))
+                if indexPaths.count == cellItems.count {
+                    break outer
+                }
+            }
+        }
+        return indexPaths
+    }
 }

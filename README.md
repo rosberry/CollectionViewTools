@@ -67,7 +67,7 @@ manager.sectionItems = [sectionItem]
 #### Cell item implementation
 
 ```swift
-class ExampleCollectionViewCellItem: CollectionViewCellItemProtocol {
+class ExampleCollectionViewCellItem: CollectionViewCellItem {
     
     private let title: String
     

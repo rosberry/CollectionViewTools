@@ -42,7 +42,9 @@ extension CollectionViewManager: UICollectionViewDelegateFlowLayout {
                              layout collectionViewLayout: UICollectionViewLayout,
                              referenceSizeForHeaderInSection section: Int) -> CGSize {
         let optionalItem = _sectionItems[section].reusableViewItems.filter { $0.type == .header }.first
-        guard let item = optionalItem else { return .zero }
+        guard let item = optionalItem else {
+            return .zero
+        }
         return item.size(for: collectionView, with: collectionViewLayout)
     }
     
@@ -50,7 +52,9 @@ extension CollectionViewManager: UICollectionViewDelegateFlowLayout {
                              layout collectionViewLayout: UICollectionViewLayout,
                              referenceSizeForFooterInSection section: Int) -> CGSize {
         let optionalItem = _sectionItems[section].reusableViewItems.filter { $0.type == .footer }.first
-        guard let item = optionalItem else { return .zero }
+        guard let item = optionalItem else {
+            return .zero
+        }
         return item.size(for: collectionView, with: collectionViewLayout)
     }
 }

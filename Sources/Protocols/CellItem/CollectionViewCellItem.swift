@@ -6,7 +6,7 @@
 
 import UIKit.UICollectionView
 
-// MARK: - CollectionViewCellItemProtocol
+// MARK: - CollectionViewCellItem
 
 public protocol CollectionViewCellItem: AnyObject,
                                         CollectionViewReuseCellItem,
