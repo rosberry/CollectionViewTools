@@ -15,10 +15,13 @@ open class CollectionViewManager: NSObject {
     /// `UICollectionView` object for managing
     public unowned let collectionView: UICollectionView
     
-    /// The methods declared by the UIScrollViewDelegate protocol allow the adopting delegate to respond to messages from the UIScrollView class and thus respond to, and in some affect, operations such as scrolling, zooming, deceleration of scrolled content, and scrolling animations.
+    /// The methods declared by the UIScrollViewDelegate protocol allow the adopting delegate to respond to messages
+    /// from the UIScrollView class and thus respond to, and in some affect, operations such as scrolling, zooming,
+    /// deceleration of scrolled content, and scrolling animations.
     public weak var scrollDelegate: UIScrollViewDelegate?
     
-    /// The property that determines whether should be used data source prefetching. Prefetching allowed only on iOS versions greater than or equal to 10.0
+    /// The property that determines whether should be used data source prefetching.
+    /// Prefetching is available only on iOS versions greater than or equal to 10.0
     public var isPrefetchingEnabled = false {
         didSet {
             if isPrefetchingEnabled {
@@ -26,7 +29,7 @@ open class CollectionViewManager: NSObject {
                     self.collectionView.prefetchDataSource = self
                 }
                 else {
-                    print("[ERROR] Prefetching allowed only on iOS versions >= 10.0")
+                    print("[WARNING] Prefetching is available only on iOS versions >= 10.0")
                 }
             }
         }
@@ -128,13 +131,15 @@ open class CollectionViewManager: NSObject {
     }
     
     /// Scrolls through the collection view until a cell, associated with passed cell item is at a particular location on the screen.
-    /// Invoking this method does not cause the delegate to receive a scrollViewDidScroll(_:) message, as is normal for programmatically invoked user interface operations.
+    /// Invoking this method does not cause the delegate to receive a scrollViewDidScroll(_:) message, as is normal for programmatically
+    /// invoked user interface operations.
     /// If section item is nil this method tries to calculate index path by searching through all section items and cell items.
     ///
     /// - Parameters:
     ///   - cellItem: `CollectionViewCellItem` object, that responds for configuration of cell at the specified index path.
     ///   - sectionItem: `CollectionViewSectionItem` object, that contains passed cell item
-    ///   - scrollPosition: A constant that identifies a relative position in the collection view (top, middle, bottom) for item when scrolling concludes. See UICollectionViewScrollPosition for descriptions of valid constants.
+    ///   - scrollPosition: A constant that identifies a relative position in the collection view (top, middle, bottom) for item when
+    /// scrolling concludes. See UICollectionViewScrollPosition for descriptions of valid constants.
     ///   - animated: true if you want to animate the change in position; false if it should be immediate.
     open func scroll(to cellItem: CellItem,
                      in sectionItem: SectionItem?,
@@ -171,7 +176,8 @@ open class CollectionViewManager: NSObject {
     /// Returns the cell item at the specified index path.
     ///
     /// - Parameter indexPath: The index path locating the item in the collection view.
-    /// - Returns: A cell item associated with cell of the collection, or nil if the cell item wasn't added to manager or indexPath is out of range.
+    /// - Returns: A cell item associated with cell of the collection, or nil if the cell item
+    /// wasn't added to manager or indexPath is out of range.
     open func cellItem(for indexPath: IndexPath) -> CellItem? {
         if let cellItems = self.sectionItem(for: indexPath)?.cellItems {
             if indexPath.row < cellItems.count {
@@ -184,7 +190,8 @@ open class CollectionViewManager: NSObject {
     /// Returns the section item at the specified index path.
     ///
     /// - Parameter indexPath: The index path locating the section in the collection view.
-    /// - Returns: A section item associated with section of the collection, or nil if the section item wasn't added to manager or indexPath.section is out of range.
+    /// - Returns: A section item associated with section of the collection, or nil if the section item
+    /// wasn't added to manager or indexPath.section is out of range.
     open func sectionItem(for indexPath: IndexPath) -> SectionItem? {
         if indexPath.section < _sectionItems.count {
             return _sectionItems[indexPath.section]
@@ -224,7 +231,8 @@ open class CollectionViewManager: NSObject {
     
     // MARK: - Updates for cell items
     
-    /// Replaces all cell items which are contained in specified section item with new cell items, and then replaces cells at the corresponding index paths of collection view.
+    /// Replaces all cell items which are contained in specified section item with new cell items, and then replaces cells
+    /// at the corresponding index paths of collection view.
     ///
     /// - Parameters:
     ///   - cellItems: An array of cell items to set, which respond for cell configuration at specified index path
@@ -245,7 +253,8 @@ open class CollectionViewManager: NSObject {
         }, completion: completion)
     }
     
-    /// Inserts cell items to the specified section item, and then inserts cells at the locations identified by array of corresponding index paths.
+    /// Inserts cell items to the specified section item, and then inserts cells
+    /// at the locations identified by array of corresponding index paths.
     ///
     /// - Parameters:
     ///   - cellItems: An array of cell items to insert, which respond for cell configuration at specified index path
@@ -352,7 +361,8 @@ open class CollectionViewManager: NSObject {
         }, completion: completion)
     }
     
-    /// Removes cell items, that are preserved at specified indexes inside section item, and then removes cells at the corresponding locations.
+    /// Removes cell items, that are preserved at specified indexes inside section item,
+    /// and then removes cells at the corresponding locations.
     ///
     /// - Parameters:
     ///   - cellItems: Cell items to remove
@@ -382,7 +392,8 @@ open class CollectionViewManager: NSObject {
     ///
     /// - Parameters:
     ///   - sectionItems: An array of `CollectionViewSectionItem` objects to insert
-    ///   - indexes: An array of locations that specifies the sections to insert in the collection view. If a section already exists at the specified index location, it is moved down one index location.
+    ///   - indexes: An array of locations that specifies the sections to insert in the collection view.
+    /// If a section already exists at the specified index location, it is moved down one index location.
     ///   - completion: A closure that either specifies any additional actions which should be performed after insertion.
     open func insert(_ sectionItems: [CollectionViewSectionItem], at indexes: [Int], completion: Completion? = nil) {
         perform(updates: { collectionView in
@@ -401,7 +412,8 @@ open class CollectionViewManager: NSObject {
     ///
     /// - Parameters:
     ///   - sectionItems: An array of `CollectionViewSectionItem` objects to insert
-    ///   - indexes: An array of locations that specifies the sections to insert in the collection view. If a section already exists at the specified index location, it is moved down one index location.
+    ///   - indexes: An array of locations that specifies the sections to insert in the collection view.
+    /// If a section already exists at the specified index location, it is moved down one index location.
     ///   - completion: A closure that either specifies any additional actions which should be performed after insertion.
     open func append(_ sectionItems: [CollectionViewSectionItem], completion: Completion? = nil) {
         insert(sectionItems, at: Array(self.sectionItems.count..<sectionItems.count), completion: completion)
@@ -411,7 +423,8 @@ open class CollectionViewManager: NSObject {
     ///
     /// - Parameters:
     ///   - sectionItems: An array of `CollectionViewSectionItem` objects to insert
-    ///   - indexes: An array of locations that specifies the sections to insert in the collection view. If a section already exists at the specified index location, it is moved down one index location.
+    ///   - indexes: An array of locations that specifies the sections to insert in the collection view.
+    /// If a section already exists at the specified index location, it is moved down one index location.
     ///   - completion: A closure that either specifies any additional actions which should be performed after insertion.
     open func prepend(_ sectionItems: [CollectionViewSectionItem], completion: Completion? = nil) {
         insert(sectionItems, at: Array(0..<sectionItems.count), completion: completion)
@@ -464,7 +477,8 @@ open class CollectionViewManager: NSObject {
     
     /// Removes one or more section items at spectified indexes.
     /// - Parameters:
-    ///   - indexes: An array of locations that specifies the sections to remove. If a section exists after the specified index location, it is moved up by one index location.
+    ///   - indexes: An array of locations that specifies the sections to remove.
+    /// If a section exists after the specified index location, it is moved up by one index location.
     ///   - completion: A closure that either specifies any additional actions which should be performed after removing.
     open func remove(sectionItemsAt indexes: [Int], completion: Completion? = nil) {
         perform(updates: { collectionView in
