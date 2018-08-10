@@ -8,7 +8,11 @@ final class TextCollectionViewCell: UICollectionViewCell {
     
     // MARK: Subviews
     
-    lazy var titleLabel: UILabel = .init()
+    lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        return label
+    }()
     
     // MARK: Life cycle
     
@@ -18,6 +22,8 @@ final class TextCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        contentView.backgroundColor = .white
+        contentView.layer.cornerRadius = 4
         contentView.addSubview(titleLabel)
     }
     

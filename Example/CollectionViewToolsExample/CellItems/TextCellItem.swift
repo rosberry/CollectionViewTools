@@ -15,7 +15,7 @@ final class TextCellItem: CollectionViewCellItem {
     private typealias Cell = TextCollectionViewCell
     private(set) var reuseType: ReuseType = .class(Cell.self)
     
-    private func configure(_ cell: UICollectionViewCell) {
+    func configure(cell: UICollectionViewCell, at indexPath: IndexPath) {
         guard let cell = cell as? Cell else {
             return
         }
@@ -23,6 +23,8 @@ final class TextCellItem: CollectionViewCellItem {
     }
     
     func size(for collectionView: UICollectionView, with layout: UICollectionViewLayout, at indexPath: IndexPath) -> CGSize {
-        return .init(width: collectionView.bounds.width - 2 * 16, height: collectionView.bounds.height)
+        let numberOfActionsInRow: CGFloat = 3
+        let width = collectionView.bounds.width / numberOfActionsInRow
+        return .init(width: width - (numberOfActionsInRow + 1) * 8, height: collectionView.bounds.height / 1.4)
     }
 }

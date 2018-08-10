@@ -9,38 +9,73 @@ import CollectionViewTools
 
 class MainViewController: UIViewController {
     
-    lazy var collectionView: UICollectionView = {
-        let flowLayout = UICollectionViewFlowLayout()
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-        collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: -6, right: 0)
-        collectionView.clipsToBounds = false
+    var images: [UIImage] {
+        var images: [UIImage] = []
+        for _ in 0..<10 {
+            images.append(contentsOf: [#imageLiteral(resourceName: "nightlife-1"), #imageLiteral(resourceName: "nightlife-2"), #imageLiteral(resourceName: "nightlife-3"), #imageLiteral(resourceName: "nightlife-4"), #imageLiteral(resourceName: "nightlife-5")])
+        }
+        return images
+    }
+    
+    lazy var mainCollectionViewManager: CollectionViewManager = .init(collectionView: mainCollectionView)
+    lazy var actionsCollectionViewManager: CollectionViewManager = .init(collectionView: actionsCollectionView)
+    
+    // MARK: Subviews
+    
+    private lazy var actionsCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.backgroundColor = .lightGray
+        return view
+    }()
+    
+    lazy var mainCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.backgroundColor = .clear
         return collectionView
     }()
     
-    lazy var manager: CollectionViewManager = {
-        return CollectionViewManager(collectionView: self.collectionView)
-    }()
+    // MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.title = "Library"
-        
-        var images: [UIImage] = []
-        for _ in 0..<10 {
-            images.append(contentsOf: [#imageLiteral(resourceName: "nightlife-1"), #imageLiteral(resourceName: "nightlife-2"), #imageLiteral(resourceName: "nightlife-3"), #imageLiteral(resourceName: "nightlife-4"), #imageLiteral(resourceName: "nightlife-5")])
-        }
-        
         edgesForExtendedLayout = []
-        view.addSubview(collectionView)
-        manager.sectionItems = [makeImagesSectionItem(images: images)]
+        view.addSubview(mainCollectionView)
+        view.addSubview(actionsCollectionView)
+        
+        resetMainCollection()
+        actionsCollectionViewManager.sectionItems = [makeActionsSectionItem()]
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        collectionView.frame = view.bounds
+        
+        var bottomInset: CGFloat = 0
+        if #available(iOS 11.0, *) {
+            bottomInset = view.safeAreaInsets.bottom
+        }
+        let actionsCollectionHeight: CGFloat = 100
+        mainCollectionView.frame = .init(x: 0,
+                                         y: 0,
+                                         width: view.bounds.width,
+                                         height: view.bounds.height - actionsCollectionHeight - bottomInset)
+        actionsCollectionView.frame = .init(x: 0,
+                                            y: view.bounds.height - actionsCollectionHeight - bottomInset,
+                                            width: view.bounds.width,
+                                            height: actionsCollectionHeight)
     }
+    
+    // MARK: - Private
+    
+    private func resetMainCollection() {
+        mainCollectionViewManager.sectionItems = [makeImagesSectionItem(images: images)]
+        mainCollectionView.contentOffset = .zero
+    }
+    
+    // MARK: - Factory methods
     
     func makeImagesSectionItem(images: [UIImage]) -> CollectionViewSectionItem {
         let sectionItem = GeneralCollectionViewSectionItem()
@@ -54,5 +89,24 @@ class MainViewController: UIViewController {
         sectionItem.insets = .init(top: 0, left: 12, bottom: 0, right: 12)
         sectionItem.minimumLineSpacing = 8
         return sectionItem
+    }
+    
+    // MARK: Actions
+    
+    func makeActionsSectionItem() -> CollectionViewSectionItem {
+        let sectionItem = GeneralCollectionViewSectionItem()
+        sectionItem.cellItems = [
+            makeResetActionCellItem()
+        ]
+        sectionItem.insets = .init(top: 0, left: 8, bottom: 0, right: 8)
+        return sectionItem
+    }
+    
+    func makeResetActionCellItem() -> CollectionViewCellItem {
+        var cellItem = TextCellItem(text: "Reset")
+        cellItem.itemDidSelectHandler = { [weak self] _, _ in
+            self?.resetMainCollection()
+        }
+        return cellItem
     }
 }
