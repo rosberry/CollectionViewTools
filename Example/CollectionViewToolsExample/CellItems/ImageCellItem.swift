@@ -32,7 +32,9 @@ final class ImageCellItem: CollectionViewCellItem {
     }
     
     func size(for collectionView: UICollectionView, with layout: UICollectionViewLayout, at indexPath: IndexPath) -> CGSize {
-        return size(for: collectionView, at: indexPath)
+        let ratio = image.size.width / image.size.height
+        let width = collectionView.bounds.width / 2 - 16
+        return .init(width: width, height: width / ratio)
     }
     
     func didSelect(for collectionView: UICollectionView, at indexPath: IndexPath) {

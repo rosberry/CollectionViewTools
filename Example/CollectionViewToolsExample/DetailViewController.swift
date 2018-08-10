@@ -10,10 +10,10 @@ class DetailViewController: UIViewController {
     
     var image: UIImage?
     private lazy var imageView = UIImageView()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         view.backgroundColor = .white
         view.clipsToBounds = true
         
