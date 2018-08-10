@@ -14,7 +14,7 @@ class MainViewController: UIViewController {
     }
     var images: [UIImage] {
         var images: [UIImage] = []
-        for _ in 0..<10 {
+        for _ in 0..<3 {
             images.append(contentsOf: initialImages)
         }
         return images
@@ -104,7 +104,8 @@ class MainViewController: UIViewController {
         let sectionItem = GeneralCollectionViewSectionItem()
         sectionItem.cellItems = [
             makeResetActionCellItem(),
-            makePrependCellItemsActionCellItem()
+            makePrependCellItemsActionCellItem(),
+            makeAppendCellItemsActionCellItem()
         ]
         sectionItem.insets = .init(top: 0, left: 8, bottom: 0, right: 8)
         sectionItem.minimumInteritemSpacing = 8
@@ -129,7 +130,24 @@ class MainViewController: UIViewController {
             let cellItems = self.initialImages.map { image in
                 return self.makeImageCellItem(image: image)
             }
+            self.mainCollectionView.scrollToItem(at: .init(row: 0, section: 0), at: .top, animated: false)
             self.mainCollectionViewManager.prepend(cellItems, to: sectionItem)
+        }
+    }
+    
+    func makeAppendCellItemsActionCellItem() -> CollectionViewCellItem {
+        return makeActionCellItem(title: "Append cell items") { [weak self] in
+            guard let `self` = self else {
+                return
+            }
+            guard let sectionItem = self.mainCollectionViewManager.sectionItems.first else {
+                return
+            }
+            let cellItems = self.initialImages.map { image in
+                return self.makeImageCellItem(image: image)
+            }
+            self.mainCollectionView.scrollToItem(at: .init(row: sectionItem.cellItems.count - 1, section: 0), at: .bottom, animated: false)
+            self.mainCollectionViewManager.append(cellItems, to: sectionItem)
         }
     }
     

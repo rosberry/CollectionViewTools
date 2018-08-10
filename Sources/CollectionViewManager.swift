@@ -287,7 +287,10 @@ open class CollectionViewManager: NSObject {
     ///   - sectionItem: Section item within which cell items should be inserted
     ///   - completion: A closure that either specifies any additional actions which should be performed after insertion.
     open func append(_ cellItems: [CellItem], to sectionItem: SectionItem, completion: Completion? = nil) {
-        insert(cellItems, to: sectionItem, at: Array(sectionItem.cellItems.count..<cellItems.count), completion: completion)
+        insert(cellItems,
+               to: sectionItem,
+               at: Array(sectionItem.cellItems.count..<sectionItem.cellItems.count + cellItems.count),
+               completion: completion)
     }
     
     /// Inserts cell items to the specified section item, and then inserts cells at the beginning of the section.
