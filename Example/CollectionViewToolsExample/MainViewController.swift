@@ -9,10 +9,13 @@ import CollectionViewTools
 
 class MainViewController: UIViewController {
     
+    var initialImages: [UIImage] {
+        return [#imageLiteral(resourceName: "nightlife-1"), #imageLiteral(resourceName: "nightlife-2"), #imageLiteral(resourceName: "nightlife-3"), #imageLiteral(resourceName: "nightlife-4"), #imageLiteral(resourceName: "nightlife-5")]
+    }
     var images: [UIImage] {
         var images: [UIImage] = []
         for _ in 0..<10 {
-            images.append(contentsOf: [#imageLiteral(resourceName: "nightlife-1"), #imageLiteral(resourceName: "nightlife-2"), #imageLiteral(resourceName: "nightlife-3"), #imageLiteral(resourceName: "nightlife-4"), #imageLiteral(resourceName: "nightlife-5")])
+            images.append(contentsOf: initialImages)
         }
         return images
     }
@@ -80,15 +83,19 @@ class MainViewController: UIViewController {
     func makeImagesSectionItem(images: [UIImage]) -> CollectionViewSectionItem {
         let sectionItem = GeneralCollectionViewSectionItem()
         sectionItem.cellItems = images.map { image in
-            ImageCellItem(image: image) { [weak self] image in
-                let detailViewController = DetailViewController()
-                detailViewController.image = image
-                self?.navigationController?.pushViewController(detailViewController, animated: true)
-            }
+            return makeImageCellItem(image: image)
         }
         sectionItem.insets = .init(top: 0, left: 12, bottom: 0, right: 12)
         sectionItem.minimumLineSpacing = 8
         return sectionItem
+    }
+    
+    private func makeImageCellItem(image: UIImage) -> ImageCellItem {
+        return ImageCellItem(image: image) { [weak self] image in
+            let detailViewController = DetailViewController()
+            detailViewController.image = image
+            self?.navigationController?.pushViewController(detailViewController, animated: true)
+        }
     }
     
     // MARK: Actions
@@ -96,16 +103,42 @@ class MainViewController: UIViewController {
     func makeActionsSectionItem() -> CollectionViewSectionItem {
         let sectionItem = GeneralCollectionViewSectionItem()
         sectionItem.cellItems = [
-            makeResetActionCellItem()
+            makeResetActionCellItem(),
+            makePrependCellItemsActionCellItem()
         ]
         sectionItem.insets = .init(top: 0, left: 8, bottom: 0, right: 8)
+        sectionItem.minimumInteritemSpacing = 8
+        sectionItem.minimumLineSpacing = 8
         return sectionItem
     }
     
     func makeResetActionCellItem() -> CollectionViewCellItem {
-        var cellItem = TextCellItem(text: "Reset")
-        cellItem.itemDidSelectHandler = { [weak self] _, _ in
+        return makeActionCellItem(title: "Reset") { [weak self] in
             self?.resetMainCollection()
+        }
+    }
+    
+    func makePrependCellItemsActionCellItem() -> CollectionViewCellItem {
+        return makeActionCellItem(title: "Prepend cell items") { [weak self] in
+            guard let `self` = self else {
+                return
+            }
+            guard let sectionItem = self.mainCollectionViewManager.sectionItems.first else {
+                return
+            }
+            let cellItems = self.initialImages.map { image in
+                return self.makeImageCellItem(image: image)
+            }
+            self.mainCollectionViewManager.prepend(cellItems, to: sectionItem)
+        }
+    }
+    
+    // MARK: Common
+    
+    func makeActionCellItem(title: String, action: @escaping (() -> Void)) -> CollectionViewCellItem {
+        var cellItem = TextCellItem(text: title)
+        cellItem.itemDidSelectHandler = { _, _ in
+            action()
         }
         return cellItem
     }

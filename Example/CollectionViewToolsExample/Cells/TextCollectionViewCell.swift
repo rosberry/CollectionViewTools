@@ -31,4 +31,8 @@ final class TextCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
         titleLabel.frame = contentView.bounds
     }
+    
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        return titleLabel.sizeThatFits(.init(width: .greatestFiniteMagnitude, height: size.height))
+    }
 }

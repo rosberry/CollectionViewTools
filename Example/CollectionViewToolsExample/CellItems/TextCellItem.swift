@@ -22,9 +22,11 @@ final class TextCellItem: CollectionViewCellItem {
         cell.titleLabel.text = text
     }
     
+    private static let sizeCell: Cell = .init()
     func size(for collectionView: UICollectionView, with layout: UICollectionViewLayout, at indexPath: IndexPath) -> CGSize {
-        let numberOfActionsInRow: CGFloat = 3
-        let width = collectionView.bounds.width / numberOfActionsInRow
-        return .init(width: width - (numberOfActionsInRow + 1) * 8, height: collectionView.bounds.height / 1.4)
+        let cell: Cell = type(of: self).sizeCell
+        configure(cell: cell, at: indexPath)
+        let cellSize = cell.sizeThatFits(.init(width: collectionView.bounds.size.width, height: .greatestFiniteMagnitude))
+        return .init(width: cellSize.width + 2 * 12, height: collectionView.bounds.height / 1.4)
     }
 }
