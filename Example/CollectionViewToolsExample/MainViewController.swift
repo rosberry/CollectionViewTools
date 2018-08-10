@@ -14,7 +14,7 @@ class MainViewController: UIViewController {
     }
     var images: [UIImage] {
         var images: [UIImage] = []
-        for _ in 0..<3 {
+        for _ in 0..<1 {
             images.append(contentsOf: initialImages)
         }
         return images
@@ -105,7 +105,8 @@ class MainViewController: UIViewController {
         sectionItem.cellItems = [
             makeResetActionCellItem(),
             makePrependCellItemsActionCellItem(),
-            makeAppendCellItemsActionCellItem()
+            makeAppendCellItemsActionCellItem(),
+            makeInsertInTheMiddleCellItemsActionCellItem()
         ]
         sectionItem.insets = .init(top: 0, left: 8, bottom: 0, right: 8)
         sectionItem.minimumInteritemSpacing = 8
@@ -148,6 +149,24 @@ class MainViewController: UIViewController {
             }
             self.mainCollectionView.scrollToItem(at: .init(row: sectionItem.cellItems.count - 1, section: 0), at: .bottom, animated: false)
             self.mainCollectionViewManager.append(cellItems, to: sectionItem)
+        }
+    }
+    
+    func makeInsertInTheMiddleCellItemsActionCellItem() -> CollectionViewCellItem {
+        return makeActionCellItem(title: "Insert cell items in the middle") { [weak self] in
+            guard let `self` = self else {
+                return
+            }
+            guard let sectionItem = self.mainCollectionViewManager.sectionItems.first else {
+                return
+            }
+            let cellItems = self.initialImages.map { image in
+                return self.makeImageCellItem(image: image)
+            }
+            let initialIndex = sectionItem.cellItems.count / 2 - 1
+            let indexPath = IndexPath (row: initialIndex, section: 0)
+            self.mainCollectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
+            self.mainCollectionViewManager.insert(cellItems, to: sectionItem, at: Array(initialIndex..<initialIndex + cellItems.count))
         }
     }
     
