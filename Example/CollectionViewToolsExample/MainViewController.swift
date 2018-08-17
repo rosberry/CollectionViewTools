@@ -78,6 +78,12 @@ class MainViewController: UIViewController {
         mainCollectionView.contentOffset = .zero
     }
     
+    private func remove(_ cellItem: CollectionViewCellItem?) {
+        if let cellItem = cellItem {
+            mainCollectionViewManager.remove([cellItem])
+        }
+    }
+    
     // MARK: - Factory methods
     
     func makeImagesSectionItem(images: [UIImage]) -> CollectionViewSectionItem {
@@ -91,14 +97,18 @@ class MainViewController: UIViewController {
     }
     
     private func makeImageCellItem(image: UIImage) -> ImageCellItem {
-        return ImageCellItem(image: image) { [weak self] image in
+        let cellItem = ImageCellItem(image: image) { [weak self] image in
             let detailViewController = DetailViewController()
             detailViewController.image = image
             self?.navigationController?.pushViewController(detailViewController, animated: true)
         }
+        cellItem.removeActionHandler = { [weak self, weak cellItem] in
+            self?.remove(cellItem)
+        }
+        return cellItem
     }
     
-    // MARK: Actions
+    // MARK: Actions cell items
     
     func makeActionsSectionItem() -> CollectionViewSectionItem {
         let sectionItem = GeneralCollectionViewSectionItem()

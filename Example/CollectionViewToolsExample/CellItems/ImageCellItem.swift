@@ -14,12 +14,14 @@ final class ImageCellItem: CollectionViewCellItem {
     private(set) var reuseType: ReuseType = .class(Cell.self)
     private let image: UIImage
     private let selectionHandler: (UIImage) -> Void
+    var removeActionHandler: (() -> Void)?
     
     func configure(cell: UICollectionViewCell, at indexPath: IndexPath) {
         guard let cell = cell as? Cell else {
             return
         }
         cell.imageView.image = image
+        cell.removeActionHandler = removeActionHandler
     }
     
     init(image: UIImage, selectionHandler: @escaping (UIImage) -> Void) {
