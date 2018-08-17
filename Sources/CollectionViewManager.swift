@@ -419,7 +419,7 @@ open class CollectionViewManager: NSObject {
     /// If a section already exists at the specified index location, it is moved down one index location.
     ///   - completion: A closure that either specifies any additional actions which should be performed after insertion.
     open func append(_ sectionItems: [CollectionViewSectionItem], completion: Completion? = nil) {
-        insert(sectionItems, at: Array(self.sectionItems.count..<sectionItems.count), completion: completion)
+        insert(sectionItems, at: Array(self.sectionItems.count..<self.sectionItems.count + sectionItems.count), completion: completion)
     }
     
     /// Inserts one or more section items to the beginning of the collection view

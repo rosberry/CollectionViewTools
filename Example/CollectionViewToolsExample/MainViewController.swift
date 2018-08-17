@@ -60,7 +60,7 @@ class MainViewController: UIViewController {
         if #available(iOS 11.0, *) {
             bottomInset = view.safeAreaInsets.bottom
         }
-        let actionsCollectionHeight: CGFloat = 100
+        let actionsCollectionHeight: CGFloat = 70
         mainCollectionView.frame = .init(x: 0,
                                          y: 0,
                                          width: view.bounds.width,
@@ -85,7 +85,7 @@ class MainViewController: UIViewController {
         sectionItem.cellItems = images.map { image in
             return makeImageCellItem(image: image)
         }
-        sectionItem.insets = .init(top: 0, left: 12, bottom: 0, right: 12)
+        sectionItem.insets = .init(top: 0, left: 12, bottom: 12, right: 12)
         sectionItem.minimumLineSpacing = 8
         return sectionItem
     }
@@ -106,7 +106,10 @@ class MainViewController: UIViewController {
             makeResetActionCellItem(),
             makePrependCellItemsActionCellItem(),
             makeAppendCellItemsActionCellItem(),
-            makeInsertInTheMiddleCellItemsActionCellItem()
+            makeInsertCellItemsInTheMiddleActionCellItem(),
+            makePrependSectionItemActionCellItem(),
+            makeAppendSectionItemActionCellItem(),
+            makeInsertSectionItemInTheMiddleActionCellItem()
         ]
         sectionItem.insets = .init(top: 0, left: 8, bottom: 0, right: 8)
         sectionItem.minimumInteritemSpacing = 8
@@ -121,7 +124,7 @@ class MainViewController: UIViewController {
     }
     
     func makePrependCellItemsActionCellItem() -> CollectionViewCellItem {
-        return makeActionCellItem(title: "Prepend cell items") { [weak self] in
+        return makeActionCellItem(title: "Prepend cells") { [weak self] in
             guard let `self` = self else {
                 return
             }
@@ -131,13 +134,15 @@ class MainViewController: UIViewController {
             let cellItems = self.initialImages.map { image in
                 return self.makeImageCellItem(image: image)
             }
-            self.mainCollectionView.scrollToItem(at: .init(row: 0, section: 0), at: .top, animated: false)
-            self.mainCollectionViewManager.prepend(cellItems, to: sectionItem)
+            self.mainCollectionView.scrollToItem(at: .init(row: 0, section: 0), at: .top, animated: true)
+            self.mainCollectionViewManager.prepend(cellItems, to: sectionItem) { [weak self] _ in
+                self?.mainCollectionView.scrollToItem(at: .init(row: 0, section: 0), at: .top, animated: true)
+            }
         }
     }
     
     func makeAppendCellItemsActionCellItem() -> CollectionViewCellItem {
-        return makeActionCellItem(title: "Append cell items") { [weak self] in
+        return makeActionCellItem(title: "Append cells") { [weak self] in
             guard let `self` = self else {
                 return
             }
@@ -147,13 +152,16 @@ class MainViewController: UIViewController {
             let cellItems = self.initialImages.map { image in
                 return self.makeImageCellItem(image: image)
             }
-            self.mainCollectionView.scrollToItem(at: .init(row: sectionItem.cellItems.count - 1, section: 0), at: .bottom, animated: false)
-            self.mainCollectionViewManager.append(cellItems, to: sectionItem)
+            self.mainCollectionView.scrollToItem(at: .init(row: sectionItem.cellItems.count - 1, section: 0), at: .bottom, animated: true)
+            self.mainCollectionViewManager.append(cellItems, to: sectionItem) { [weak self] _ in
+                let indexPath = IndexPath(row: sectionItem.cellItems.count - 1, section: 0)
+                self?.mainCollectionView.scrollToItem(at: indexPath, at: .top, animated: true)
+            }
         }
     }
     
-    func makeInsertInTheMiddleCellItemsActionCellItem() -> CollectionViewCellItem {
-        return makeActionCellItem(title: "Insert cell items in the middle") { [weak self] in
+    func makeInsertCellItemsInTheMiddleActionCellItem() -> CollectionViewCellItem {
+        return makeActionCellItem(title: "Insert cells in the middle") { [weak self] in
             guard let `self` = self else {
                 return
             }
@@ -164,9 +172,73 @@ class MainViewController: UIViewController {
                 return self.makeImageCellItem(image: image)
             }
             let initialIndex = sectionItem.cellItems.count / 2 - 1
-            let indexPath = IndexPath (row: initialIndex, section: 0)
-            self.mainCollectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
+            let indexPath = IndexPath(row: initialIndex, section: 0)
+            self.mainCollectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: true)
             self.mainCollectionViewManager.insert(cellItems, to: sectionItem, at: Array(initialIndex..<initialIndex + cellItems.count))
+        }
+    }
+    
+    func makeAppendSectionItemActionCellItem() -> CollectionViewCellItem {
+        return makeActionCellItem(title: "Append section") { [weak self] in
+            guard let `self` = self else {
+                return
+            }
+            
+            let sectionItems = self.mainCollectionViewManager.sectionItems
+            guard let sectionItem = sectionItems.last else {
+                return
+            }
+            
+            let indexPath = IndexPath(row: sectionItem.cellItems.count - 1, section: sectionItems.count - 1)
+            self.mainCollectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
+            
+            var additionalSectionItems: [CollectionViewSectionItem] = []
+            for _ in 0..<1 {
+                additionalSectionItems.append(self.makeImagesSectionItem(images: self.initialImages))
+            }
+            self.mainCollectionViewManager.append(additionalSectionItems) { [weak self] _ in
+                let indexPath = IndexPath(row: 0, section: sectionItems.count + additionalSectionItems.count - 1)
+                self?.mainCollectionView.scrollToItem(at: indexPath, at: .top, animated: true)
+            }
+        }
+    }
+    
+    func makePrependSectionItemActionCellItem() -> CollectionViewCellItem {
+        return makeActionCellItem(title: "Prepend section") { [weak self] in
+            guard let `self` = self else {
+                return
+            }
+            
+            let indexPath = IndexPath(row: 0, section: 0)
+            self.mainCollectionView.scrollToItem(at: indexPath, at: .top, animated: true)
+            
+            var additionalSectionItems: [CollectionViewSectionItem] = []
+            for _ in 0..<1 {
+                additionalSectionItems.append(self.makeImagesSectionItem(images: self.initialImages))
+            }
+            self.mainCollectionViewManager.prepend(additionalSectionItems) { [weak self] _ in
+                let indexPath = IndexPath(row: 0, section: 0)
+                self?.mainCollectionView.scrollToItem(at: indexPath, at: .top, animated: true)
+            }
+        }
+    }
+    
+    func makeInsertSectionItemInTheMiddleActionCellItem() -> CollectionViewCellItem {
+        return makeActionCellItem(title: "Insert section in the middle") { [weak self] in
+            guard let `self` = self else {
+                return
+            }
+            
+            let section: Int = self.mainCollectionViewManager.sectionItems.count / 2
+            let indexPath = IndexPath(row: 0, section: section)
+            self.mainCollectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
+            
+            var additionalSectionItems: [CollectionViewSectionItem] = []
+            for _ in 0..<1 {
+                additionalSectionItems.append(self.makeImagesSectionItem(images: self.initialImages))
+            }
+            let indexes = Array(section..<section + additionalSectionItems.count)
+            self.mainCollectionViewManager.insert(additionalSectionItems, at: indexes)
         }
     }
     
