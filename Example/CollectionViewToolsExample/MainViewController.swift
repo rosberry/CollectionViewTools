@@ -104,12 +104,16 @@ class MainViewController: UIViewController {
         let sectionItem = GeneralCollectionViewSectionItem()
         sectionItem.cellItems = [
             makeResetActionCellItem(),
+            // Insert cells
             makePrependCellItemsActionCellItem(),
             makeAppendCellItemsActionCellItem(),
             makeInsertCellItemsInTheMiddleActionCellItem(),
+            // Insert sections
             makePrependSectionItemActionCellItem(),
             makeAppendSectionItemActionCellItem(),
-            makeInsertSectionItemInTheMiddleActionCellItem()
+            makeInsertSectionItemInTheMiddleActionCellItem(),
+            // Remove cells
+            makeRemoveRandomCellActionCellItem()
         ]
         sectionItem.insets = .init(top: 0, left: 8, bottom: 0, right: 8)
         sectionItem.minimumInteritemSpacing = 8
@@ -122,6 +126,8 @@ class MainViewController: UIViewController {
             self?.resetMainCollection()
         }
     }
+    
+    // MARK: Insert cells
     
     func makePrependCellItemsActionCellItem() -> CollectionViewCellItem {
         return makeActionCellItem(title: "Prepend cells") { [weak self] in
@@ -177,6 +183,8 @@ class MainViewController: UIViewController {
             self.mainCollectionViewManager.insert(cellItems, to: sectionItem, at: Array(initialIndex..<initialIndex + cellItems.count))
         }
     }
+    
+    // MARK: Insert sections
     
     func makeAppendSectionItemActionCellItem() -> CollectionViewCellItem {
         return makeActionCellItem(title: "Append section") { [weak self] in
@@ -239,6 +247,43 @@ class MainViewController: UIViewController {
             }
             let indexes = Array(section..<section + additionalSectionItems.count)
             self.mainCollectionViewManager.insert(additionalSectionItems, at: indexes)
+        }
+    }
+    
+    // MARK: Remove cells
+    
+    func makeRemoveRandomCellActionCellItem() -> CollectionViewCellItem {
+        return makeActionCellItem(title: "Remove random cell") { [weak self] in
+            guard let `self` = self else {
+                return
+            }
+    
+            let sectionItems = self.mainCollectionViewManager.sectionItems
+            let nonEmptySectionsIndexes: [Int] = sectionItems.enumerated().compactMap { tuple in
+                if tuple.element.cellItems.count > 0 {
+                    return tuple.offset
+                }
+                return nil
+            }
+            
+            let sectionsCount = nonEmptySectionsIndexes.count
+            guard sectionsCount > 0 else {
+                return
+            }
+            
+            let sectionIndex = nonEmptySectionsIndexes[Int.random(range: 0..<sectionsCount)]
+            let sectionItem = self.mainCollectionViewManager.sectionItems[sectionIndex]
+            
+            guard sectionItem.cellItems.count > 0 else {
+                return
+            }
+            
+            let cellIndex = Int.random(range: 0..<sectionItem.cellItems.count)
+            self.mainCollectionView.scrollToItem(at: .init(row: cellIndex, section: sectionIndex), at: .centeredVertically, animated: true)
+            // Perform remove after scroll animation stops
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self.mainCollectionViewManager.removeCellItems(at: [cellIndex], from: sectionItem)
+            }
         }
     }
     
