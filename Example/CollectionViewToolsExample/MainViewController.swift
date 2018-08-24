@@ -123,7 +123,9 @@ class MainViewController: UIViewController {
             makeAppendSectionItemActionCellItem(),
             makeInsertSectionItemInTheMiddleActionCellItem(),
             // Remove cells
-            makeRemoveRandomCellActionCellItem()
+            makeRemoveRandomCellActionCellItem(),
+            // Remove sections
+            makeRemoveRandomSectionActionCellItem()
         ]
         sectionItem.insets = .init(top: 0, left: 8, bottom: 0, right: 8)
         sectionItem.minimumInteritemSpacing = 8
@@ -203,12 +205,10 @@ class MainViewController: UIViewController {
             }
             
             let sectionItems = self.mainCollectionViewManager.sectionItems
-            guard let sectionItem = sectionItems.last else {
-                return
+            if let sectionItem = sectionItems.last {
+                let indexPath = IndexPath(row: sectionItem.cellItems.count - 1, section: sectionItems.count - 1)
+                self.mainCollectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
             }
-            
-            let indexPath = IndexPath(row: sectionItem.cellItems.count - 1, section: sectionItems.count - 1)
-            self.mainCollectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
             
             var additionalSectionItems: [CollectionViewSectionItem] = []
             for _ in 0..<1 {
@@ -227,8 +227,11 @@ class MainViewController: UIViewController {
                 return
             }
             
-            let indexPath = IndexPath(row: 0, section: 0)
-            self.mainCollectionView.scrollToItem(at: indexPath, at: .top, animated: true)
+            let sectionsCount = self.mainCollectionViewManager.sectionItems.count
+            if sectionsCount > 0 {
+                let indexPath = IndexPath(row: 0, section: 0)
+                self.mainCollectionView.scrollToItem(at: indexPath, at: .top, animated: true)
+            }
             
             var additionalSectionItems: [CollectionViewSectionItem] = []
             for _ in 0..<1 {
@@ -247,9 +250,12 @@ class MainViewController: UIViewController {
                 return
             }
             
-            let section: Int = self.mainCollectionViewManager.sectionItems.count / 2
-            let indexPath = IndexPath(row: 0, section: section)
-            self.mainCollectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
+            let sectionsCount = self.mainCollectionViewManager.sectionItems.count
+            let section: Int = sectionsCount / 2
+            if sectionsCount > 0 {
+                let indexPath = IndexPath(row: 0, section: section)
+                self.mainCollectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
+            }
             
             var additionalSectionItems: [CollectionViewSectionItem] = []
             for _ in 0..<1 {
@@ -267,7 +273,7 @@ class MainViewController: UIViewController {
             guard let `self` = self else {
                 return
             }
-    
+            
             let sectionItems = self.mainCollectionViewManager.sectionItems
             let nonEmptySectionsIndexes: [Int] = sectionItems.enumerated().compactMap { tuple in
                 if tuple.element.cellItems.count > 0 {
@@ -293,6 +299,37 @@ class MainViewController: UIViewController {
             // Perform remove after scroll animation stops
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 self.mainCollectionViewManager.removeCellItems(at: [cellIndex], from: sectionItem)
+            }
+        }
+    }
+    
+    // MARK: Remove sections
+    
+    func makeRemoveRandomSectionActionCellItem() -> CollectionViewCellItem {
+        return makeActionCellItem(title: "Remove random section") { [weak self] in
+            guard let `self` = self else {
+                return
+            }
+            
+            let sectionItems = self.mainCollectionViewManager.sectionItems
+            let nonEmptySectionsIndexes: [Int] = sectionItems.enumerated().compactMap { tuple in
+                if tuple.element.cellItems.count > 0 {
+                    return tuple.offset
+                }
+                return nil
+            }
+            
+            let sectionsCount = nonEmptySectionsIndexes.count
+            guard sectionsCount > 0 else {
+                return
+            }
+            
+            let sectionIndex = nonEmptySectionsIndexes[Int.random(range: 0..<sectionsCount)]
+            
+            self.mainCollectionView.scrollToItem(at: .init(row: 0, section: sectionIndex), at: .centeredVertically, animated: true)
+            // Perform remove after scroll animation stops
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self.mainCollectionViewManager.remove(sectionItemsAt: [sectionIndex])
             }
         }
     }
