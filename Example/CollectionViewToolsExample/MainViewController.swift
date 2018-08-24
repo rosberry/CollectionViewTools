@@ -15,9 +15,13 @@ class MainViewController: UIViewController {
     var images: [UIImage] {
         var images: [UIImage] = []
         for _ in 0..<1 {
-            images.append(contentsOf: initialImages)
+            images.append(contentsOf: shuffledImages)
         }
         return images
+    }
+    
+    var shuffledImages: [UIImage] {
+        return initialImages.shuffled()
     }
     
     lazy var mainCollectionViewManager: CollectionViewManager = .init(collectionView: mainCollectionView)
@@ -125,7 +129,9 @@ class MainViewController: UIViewController {
             // Remove cells
             makeRemoveRandomCellActionCellItem(),
             // Remove sections
-            makeRemoveRandomSectionActionCellItem()
+            makeRemoveRandomSectionActionCellItem(),
+            // Replace cells
+            makeReplaceCellItemsActionCellItem()
         ]
         sectionItem.insets = .init(top: 0, left: 8, bottom: 0, right: 8)
         sectionItem.minimumInteritemSpacing = 8
@@ -149,7 +155,7 @@ class MainViewController: UIViewController {
             guard let sectionItem = self.mainCollectionViewManager.sectionItems.first else {
                 return
             }
-            let cellItems = self.initialImages.map { image in
+            let cellItems = self.shuffledImages.map { image in
                 return self.makeImageCellItem(image: image)
             }
             self.mainCollectionView.scrollToItem(at: .init(row: 0, section: 0), at: .top, animated: true)
@@ -167,7 +173,7 @@ class MainViewController: UIViewController {
             guard let sectionItem = self.mainCollectionViewManager.sectionItems.first else {
                 return
             }
-            let cellItems = self.initialImages.map { image in
+            let cellItems = self.shuffledImages.map { image in
                 return self.makeImageCellItem(image: image)
             }
             self.mainCollectionView.scrollToItem(at: .init(row: sectionItem.cellItems.count - 1, section: 0), at: .bottom, animated: true)
@@ -186,7 +192,7 @@ class MainViewController: UIViewController {
             guard let sectionItem = self.mainCollectionViewManager.sectionItems.first else {
                 return
             }
-            let cellItems = self.initialImages.map { image in
+            let cellItems = self.shuffledImages.map { image in
                 return self.makeImageCellItem(image: image)
             }
             let initialIndex = sectionItem.cellItems.count / 2 - 1
@@ -212,7 +218,7 @@ class MainViewController: UIViewController {
             
             var additionalSectionItems: [CollectionViewSectionItem] = []
             for _ in 0..<1 {
-                additionalSectionItems.append(self.makeImagesSectionItem(images: self.initialImages))
+                additionalSectionItems.append(self.makeImagesSectionItem(images: self.shuffledImages))
             }
             self.mainCollectionViewManager.append(additionalSectionItems) { [weak self] _ in
                 let indexPath = IndexPath(row: 0, section: sectionItems.count + additionalSectionItems.count - 1)
@@ -235,7 +241,7 @@ class MainViewController: UIViewController {
             
             var additionalSectionItems: [CollectionViewSectionItem] = []
             for _ in 0..<1 {
-                additionalSectionItems.append(self.makeImagesSectionItem(images: self.initialImages))
+                additionalSectionItems.append(self.makeImagesSectionItem(images: self.shuffledImages))
             }
             self.mainCollectionViewManager.prepend(additionalSectionItems) { [weak self] _ in
                 let indexPath = IndexPath(row: 0, section: 0)
@@ -259,7 +265,7 @@ class MainViewController: UIViewController {
             
             var additionalSectionItems: [CollectionViewSectionItem] = []
             for _ in 0..<1 {
-                additionalSectionItems.append(self.makeImagesSectionItem(images: self.initialImages))
+                additionalSectionItems.append(self.makeImagesSectionItem(images: self.shuffledImages))
             }
             let indexes = Array(section..<section + additionalSectionItems.count)
             self.mainCollectionViewManager.insert(additionalSectionItems, at: indexes)
@@ -330,6 +336,30 @@ class MainViewController: UIViewController {
             // Perform remove after scroll animation stops
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 self.mainCollectionViewManager.remove(sectionItemsAt: [sectionIndex])
+            }
+        }
+    }
+    
+    // MARK: Replace cells
+    
+    func makeReplaceCellItemsActionCellItem() -> CollectionViewCellItem {
+        return makeActionCellItem(title: "Replace cells") { [weak self] in
+            guard let `self` = self else {
+                return
+            }
+            guard let sectionItem = self.mainCollectionViewManager.sectionItems.first else {
+                return
+            }
+            var images = self.shuffledImages
+            images.append(contentsOf: self.shuffledImages)
+            let cellItems = images.map { image in
+                return self.makeImageCellItem(image: image)
+            }
+            self.mainCollectionView.scrollToItem(at: .init(row: 0, section: 0), at: .top, animated: true)
+            
+            let replaceIndexes = Array(0..<sectionItem.cellItems.count)
+            self.mainCollectionViewManager.replace(cellItemsAt: replaceIndexes, with: cellItems, in: sectionItem) { [weak self] _ in
+                self?.mainCollectionView.scrollToItem(at: .init(row: 0, section: 0), at: .top, animated: true)
             }
         }
     }
