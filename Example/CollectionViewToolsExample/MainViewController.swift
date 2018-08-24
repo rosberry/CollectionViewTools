@@ -131,7 +131,9 @@ class MainViewController: UIViewController {
             // Remove sections
             makeRemoveRandomSectionActionCellItem(),
             // Replace cells
-            makeReplaceCellItemsActionCellItem()
+            makeReplaceCellItemsActionCellItem(),
+            // Replace sections
+            makeReplaceSectionItemsActionCellItem()
         ]
         sectionItem.insets = .init(top: 0, left: 8, bottom: 0, right: 8)
         sectionItem.minimumInteritemSpacing = 8
@@ -361,6 +363,24 @@ class MainViewController: UIViewController {
             self.mainCollectionViewManager.replace(cellItemsAt: replaceIndexes, with: cellItems, in: sectionItem) { [weak self] _ in
                 self?.mainCollectionView.scrollToItem(at: .init(row: 0, section: 0), at: .top, animated: true)
             }
+        }
+    }
+    
+    // MARK: Replace sections
+    
+    func makeReplaceSectionItemsActionCellItem() -> CollectionViewCellItem {
+        return makeActionCellItem(title: "Replace sections") { [weak self] in
+            guard let `self` = self else {
+                return
+            }
+    
+            var sectionItems: [CollectionViewSectionItem] = []
+            for _ in 0..<2 {
+                sectionItems.append(self.makeImagesSectionItem(images: self.shuffledImages))
+            }
+            
+            let replaceIndexes = Array(0..<self.mainCollectionViewManager.sectionItems.count)
+            self.mainCollectionViewManager.replace(sectionItemsAt: replaceIndexes, with: sectionItems)
         }
     }
     

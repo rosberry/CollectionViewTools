@@ -444,10 +444,11 @@ open class CollectionViewManager: NSObject {
             return
         }
         perform(updates: { collectionView in
+            sectionItems.forEach { sectionItem in
+                register(sectionItem)
+            }
+            
             if indexes.count == sectionItems.count {
-                sectionItems.forEach { sectionItem in
-                    register(sectionItem)
-                }
                 zip(sectionItems, indexes).forEach { sectionItem, index in
                     _sectionItems[index] = sectionItem
                 }
@@ -458,6 +459,7 @@ open class CollectionViewManager: NSObject {
                 indexes.sorted().reversed().forEach { index in
                     _sectionItems.remove(at: index)
                 }
+                _sectionItems = sectionItems
                 
                 collectionView?.deleteSections(.init(indexes))
                 collectionView?.insertSections(.init(firstIndex..<sectionItems.count))
