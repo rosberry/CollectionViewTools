@@ -387,7 +387,7 @@ class MainViewController: UIViewController {
     // MARK: Common
     
     func makeActionCellItem(title: String, action: @escaping (() -> Void)) -> CollectionViewCellItem {
-        var cellItem = TextCellItem(text: title)
+        let cellItem = TextCellItem(text: title)
         cellItem.itemDidSelectHandler = { _, _ in
             action()
         }

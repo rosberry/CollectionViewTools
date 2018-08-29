@@ -5,7 +5,6 @@
 //
 
 import CollectionViewTools
-
 import Foundation
 
 final class ImageCellItem: CollectionViewCellItem {

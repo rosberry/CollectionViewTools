@@ -227,6 +227,7 @@ open class CollectionViewManager: NSObject {
     /// - Parameter cellItem: The cell item which need to be registered
     open func register(_ cellItem: CellItem) {
         collectionView.register(by: cellItem.reuseType)
+        cellItem.collectionView = collectionView
     }
     
     // MARK: - Updates for cell items

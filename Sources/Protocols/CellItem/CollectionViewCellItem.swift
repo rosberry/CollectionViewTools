@@ -5,35 +5,64 @@
 //
 
 import UIKit.UICollectionView
+import ObjectiveC.runtime
 
 // MARK: - CollectionViewCellItem
 
-public protocol CollectionViewCellItem: AnyObject,
+public protocol CollectionViewCellItem: CollectionViewConfigureCellItem,
                                         CollectionViewReuseCellItem,
                                         CollectionViewSizeCellItem,
                                         CollectionViewGeneralCellItem,
-                                        CollectionViewCellItemDataSource {
-    func configure(cell: UICollectionViewCell, at indexPath: IndexPath)
+                                        CollectionViewCellItemDataSource,
+                                        CollectionViewSiblingCellItem {
+    
 }
 
-// MARK: - CollectionViewReuseCellItemProtocol
+// MARK: - CollectionViewReuseCellItem
 
-public protocol CollectionViewReuseCellItem {
+public protocol CollectionViewReuseCellItem: AnyObject {
     var reuseType: ReuseType { get }
 }
 
-// MARK: - CollectionViewSizeCellItemProtocol
+// MARK: - CollectionViewSizeCellItem
 
-public protocol CollectionViewSizeCellItem {
+public protocol CollectionViewSizeCellItem: AnyObject {
     func size(for collectionView: UICollectionView, with layout: UICollectionViewLayout, at indexPath: IndexPath) -> CGSize
 }
 
-// MARK: - CollectionViewGeneralCellItemProtocol
+// MARK: - CollectionViewConfigureCellItem
+
+public protocol CollectionViewConfigureCellItem: AnyObject {
+    func configure(cell: UICollectionViewCell, at indexPath: IndexPath)
+}
+
+// MARK: - CollectionViewConfigureCellItem
+
+public protocol CollectionViewSiblingCellItem: AnyObject {
+    var collectionView: UICollectionView { get set }
+}
+
+extension CollectionViewSiblingCellItem {
+    public var collectionView: UICollectionView {
+        get {
+            if let collectionView = objc_getAssociatedObject(self, &AssociatedKeys.collectionView) as? UICollectionView {
+                return collectionView
+            }
+            fatalError("You should never get this error if you use collection view tools properly. " +
+                               "The reason is that you create cell item and didn't set collection view")
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.collectionView, newValue, .OBJC_ASSOCIATION_ASSIGN)
+        }
+    }
+}
+
+// MARK: - CollectionViewGeneralCellItem
 
 public typealias ActionHandler = ((UICollectionView, IndexPath) -> Void)
 public typealias ActionResolver = ((UICollectionView, IndexPath) -> Bool)
 
-public protocol CollectionViewGeneralCellItem {
+public protocol CollectionViewGeneralCellItem: AnyObject {
     
     var itemShouldHighlightHandler: ActionResolver? { get set }
     var itemDidHighlightHandler: ActionHandler? { get set }
@@ -85,6 +114,8 @@ private enum AssociatedKeys {
     static var didEndDisplayingCellHandler = "rsb_didEndDisplayingCellHandler"
     static var didEndDisplayingViewHandler = "rsb_didEndDisplayingViewHandler"
     static var canMoveHandler = "rsb_canMoveHandler"
+    
+    static var collectionView = "rsb_collectionView"
 }
 
 public extension CollectionViewGeneralCellItem {
