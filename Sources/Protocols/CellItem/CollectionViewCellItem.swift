@@ -41,6 +41,7 @@ public protocol CollectionViewConfigureCellItem: AnyObject {
 public protocol CollectionViewSiblingCellItem: AnyObject {
     var collectionView: UICollectionView { get set }
     var indexPath: IndexPath { get set }
+    var sectionItem: CollectionViewSectionItem? { get set }
 }
 
 extension CollectionViewSiblingCellItem {
@@ -67,6 +68,18 @@ extension CollectionViewSiblingCellItem {
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.indexPath, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    public weak var sectionItem: CollectionViewSectionItem? {
+        get {
+            if let object = objc_getAssociatedObject(self, &AssociatedKeys.sectionItem) as? CollectionViewSectionItem {
+                return object
+            }
+            return nil
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.sectionItem, newValue, .OBJC_ASSOCIATION_ASSIGN)
         }
     }
 }
@@ -134,6 +147,7 @@ private enum AssociatedKeys {
     
     static var collectionView = "rsb_collectionView"
     static var indexPath = "rsb_indexPath"
+    static var sectionItem = "rsb_sectionItem"
 }
 
 public extension CollectionViewGeneralCellItem {

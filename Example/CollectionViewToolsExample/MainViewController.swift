@@ -91,7 +91,7 @@ class MainViewController: UIViewController {
     // MARK: - Factory methods
     
     func makeImagesSectionItem(images: [UIImage]) -> CollectionViewSectionItem {
-        let sectionItem = GeneralCollectionViewSectionItem()
+        let sectionItem = ExampleSectionItem()
         sectionItem.cellItems = images.map { image in
             return makeImageCellItem(image: image)
         }
@@ -115,7 +115,7 @@ class MainViewController: UIViewController {
     // MARK: Actions cell items
     
     func makeActionsSectionItem() -> CollectionViewSectionItem {
-        let sectionItem = GeneralCollectionViewSectionItem()
+        let sectionItem = ExampleSectionItem()
         sectionItem.cellItems = [
             makeResetActionCellItem(),
             // Insert cells

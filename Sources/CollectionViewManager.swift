@@ -137,14 +137,16 @@ open class CollectionViewManager: NSObject {
     // MARK: - Registration
     
     /// Use this function to force cells and reusable views registration process if you override add/replace/reload methods
-    /// Also in this method section item got set collection view and perform setting index paths for cell items.
+    /// Also in this method section item got set collection view and perform setting index paths and section item for cell items.
     /// So pay attention to the order of operations for section items updates methods. Set correct index for section item first.
+    /// And don't forget to set `sectionItem` property for cell items.
     ///
     /// - Parameter sectionItem: The section item with cell items which need to be registered
     open func register(_ sectionItem: CollectionViewSectionItem) {
         sectionItem.collectionView = collectionView
         sectionItem.cellItems.enumerated().forEach { (index, cellItem) in
             cellItem.indexPath = .init(row: index, section: sectionItem.index)
+            cellItem.sectionItem = sectionItem
             register(cellItem)
         }
         sectionItem.reusableViewItems.forEach { reusableViewItem in
@@ -217,6 +219,7 @@ open class CollectionViewManager: NSObject {
             zip(cellItems, indexes).forEach { cellItem, index in
                 register(cellItem)
                 sectionItem.cellItems.insert(cellItem, at: index)
+                cellItem.sectionItem = sectionItem
             }
             self?.recalculateIndexPaths(in: sectionItem)
             
@@ -268,6 +271,7 @@ open class CollectionViewManager: NSObject {
         perform(updates: { [weak self] collectionView in
             cellItems.forEach { cellItem in
                 register(cellItem)
+                cellItem.sectionItem = sectionItem
             }
             
             if indexes.count == cellItems.count {
