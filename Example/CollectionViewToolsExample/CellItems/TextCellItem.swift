@@ -12,6 +12,10 @@ final class TextCellItem: CollectionViewCellItem {
         self.text = text
     }
     
+    deinit {
+        print("\(self) deinit")
+    }
+    
     private typealias Cell = TextCollectionViewCell
     private(set) var reuseType: ReuseType = .class(Cell.self)
     

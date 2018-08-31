@@ -28,6 +28,10 @@ final class ImageCellItem: CollectionViewCellItem {
         self.selectionHandler = selectionHandler
     }
     
+    deinit {
+        print("\(self) deinit")
+    }
+    
     func size() -> CGSize {
         let ratio = image.size.width / image.size.height
         let width = collectionView.bounds.width / 2 - 16
