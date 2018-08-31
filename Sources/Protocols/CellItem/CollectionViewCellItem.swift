@@ -27,26 +27,27 @@ public protocol CollectionViewReuseCellItem: AnyObject {
 // MARK: - CollectionViewSizeCellItem
 
 public protocol CollectionViewSizeCellItem: AnyObject {
-    func size(for collectionView: UICollectionView, with layout: UICollectionViewLayout, at indexPath: IndexPath) -> CGSize
+    func size() -> CGSize
 }
 
 // MARK: - CollectionViewConfigureCellItem
 
 public protocol CollectionViewConfigureCellItem: AnyObject {
-    func configure(cell: UICollectionViewCell, at indexPath: IndexPath)
+    func configure(_ cell: UICollectionViewCell)
 }
 
-// MARK: - CollectionViewConfigureCellItem
+// MARK: - CollectionViewSiblingCellItem
 
 public protocol CollectionViewSiblingCellItem: AnyObject {
     var collectionView: UICollectionView { get set }
+    var indexPath: IndexPath { get set }
 }
 
 extension CollectionViewSiblingCellItem {
     public var collectionView: UICollectionView {
         get {
-            if let collectionView = objc_getAssociatedObject(self, &AssociatedKeys.collectionView) as? UICollectionView {
-                return collectionView
+            if let object = objc_getAssociatedObject(self, &AssociatedKeys.collectionView) as? UICollectionView {
+                return object
             }
             fatalError("You should never get this error if you use collection view tools properly. " +
                                "The reason is that you create cell item and didn't set collection view")
@@ -55,49 +56,65 @@ extension CollectionViewSiblingCellItem {
             objc_setAssociatedObject(self, &AssociatedKeys.collectionView, newValue, .OBJC_ASSOCIATION_ASSIGN)
         }
     }
+    
+    public var indexPath: IndexPath {
+        get {
+            if let object = objc_getAssociatedObject(self, &AssociatedKeys.indexPath) as? IndexPath {
+                return object
+            }
+            fatalError("You should never get this error if you use collection view tools properly. " +
+                               "The reason is that you create cell item and didn't set index path")
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.indexPath, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
 }
 
 // MARK: - CollectionViewGeneralCellItem
 
-public typealias ActionHandler = ((UICollectionView, IndexPath) -> Void)
-public typealias ActionResolver = ((UICollectionView, IndexPath) -> Bool)
+public typealias ActionHandler = () -> Void
+public typealias ActionResolver = () -> Bool
+public typealias CellActionHandler = (UICollectionViewCell) -> Void
+public typealias ViewActionHandler = (UICollectionReusableView, String, UICollectionView, IndexPath) -> Void
 
 public protocol CollectionViewGeneralCellItem: AnyObject {
     
-    var itemShouldHighlightHandler: ActionResolver? { get set }
+    var itemShouldHighlightResolver: ActionResolver? { get set }
     var itemDidHighlightHandler: ActionHandler? { get set }
     var itemDidUnhighlightHandler: ActionHandler? { get set }
     
     var itemDidSelectHandler: ActionHandler? { get set }
     var itemDidDeselectHandler: ActionHandler? { get set }
-    var itemShouldSelectHandler: ActionResolver? { get set }
-    var itemShouldDeselectHandler: ActionResolver? { get set }
+    var itemShouldSelectResolver: ActionResolver? { get set }
+    var itemShouldDeselectResolver: ActionResolver? { get set }
     
-    var itemWillDisplayCellHandler: ActionHandler? { get set }
-    var itemWillDisplayViewHandler: ActionHandler? { get set }
-    var itemDidEndDisplayingCellHandler: ActionHandler? { get set }
-    var itemDidEndDisplayingViewHandler: ActionHandler? { get set }
+    var itemWillDisplayCellHandler: CellActionHandler? { get set }
+    var itemDidEndDisplayingCellHandler: CellActionHandler? { get set }
+    var itemWillDisplayViewHandler: ViewActionHandler? { get set }
+    var itemDidEndDisplayingViewHandler: ViewActionHandler? { get set }
     
-    var itemCanMoveHandler: ActionResolver? { get set }
+    var itemCanMoveResolver: ActionResolver? { get set }
     
-    func shouldHighlight(for collectionView: UICollectionView, at indexPath: IndexPath) -> Bool
-    func didHighlight(for collectionView: UICollectionView, at indexPath: IndexPath)
-    func didUnhighlight(for collectionView: UICollectionView, at indexPath: IndexPath)
+    func shouldHighlight() -> Bool
+    func didHighlight()
+    func didUnhighlight()
     
-    func shouldSelect(for collectionView: UICollectionView, at indexPath: IndexPath) -> Bool
-    func shouldDeselect(for collectionView: UICollectionView, at indexPath: IndexPath) -> Bool
-    func didSelect(for collectionView: UICollectionView, at indexPath: IndexPath)
-    func didDeselect(for collectionView: UICollectionView, at indexPath: IndexPath)
+    func shouldSelect() -> Bool
+    func shouldDeselect() -> Bool
+    func didSelect()
+    func didDeselect()
     
-    func willDisplay(cell: UICollectionViewCell, for collectionView: UICollectionView, at indexPath: IndexPath)
+    func willDisplay(cell: UICollectionViewCell)
+    func didEndDisplaying(cell: UICollectionViewCell)
+    
     func willDisplay(view: UICollectionReusableView, for elementKind: String, for collectionView: UICollectionView, at indexPath: IndexPath)
-    func didEndDisplaying(cell: UICollectionViewCell, for collectionView: UICollectionView, at indexPath: IndexPath)
     func didEndDisplaying(view: UICollectionReusableView,
                           for elementKind: String,
                           for collectionView: UICollectionView,
                           at indexPath: IndexPath)
     
-    func canMove(for collectionView: UICollectionView, at indexPath: IndexPath) -> Bool
+    func canMove() -> Bool
 }
 
 private enum AssociatedKeys {
@@ -116,13 +133,14 @@ private enum AssociatedKeys {
     static var canMoveHandler = "rsb_canMoveHandler"
     
     static var collectionView = "rsb_collectionView"
+    static var indexPath = "rsb_indexPath"
 }
 
 public extension CollectionViewGeneralCellItem {
     
     // MARK: - Handlers
     
-    var itemShouldHighlightHandler: ActionResolver? {
+    var itemShouldHighlightResolver: ActionResolver? {
         get {
             return ClosureWrapper<ActionResolver>.handler(for: self, key: &AssociatedKeys.shouldHighlightHandler)
         }
@@ -167,7 +185,7 @@ public extension CollectionViewGeneralCellItem {
         }
     }
     
-    var itemShouldSelectHandler: ActionResolver? {
+    var itemShouldSelectResolver: ActionResolver? {
         get {
             return ClosureWrapper<ActionResolver>.handler(for: self, key: &AssociatedKeys.shouldSelectHandler)
         }
@@ -176,7 +194,7 @@ public extension CollectionViewGeneralCellItem {
         }
     }
     
-    var itemShouldDeselectHandler: ActionResolver? {
+    var itemShouldDeselectResolver: ActionResolver? {
         get {
             return ClosureWrapper<ActionResolver>.handler(for: self, key: &AssociatedKeys.shouldDeselectHandler)
         }
@@ -185,43 +203,43 @@ public extension CollectionViewGeneralCellItem {
         }
     }
     
-    var itemWillDisplayCellHandler: ActionHandler? {
+    var itemWillDisplayCellHandler: CellActionHandler? {
         get {
-            return ClosureWrapper<ActionHandler>.handler(for: self, key: &AssociatedKeys.willDisplayCellHandler)
+            return ClosureWrapper<CellActionHandler>.handler(for: self, key: &AssociatedKeys.willDisplayCellHandler)
         }
         set {
-            ClosureWrapper<ActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.willDisplayCellHandler)
+            ClosureWrapper<CellActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.willDisplayCellHandler)
         }
     }
     
-    var itemWillDisplayViewHandler: ActionHandler? {
+    var itemDidEndDisplayingCellHandler: CellActionHandler? {
         get {
-            return ClosureWrapper<ActionHandler>.handler(for: self, key: &AssociatedKeys.willDisplayViewHandler)
+            return ClosureWrapper<CellActionHandler>.handler(for: self, key: &AssociatedKeys.didEndDisplayingCellHandler)
         }
         set {
-            ClosureWrapper<ActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.willDisplayViewHandler)
+            ClosureWrapper<CellActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.didEndDisplayingCellHandler)
         }
     }
     
-    var itemDidEndDisplayingCellHandler: ActionHandler? {
+    var itemWillDisplayViewHandler: ViewActionHandler? {
         get {
-            return ClosureWrapper<ActionHandler>.handler(for: self, key: &AssociatedKeys.didEndDisplayingCellHandler)
+            return ClosureWrapper<ViewActionHandler>.handler(for: self, key: &AssociatedKeys.willDisplayViewHandler)
         }
         set {
-            ClosureWrapper<ActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.didEndDisplayingCellHandler)
+            ClosureWrapper<ViewActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.willDisplayViewHandler)
         }
     }
     
-    var itemDidEndDisplayingViewHandler: ActionHandler? {
+    var itemDidEndDisplayingViewHandler: ViewActionHandler? {
         get {
-            return ClosureWrapper<ActionHandler>.handler(for: self, key: &AssociatedKeys.didEndDisplayingViewHandler)
+            return ClosureWrapper<ViewActionHandler>.handler(for: self, key: &AssociatedKeys.didEndDisplayingViewHandler)
         }
         set {
-            ClosureWrapper<ActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.didEndDisplayingViewHandler)
+            ClosureWrapper<ViewActionHandler>.setHandler(newValue, for: self, key: &AssociatedKeys.didEndDisplayingViewHandler)
         }
     }
     
-    var itemCanMoveHandler: ActionResolver? {
+    var itemCanMoveResolver: ActionResolver? {
         get {
             return ClosureWrapper<ActionResolver>.handler(for: self, key: &AssociatedKeys.canMoveHandler)
         }
@@ -232,61 +250,61 @@ public extension CollectionViewGeneralCellItem {
     
     // MARK: - Functions
     
-    func size(for collectionView: UICollectionView, with layout: UICollectionViewLayout, at indexPath: IndexPath) -> CGSize {
+    func shouldHighlight() -> Bool {
+        return itemShouldHighlightResolver?() ?? true
+    }
+    
+    func didHighlight() {
+        itemDidHighlightHandler?()
+    }
+    
+    func didUnhighlight() {
+        itemDidUnhighlightHandler?()
+    }
+    
+    func shouldSelect() -> Bool {
+        return itemShouldSelectResolver?() ?? true
+    }
+    
+    func shouldDeselect() -> Bool {
+        return itemShouldDeselectResolver?() ?? true
+    }
+    
+    func didSelect() {
+        itemDidSelectHandler?()
+    }
+    
+    func didDeselect() {
+        itemDidDeselectHandler?()
+    }
+    
+    func willDisplay(cell: UICollectionViewCell) {
+        itemWillDisplayCellHandler?(cell)
+    }
+    
+    func didEndDisplaying(cell: UICollectionViewCell) {
+        itemDidEndDisplayingCellHandler?(cell)
+    }
+    
+    func canMove() -> Bool {
+        return itemCanMoveResolver?() ?? false
+    }
+    
+    func size() -> CGSize {
         return CGSize(width: 50, height: 50)
-    }
-    
-    func shouldHighlight(for collectionView: UICollectionView, at indexPath: IndexPath) -> Bool {
-        return itemShouldHighlightHandler?(collectionView, indexPath) ?? true
-    }
-    
-    func didHighlight(for collectionView: UICollectionView, at indexPath: IndexPath) {
-        itemDidHighlightHandler?(collectionView, indexPath)
-    }
-    
-    func didUnhighlight(for collectionView: UICollectionView, at indexPath: IndexPath) {
-        itemDidUnhighlightHandler?(collectionView, indexPath)
-    }
-    
-    func shouldSelect(for collectionView: UICollectionView, at indexPath: IndexPath) -> Bool {
-        return itemShouldSelectHandler?(collectionView, indexPath) ?? true
-    }
-    
-    func shouldDeselect(for collectionView: UICollectionView, at indexPath: IndexPath) -> Bool {
-        return itemShouldDeselectHandler?(collectionView, indexPath) ?? true
-    }
-    
-    func didSelect(for collectionView: UICollectionView, at indexPath: IndexPath) {
-        itemDidSelectHandler?(collectionView, indexPath)
-    }
-    
-    func didDeselect(for collectionView: UICollectionView, at indexPath: IndexPath) {
-        itemDidDeselectHandler?(collectionView, indexPath)
-    }
-    
-    func willDisplay(cell: UICollectionViewCell, for collectionView: UICollectionView, at indexPath: IndexPath) {
-        itemWillDisplayCellHandler?(collectionView, indexPath)
     }
     
     func willDisplay(view: UICollectionReusableView,
                      for elementKind: String,
                      for collectionView: UICollectionView,
                      at indexPath: IndexPath) {
-        itemWillDisplayViewHandler?(collectionView, indexPath)
-    }
-    
-    func didEndDisplaying(cell: UICollectionViewCell, for collectionView: UICollectionView, at indexPath: IndexPath) {
-        itemDidEndDisplayingCellHandler?(collectionView, indexPath)
+        itemWillDisplayViewHandler?(view, elementKind, collectionView, indexPath)
     }
     
     func didEndDisplaying(view: UICollectionReusableView,
                           for elementKind: String,
                           for collectionView: UICollectionView,
                           at indexPath: IndexPath) {
-        itemDidEndDisplayingViewHandler?(collectionView, indexPath)
-    }
-    
-    func canMove(for collectionView: UICollectionView, at indexPath: IndexPath) -> Bool {
-        return itemCanMoveHandler?(collectionView, indexPath) ?? false
+        itemDidEndDisplayingViewHandler?(view, elementKind, collectionView, indexPath)
     }
 }

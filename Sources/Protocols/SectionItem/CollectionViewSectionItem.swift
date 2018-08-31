@@ -5,28 +5,55 @@
 //
 
 import UIKit.UICollectionView
+import ObjectiveC.runtime
 
-public protocol CollectionViewSectionItem: AnyObject {
-    
+public protocol CollectionViewSectionItem: CollectionViewSiblingSectionItem {
     var cellItems: [CollectionViewManager.CellItem] { get set }
     var reusableViewItems: [CollectionViewReusableViewItem] { get set }
     
-    func inset(for collectionView: UICollectionView, with layout: UICollectionViewLayout) -> UIEdgeInsets
-    func minimumLineSpacing(for collectionView: UICollectionView, with layout: UICollectionViewLayout) -> CGFloat
-    func minimumInteritemSpacing(for collectionView: UICollectionView, with layout: UICollectionViewLayout) -> CGFloat
+    var minimumLineSpacing: CGFloat { get set }
+    var minimumInteritemSpacing: CGFloat { get set }
+    var insets: UIEdgeInsets { get set }
 }
 
-public extension CollectionViewSectionItem {
-    
-    func inset(for collectionView: UICollectionView, with layout: UICollectionViewLayout) -> UIEdgeInsets {
-        return .zero
+// MARK: - CollectionViewSiblingSectionItem
+
+public protocol CollectionViewSiblingSectionItem: AnyObject {
+    var collectionView: UICollectionView { get set }
+    var index: Int { get set }
+}
+
+extension CollectionViewSiblingSectionItem {
+    public var collectionView: UICollectionView {
+        get {
+            if let object = objc_getAssociatedObject(self, &AssociatedKeys.collectionView) as? UICollectionView {
+                return object
+            }
+            fatalError("You should never get this error if you use collection view tools properly. " +
+                               "The reason is that you create cell item and didn't set collection view")
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.collectionView, newValue, .OBJC_ASSOCIATION_ASSIGN)
+        }
     }
     
-    func minimumLineSpacing(for collectionView: UICollectionView, with layout: UICollectionViewLayout) -> CGFloat {
-        return 0
+    public var index: Int {
+        get {
+            if let object = objc_getAssociatedObject(self, &AssociatedKeys.index) as? Int {
+                return object
+            }
+            fatalError("You should never get this error if you use collection view tools properly. " +
+                               "The reason is that you create section item and didn't set index")
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.index, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
     }
-    
-    func minimumInteritemSpacing(for collectionView: UICollectionView, with layout: UICollectionViewLayout) -> CGFloat {
-        return 0
-    }
+}
+
+// MARK: AssociatedKeys
+
+private enum AssociatedKeys {
+    static var index = "rsb_index"
+    static var collectionView = "rsb_collectionView"
 }

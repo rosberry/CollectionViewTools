@@ -15,7 +15,7 @@ final class ImageCellItem: CollectionViewCellItem {
     private let selectionHandler: (UIImage) -> Void
     var removeActionHandler: (() -> Void)?
     
-    func configure(cell: UICollectionViewCell, at indexPath: IndexPath) {
+    func configure(_ cell: UICollectionViewCell) {
         guard let cell = cell as? Cell else {
             return
         }
@@ -28,17 +28,13 @@ final class ImageCellItem: CollectionViewCellItem {
         self.selectionHandler = selectionHandler
     }
     
-    func size(for collectionView: UICollectionView, at indexPath: IndexPath) -> CGSize {
-        return collectionView.bounds.size
-    }
-    
-    func size(for collectionView: UICollectionView, with layout: UICollectionViewLayout, at indexPath: IndexPath) -> CGSize {
+    func size() -> CGSize {
         let ratio = image.size.width / image.size.height
         let width = collectionView.bounds.width / 2 - 16
         return .init(width: width, height: width / ratio)
     }
     
-    func didSelect(for collectionView: UICollectionView, at indexPath: IndexPath) {
+    func didSelect() {
         selectionHandler(image)
     }
 }

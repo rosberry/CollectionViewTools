@@ -14,28 +14,25 @@ extension CollectionViewManager: UICollectionViewDelegateFlowLayout {
         guard let cellItem = cellItem(for: indexPath) else {
             return .zero
         }
-        return cellItem.size(for: collectionView, with: collectionViewLayout, at: indexPath)
+        return cellItem.size()
     }
     
     open func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              insetForSectionAt section: Int) -> UIEdgeInsets {
-        let sectionItem = _sectionItems[section]
-        return sectionItem.inset(for: collectionView, with: collectionViewLayout)
+        return _sectionItems[section].insets
     }
     
     open func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        let sectionItem = _sectionItems[section]
-        return sectionItem.minimumLineSpacing(for: collectionView, with: collectionViewLayout)
+        return _sectionItems[section].minimumLineSpacing
     }
     
     open func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        let sectionItem = _sectionItems[section]
-        return sectionItem.minimumInteritemSpacing(for: collectionView, with: collectionViewLayout)
+        return _sectionItems[section].minimumInteritemSpacing
     }
     
     open func collectionView(_ collectionView: UICollectionView,
