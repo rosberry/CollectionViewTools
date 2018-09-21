@@ -40,6 +40,7 @@ class MainViewController: UIViewController {
     lazy var mainCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.backgroundColor = .clear
+        collectionView.alwaysBounceVertical = true
         return collectionView
     }()
     

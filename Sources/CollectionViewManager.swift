@@ -32,14 +32,7 @@ open class CollectionViewManager: NSObject {
                                    _ destinationIndexPath: IndexPath) -> Void)?
     
     /// Use this property instead of `sectionItems` internally to avoid every time reload during update operations.
-    internal var _sectionItems = [CollectionViewSectionItem]() {
-        didSet {
-            _sectionItems.enumerated().forEach { (index, sectionItem) in
-                sectionItem.index = index
-                register(sectionItem)
-            }
-        }
-    }
+    internal var _sectionItems = [CollectionViewSectionItem]()
     
     /// Array of `CollectionViewSectionItem` objects, which respond for configuration of specified section in collection view.
     /// Setting this property leads collection view to reload data. If you don't need this behaviour use update methods instead.
@@ -49,9 +42,12 @@ open class CollectionViewManager: NSObject {
         }
         set {
             _sectionItems = newValue
+            registerSectionItems()
             collectionView.reloadData()
         }
     }
+    
+    // MARK: Life cycle
     
     public init(collectionView: UICollectionView) {
         self.collectionView = collectionView
@@ -62,6 +58,8 @@ open class CollectionViewManager: NSObject {
             self.collectionView.prefetchDataSource = self
         }
     }
+    
+    // MARK: - Subscripts
     
     /// Accesses the section item at the specified position.
     ///
@@ -79,6 +77,8 @@ open class CollectionViewManager: NSObject {
     public subscript(indexPath: IndexPath) -> CellItem? {
         return cellItem(for: indexPath)
     }
+    
+    // MARK: - Common methods
     
     /// Reloads cells, associated with passed cell items.
     ///
@@ -134,6 +134,13 @@ open class CollectionViewManager: NSObject {
         }
     }
     
+    /// Use this method if you need to set new section items without reloading data.
+    /// This method invokes register methods.
+    open func updateSectionItemsWithoutReloadData(_ sectionItems: [CollectionViewSectionItem]) {
+        _sectionItems = sectionItems
+        registerSectionItems()
+    }
+    
     // MARK: - Registration
     
     /// Use this function to force cells and reusable views registration process if you override add/replace/reload methods
@@ -182,10 +189,15 @@ open class CollectionViewManager: NSObject {
         }
     }
     
-    /// Use this function to force update indexes for all section items during custom update operations.
-    open func recalculateSectionsIndexes() {
+    /// Use this function to force update indexes for all section
+    /// items and inner cell items during custom update operations.
+    open func recalculateIndexes() {
         _sectionItems.enumerated().forEach { index, sectionItem in
             sectionItem.index = index
+            sectionItem.cellItems.enumerated().forEach { (index, cellItem) in
+                cellItem.indexPath = .init(row: index, section: sectionItem.index)
+                cellItem.sectionItem = sectionItem
+            }
         }
     }
     
@@ -359,7 +371,7 @@ open class CollectionViewManager: NSObject {
             zip(sectionItems, indexes).forEach { sectionItem, index in
                 _sectionItems.insert(sectionItem, at: index)
             }
-            self?.recalculateSectionsIndexes()
+            self?.recalculateIndexes()
             sectionItems.forEach { sectionItem in
                 register(sectionItem)
             }
@@ -417,7 +429,7 @@ open class CollectionViewManager: NSObject {
                 }
                 
                 _sectionItems.insert(contentsOf: sectionItems, at: firstIndex)
-                self?.recalculateSectionsIndexes()
+                self?.recalculateIndexes()
                 
                 sectionItems.forEach { sectionItem in
                     register(sectionItem)
@@ -452,7 +464,7 @@ open class CollectionViewManager: NSObject {
             indexes.forEach { index in
                 _sectionItems.remove(at: index)
             }
-            self?.recalculateSectionsIndexes()
+            self?.recalculateIndexes()
             collectionView?.deleteSections(IndexSet(indexes))
         }, completion: completion)
     }
@@ -464,5 +476,13 @@ open class CollectionViewManager: NSObject {
         collectionView.performBatchUpdates({ [weak collectionView] in
             updates(collectionView)
         }, completion: completion)
+    }
+    
+    /// Use this method to perform register and set indexes operations for all section items.
+    private func registerSectionItems() {
+        _sectionItems.enumerated().forEach { (index, sectionItem) in
+            sectionItem.index = index
+            register(sectionItem)
+        }
     }
 }
