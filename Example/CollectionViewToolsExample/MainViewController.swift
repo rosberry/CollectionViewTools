@@ -374,7 +374,7 @@ class MainViewController: UIViewController {
             guard let `self` = self else {
                 return
             }
-    
+            
             var sectionItems: [CollectionViewSectionItem] = []
             for _ in 0..<2 {
                 sectionItems.append(self.makeImagesSectionItem(images: self.shuffledImages))

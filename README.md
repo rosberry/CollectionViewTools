@@ -14,11 +14,10 @@ Effective framework, similar to [TableViewTools](https://github.com/rosberry/Tab
 - Separate layer that synchronizes data with the cell appearance
 - Full implementation of UICollectionViewDelegate and UICollectionViewDataSource under the hood
 - Support of protocols and subclasses as data models
-- No type casts and switches required
 
 ## Requirements
 
-- iOS 8.0+
+- iOS 8.2+
 - Xcode 8.0+
 
 ## Installation
@@ -31,10 +30,10 @@ github "rosberry/CollectionViewTools"
 ```
 
 #### CocoaPods
-You can use [CocoaPods](http://cocoapods.org/) to install `Product Name` by adding it to your `Podfile`:
+You can use [CocoaPods](http://cocoapods.org/) to install `CollectionViewTools` by adding it to your `Podfile`:
 
 ```ruby
-platform :ios, '8.0'
+platform :ios, '8.2'
 use_frameworks!
 pod 'CollectionViewTools'
 ```
@@ -47,20 +46,17 @@ Drag `Sources` folder from [last release](https://github.com/rosberry/Collection
 #### Creating manager
 
 ```swift
-manager = CollectionViewManager(collectionView: collectionView)
+let manager = CollectionViewManager(collectionView: collectionView)
 ```
 
 #### Creating section
 
 ```swift
 let titles = ["Item 1", "Item 2", "Item 3"]
-var cellItems = [ExampleCollectionViewCellItem]()
-titles.forEach { title in
-let cellItem = ExampleCollectionViewCellItem(title: title)
-    cellItems.append(cellItem)
+var cellItems = titles.map { title in
+    return ExampleCollectionViewCellItem(title: title)
 }
-
-let sectionItem = CollectionViewSectionItem(cellItems: cellItems)
+let sectionItem = GeneralCollectionViewSectionItem(cellItems: cellItems)
 manager.sectionItems = [sectionItem]
 ```
 
@@ -69,32 +65,31 @@ manager.sectionItems = [sectionItem]
 ```swift
 class ExampleCollectionViewCellItem: CollectionViewCellItem {
     
-    private let title: String
+    typealias Cell = ExampleCollectionViewCell
+    private(set) var reuseType: ReuseType = .class(Cell.self)
     
-    var reuseType = ReuseType(cellClass: ExampleCollectionViewCell.self)
+    private let title: String
     
     init(title: String) {
         self.title = title
     }
     
-    func size(for collectionView: UICollectionView, at indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 100, height: 40)
-    }
-    
-    func cell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: ExampleCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
+    func configure(_ cell: UICollectionViewCell) {
+        guard let cell = cell as? Cell else {
+            return
+        }
         cell.titleLabel.text = title
-        return cell
     }
     
-    func size(for collectionView: UICollectionView, with layout: UICollectionViewLayout, at indexPath: IndexPath) -> CGSize {
-        return size(for: collectionView, at: indexPath)
+    func size() -> CGSize {
+        return CGSize(width: 100, height: 40)
     }
 }
 ```
 
 ## Authors
 
+* Anton Kovalev, anton.kovalev@rosberry.com
 * Dmitry Frishbuter, dmitry.frishbuter@rosberry.com
 * Artem Novichkov, artem.novichkov@rosberry.com
 
