@@ -12,9 +12,9 @@ public enum ReusableViewType {
     public var kind: String {
         switch self {
             case .header:
-                return UICollectionElementKindSectionHeader
-            case .footer: return
-                UICollectionElementKindSectionFooter
+                return UICollectionView.elementKindSectionHeader
+            case .footer:
+                return UICollectionView.elementKindSectionFooter
         }
     }
 }

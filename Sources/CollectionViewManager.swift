@@ -103,7 +103,7 @@ open class CollectionViewManager: NSObject {
     ///   - scrollPosition: A constant that identifies a relative position in the collection view (top, middle, bottom) for item when
     /// scrolling concludes. See UICollectionViewScrollPosition for descriptions of valid constants.
     ///   - animated: true if you want to animate the change in position; false if it should be immediate.
-    open func scroll(to cellItem: CellItem, at scrollPosition: UICollectionViewScrollPosition, animated: Bool = true) {
+    open func scroll(to cellItem: CellItem, at scrollPosition: UICollectionView.ScrollPosition, animated: Bool = true) {
         collectionView.scrollToItem(at: cellItem.indexPath, at: scrollPosition, animated: animated)
     }
     

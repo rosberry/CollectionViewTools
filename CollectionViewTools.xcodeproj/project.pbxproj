@@ -244,7 +244,7 @@
 					0A3763241F6251A600A80613 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = GPVA8JVMU3;
-						LastSwiftMigration = 0910;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 					};
 					0A37632D1F6251A600A80613 = {
@@ -463,8 +463,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewTools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -484,8 +483,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewTools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
