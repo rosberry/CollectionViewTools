@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'CollectionViewTools'
-  s.version          = '0.0.5'
+  s.version          = '0.1.0'
   s.summary          = 'Powerful tool for making UICollectionView usage simple and comfortable.'
 
 # This description is used to generate tags and improve search results.
@@ -26,7 +26,7 @@ Effective framework, similar to TableViewTools for making your UICollectionView 
   s.author           = { 'Dmitry Frishbuter' => 'dmitry.frishbuter@rosberry.com' }
   s.source           = { :git => 'https://github.com/DmitryFrishbuter/CollectionViewTools.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '8.2'
 
   s.source_files = 'Sources/**/*'
   
