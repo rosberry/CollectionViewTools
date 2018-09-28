@@ -1,7 +1,7 @@
 # CollectionViewTools
 
 [![Platform](https://img.shields.io/cocoapods/p/CollectionViewTools.svg?style=flat)](http://cocoapods.org/pods/CollectionViewTools)
-[![Swift Version](https://img.shields.io/badge/swift-3.0-orange.svg)](https://swift.org/)
+[![Swift Version](https://img.shields.io/badge/swift-4.2-orange.svg)](https://swift.org/)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-blue.svg)](https://github.com/Carthage/Carthage)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/CollectionViewTools.svg)](https://img.shields.io/cocoapods/v/CollectionViewTools.svg)
 [![SPM Compatible](https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat)](https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat)
