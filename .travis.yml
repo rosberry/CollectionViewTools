@@ -11,6 +11,7 @@ before_install:
 global:
 - PROJECT=CollectionViewTools.xcodeproj
 - IOS_FRAMEWORK_SCHEME="CollectionViewTools"
+- IOS_SDK=iphonesimulator
 
 matrix:
 - DESTINATION="OS=10.0,name=iPhone 7 Plus"     SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"
