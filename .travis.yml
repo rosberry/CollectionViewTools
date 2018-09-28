@@ -13,9 +13,6 @@ global:
 - IOS_FRAMEWORK_SCHEME="CollectionViewTools"
 - IOS_SDK=iphonesimulator
 
-matrix:
-- DESTINATION="OS=12.0,name=iPhone XS Max"     SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"
-
 script:
 - set -o pipefail
-- xcodebuild -project "$PROJECT" -scheme "$IOS_FRAMEWORK_SCHEME" -sdk "$IOS_SDK" -destination "$DESTINATION" build test | xcpretty -c --test --color
+- xcodebuild -project "$PROJECT" -scheme "$IOS_FRAMEWORK_SCHEME" -sdk "$IOS_SDK" build test | xcpretty -c --test --color
