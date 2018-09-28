@@ -14,6 +14,8 @@ class MainViewController: UIViewController {
     }
     var images: [UIImage] {
         var images: [UIImage] = []
+        // You can change number of cell items in section
+        // for tests easily by increasing upper bound of range.
         for _ in 0..<1 {
             images.append(contentsOf: shuffledImages)
         }
