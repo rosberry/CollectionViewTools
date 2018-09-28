@@ -41,9 +41,7 @@ open class CollectionViewManager: NSObject {
             return _sectionItems
         }
         set {
-            _sectionItems = newValue
-            registerSectionItems()
-            collectionView.reloadData()
+            update(newValue, shouldReloadData: true, completion: nil)
         }
     }
     
@@ -134,11 +132,23 @@ open class CollectionViewManager: NSObject {
         }
     }
     
-    /// Use this method if you need to set new section items without reloading data.
+    /// Use this method if you need to set new section items.
     /// This method invokes register methods.
-    open func updateSectionItemsWithoutReloadData(_ sectionItems: [CollectionViewSectionItem]) {
-        _sectionItems = sectionItems
-        registerSectionItems()
+    /// - Parameters:
+    ///   - sectionItems: Array of `CollectionViewSectionItem` objects, which respond for configuration of specified section in
+    //// collection view.
+    ///   - shouldReloadData: Set this parameter to true will invoke reloadData of the collection view.
+    ///   - completion: Will be called after reload data is finished.
+    open func update(_ sectionItems: [CollectionViewSectionItem], shouldReloadData: Bool, completion: (() -> Void)?) {
+        UIView.animate(withDuration: 0, animations: {
+            self._sectionItems = sectionItems
+            self.registerSectionItems()
+            if shouldReloadData {
+                self.collectionView.reloadData()
+            }
+        }, completion: { _ in
+            completion?()
+        })
     }
     
     // MARK: - Registration
@@ -474,8 +484,8 @@ open class CollectionViewManager: NSObject {
     /// Special wrapper for more convenient collection view updates.
     private func perform(updates: (UICollectionView?) -> Void, completion: Completion?) {
         collectionView.performBatchUpdates({ [weak collectionView] in
-            updates(collectionView)
-        }, completion: completion)
+                                               updates(collectionView)
+                                           }, completion: completion)
     }
     
     /// Use this method to perform register and set indexes operations for all section items.

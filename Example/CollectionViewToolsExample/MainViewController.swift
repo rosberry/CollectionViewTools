@@ -81,7 +81,9 @@ class MainViewController: UIViewController {
     // MARK: - Private
     
     private func resetMainCollection() {
-        mainCollectionViewManager.sectionItems = [makeImagesSectionItem(images: images)]
+        mainCollectionViewManager.update([makeImagesSectionItem(images: images)], shouldReloadData: true) {
+            print("Reload complete")
+        }
         mainCollectionView.contentOffset = .zero
     }
     
