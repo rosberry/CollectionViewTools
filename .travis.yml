@@ -1,15 +1,22 @@
 language: swift
 osx_image: xcode10
+
 env:
-    global:
-    - PROJECT=CollectionViewTools.xcodeproj
-    - IOS_FRAMEWORK_SCHEME="CollectionViewTools"
-    - IOS_SDK=iphonesimulator10.0
-    matrix:
-    - DESTINATION="OS=10.0,name=iPhone 7 Plus"     SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"
-    - DESTINATION="OS=11.0,name=iPhone X"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"
-    - DESTINATION="OS=12.0,name=iPhone XS Max"     SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"
+- LC_CTYPE=en_US.UTF-8 LANG=en_US.UTF-8
+
+before_install:
+- brew update
+- brew outdated xctool || brew upgrade xctool
+
+global:
+- PROJECT=CollectionViewTools.xcodeproj
+- IOS_FRAMEWORK_SCHEME="CollectionViewTools"
+
+matrix:
+- DESTINATION="OS=10.0,name=iPhone 7 Plus"     SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"
+- DESTINATION="OS=11.0,name=iPhone X"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"
+- DESTINATION="OS=12.0,name=iPhone XS Max"     SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"
 
 script:
-    - set -o pipefail
-    - xcodebuild -project "$PROJECT" -scheme "$IOS_FRAMEWORK_SCHEME" -sdk "$IOS_SDK" -destination "$DESTINATION" build test | xcpretty -c --test --color
+- set -o pipefail
+- xcodebuild -project "$PROJECT" -scheme "$IOS_FRAMEWORK_SCHEME" -sdk "$IOS_SDK" -destination "$DESTINATION" build test | xcpretty -c --test --color
