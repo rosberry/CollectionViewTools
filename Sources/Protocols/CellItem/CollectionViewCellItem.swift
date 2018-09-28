@@ -39,32 +39,32 @@ public protocol CollectionViewConfigureCellItem: AnyObject {
 // MARK: - CollectionViewSiblingCellItem
 
 public protocol CollectionViewSiblingCellItem: AnyObject {
-    var collectionView: UICollectionView { get set }
-    var indexPath: IndexPath { get set }
+    var collectionView: UICollectionView? { get set }
+    var indexPath: IndexPath? { get set }
     var sectionItem: CollectionViewSectionItem? { get set }
 }
 
 extension CollectionViewSiblingCellItem {
-    public var collectionView: UICollectionView {
+    public var collectionView: UICollectionView? {
         get {
             if let object = objc_getAssociatedObject(self, &AssociatedKeys.collectionView) as? UICollectionView {
                 return object
             }
-            fatalError("You should never get this error if you use collection view tools properly. " +
-                               "The reason is that you create cell item and didn't set collection view")
+            printContextWarning("We found out that collectionView property for \(self) is nil")
+            return nil
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.collectionView, newValue, .OBJC_ASSOCIATION_ASSIGN)
         }
     }
     
-    public var indexPath: IndexPath {
+    public var indexPath: IndexPath? {
         get {
             if let object = objc_getAssociatedObject(self, &AssociatedKeys.indexPath) as? IndexPath {
                 return object
             }
-            fatalError("You should never get this error if you use collection view tools properly. " +
-                               "The reason is that you create cell item and didn't set index path")
+            printContextWarning("We found out that indexPath property for \(self) is nil")
+            return nil
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.indexPath, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
@@ -76,6 +76,7 @@ extension CollectionViewSiblingCellItem {
             if let object = objc_getAssociatedObject(self, &AssociatedKeys.sectionItem) as? CollectionViewSectionItem {
                 return object
             }
+            printContextWarning("We found out that sectionItem property for \(self) is nil")
             return nil
         }
         set {

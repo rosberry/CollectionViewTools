@@ -29,7 +29,9 @@ final class TextCellItem: CollectionViewCellItem {
     func size() -> CGSize {
         let cell: Cell = type(of: self).sizeCell
         configure(cell)
-        let cellSize = cell.sizeThatFits(.init(width: collectionView.bounds.size.width, height: .greatestFiniteMagnitude))
-        return .init(width: cellSize.width + 2 * 12, height: collectionView.bounds.height / 1.4)
+        let cellSize = cell.sizeThatFits(.init(width: collectionView?.bounds.size.width ?? UIScreen.main.bounds.width,
+                                               height: .greatestFiniteMagnitude))
+        return .init(width: cellSize.width + 2 * 12,
+                     height: collectionView?.bounds.height ?? 100 / 1.4)
     }
 }

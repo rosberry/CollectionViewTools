@@ -39,7 +39,7 @@ final class ImageCellItem: CollectionViewCellItem {
             shift += shift / 2
         }
         let ratio = image.size.width / image.size.height
-        let width = collectionView.bounds.width / 2 - shift
+        let width = collectionView?.bounds.width ?? UIScreen.main.bounds.width / 2 - shift
         return .init(width: width, height: width / ratio)
     }
     

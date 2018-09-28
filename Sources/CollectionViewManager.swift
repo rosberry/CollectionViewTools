@@ -84,7 +84,7 @@ open class CollectionViewManager: NSObject {
     ///   - cellItems: Cell items to reload
     ///   - completion: A closure that either specifies any additional actions which should be performed after reloading.
     open func reloadCellItems(_ cellItems: [CellItem], completion: Completion? = nil) {
-        let indexPaths: [IndexPath] = cellItems.map { cellItem in
+        let indexPaths: [IndexPath] = cellItems.compactMap { cellItem in
             return cellItem.indexPath
         }
         perform(updates: { collectionView in
@@ -102,7 +102,13 @@ open class CollectionViewManager: NSObject {
     /// scrolling concludes. See UICollectionViewScrollPosition for descriptions of valid constants.
     ///   - animated: true if you want to animate the change in position; false if it should be immediate.
     open func scroll(to cellItem: CellItem, at scrollPosition: UICollectionView.ScrollPosition, animated: Bool = true) {
-        collectionView.scrollToItem(at: cellItem.indexPath, at: scrollPosition, animated: animated)
+        if let indexPath = cellItem.indexPath {
+            collectionView.scrollToItem(at: indexPath, at: scrollPosition, animated: animated)
+        }
+        else {
+            printContextWarning("It is impossible to scroll to cellItem \(cellItem)" +
+                                        "because indexPath isn't set")
+        }
     }
     
     // MARK: - Helpers
@@ -162,7 +168,13 @@ open class CollectionViewManager: NSObject {
     open func register(_ sectionItem: CollectionViewSectionItem) {
         sectionItem.collectionView = collectionView
         sectionItem.cellItems.enumerated().forEach { (index, cellItem) in
-            cellItem.indexPath = .init(row: index, section: sectionItem.index)
+            if let sectionIndex = sectionItem.index {
+                cellItem.indexPath = IndexPath(row: index, section: sectionIndex)
+            }
+            else {
+                printContextWarning("It is impossible to setup indexPath to cellItem \(cellItem) " +
+                                            "because there is no index in sectionItem \(sectionItem)")
+            }
             cellItem.sectionItem = sectionItem
             register(cellItem)
         }
@@ -195,7 +207,13 @@ open class CollectionViewManager: NSObject {
     /// - Parameter sectionItem: The section item with cell items needed to recalculate index paths.
     open func recalculateIndexPaths(in sectionItem: CollectionViewSectionItem) {
         sectionItem.cellItems.enumerated().forEach { index, cellItem in
-            cellItem.indexPath = .init(row: index, section: sectionItem.index)
+            if let sectionIndex = sectionItem.index {
+                cellItem.indexPath = IndexPath(row: index, section: sectionIndex)
+            }
+            else {
+                printContextWarning("It is impossible to setup indexPath to cellItem \(cellItem) " +
+                                            "because there is no index in sectionItem \(sectionItem)")
+            }
         }
     }
     
@@ -205,7 +223,13 @@ open class CollectionViewManager: NSObject {
         _sectionItems.enumerated().forEach { index, sectionItem in
             sectionItem.index = index
             sectionItem.cellItems.enumerated().forEach { (index, cellItem) in
-                cellItem.indexPath = .init(row: index, section: sectionItem.index)
+                if let sectionIndex = sectionItem.index {
+                    cellItem.indexPath = IndexPath(row: index, section: sectionIndex)
+                }
+                else {
+                    printContextWarning("It is impossible to setup indexPath to cellItem \(cellItem) " +
+                                                "because there is no index in sectionItem \(sectionItem)")
+                }
                 cellItem.sectionItem = sectionItem
             }
         }
@@ -221,10 +245,14 @@ open class CollectionViewManager: NSObject {
     ///   - sectionItem: Section item within which cell items should be set
     ///   - completion: A closure that either specifies any additional actions which should be performed after setting.
     open func replaceAllCellItems(in sectionItem: SectionItem, with cellItems: [CellItem], completion: Completion? = nil) {
+        guard let sectionIndex = sectionItem.index else {
+            return
+        }
+        
         perform(updates: { collectionView in
             sectionItem.cellItems = cellItems
             register(sectionItem)
-            collectionView?.reloadSections([sectionItem.index])
+            collectionView?.reloadSections([sectionIndex])
         }, completion: completion)
     }
     
@@ -245,7 +273,7 @@ open class CollectionViewManager: NSObject {
             }
             self?.recalculateIndexPaths(in: sectionItem)
             
-            let indexPaths: [IndexPath] = cellItems.map { cellItem in
+            let indexPaths: [IndexPath] = cellItems.compactMap { cellItem in
                 return cellItem.indexPath
             }
             
@@ -288,7 +316,11 @@ open class CollectionViewManager: NSObject {
             return
         }
         
-        let section = sectionItem.index
+        guard let section = sectionItem.index else {
+            printContextWarning("It is impossible to replace cell items in sectionItem \(sectionItem)" +
+                                        "because there is no index in it")
+            return
+        }
         
         perform(updates: { [weak self] collectionView in
             cellItems.forEach { cellItem in
@@ -299,7 +331,7 @@ open class CollectionViewManager: NSObject {
             if indexes.count == cellItems.count {
                 zip(cellItems, indexes).forEach { cellItem, index in
                     sectionItem.cellItems[index] = cellItem
-                    cellItem.indexPath = .init(row: index, section: sectionItem.index)
+                    cellItem.indexPath = IndexPath(row: index, section: section)
                 }
                 let indexPaths: [IndexPath] = indexes.map { index in
                     return .init(row: index, section: section)
@@ -315,7 +347,7 @@ open class CollectionViewManager: NSObject {
                 }
                 
                 let insertIndexPaths: [IndexPath] = Array(firstIndex..<firstIndex + cellItems.count).map { index in
-                    return .init(row: index, section: sectionItem.index)
+                    return .init(row: index, section: section)
                 }
                 sectionItem.cellItems.insert(contentsOf: cellItems, at: firstIndex)
                 
@@ -333,7 +365,7 @@ open class CollectionViewManager: NSObject {
     ///   - completion: A closure that either specifies any additional actions which should be performed after removing.
     open func remove(_ cellItems: [CellItem], completion: Completion? = nil) {
         perform(updates: { [weak self] collectionView in
-            let indexPaths = cellItems.map { cellItem in
+            let indexPaths = cellItems.compactMap { cellItem in
                 return cellItem.indexPath
             }
             indexPaths.sorted().reversed().forEach { indexPath in
@@ -354,8 +386,15 @@ open class CollectionViewManager: NSObject {
     ///   - completion: A closure that either specifies any additional actions which should be performed after removing.
     open func removeCellItems(at indexes: [Int], from sectionItem: SectionItem, completion: Completion? = nil) {
         perform(updates: { [weak self] collectionView in
-            let indexPaths: [IndexPath] = indexes.map { index in
-                return .init(row: index, section: sectionItem.index)
+            let indexPaths: [IndexPath] = indexes.compactMap { index in
+                if let sectionIndex = sectionItem.index {
+                    return .init(row: index, section: sectionIndex)
+                }
+                else {
+                    printContextWarning("It is impossible to setup indexPath to cellItem \(cellItem) " +
+                                                "because there is no index in sectionItem \(sectionItem)")
+                    return nil
+                }
             }
             
             indexes.sorted().reversed().forEach { index in

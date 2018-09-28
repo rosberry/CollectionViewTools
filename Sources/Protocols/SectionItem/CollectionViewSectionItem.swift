@@ -19,31 +19,31 @@ public protocol CollectionViewSectionItem: CollectionViewSiblingSectionItem {
 // MARK: - CollectionViewSiblingSectionItem
 
 public protocol CollectionViewSiblingSectionItem: AnyObject {
-    var collectionView: UICollectionView { get set }
-    var index: Int { get set }
+    var collectionView: UICollectionView? { get set }
+    var index: Int? { get set }
 }
 
 extension CollectionViewSiblingSectionItem {
-    public var collectionView: UICollectionView {
+    public var collectionView: UICollectionView? {
         get {
             if let object = objc_getAssociatedObject(self, &AssociatedKeys.collectionView) as? UICollectionView {
                 return object
             }
-            fatalError("You should never get this error if you use collection view tools properly. " +
-                               "The reason is that you create cell item and didn't set collection view")
+            printContextWarning("We found out that collectionView property for \(self) is nil")
+            return nil
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.collectionView, newValue, .OBJC_ASSOCIATION_ASSIGN)
         }
     }
     
-    public var index: Int {
+    public var index: Int? {
         get {
             if let object = objc_getAssociatedObject(self, &AssociatedKeys.index) as? Int {
                 return object
             }
-            fatalError("You should never get this error if you use collection view tools properly. " +
-                               "The reason is that you create section item and didn't set index")
+            printContextWarning("We found out that index property for \(self) is nil")
+            return nil
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.index, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
