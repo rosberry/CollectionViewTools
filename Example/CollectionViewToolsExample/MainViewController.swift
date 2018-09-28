@@ -296,14 +296,14 @@ class MainViewController: UIViewController {
                 return
             }
             
-            let sectionIndex = nonEmptySectionsIndexes[Int.random(range: 0..<sectionsCount)]
+            let sectionIndex = nonEmptySectionsIndexes[Int.random(in: 0..<sectionsCount)]
             let sectionItem = self.mainCollectionViewManager.sectionItems[sectionIndex]
             
             guard sectionItem.cellItems.count > 0 else {
                 return
             }
             
-            let cellIndex = Int.random(range: 0..<sectionItem.cellItems.count)
+            let cellIndex = Int.random(in: 0..<sectionItem.cellItems.count)
             self.mainCollectionView.scrollToItem(at: .init(row: cellIndex, section: sectionIndex), at: .centeredVertically, animated: true)
             // Perform remove after scroll animation stops
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -333,7 +333,7 @@ class MainViewController: UIViewController {
                 return
             }
             
-            let sectionIndex = nonEmptySectionsIndexes[Int.random(range: 0..<sectionsCount)]
+            let sectionIndex = nonEmptySectionsIndexes[Int.random(in: 0..<sectionsCount)]
             
             self.mainCollectionView.scrollToItem(at: .init(row: 0, section: sectionIndex), at: .centeredVertically, animated: true)
             // Perform remove after scroll animation stops

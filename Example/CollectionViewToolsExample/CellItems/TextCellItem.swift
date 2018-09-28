@@ -6,6 +6,8 @@ import CollectionViewTools
 
 final class TextCellItem: CollectionViewCellItem {
     
+    private typealias Cell = TextCollectionViewCell
+    private(set) var reuseType: ReuseType = .class(Cell.self)
     private let text: String
     
     init(text: String) {
@@ -15,9 +17,6 @@ final class TextCellItem: CollectionViewCellItem {
     deinit {
         print("\(self) deinit")
     }
-    
-    private typealias Cell = TextCollectionViewCell
-    private(set) var reuseType: ReuseType = .class(Cell.self)
     
     func configure(_ cell: UICollectionViewCell) {
         guard let cell = cell as? Cell else {
