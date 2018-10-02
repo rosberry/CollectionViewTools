@@ -45,7 +45,7 @@ public protocol CollectionViewSiblingCellItem: AnyObject {
 }
 
 extension CollectionViewSiblingCellItem {
-    public var collectionView: UICollectionView? {
+    public weak var collectionView: UICollectionView? {
         get {
             if let object = objc_getAssociatedObject(self, &AssociatedKeys.collectionView) as? UICollectionView {
                 return object

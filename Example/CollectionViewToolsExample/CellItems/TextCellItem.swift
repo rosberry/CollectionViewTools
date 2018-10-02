@@ -32,6 +32,6 @@ final class TextCellItem: CollectionViewCellItem {
         let cellSize = cell.sizeThatFits(.init(width: collectionView?.bounds.size.width ?? UIScreen.main.bounds.width,
                                                height: .greatestFiniteMagnitude))
         return .init(width: cellSize.width + 2 * 12,
-                     height: collectionView?.bounds.height ?? 100 / 1.4)
+                     height: (collectionView?.bounds.height ?? 100) / 1.4)
     }
 }
