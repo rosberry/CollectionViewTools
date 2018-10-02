@@ -341,7 +341,7 @@ open class CollectionViewManager: NSObject {
             else {
                 var removeIndexPaths: [IndexPath] = []
                 let firstIndex = indexes[0]
-                indexes.sorted().reversed().forEach { index in
+                indexes.sorted(by: >).forEach { index in
                     sectionItem.cellItems.remove(at: index)
                     removeIndexPaths.append(.init(row: index, section: section))
                 }
@@ -368,7 +368,7 @@ open class CollectionViewManager: NSObject {
             let indexPaths = cellItems.compactMap { cellItem in
                 return cellItem.indexPath
             }
-            indexPaths.sorted().reversed().forEach { indexPath in
+            indexPaths.sorted(by: >).forEach { indexPath in
                 _sectionItems[indexPath.section].cellItems.remove(at: indexPath.row)
             }
             
@@ -397,7 +397,7 @@ open class CollectionViewManager: NSObject {
                 }
             }
             
-            indexes.sorted().reversed().forEach { index in
+            indexes.sorted(by: >).forEach { index in
                 sectionItem.cellItems.remove(at: index)
             }
             
@@ -473,7 +473,7 @@ open class CollectionViewManager: NSObject {
             }
             else {
                 let firstIndex = indexes[0]
-                indexes.sorted().reversed().forEach { index in
+                indexes.sorted(by: >).forEach { index in
                     _sectionItems.remove(at: index)
                 }
                 
