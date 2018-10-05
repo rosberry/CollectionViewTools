@@ -6,14 +6,12 @@
 
 import UIKit.UICollectionView
 
-public protocol CollectionViewCellItemDataSourcePrefetching {
-    
-    func prefetchData(for collectionView: UICollectionView, at indexPath: IndexPath)
-    func cancelPrefetchingData(for collectionView: UICollectionView, at indexPath: IndexPath)
+public protocol CollectionViewCellItemDataSource: AnyObject {
+    func prefetchData()
+    func cancelPrefetchingData()
 }
 
-public extension CollectionViewCellItemDataSourcePrefetching {
-    
-    func prefetchData(for collectionView: UICollectionView, at indexPath: IndexPath) {}
-    func cancelPrefetchingData(for collectionView: UICollectionView, at indexPath: IndexPath) {}
+public extension CollectionViewCellItemDataSource {
+    func prefetchData() {}
+    func cancelPrefetchingData() {}
 }

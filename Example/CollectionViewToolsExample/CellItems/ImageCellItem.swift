@@ -5,36 +5,45 @@
 //
 
 import CollectionViewTools
-
 import Foundation
 
-final class ImageCellItem: CollectionViewCellItemProtocol {
+final class ImageCellItem: CollectionViewCellItem {
     
+    typealias Cell = ImageCollectionViewCell
+    private(set) var reuseType: ReuseType = .class(Cell.self)
     private let image: UIImage
     private let selectionHandler: (UIImage) -> Void
+    var removeActionHandler: (() -> Void)?
     
-    var reuseType = ReuseType(cellClass: ImageCollectionViewCell.self)
+    func configure(_ cell: UICollectionViewCell) {
+        guard let cell = cell as? Cell else {
+            return
+        }
+        cell.imageView.image = image
+        cell.removeActionHandler = removeActionHandler
+    }
     
     init(image: UIImage, selectionHandler: @escaping (UIImage) -> Void) {
         self.image = image
         self.selectionHandler = selectionHandler
     }
     
-    func size(for collectionView: UICollectionView, at indexPath: IndexPath) -> CGSize {
-        return collectionView.bounds.size
+    deinit {
+        print("\(self) deinit")
     }
     
-    func cell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: ImageCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
-        cell.imageView.image = image
-        return cell
+    func size() -> CGSize {
+        var shift: CGFloat = 0
+        if let sectionItem = sectionItem {
+            shift = sectionItem.insets.left / 2 + sectionItem.insets.right / 2
+            shift += shift / 2
+        }
+        let ratio = image.size.width / image.size.height
+        let width = (collectionView?.bounds.width ?? UIScreen.main.bounds.width) / 2 - shift
+        return .init(width: width, height: width / ratio)
     }
     
-    func size(for collectionView: UICollectionView, with layout: UICollectionViewLayout, at indexPath: IndexPath) -> CGSize {
-        return size(for: collectionView, at: indexPath)
-    }
-    
-    func didSelect(for collectionView: UICollectionView, at indexPath: IndexPath) {
+    func didSelect() {
         selectionHandler(image)
     }
 }

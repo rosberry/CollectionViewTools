@@ -7,20 +7,19 @@
 import UIKit.UICollectionView
 
 public enum ReuseType {
-    case byStoryboardIdentifier(String)
-    case byNib(UINib, identifier: String)
-    case byClass(UICollectionViewCell.Type, identifier: String)
+    case storyboardIdentifier(String)
+    case nib(UINib, identifier: String)
+    case `class`(UICollectionViewCell.Type)
     
     public var identifier: String {
         switch self {
-        case let .byStoryboardIdentifier(identifier):   return identifier
-        case let .byNib(_, identifier: identifier):     return identifier
-        case let .byClass(_, identifier: identifier):   return identifier
+            case let .storyboardIdentifier(identifier):
+                return identifier
+            case let .nib(_, identifier):
+                return identifier
+            case let .class(`class`):
+                return NSStringFromClass(`class`)
         }
-    }
-    
-    public init(cellClass: UICollectionViewCell.Type) {
-        self = .byClass(cellClass, identifier: NSStringFromClass(cellClass))
     }
 }
 
@@ -28,20 +27,17 @@ public extension UICollectionView {
     
     func register(by type: ReuseType) {
         switch type {
-        case let .byNib(nib, identifier: identifier):          register(nib, forCellWithReuseIdentifier: identifier)
-        case let .byClass(cellClass, identifier: identifier):  register(cellClass, forCellWithReuseIdentifier: identifier)
-        default: break
+            case let .nib(nib, identifier):
+                register(nib, forCellWithReuseIdentifier: identifier)
+            case let .class(`class`):
+                register(`class`, forCellWithReuseIdentifier: type.identifier)
+            default:
+                break
         }
     }
     
-    func dequeueReusableCell<T: UICollectionViewCell>(for indexPath: IndexPath) -> T {
-        // swiftlint:disable:next force_cast
-        return dequeueReusableCell(withReuseIdentifier: NSStringFromClass(T.self), for: indexPath) as! T
-    }
-    
     func dequeueReusableSupplementaryView<T: UICollectionReusableView>(with type: ReusableViewType, at indexPath: IndexPath) -> T {
-        return dequeueReusableSupplementaryView(ofKind: type.kind,
-                                                withReuseIdentifier: "\(T.self)",
-            for: indexPath) as! T // swiftlint:disable:this force_cast
+        // swiftlint:disable:next force_cast
+        return dequeueReusableSupplementaryView(ofKind: type.kind, withReuseIdentifier: "\(T.self)", for: indexPath) as! T
     }
 }

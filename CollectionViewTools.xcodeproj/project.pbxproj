@@ -18,11 +18,12 @@
 		0A37636D1F62545A00A80613 /* CollectionViewManager+UICollectionViewDelegateFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763591F62545A00A80613 /* CollectionViewManager+UICollectionViewDelegateFlowLayout.swift */; };
 		0A37636E1F62545A00A80613 /* CollectionViewManager+UIScrollViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A37635A1F62545A00A80613 /* CollectionViewManager+UIScrollViewDelegate.swift */; };
 		0A37636F1F62545A00A80613 /* UICollectionView+Registration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A37635B1F62545A00A80613 /* UICollectionView+Registration.swift */; };
-		0A3763711F62545A00A80613 /* CollectionViewSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A37635E1F62545A00A80613 /* CollectionViewSectionItem.swift */; };
+		0A3763711F62545A00A80613 /* GeneralCollectionViewSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A37635E1F62545A00A80613 /* GeneralCollectionViewSectionItem.swift */; };
 		0A3763721F62545A00A80613 /* CollectionViewCellItemDataSourcePrefetching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763611F62545A00A80613 /* CollectionViewCellItemDataSourcePrefetching.swift */; };
-		0A3763731F62545A00A80613 /* CollectionViewCellItemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763621F62545A00A80613 /* CollectionViewCellItemProtocol.swift */; };
-		0A3763741F62545A00A80613 /* CollectionViewReusableViewItemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763641F62545A00A80613 /* CollectionViewReusableViewItemProtocol.swift */; };
-		0A3763751F62545A00A80613 /* CollectionViewSectionItemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763661F62545A00A80613 /* CollectionViewSectionItemProtocol.swift */; };
+		0A3763731F62545A00A80613 /* CollectionViewCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763621F62545A00A80613 /* CollectionViewCellItem.swift */; };
+		0A3763741F62545A00A80613 /* CollectionViewReusableViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763641F62545A00A80613 /* CollectionViewReusableViewItem.swift */; };
+		0A3763751F62545A00A80613 /* CollectionViewSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763661F62545A00A80613 /* CollectionViewSectionItem.swift */; };
+		629A6091BFB23B9D95D9BF56 /* Print.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A64DA578C05AC298ECFFD /* Print.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,11 +51,12 @@
 		0A37635A1F62545A00A80613 /* CollectionViewManager+UIScrollViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionViewManager+UIScrollViewDelegate.swift"; sourceTree = "<group>"; };
 		0A37635B1F62545A00A80613 /* UICollectionView+Registration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Registration.swift"; sourceTree = "<group>"; };
 		0A37635C1F62545A00A80613 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0A37635E1F62545A00A80613 /* CollectionViewSectionItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewSectionItem.swift; sourceTree = "<group>"; };
+		0A37635E1F62545A00A80613 /* GeneralCollectionViewSectionItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralCollectionViewSectionItem.swift; sourceTree = "<group>"; };
 		0A3763611F62545A00A80613 /* CollectionViewCellItemDataSourcePrefetching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCellItemDataSourcePrefetching.swift; sourceTree = "<group>"; };
-		0A3763621F62545A00A80613 /* CollectionViewCellItemProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCellItemProtocol.swift; sourceTree = "<group>"; };
-		0A3763641F62545A00A80613 /* CollectionViewReusableViewItemProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewReusableViewItemProtocol.swift; sourceTree = "<group>"; };
-		0A3763661F62545A00A80613 /* CollectionViewSectionItemProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewSectionItemProtocol.swift; sourceTree = "<group>"; };
+		0A3763621F62545A00A80613 /* CollectionViewCellItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCellItem.swift; sourceTree = "<group>"; };
+		0A3763641F62545A00A80613 /* CollectionViewReusableViewItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewReusableViewItem.swift; sourceTree = "<group>"; };
+		0A3763661F62545A00A80613 /* CollectionViewSectionItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewSectionItem.swift; sourceTree = "<group>"; };
+		629A64DA578C05AC298ECFFD /* Print.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Print.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 				0A3763551F62545A00A80613 /* Extensions */,
 				0A37635D1F62545A00A80613 /* Items */,
 				0A37635F1F62545A00A80613 /* Protocols */,
+				629A633A0A14B7B8D623A113 /* Helpers */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -141,7 +144,7 @@
 		0A37635D1F62545A00A80613 /* Items */ = {
 			isa = PBXGroup;
 			children = (
-				0A37635E1F62545A00A80613 /* CollectionViewSectionItem.swift */,
+				0A37635E1F62545A00A80613 /* GeneralCollectionViewSectionItem.swift */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -160,7 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				0A3763611F62545A00A80613 /* CollectionViewCellItemDataSourcePrefetching.swift */,
-				0A3763621F62545A00A80613 /* CollectionViewCellItemProtocol.swift */,
+				0A3763621F62545A00A80613 /* CollectionViewCellItem.swift */,
 			);
 			path = CellItem;
 			sourceTree = "<group>";
@@ -168,7 +171,7 @@
 		0A3763631F62545A00A80613 /* ReuseViewItem */ = {
 			isa = PBXGroup;
 			children = (
-				0A3763641F62545A00A80613 /* CollectionViewReusableViewItemProtocol.swift */,
+				0A3763641F62545A00A80613 /* CollectionViewReusableViewItem.swift */,
 			);
 			path = ReuseViewItem;
 			sourceTree = "<group>";
@@ -176,9 +179,17 @@
 		0A3763651F62545A00A80613 /* SectionItem */ = {
 			isa = PBXGroup;
 			children = (
-				0A3763661F62545A00A80613 /* CollectionViewSectionItemProtocol.swift */,
+				0A3763661F62545A00A80613 /* CollectionViewSectionItem.swift */,
 			);
 			path = SectionItem;
+			sourceTree = "<group>";
+		};
+		629A633A0A14B7B8D623A113 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				629A64DA578C05AC298ECFFD /* Print.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -238,13 +249,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = Rosberry;
 				TargetAttributes = {
 					0A3763241F6251A600A80613 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = GPVA8JVMU3;
-						LastSwiftMigration = 0910;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 					};
 					0A37632D1F6251A600A80613 = {
@@ -296,18 +307,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A37636B1F62545A00A80613 /* CollectionViewManager+UICollectionViewDataSourcePrefetching.swift in Sources */,
-				0A3763741F62545A00A80613 /* CollectionViewReusableViewItemProtocol.swift in Sources */,
+				0A3763741F62545A00A80613 /* CollectionViewReusableViewItem.swift in Sources */,
 				0A37636F1F62545A00A80613 /* UICollectionView+Registration.swift in Sources */,
 				0A37636A1F62545A00A80613 /* CollectionViewManager+UICollectionViewDataSource.swift in Sources */,
 				0A37636D1F62545A00A80613 /* CollectionViewManager+UICollectionViewDelegateFlowLayout.swift in Sources */,
 				0A3763681F62545A00A80613 /* CollectionViewManager.swift in Sources */,
 				0A37636C1F62545A00A80613 /* CollectionViewManager+UICollectionViewDelegate.swift in Sources */,
 				0A3763721F62545A00A80613 /* CollectionViewCellItemDataSourcePrefetching.swift in Sources */,
-				0A3763731F62545A00A80613 /* CollectionViewCellItemProtocol.swift in Sources */,
-				0A3763711F62545A00A80613 /* CollectionViewSectionItem.swift in Sources */,
+				0A3763731F62545A00A80613 /* CollectionViewCellItem.swift in Sources */,
+				0A3763711F62545A00A80613 /* GeneralCollectionViewSectionItem.swift in Sources */,
 				0A3763671F62545A00A80613 /* ClosureWrapper.swift in Sources */,
 				0A37636E1F62545A00A80613 /* CollectionViewManager+UIScrollViewDelegate.swift in Sources */,
-				0A3763751F62545A00A80613 /* CollectionViewSectionItemProtocol.swift in Sources */,
+				0A3763751F62545A00A80613 /* CollectionViewSectionItem.swift in Sources */,
+				629A6091BFB23B9D95D9BF56 /* Print.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,6 +356,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -351,6 +364,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -404,6 +418,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -411,6 +426,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -454,13 +470,12 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewTools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -475,13 +490,12 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewTools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};

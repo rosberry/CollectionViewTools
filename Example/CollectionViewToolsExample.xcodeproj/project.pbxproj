@@ -8,25 +8,46 @@
 
 /* Begin PBXBuildFile section */
 		0A3763831F62556300A80613 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763821F62556300A80613 /* AppDelegate.swift */; };
-		0A3763851F62556300A80613 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763841F62556300A80613 /* MainViewController.swift */; };
 		0A37638A1F62556300A80613 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A3763891F62556300A80613 /* Assets.xcassets */; };
 		0A37638D1F62556400A80613 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A37638B1F62556400A80613 /* LaunchScreen.storyboard */; };
 		0ACA6FC91F626AF900782C1E /* ImageCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA6FC81F626AF900782C1E /* ImageCellItem.swift */; };
 		0ACA6FCC1F626D2E00782C1E /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA6FCB1F626D2E00782C1E /* ImageCollectionViewCell.swift */; };
 		0ACA6FCE1F6275D200782C1E /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA6FCD1F6275D200782C1E /* DetailViewController.swift */; };
-		FE6E86B21FB961B20027A8FE /* CollectionViewTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE6E86B31FB961B20027A8FE /* CollectionViewTools.framework */; };
+		629A63FBA018222A355686F6 /* ExampleSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A688DD33578289A57B452 /* ExampleSectionItem.swift */; };
+		629A6B0205FC8F49878C89C1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A6D6C61B4795949B30938 /* MainViewController.swift */; };
+		629A6E35B86008DC359DB40B /* TextCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A6D49B5E8DB9CAACD07CE /* TextCellItem.swift */; };
+		629A6F552D5D656B36F4F52C /* TextCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A60E846B05B88D62C7880 /* TextCollectionViewCell.swift */; };
+		FED796BA20EF6B3B0044B82F /* CollectionViewTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE6E86B31FB961B20027A8FE /* CollectionViewTools.framework */; };
+		FED796BB20EF6B3B0044B82F /* CollectionViewTools.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FE6E86B31FB961B20027A8FE /* CollectionViewTools.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FED796BC20EF6B3B0044B82F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				FED796BB20EF6B3B0044B82F /* CollectionViewTools.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0A37637F1F62556300A80613 /* CollectionViewToolsExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionViewToolsExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3763821F62556300A80613 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0A3763841F62556300A80613 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0A3763891F62556300A80613 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A37638C1F62556400A80613 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0A37638E1F62556400A80613 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0ACA6FC81F626AF900782C1E /* ImageCellItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCellItem.swift; sourceTree = "<group>"; };
 		0ACA6FCB1F626D2E00782C1E /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		0ACA6FCD1F6275D200782C1E /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		629A60E846B05B88D62C7880 /* TextCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextCollectionViewCell.swift; sourceTree = "<group>"; };
+		629A688DD33578289A57B452 /* ExampleSectionItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleSectionItem.swift; sourceTree = "<group>"; };
+		629A6D49B5E8DB9CAACD07CE /* TextCellItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextCellItem.swift; sourceTree = "<group>"; };
+		629A6D6C61B4795949B30938 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		FE6E86B31FB961B20027A8FE /* CollectionViewTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CollectionViewTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -35,7 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FE6E86B21FB961B20027A8FE /* CollectionViewTools.framework in Frameworks */,
+				FED796BA20EF6B3B0044B82F /* CollectionViewTools.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,13 +84,14 @@
 			isa = PBXGroup;
 			children = (
 				0A3763821F62556300A80613 /* AppDelegate.swift */,
-				0A3763841F62556300A80613 /* MainViewController.swift */,
 				0ACA6FCD1F6275D200782C1E /* DetailViewController.swift */,
 				0ACA6FC71F626AED00782C1E /* CellItems */,
 				0ACA6FCA1F626D1700782C1E /* Cells */,
 				0A3763891F62556300A80613 /* Assets.xcassets */,
 				0A37638B1F62556400A80613 /* LaunchScreen.storyboard */,
 				0A37638E1F62556400A80613 /* Info.plist */,
+				629A6D6C61B4795949B30938 /* MainViewController.swift */,
+				629A6B7B0DC722197E2D2AC9 /* SectionItems */,
 			);
 			path = CollectionViewToolsExample;
 			sourceTree = "<group>";
@@ -86,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				0ACA6FC81F626AF900782C1E /* ImageCellItem.swift */,
+				629A6D49B5E8DB9CAACD07CE /* TextCellItem.swift */,
 			);
 			path = CellItems;
 			sourceTree = "<group>";
@@ -94,8 +117,17 @@
 			isa = PBXGroup;
 			children = (
 				0ACA6FCB1F626D2E00782C1E /* ImageCollectionViewCell.swift */,
+				629A60E846B05B88D62C7880 /* TextCollectionViewCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		629A6B7B0DC722197E2D2AC9 /* SectionItems */ = {
+			isa = PBXGroup;
+			children = (
+				629A688DD33578289A57B452 /* ExampleSectionItem.swift */,
+			);
+			path = SectionItems;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -108,6 +140,7 @@
 				0A37637B1F62556300A80613 /* Sources */,
 				0A37637C1F62556300A80613 /* Frameworks */,
 				0A37637D1F62556300A80613 /* Resources */,
+				FED796BC20EF6B3B0044B82F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -125,13 +158,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = Rosberry;
 				TargetAttributes = {
 					0A37637E1F62556300A80613 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = GPVA8JVMU3;
-						LastSwiftMigration = 0910;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -171,11 +204,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A3763851F62556300A80613 /* MainViewController.swift in Sources */,
 				0ACA6FC91F626AF900782C1E /* ImageCellItem.swift in Sources */,
 				0ACA6FCE1F6275D200782C1E /* DetailViewController.swift in Sources */,
 				0ACA6FCC1F626D2E00782C1E /* ImageCollectionViewCell.swift in Sources */,
 				0A3763831F62556300A80613 /* AppDelegate.swift in Sources */,
+				629A6E35B86008DC359DB40B /* TextCellItem.swift in Sources */,
+				629A6F552D5D656B36F4F52C /* TextCollectionViewCell.swift in Sources */,
+				629A6B0205FC8F49878C89C1 /* MainViewController.swift in Sources */,
+				629A63FBA018222A355686F6 /* ExampleSectionItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,6 +243,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -214,6 +251,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -263,6 +301,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -270,6 +309,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -304,12 +344,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = GPVA8JVMU3;
 				INFOPLIST_FILE = CollectionViewToolsExample/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewToolsExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -319,12 +358,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = GPVA8JVMU3;
 				INFOPLIST_FILE = CollectionViewToolsExample/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewToolsExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};

@@ -1,5 +1,5 @@
 //
-//  CollectionViewReusableViewItemProtocol.swift
+//  CollectionViewReusableViewItem.swift
 //
 //  Copyright © 2017 Rosberry. All rights reserved.
 //
@@ -11,13 +11,15 @@ public enum ReusableViewType {
     
     public var kind: String {
         switch self {
-        case .header: return UICollectionElementKindSectionHeader
-        case .footer: return UICollectionElementKindSectionFooter
+            case .header:
+                return UICollectionView.elementKindSectionHeader
+            case .footer:
+                return UICollectionView.elementKindSectionFooter
         }
     }
 }
 
-public protocol CollectionViewReusableViewItemProtocol {
+public protocol CollectionViewReusableViewItem {
     
     var type: ReusableViewType { get set }
     
