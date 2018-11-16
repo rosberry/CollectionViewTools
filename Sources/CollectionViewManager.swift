@@ -119,11 +119,7 @@ open class CollectionViewManager: NSObject {
     /// - Returns: A cell item associated with cell of the collection, or nil if the cell item
     /// wasn't added to manager or indexPath is out of range.
     open func cellItem(for indexPath: IndexPath) -> CellItem? {
-        guard let sectionItem = sectionItem(for: indexPath) else {
-            return nil
-        }
-
-        guard sectionItem.cellItems.count > indexPath.row else {
+        guard let sectionItem = sectionItem(for: indexPath), sectionItem.cellItems.count > indexPath.row else {
             return nil
         }
 
