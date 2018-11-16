@@ -87,9 +87,9 @@ extension CollectionViewSiblingCellItem {
 
 // MARK: - CollectionViewGeneralCellItem
 
-public typealias ActionHandler = () -> Void
-public typealias ActionResolver = () -> Bool
-public typealias CellActionHandler = (UICollectionViewCell) -> Void
+public typealias ActionHandler = (IndexPath) -> Void
+public typealias ActionResolver = (IndexPath) -> Bool
+public typealias CellActionHandler = (UICollectionViewCell, IndexPath) -> Void
 public typealias ViewActionHandler = (UICollectionReusableView, String, UICollectionView, IndexPath) -> Void
 
 public protocol CollectionViewGeneralCellItem: AnyObject {
@@ -110,17 +110,17 @@ public protocol CollectionViewGeneralCellItem: AnyObject {
     
     var itemCanMoveResolver: ActionResolver? { get set }
     
-    func shouldHighlight() -> Bool
-    func didHighlight()
-    func didUnhighlight()
+    func shouldHighlight(at indexPath: IndexPath) -> Bool
+    func didHighlight(at indexPath: IndexPath)
+    func didUnhighlight(at indexPath: IndexPath)
     
-    func shouldSelect() -> Bool
-    func shouldDeselect() -> Bool
-    func didSelect()
-    func didDeselect()
+    func shouldSelect(at indexPath: IndexPath) -> Bool
+    func shouldDeselect(at indexPath: IndexPath) -> Bool
+    func didSelect(at indexPath: IndexPath)
+    func didDeselect(at indexPath: IndexPath)
     
-    func willDisplay(cell: UICollectionViewCell)
-    func didEndDisplaying(cell: UICollectionViewCell)
+    func willDisplay(cell: UICollectionViewCell, at indexPath: IndexPath)
+    func didEndDisplaying(cell: UICollectionViewCell, at indexPath: IndexPath)
     
     func willDisplay(view: UICollectionReusableView, for elementKind: String, for collectionView: UICollectionView, at indexPath: IndexPath)
     func didEndDisplaying(view: UICollectionReusableView,
@@ -128,7 +128,7 @@ public protocol CollectionViewGeneralCellItem: AnyObject {
                           for collectionView: UICollectionView,
                           at indexPath: IndexPath)
     
-    func canMove() -> Bool
+    func canMove(at indexPath: IndexPath) -> Bool
 }
 
 private enum AssociatedKeys {
@@ -265,44 +265,44 @@ public extension CollectionViewGeneralCellItem {
     
     // MARK: - Functions
     
-    func shouldHighlight() -> Bool {
-        return itemShouldHighlightResolver?() ?? true
+    func shouldHighlight(at indexPath: IndexPath) -> Bool {
+        return itemShouldHighlightResolver?(indexPath) ?? true
     }
     
-    func didHighlight() {
-        itemDidHighlightHandler?()
+    func didHighlight(at indexPath: IndexPath) {
+        itemDidHighlightHandler?(indexPath)
     }
     
-    func didUnhighlight() {
-        itemDidUnhighlightHandler?()
+    func didUnhighlight(at indexPath: IndexPath) {
+        itemDidUnhighlightHandler?(indexPath)
     }
     
-    func shouldSelect() -> Bool {
-        return itemShouldSelectResolver?() ?? true
+    func shouldSelect(at indexPath: IndexPath) -> Bool {
+        return itemShouldSelectResolver?(indexPath) ?? true
     }
     
-    func shouldDeselect() -> Bool {
-        return itemShouldDeselectResolver?() ?? true
+    func shouldDeselect(at indexPath: IndexPath) -> Bool {
+        return itemShouldDeselectResolver?(indexPath) ?? true
     }
     
-    func didSelect() {
-        itemDidSelectHandler?()
+    func didSelect(at indexPath: IndexPath) {
+        itemDidSelectHandler?(indexPath)
     }
     
-    func didDeselect() {
-        itemDidDeselectHandler?()
+    func didDeselect(at indexPath: IndexPath) {
+        itemDidDeselectHandler?(indexPath)
     }
     
-    func willDisplay(cell: UICollectionViewCell) {
-        itemWillDisplayCellHandler?(cell)
+    func willDisplay(cell: UICollectionViewCell, at indexPath: IndexPath) {
+        itemWillDisplayCellHandler?(cell, indexPath)
     }
     
-    func didEndDisplaying(cell: UICollectionViewCell) {
-        itemDidEndDisplayingCellHandler?(cell)
+    func didEndDisplaying(cell: UICollectionViewCell, at indexPath: IndexPath) {
+        itemDidEndDisplayingCellHandler?(cell, indexPath)
     }
     
-    func canMove() -> Bool {
-        return itemCanMoveResolver?() ?? false
+    func canMove(at indexPath: IndexPath) -> Bool {
+        return itemCanMoveResolver?(indexPath) ?? false
     }
     
     func size() -> CGSize {
