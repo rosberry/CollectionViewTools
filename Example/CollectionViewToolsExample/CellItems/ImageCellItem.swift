@@ -32,12 +32,9 @@ final class ImageCellItem: CollectionViewCellItem {
         print("\(self) deinit")
     }
     
-    func size(in collectionView: UICollectionView) -> CGSize {
-        var shift: CGFloat = 0
-        if let sectionItem = sectionItem {
-            shift = sectionItem.insets.left / 2 + sectionItem.insets.right / 2
-            shift += shift / 2
-        }
+    func size(in collectionView: UICollectionView, sectionItem: CollectionViewSectionItem) -> CGSize {
+        var shift = sectionItem.insets.left / 2 + sectionItem.insets.right / 2
+        shift += shift / 2
         let ratio = image.size.width / image.size.height
         let width = (collectionView.bounds.width) / 2 - shift
         return .init(width: width, height: width / ratio)

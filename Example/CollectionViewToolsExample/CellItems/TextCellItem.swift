@@ -26,7 +26,7 @@ final class TextCellItem: CollectionViewCellItem {
     }
     
     private static let sizeCell: Cell = .init()
-    func size(in collectionView: UICollectionView) -> CGSize {
+    func size(in collectionView: UICollectionView, sectionItem: CollectionViewSectionItem) -> CGSize {
         let cell: Cell = type(of: self).sizeCell
         configure(cell)
         let cellSize = cell.sizeThatFits(.init(width: collectionView.bounds.size.width,
