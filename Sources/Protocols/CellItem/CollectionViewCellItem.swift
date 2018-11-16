@@ -305,10 +305,6 @@ public extension CollectionViewGeneralCellItem {
         return itemCanMoveResolver?() ?? false
     }
     
-    func size(in collectionView: UICollectionView, sectionItem: CollectionViewSectionItem) -> CGSize {
-        return CGSize(width: 50, height: 50)
-    }
-    
     func willDisplay(view: UICollectionReusableView,
                      for elementKind: String,
                      for collectionView: UICollectionView,
