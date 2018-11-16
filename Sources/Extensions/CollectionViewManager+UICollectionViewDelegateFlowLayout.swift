@@ -14,7 +14,7 @@ extension CollectionViewManager: UICollectionViewDelegateFlowLayout {
         guard let cellItem = cellItem(for: indexPath) else {
             return .zero
         }
-        return cellItem.size()
+        return cellItem.size(in: collectionView)
     }
     
     open func collectionView(_ collectionView: UICollectionView,
