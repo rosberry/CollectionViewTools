@@ -33,7 +33,7 @@ extension CollectionViewManager: UICollectionViewDataSource {
     }
     
     open func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
-        return cellItem(for: indexPath)?.canMove() ?? false
+        return cellItem(for: indexPath)?.canMove(at: indexPath) ?? false
     }
     
     open func collectionView(_ collectionView: UICollectionView,

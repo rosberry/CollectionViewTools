@@ -119,12 +119,11 @@ open class CollectionViewManager: NSObject {
     /// - Returns: A cell item associated with cell of the collection, or nil if the cell item
     /// wasn't added to manager or indexPath is out of range.
     open func cellItem(for indexPath: IndexPath) -> CellItem? {
-        if let cellItems = sectionItem(for: indexPath)?.cellItems {
-            return cellItems.first { cellItem in
-                return cellItem.indexPath == indexPath
-            }
+        guard let sectionItem = sectionItem(for: indexPath), sectionItem.cellItems.count > indexPath.row else {
+            return nil
         }
-        return nil
+
+        return sectionItem.cellItems[indexPath.row]
     }
     
     /// Returns the section item at the specified index path.
@@ -133,9 +132,11 @@ open class CollectionViewManager: NSObject {
     /// - Returns: A section item associated with section of the collection, or nil if the section item
     /// wasn't added to manager or indexPath.section is out of range.
     open func sectionItem(for indexPath: IndexPath) -> SectionItem? {
-        return _sectionItems.first { sectionItem in
-            return sectionItem.index == indexPath.section
+        guard _sectionItems.count > indexPath.section else {
+            return nil
         }
+
+        return _sectionItems[indexPath.section]
     }
     
     /// Use this method if you need to set new section items.
