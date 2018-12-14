@@ -27,7 +27,7 @@ public protocol CollectionViewReuseCellItem: AnyObject {
 // MARK: - CollectionViewSizeCellItem
 
 public protocol CollectionViewSizeCellItem: AnyObject {
-    func size() -> CGSize
+    func size(in collectionView: UICollectionView, sectionItem: CollectionViewSectionItem) -> CGSize
 }
 
 // MARK: - CollectionViewConfigureCellItem
@@ -303,10 +303,6 @@ public extension CollectionViewGeneralCellItem {
     
     func canMove(at indexPath: IndexPath) -> Bool {
         return itemCanMoveResolver?(indexPath) ?? false
-    }
-    
-    func size() -> CGSize {
-        return CGSize(width: 50, height: 50)
     }
     
     func willDisplay(view: UICollectionReusableView,

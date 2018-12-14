@@ -11,10 +11,11 @@ extension CollectionViewManager: UICollectionViewDelegateFlowLayout {
     open func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              sizeForItemAt indexPath: IndexPath) -> CGSize {
-        guard let cellItem = cellItem(for: indexPath) else {
+        guard let cellItem = cellItem(for: indexPath),
+              let sectionItem = cellItem.sectionItem else {
             return .zero
         }
-        return cellItem.size()
+        return cellItem.size(in: collectionView, sectionItem: sectionItem)
     }
     
     open func collectionView(_ collectionView: UICollectionView,

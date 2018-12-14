@@ -26,12 +26,12 @@ final class TextCellItem: CollectionViewCellItem {
     }
     
     private static let sizeCell: Cell = .init()
-    func size() -> CGSize {
+    func size(in collectionView: UICollectionView, sectionItem: CollectionViewSectionItem) -> CGSize {
         let cell: Cell = type(of: self).sizeCell
         configure(cell)
-        let cellSize = cell.sizeThatFits(.init(width: collectionView?.bounds.size.width ?? UIScreen.main.bounds.width,
+        let cellSize = cell.sizeThatFits(.init(width: collectionView.bounds.size.width,
                                                height: .greatestFiniteMagnitude))
         return .init(width: cellSize.width + 2 * 12,
-                     height: (collectionView?.bounds.height ?? 100) / 1.4)
+                     height: (collectionView.bounds.height) / 1.4)
     }
 }
