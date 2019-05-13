@@ -2,9 +2,10 @@
 //  Copyright © 2019 Rosberry. All rights reserved.
 //
 
-public typealias CollectionViewDiffableSectionItem = CollectionViewSectionItem & CollectionViewDiffableItem
+public typealias CollectionViewDiffableSectionItem = CollectionViewSectionItem &
+                                                     CollectionViewDiffableItem
 
-public class GeneralCollectionViewDiffableSectionItem: CollectionViewDiffableSectionItem {
+open class GeneralCollectionViewDiffableSectionItem: CollectionViewDiffableSectionItem, Equatable {
 
     public var identifier: String = ""
 
@@ -24,7 +25,7 @@ public class GeneralCollectionViewDiffableSectionItem: CollectionViewDiffableSec
         hasher.combine(identifier)
     }
 
-    public func equal(to item: CollectionViewDiffableItem) -> Bool {
+    open func equal(to item: CollectionViewDiffableItem) -> Bool {
         guard let item = item as? GeneralCollectionViewDiffableSectionItem else {
             return false
         }
@@ -33,6 +34,14 @@ public class GeneralCollectionViewDiffableSectionItem: CollectionViewDiffableSec
         guard cellItems.count == itemCellItems.count else {
             return false
         }
-        return zip(cellItems, itemCellItems).first { !$0.equal(to: $1) } == nil
+        // TODO: add reusableViewItems here
+        return zip(cellItems, itemCellItems).first { !$0.equal(to: $1) } == nil &&
+               minimumLineSpacing == item.minimumLineSpacing &&
+               minimumInteritemSpacing == item.minimumInteritemSpacing &&
+               insets == item.insets
+    }
+
+    public static func == (lhs: GeneralCollectionViewDiffableSectionItem, rhs: GeneralCollectionViewDiffableSectionItem) -> Bool {
+        return lhs.equal(to: rhs)
     }
 }

@@ -24,7 +24,7 @@ public protocol CollectionViewSiblingSectionItem: AnyObject {
 }
 
 extension CollectionViewSiblingSectionItem {
-    public weak var collectionView: UICollectionView? {
+    public var collectionView: UICollectionView? {
         get {
             if let object = objc_getAssociatedObject(self, &AssociatedKeys.collectionView) as? UICollectionView {
                 return object

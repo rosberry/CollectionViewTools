@@ -33,7 +33,14 @@ public protocol CollectionViewSizeCellItem: AnyObject {
 // MARK: - CollectionViewConfigureCellItem
 
 public protocol CollectionViewConfigureCellItem: AnyObject {
+    var isReplacementAnimationEnabled: Bool { get }
     func configure(_ cell: UICollectionViewCell)
+}
+
+public extension CollectionViewConfigureCellItem {
+    var isReplacementAnimationEnabled: Bool {
+        return true
+    }
 }
 
 // MARK: - CollectionViewSiblingCellItem
@@ -45,7 +52,7 @@ public protocol CollectionViewSiblingCellItem: AnyObject {
 }
 
 extension CollectionViewSiblingCellItem {
-    public weak var collectionView: UICollectionView? {
+    public var collectionView: UICollectionView? {
         get {
             if let object = objc_getAssociatedObject(self, &AssociatedKeys.collectionView) as? UICollectionView {
                 return object
@@ -71,7 +78,7 @@ extension CollectionViewSiblingCellItem {
         }
     }
     
-    public weak var sectionItem: CollectionViewSectionItem? {
+    public var sectionItem: CollectionViewSectionItem? {
         get {
             if let object = objc_getAssociatedObject(self, &AssociatedKeys.sectionItem) as? CollectionViewSectionItem {
                 return object
