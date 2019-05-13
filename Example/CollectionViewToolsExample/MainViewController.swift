@@ -107,9 +107,9 @@ class MainViewController: UIViewController {
     
     private func makeImageCellItem(image: UIImage) -> ImageCellItem {
         let cellItem = ImageCellItem(image: image) { [weak self] image in
-            let detailViewController = DetailViewController()
-            detailViewController.image = image
-            self?.navigationController?.pushViewController(detailViewController, animated: true)
+//            let detailViewController = DetailViewController()
+//            detailViewController.image = image
+//            self?.navigationController?.pushViewController(detailViewController, animated: true)
         }
         cellItem.removeActionHandler = { [weak self, weak cellItem] in
             self?.remove(cellItem)
