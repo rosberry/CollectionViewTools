@@ -13,12 +13,9 @@ final class ColorCellItem: CollectionViewCellItem, CollectionViewDiffableItem {
     private(set) var reuseType: ReuseType = .class(Cell.self)
 
     private var color: UIColor
-    private var index: Int
 
-    init(color: UIColor, index: Int) {
+    init(color: UIColor) {
         self.color = color
-        self.index = index
-        self.identifier = "\(index)"
     }
 
     deinit {
@@ -30,7 +27,7 @@ final class ColorCellItem: CollectionViewCellItem, CollectionViewDiffableItem {
             return
         }
         cell.contentView.backgroundColor = color
-        cell.label.text = "\(index)"
+        cell.label.text = "\(indexPath?.item ?? 0)"
     }
 
     func size(in collectionView: UICollectionView, sectionItem: CollectionViewSectionItem) -> CGSize {
@@ -42,13 +39,12 @@ final class ColorCellItem: CollectionViewCellItem, CollectionViewDiffableItem {
 
     // MARK: - CollectionViewDiffableItem
 
-    var identifier: String
+    var identifier: String = ""
 
     func equal(to item: CollectionViewDiffableItem) -> Bool {
         guard let item = item as? ColorCellItem else {
             return false
         }
         return color == item.color
-            && index == item.index
     }
 }
