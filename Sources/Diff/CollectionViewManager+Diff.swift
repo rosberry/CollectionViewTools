@@ -84,20 +84,17 @@ extension CollectionViewManager {
     func diffs(old: [CollectionViewDiffableSectionItem],
                new: [CollectionViewDiffableSectionItem],
                diff: CollectionViewDiff) -> [CollectionViewChange<CollectionViewDiffableItemWrapper>] {
-        func diffableItemWrappers(for sectionItems: [CollectionViewDiffableSectionItem])
-            -> [CollectionViewDiffableItemWrapper] {
-            return sectionItems.map { CollectionViewDiffableItemWrapper(item: $0) }
-        }
-        return diff.changes(old: diffableItemWrappers(for: old), new: diffableItemWrappers(for: new))
+        return diff.changes(old: diffableItemWrappers(for: old),
+                            new: diffableItemWrappers(for: new))
     }
 
     func diffs(old: [CollectionViewDiffableCellItem],
                new: [CollectionViewDiffableCellItem],
                diff: CollectionViewDiff) -> [CollectionViewChange<CollectionViewDiffableItemWrapper>] {
-        func diffableItemWrappers(for sectionItems: [CollectionViewDiffableCellItem])
-            -> [CollectionViewDiffableItemWrapper] {
-            return sectionItems.map { CollectionViewDiffableItemWrapper(item: $0) }
-        }
         return diff.changes(old: diffableItemWrappers(for: old), new: diffableItemWrappers(for: new))
+    }
+
+    private func diffableItemWrappers(for items: [CollectionViewDiffableItem]) -> [CollectionViewDiffableItemWrapper] {
+        return items.map { CollectionViewDiffableItemWrapper(item: $0) }
     }
 }

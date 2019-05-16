@@ -4,12 +4,12 @@
 
 public protocol CollectionViewDiffableItem {
 
-    var identifier: String { get }
+    var diffIdentifier: String { get }
     
     func equal(to item: CollectionViewDiffableItem) -> Bool
 }
 
-public final class CollectionViewDiffableItemWrapper: Hashable {
+public final class CollectionViewDiffableItemWrapper: CollectionViewDiffableItem {
 
     let item: CollectionViewDiffableItem
 
@@ -17,11 +17,14 @@ public final class CollectionViewDiffableItemWrapper: Hashable {
         self.item = item
     }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(item.identifier)
+    public var diffIdentifier: String {
+        return item.diffIdentifier
     }
 
-    public static func == (lhs: CollectionViewDiffableItemWrapper, rhs: CollectionViewDiffableItemWrapper) -> Bool {
-        return lhs.item.equal(to: rhs.item)
+    public func equal(to item: CollectionViewDiffableItem) -> Bool {
+        guard let wrapper = item as? CollectionViewDiffableItemWrapper else {
+            return false
+        }
+        return item.equal(to: wrapper.item)
     }
 }

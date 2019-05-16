@@ -7,7 +7,7 @@ public typealias CollectionViewDiffableSectionItem = CollectionViewSectionItem &
 
 open class GeneralCollectionViewDiffableSectionItem: CollectionViewDiffableSectionItem, Equatable {
 
-    public var identifier: String = ""
+    public var diffIdentifier: String = ""
 
     public var cellItems: [CollectionViewManager.CellItem]
     public var reusableViewItems: [CollectionViewReusableViewItem]
@@ -22,7 +22,7 @@ open class GeneralCollectionViewDiffableSectionItem: CollectionViewDiffableSecti
     }
 
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(identifier)
+        hasher.combine(diffIdentifier)
     }
 
     open func equal(to item: CollectionViewDiffableItem) -> Bool {

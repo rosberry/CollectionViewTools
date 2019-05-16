@@ -12,13 +12,13 @@ public struct CollectionViewChange<T> {
     let oldReplacedItem: T?
     let replacedIndex: Int?
 
-    public init(insertedItem: T?,
-                insertedIndex: Int?,
-                deletedItem: T?,
-                deletedIndex: Int?,
-                replacedItem: T?,
-                oldReplacedItem: T?,
-                replacedIndex: Int?) {
+    public init(insertedItem: T? = nil,
+                insertedIndex: Int? = nil,
+                deletedItem: T? = nil,
+                deletedIndex: Int? = nil,
+                replacedItem: T? = nil,
+                oldReplacedItem: T? = nil,
+                replacedIndex: Int? = nil) {
         self.insertedItem = insertedItem
         self.insertedIndex = insertedIndex
         self.deletedItem = deletedItem
