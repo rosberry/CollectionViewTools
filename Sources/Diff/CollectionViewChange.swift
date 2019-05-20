@@ -2,7 +2,7 @@
 //  Copyright © 2019 Rosberry. All rights reserved.
 //
 
-public struct CollectionViewChange<T> {
+public struct CollectionViewChange<T>: CustomStringConvertible {
 
     let insertedItem: T?
     let insertedIndex: Int?
@@ -11,6 +11,19 @@ public struct CollectionViewChange<T> {
     let replacedItem: T?
     let oldReplacedItem: T?
     let replacedIndex: Int?
+
+    public var description: String {
+        if let insertedIndex = insertedIndex {
+            return "insertedIndex \(insertedIndex)"
+        }
+        if let deletedIndex = deletedIndex {
+            return "deletedIndex \(deletedIndex)"
+        }
+        if let replacedIndex = replacedIndex {
+            return "replacedIndex \(replacedIndex)"
+        }
+        return "empty"
+    }
 
     public init(insertedItem: T? = nil,
                 insertedIndex: Int? = nil,

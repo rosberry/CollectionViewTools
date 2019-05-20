@@ -8,12 +8,32 @@ import UIKit
 import Foundation
 import CollectionViewTools
 
+final class Object: Equatable {
+    var color: UIColor
+    var value: Int
+
+    init(color: UIColor, value: Int) {
+        self.color = color
+        self.value = value
+    }
+
+    static func == (lhs: Object, rhs: Object) -> Bool {
+        return lhs.color == rhs.color
+            && lhs.value == rhs.value
+    }
+}
+
+
+
 class DiffViewController: UIViewController {
 
-    private lazy var mainCollectionViewManager: CollectionViewManager = .init(collectionView: mainCollectionView)
-    private lazy var actionsCollectionViewManager: CollectionViewManager = .init(collectionView: actionsCollectionView)
+    private var objects: [Object] = []
 
     // MARK: Subviews
+
+    private lazy var mainCollectionViewManager: CollectionViewManager = .init(collectionView: mainCollectionView)
+    private lazy var mainCollectionViewDiff: CollectionViewDiff = CollectionViewIGListKitDiff()
+    private lazy var actionsCollectionViewManager: CollectionViewManager = .init(collectionView: actionsCollectionView)
 
     private lazy var mainCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -28,9 +48,6 @@ class DiffViewController: UIViewController {
         view.backgroundColor = .lightGray
         return view
     }()
-    private lazy var mainSectionItems: [CollectionViewSectionItem] = [makeColorSectionItem(color: .red, itemsCount: 20),
-                                                                      makeColorSectionItem(color: .orange, itemsCount: 20),
-                                                                      makeColorSectionItem(color: .green, itemsCount: 20)]
 
     // MARK: Lifecycle
 
@@ -38,21 +55,53 @@ class DiffViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.title = "Diff"
         view.addSubview(mainCollectionView)
-        mainCollectionViewManager.sectionItems = mainSectionItems
+        view.addSubview(actionsCollectionView)
+        resetMainCollection(animated: false)
+        actionsCollectionViewManager.sectionItems = [makeActionsSectionItem()]
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        mainCollectionView.frame = view.bounds
+        var bottomInset: CGFloat = 0
+        if #available(iOS 11.0, *) {
+            bottomInset = view.safeAreaInsets.bottom
+        }
+        let actionsCollectionHeight: CGFloat = 70
+        mainCollectionView.frame = .init(x: 0,
+                                         y: 0,
+                                         width: view.bounds.width,
+                                         height: view.bounds.height - actionsCollectionHeight - bottomInset)
+        actionsCollectionView.frame = .init(x: 0,
+                                            y: view.bounds.height - actionsCollectionHeight - bottomInset,
+                                            width: view.bounds.width,
+                                            height: actionsCollectionHeight)
+    }
+
+    // MARK: - Main Collection
+
+    private func updateMainCollection(animated: Bool) {
+        let sectionItems = [makeMainSectionItem(objects: objects)]
+        mainCollectionViewManager.update(with: sectionItems, diff: CollectionViewIGListKitDiff(), animated: animated)
+    }
+
+    private func resetMainCollection(animated: Bool) {
+        objects = makeObjects(color: .red, values: Array(0..<20))
+        updateMainCollection(animated: animated)
     }
 
     // MARK: - Factory methods
 
-    func makeColorSectionItem(color: UIColor, itemsCount: Int) -> CollectionViewSectionItem {
-        let sectionItem = GeneralCollectionViewSectionItem()
-        sectionItem.cellItems = (0..<itemsCount).map { _ in
-            return makeColorCellItem(color: color)
+    func makeObjects(color: UIColor, values: [Int]) -> [Object] {
+        return values.map { value in
+            Object(color: color, value: value)
+        }
+    }
+
+    func makeMainSectionItem(objects: [Object]) -> CollectionViewDiffableSectionItem {
+        let sectionItem = GeneralCollectionViewDiffableSectionItem()
+        sectionItem.cellItems = objects.map { object in
+            return makeColorCellItem(object: object)
         }
         sectionItem.insets = .init(top: 8, left: 8, bottom: 8, right: 8)
         sectionItem.minimumInteritemSpacing = 2
@@ -60,20 +109,30 @@ class DiffViewController: UIViewController {
         return sectionItem
     }
 
-    private func makeColorCellItem(color: UIColor) -> ColorCellItem {
-        let cellItem = ColorCellItem(color: color)
-        cellItem.identifier = UUID().uuidString
+    private func makeColorCellItem(object: Object) -> ColorCellItem {
+        let cellItem = ColorCellItem(color: object.color, title: "\(object.value)")
+        cellItem.diffIdentifier = "\(object.value)"
+        cellItem.itemDidSelectHandler = { [weak self] _ in
+            self?.deleteObject(object)
+        }
         return cellItem
+    }
+
+    private func deleteObject(_ object: Object) {
+        if let index = objects.firstIndex(of: object) {
+            objects.remove(at: index)
+            updateMainCollection(animated: true)
+        }
     }
 
     func makeActionsSectionItem() -> CollectionViewSectionItem {
         let sectionItem = GeneralCollectionViewSectionItem()
         sectionItem.cellItems = [
-            //            makeResetActionCellItem(),
+            makeResetActionCellItem(),
             // Insert cells
 //            makePrependCellItemsActionCellItem(),
 //            makeAppendCellItemsActionCellItem(),
-            makeInsertCellItemsInTheMiddleActionCellItem(),
+//            makeInsertCellItemsInTheMiddleActionCellItem(),
             // Insert sections
             //            makePrependSectionItemActionCellItem(),
             //            makeAppendSectionItemActionCellItem(),
@@ -91,6 +150,12 @@ class DiffViewController: UIViewController {
         sectionItem.minimumInteritemSpacing = 8
         sectionItem.minimumLineSpacing = 8
         return sectionItem
+    }
+
+    func makeResetActionCellItem() -> CollectionViewCellItem {
+        return makeActionCellItem(title: "Reset") { [weak self] in
+            self?.resetMainCollection(animated: true)
+        }
     }
 
     // MARK: Insert cells
@@ -137,9 +202,9 @@ class DiffViewController: UIViewController {
             guard let `self` = self else {
                 return
             }
-            for sectionItem in self.mainSectionItems {
-//                if sectionItem.cellItems.coun
-            }
+//            for sectionItem in self.mainSectionItems {
+////                if sectionItem.cellItems.coun
+//            }
         }
     }
 
