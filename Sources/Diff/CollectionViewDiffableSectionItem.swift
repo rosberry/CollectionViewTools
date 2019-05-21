@@ -5,7 +5,7 @@
 public typealias CollectionViewDiffableSectionItem = CollectionViewSectionItem &
                                                      CollectionViewDiffableItem
 
-open class GeneralCollectionViewDiffableSectionItem: CollectionViewDiffableSectionItem, Equatable {
+open class GeneralCollectionViewDiffableSectionItem: CollectionViewDiffableSectionItem, Equatable, CustomStringConvertible {
 
     public var diffIdentifier: String = ""
 
@@ -44,4 +44,9 @@ open class GeneralCollectionViewDiffableSectionItem: CollectionViewDiffableSecti
     public static func == (lhs: GeneralCollectionViewDiffableSectionItem, rhs: GeneralCollectionViewDiffableSectionItem) -> Bool {
         return lhs.equal(to: rhs)
     }
+
+    public var description: String {
+        return "\ncellItems =\n\(cellItems)"
+    }
+
 }

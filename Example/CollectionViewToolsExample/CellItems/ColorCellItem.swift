@@ -7,7 +7,7 @@
 import CollectionViewTools
 import Foundation
 
-final class ColorCellItem: CollectionViewCellItem, CollectionViewDiffableItem {
+final class ColorCellItem: CollectionViewCellItem, CollectionViewDiffableItem, CustomStringConvertible {
 
     typealias Cell = ColorCollectionViewCell
     private(set) var reuseType: ReuseType = .class(Cell.self)
@@ -20,10 +20,6 @@ final class ColorCellItem: CollectionViewCellItem, CollectionViewDiffableItem {
         self.title = title
     }
 
-    deinit {
-        print("\(self) deinit")
-    }
-
     func configure(_ cell: UICollectionViewCell) {
         guard let cell = cell as? Cell else {
             return
@@ -33,7 +29,7 @@ final class ColorCellItem: CollectionViewCellItem, CollectionViewDiffableItem {
     }
 
     func size(in collectionView: UICollectionView, sectionItem: CollectionViewSectionItem) -> CGSize {
-        let numberOfItemsInRow: CGFloat = 4
+        let numberOfItemsInRow: CGFloat = 5
         let width = (collectionView.bounds.width - sectionItem.insets.left - sectionItem.insets.right -
         sectionItem.minimumInteritemSpacing * (numberOfItemsInRow - 1)) / numberOfItemsInRow
         return .init(width: width, height: width)
@@ -49,5 +45,12 @@ final class ColorCellItem: CollectionViewCellItem, CollectionViewDiffableItem {
         }
         return color == item.color
             && title == item.title
+    }
+
+    // MARK: - CustomStringConvertible
+
+    var description: String {
+        let colorString = "\(color)".replacingOccurrences(of: "UIExtendedSRGBColorSpace ", with: "")
+        return "\nid = \(diffIdentifier), color = \(colorString), title = \(title)"
     }
 }

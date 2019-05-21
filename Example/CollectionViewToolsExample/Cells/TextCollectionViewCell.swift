@@ -5,12 +5,19 @@
 import UIKit
 
 final class TextCollectionViewCell: UICollectionViewCell {
-    
+
+    override var isHighlighted: Bool {
+        didSet {
+            titleLabel.alpha = isHighlighted ? 0.7 : 1.0
+        }
+    }
+
     // MARK: Subviews
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 12)
         return label
     }()
     

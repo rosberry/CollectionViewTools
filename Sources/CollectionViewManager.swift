@@ -281,7 +281,7 @@ open class CollectionViewManager: NSObject {
                      at indexes: [Int],
                      performUpdates: Bool = true,
                      completion: Completion? = nil) {
-        func insert(_ collectionView: UICollectionView?) {
+        func insert(in collectionView: UICollectionView?) {
             for (cellItem, index) in zip(cellItems, indexes) {
                 register(cellItem)
                 sectionItem.cellItems.insert(cellItem, at: index)
@@ -299,7 +299,7 @@ open class CollectionViewManager: NSObject {
             perform(updates: insert, completion: completion)
         }
         else {
-            insert(collectionView)
+            insert(in: collectionView)
         }
     }
     
@@ -325,7 +325,46 @@ open class CollectionViewManager: NSObject {
     open func prepend(_ cellItems: [CellItem], to sectionItem: SectionItem, completion: Completion? = nil) {
         insert(cellItems, to: sectionItem, at: Array(0..<cellItems.count), completion: completion)
     }
-    
+
+    /// Move cell item inside the specified section item, and then move corresponding cell within section.
+    ///
+    /// - Parameters:
+    ///   - index: Index of cell item you want to move inside specified section item
+    ///   - newIndex: Index of cell item's new location inside specified section item
+    ///   - cellItem: New cell item. If cell item is nil the old cell item is used.
+    ///   - sectionItem: Section item within which cell item should be moved
+    ///   - completion: A closure that either specifies any additional actions which should be performed after moving.
+    open func move(cellItemAt index: Int,
+                   to newIndex: Int,
+                   cellItem: CellItem? = nil,
+                   in sectionItem: SectionItem,
+                   performUpdates: Bool = true,
+                   completion: Completion? = nil) {
+        guard let section = sectionItem.index else {
+            printContextWarning("It is impossible to move cell item in sectionItem \(sectionItem)" +
+                "because there is no index in it")
+            return
+        }
+
+        func move(in collectionView: UICollectionView?) {
+            let keyCellItem = cellItem ?? sectionItem.cellItems[index]
+            keyCellItem.sectionItem = sectionItem
+
+            sectionItem.cellItems.remove(at: index)
+            sectionItem.cellItems.insert(keyCellItem, at: newIndex)
+            recalculateIndexPaths(in: sectionItem)
+
+            collectionView?.moveItem(at: .init(row: index, section: section),
+                                     to: .init(row: newIndex, section: section))
+        }
+        if performUpdates {
+            perform(updates: move, completion: completion)
+        }
+        else {
+            move(in: collectionView)
+        }
+    }
+
     /// Replaces cell items inside the specified section item, and then replaces corresponding cells within section.
     ///
     /// - Parameters:
@@ -348,7 +387,7 @@ open class CollectionViewManager: NSObject {
             return
         }
 
-        func replace(_ collectionView: UICollectionView?) {
+        func replace(in collectionView: UICollectionView?) {
             for index in 0..<cellItems.count {
                 let cellItem = cellItems[index]
                 register(cellItem)
@@ -393,7 +432,7 @@ open class CollectionViewManager: NSObject {
             perform(updates: replace, completion: completion)
         }
         else {
-            replace(collectionView)
+            replace(in: collectionView)
         }
     }
     
@@ -405,7 +444,7 @@ open class CollectionViewManager: NSObject {
     open func remove(_ cellItems: [CellItem],
                      performUpdates: Bool = true,
                      completion: Completion? = nil) {
-        func remove(_ collectionView: UICollectionView?) {
+        func remove(in collectionView: UICollectionView?) {
             let indexPaths = cellItems.compactMap { cellItem in
                 return cellItem.indexPath
             }
@@ -420,7 +459,7 @@ open class CollectionViewManager: NSObject {
             perform(updates: remove, completion: completion)
         }
         else {
-            remove(collectionView)
+            remove(in: collectionView)
         }
     }
     
@@ -435,7 +474,7 @@ open class CollectionViewManager: NSObject {
                               from sectionItem: SectionItem,
                               performUpdates: Bool = true,
                               completion: Completion? = nil) {
-        func remove(_ collectionView: UICollectionView?) {
+        func remove(in collectionView: UICollectionView?) {
             let indexPaths: [IndexPath] = indexes.compactMap { index in
                 if let sectionIndex = sectionItem.index {
                     return .init(row: index, section: sectionIndex)
@@ -458,7 +497,7 @@ open class CollectionViewManager: NSObject {
             perform(updates: remove, completion: completion)
         }
         else {
-            remove(collectionView)
+            remove(in: collectionView)
         }
     }
     
@@ -475,7 +514,7 @@ open class CollectionViewManager: NSObject {
                      at indexes: [Int],
                      performUpdates: Bool = true,
                      completion: Completion? = nil) {
-        func insert(_ collectionView: UICollectionView?) {
+        func insert(in collectionView: UICollectionView?) {
             for (sectionItem, index) in zip(sectionItems, indexes) {
                 _sectionItems.insert(sectionItem, at: index)
             }
@@ -484,14 +523,13 @@ open class CollectionViewManager: NSObject {
                 let sectionItem = sectionItems[section]
                 register(sectionItem)
             }
-
             collectionView?.insertSections(IndexSet(indexes))
         }
         if performUpdates {
             perform(updates: insert, completion: completion)
         }
         else {
-            insert(collectionView)
+            insert(in: collectionView)
         }
     }
     
@@ -516,7 +554,35 @@ open class CollectionViewManager: NSObject {
     open func prepend(_ sectionItems: [CollectionViewSectionItem], completion: Completion? = nil) {
         insert(sectionItems, at: Array(0..<sectionItems.count), completion: completion)
     }
-    
+
+    /// Move section item.
+    ///
+    /// - Parameters:
+    ///   - index: Index of section you want to move in the collection view.
+    ///   - newIndex: Index of section's new location in the collection view.
+    ///   - sectionItem: New section item. If section item is nil the old section item is used.
+    ///   - completion: A closure that either specifies any additional actions which should be performed after moving.
+    open func move(sectionItemAt index: Int,
+                   to newIndex: Int,
+                   sectionItem: SectionItem? = nil,
+                   performUpdates: Bool = true,
+                   completion: Completion? = nil) {
+        func move(in collectionView: UICollectionView?) {
+            let keySectionItem = sectionItem ?? sectionItems[index]
+            sectionItems.remove(at: index)
+            sectionItems.insert(keySectionItem, at: newIndex)
+            recalculateIndexes()
+            collectionView?.moveSection(index, toSection: newIndex)
+        }
+        if performUpdates {
+            perform(updates: move, completion: completion)
+        }
+        else {
+            move(in: collectionView)
+        }
+    }
+
+
     /// Replaces one or more section items.
     ///
     /// - Parameters:
@@ -530,7 +596,7 @@ open class CollectionViewManager: NSObject {
         guard indexes.count > 0 else {
             return
         }
-        func replace(_ collectionView: UICollectionView?) {
+        func replace(in collectionView: UICollectionView?) {
             if indexes.count == sectionItems.count {
                 for (sectionItem, index) in zip(sectionItems, indexes) {
                     _sectionItems[index] = sectionItem
@@ -561,7 +627,7 @@ open class CollectionViewManager: NSObject {
             perform(updates: replace, completion: completion)
         }
         else {
-            replace(collectionView)
+            replace(in: collectionView)
         }
     }
     
@@ -590,7 +656,7 @@ open class CollectionViewManager: NSObject {
     open func remove(sectionItemsAt indexes: [Int],
                      performUpdates: Bool = true,
                      completion: Completion? = nil) {
-        func remove(_ collectionView: UICollectionView?) {
+        func remove(in collectionView: UICollectionView?) {
             for index in indexes {
                 _sectionItems.remove(at: index)
             }
@@ -601,7 +667,7 @@ open class CollectionViewManager: NSObject {
             perform(updates: remove, completion: completion)
         }
         else {
-            remove(collectionView)
+            remove(in: collectionView)
         }
     }
     

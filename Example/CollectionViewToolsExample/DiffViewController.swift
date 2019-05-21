@@ -8,26 +8,53 @@ import UIKit
 import Foundation
 import CollectionViewTools
 
-final class Object: Equatable {
+final class Group: Equatable, CustomStringConvertible {
+
+    let id: Int
+    var objects: [Object]
+
+    init(id: Int, objects: [Object]) {
+        self.id = id
+        self.objects = objects
+    }
+
+    static func == (lhs: Group, rhs: Group) -> Bool {
+        return lhs.id == rhs.id
+            && lhs.objects == rhs.objects
+    }
+
+    var description: String {
+        return "id = \(id), objects = \(objects)"
+    }
+}
+
+final class Object: Equatable, CustomStringConvertible {
+
+    let id: Int
     var color: UIColor
     var value: Int
 
-    init(color: UIColor, value: Int) {
+    init(id: Int, color: UIColor, value: Int) {
+        self.id = id
         self.color = color
         self.value = value
     }
 
     static func == (lhs: Object, rhs: Object) -> Bool {
-        return lhs.color == rhs.color
+        return lhs.id == rhs.id
+            && lhs.color == rhs.color
             && lhs.value == rhs.value
+    }
+
+    var description: String {
+        let colorString = "\(color)".replacingOccurrences(of: "UIExtendedSRGBColorSpace ", with: "")
+        return "id = \(id), color = \(colorString), value = \(value)"
     }
 }
 
-
-
 class DiffViewController: UIViewController {
 
-    private var objects: [Object] = []
+    private lazy var groups: [Group] = []
 
     // MARK: Subviews
 
@@ -67,7 +94,7 @@ class DiffViewController: UIViewController {
         if #available(iOS 11.0, *) {
             bottomInset = view.safeAreaInsets.bottom
         }
-        let actionsCollectionHeight: CGFloat = 70
+        let actionsCollectionHeight: CGFloat = 40
         mainCollectionView.frame = .init(x: 0,
                                          y: 0,
                                          width: view.bounds.width,
@@ -81,27 +108,109 @@ class DiffViewController: UIViewController {
     // MARK: - Main Collection
 
     private func updateMainCollection(animated: Bool) {
-        let sectionItems = [makeMainSectionItem(objects: objects)]
-        mainCollectionViewManager.update(with: sectionItems, diff: CollectionViewIGListKitDiff(), animated: animated)
+        let oldSectionItems = mainCollectionViewManager.sectionItems
+        let newSectionItems = makeMainSectionItems(groups: groups)
+        if oldSectionItems.count > 0, newSectionItems.count > 0 {
+            print("<<< OLD ITEMS = \(oldSectionItems)")
+            print("<<< NEW ITEMS = \(newSectionItems)")
+        }
+        mainCollectionViewManager.update(with: newSectionItems,
+                                         diff: CollectionViewIGListKitDiff(),
+                                         animated: animated)
     }
 
     private func resetMainCollection(animated: Bool) {
-        objects = makeObjects(color: .red, values: Array(0..<20))
+        groups = makeGroups()
+
+//        groups = [
+//            Group(id: 1, objects: [
+//                Object(id: 2, color: .red, value: 2),
+//                Object(id: 12, color: .green, value: 6),
+//                Object(id: 6, color: .red, value: 6),
+//                Object(id: 5, color: .red, value: 5),
+//                Object(id: 4, color: .red, value: 4),
+//                Object(id: 9, color: .green, value: 3),
+//                ])
+//        ]
+
+        updateMainCollection(animated: animated)
+    }
+
+    private func shuffleMainCells(animated: Bool) {
+//        let green = groups[0]
+//        let blue = groups[1]
+//
+//        let greenZero = green.objects[0]
+//        let blueOne = blue.objects[1]
+//
+//        green.objects.remove(at: 0)
+//        green.objects.insert(blueOne, at: 0)
+//
+//        blue.objects.remove(at: 1)
+//        blue.objects.insert(greenZero, at: 1)
+
+//        groups = [
+//            Group(id: 2, objects: [
+//                Object(id: 1, color: .red, value: 1),
+//                Object(id: 2, color: .red, value: 2),
+//                Object(id: 3, color: .red, value: 3),
+//                Object(id: 4, color: .red, value: 4),
+//                Object(id: 5, color: .red, value: 5),
+//                Object(id: 6, color: .red, value: 6),
+//                ])
+//        ]
+
+        var allObjects = groups.reduce([Object]()) { objects, group in
+            objects + group.objects
+        }
+        allObjects.shuffle()
+        for group in groups {
+            let objectsCount = group.objects.count
+            group.objects.removeAll()
+            for _ in 0..<objectsCount {
+                if let object = allObjects.first {
+                    group.objects.append(object)
+                    allObjects.removeFirst()
+                }
+            }
+        }
+        updateMainCollection(animated: animated)
+    }
+
+    private func shuffleMainSections(animated: Bool) {
+        groups.shuffle()
         updateMainCollection(animated: animated)
     }
 
     // MARK: - Factory methods
 
-    func makeObjects(color: UIColor, values: [Int]) -> [Object] {
-        return values.map { value in
-            Object(color: color, value: value)
+    func makeGroups() -> [Group] {
+        let colors: [UIColor] = [.red, .green, .orange, .purple]
+        var groupId = 1
+        var objectId = 1
+        return colors.map { color -> Group in
+            let objects = (0..<6).map { index -> Object in
+                let object = Object(id: objectId, color: color, value: index + 1)
+                objectId += 1
+                return object
+            }
+            let group = Group(id: groupId, objects: objects)
+            groupId += 1
+            return group
         }
     }
 
-    func makeMainSectionItem(objects: [Object]) -> CollectionViewDiffableSectionItem {
+    func makeMainSectionItems(groups: [Group]) -> [CollectionViewDiffableSectionItem] {
+        return groups.map { group in
+            makeMainSectionItem(group: group)
+        }
+    }
+
+    func makeMainSectionItem(group: Group) -> CollectionViewDiffableSectionItem {
         let sectionItem = GeneralCollectionViewDiffableSectionItem()
-        sectionItem.cellItems = objects.map { object in
-            return makeColorCellItem(object: object)
+        sectionItem.diffIdentifier = "\(group.id)"
+        sectionItem.cellItems = group.objects.map { object in
+            makeColorCellItem(object: object, group: group)
         }
         sectionItem.insets = .init(top: 8, left: 8, bottom: 8, right: 8)
         sectionItem.minimumInteritemSpacing = 2
@@ -109,18 +218,18 @@ class DiffViewController: UIViewController {
         return sectionItem
     }
 
-    private func makeColorCellItem(object: Object) -> ColorCellItem {
+    private func makeColorCellItem(object: Object, group: Group) -> ColorCellItem {
         let cellItem = ColorCellItem(color: object.color, title: "\(object.value)")
-        cellItem.diffIdentifier = "\(object.value)"
+        cellItem.diffIdentifier = "\(object.id)"
         cellItem.itemDidSelectHandler = { [weak self] _ in
-            self?.deleteObject(object)
+            self?.delete(object, from: group)
         }
         return cellItem
     }
 
-    private func deleteObject(_ object: Object) {
-        if let index = objects.firstIndex(of: object) {
-            objects.remove(at: index)
+    private func delete(_ object: Object, from group: Group) {
+        if let index = group.objects.firstIndex(of: object) {
+            group.objects.remove(at: index)
             updateMainCollection(animated: true)
         }
     }
@@ -129,7 +238,10 @@ class DiffViewController: UIViewController {
         let sectionItem = GeneralCollectionViewSectionItem()
         sectionItem.cellItems = [
             makeResetActionCellItem(),
-            // Insert cells
+            // Cells
+            makeShuffleCellsActionCellItem(),
+            // Sections
+            makeShuffleSectionsActionCellItem()
 //            makePrependCellItemsActionCellItem(),
 //            makeAppendCellItemsActionCellItem(),
 //            makeInsertCellItemsInTheMiddleActionCellItem(),
@@ -155,6 +267,18 @@ class DiffViewController: UIViewController {
     func makeResetActionCellItem() -> CollectionViewCellItem {
         return makeActionCellItem(title: "Reset") { [weak self] in
             self?.resetMainCollection(animated: true)
+        }
+    }
+
+    func makeShuffleCellsActionCellItem() -> CollectionViewCellItem {
+        return makeActionCellItem(title: "Shuffle cells") { [weak self] in
+            self?.shuffleMainCells(animated: true)
+        }
+    }
+
+    func makeShuffleSectionsActionCellItem() -> CollectionViewCellItem {
+        return makeActionCellItem(title: "Shuffle sections") { [weak self] in
+            self?.shuffleMainSections(animated: true)
         }
     }
 

@@ -16,7 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.backgroundColor = .white
         window?.rootViewController = UINavigationController(rootViewController: DiffViewController())
         window?.makeKeyAndVisible()
-        DiffableTesting().test()
         return true
     }
 }

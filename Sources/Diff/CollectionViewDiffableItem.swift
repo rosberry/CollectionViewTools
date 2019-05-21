@@ -25,6 +25,6 @@ public final class CollectionViewDiffableItemWrapper: CollectionViewDiffableItem
         guard let wrapper = item as? CollectionViewDiffableItemWrapper else {
             return false
         }
-        return item.equal(to: wrapper.item)
+        return self.item.equal(to: wrapper.item)
     }
 }
