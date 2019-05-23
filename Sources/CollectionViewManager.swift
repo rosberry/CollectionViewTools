@@ -582,7 +582,6 @@ open class CollectionViewManager: NSObject {
         }
     }
 
-
     /// Replaces one or more section items.
     ///
     /// - Parameters:
@@ -657,11 +656,14 @@ open class CollectionViewManager: NSObject {
                      performUpdates: Bool = true,
                      completion: Completion? = nil) {
         func remove(in collectionView: UICollectionView?) {
-            for index in indexes {
+            let sortedIndexes = indexes.sorted { (lhs, rhs) -> Bool in
+                lhs > rhs
+            }
+            for index in sortedIndexes {
                 _sectionItems.remove(at: index)
             }
             recalculateIndexes()
-            collectionView?.deleteSections(IndexSet(indexes))
+            collectionView?.deleteSections(IndexSet(sortedIndexes))
         }
         if performUpdates {
             perform(updates: remove, completion: completion)
@@ -686,6 +688,17 @@ open class CollectionViewManager: NSObject {
             let sectionItem = _sectionItems[index]
             sectionItem.index = index
             register(sectionItem)
+        }
+    }
+
+    func configureCellItems() {
+        for sectionItem in _sectionItems {
+            for cellItem in sectionItem.cellItems {
+                if let indexPath = cellItem.indexPath,
+                    let cell = collectionView.cellForItem(at: indexPath) {
+                    cellItem.configure(cell)
+                }
+            }
         }
     }
 }

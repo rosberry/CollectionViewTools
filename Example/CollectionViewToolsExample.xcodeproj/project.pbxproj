@@ -16,11 +16,12 @@
 		0E1EDA57228934A80087253A /* ColorCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1EDA56228934A80087253A /* ColorCellItem.swift */; };
 		0E1EDA59228934D50087253A /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1EDA58228934D50087253A /* ColorCollectionViewCell.swift */; };
 		0E1EDA5B228946DF0087253A /* DiffViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1EDA5A228946DF0087253A /* DiffViewController.swift */; };
-		0E506C08228EBAA200E16640 /* DiffableTestObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E506C07228EBAA200E16640 /* DiffableTestObject.swift */; };
+		0E4CB58C22967386002A3C59 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4CB58B22967386002A3C59 /* Group.swift */; };
+		0E4CB58E2296739E002A3C59 /* Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4CB58D2296739E002A3C59 /* Object.swift */; };
+		0E4CB590229673A9002A3C59 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4CB58F229673A9002A3C59 /* Color.swift */; };
 		0E506C0C228EBBDB00E16640 /* DeepDiff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E506C0A228EBBDB00E16640 /* DeepDiff.framework */; };
 		0E506C10228EBC3600E16640 /* CollectionViewIGListKitDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E506C0E228EBC3600E16640 /* CollectionViewIGListKitDiff.swift */; };
 		0E506C11228EBC3600E16640 /* CollectionViewDeepDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E506C0F228EBC3600E16640 /* CollectionViewDeepDiff.swift */; };
-		0E506C13228EBC6E00E16640 /* DiffableTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E506C12228EBC6E00E16640 /* DiffableTesting.swift */; };
 		0EB927802292A35D000666A2 /* IGListKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EB9277F2292A35C000666A2 /* IGListKit.framework */; };
 		629A63FBA018222A355686F6 /* ExampleSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A688DD33578289A57B452 /* ExampleSectionItem.swift */; };
 		629A6B0205FC8F49878C89C1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A6D6C61B4795949B30938 /* MainViewController.swift */; };
@@ -56,13 +57,14 @@
 		0E1EDA56228934A80087253A /* ColorCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCellItem.swift; sourceTree = "<group>"; };
 		0E1EDA58228934D50087253A /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
 		0E1EDA5A228946DF0087253A /* DiffViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffViewController.swift; sourceTree = "<group>"; };
+		0E4CB58B22967386002A3C59 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
+		0E4CB58D2296739E002A3C59 /* Object.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Object.swift; sourceTree = "<group>"; };
+		0E4CB58F229673A9002A3C59 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		0E506C05228EBA4400E16640 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = SOURCE_ROOT; };
 		0E506C06228EBA4500E16640 /* Cartfile.resolved */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.resolved; sourceTree = SOURCE_ROOT; };
-		0E506C07228EBAA200E16640 /* DiffableTestObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffableTestObject.swift; sourceTree = "<group>"; };
 		0E506C0A228EBBDB00E16640 /* DeepDiff.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeepDiff.framework; path = Carthage/Build/iOS/DeepDiff.framework; sourceTree = "<group>"; };
 		0E506C0E228EBC3600E16640 /* CollectionViewIGListKitDiff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewIGListKitDiff.swift; sourceTree = "<group>"; };
 		0E506C0F228EBC3600E16640 /* CollectionViewDeepDiff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDeepDiff.swift; sourceTree = "<group>"; };
-		0E506C12228EBC6E00E16640 /* DiffableTesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffableTesting.swift; sourceTree = "<group>"; };
 		0EB9277F2292A35C000666A2 /* IGListKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IGListKit.framework; path = Carthage/Build/iOS/IGListKit.framework; sourceTree = "<group>"; };
 		629A60E846B05B88D62C7880 /* TextCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextCollectionViewCell.swift; sourceTree = "<group>"; };
 		629A688DD33578289A57B452 /* ExampleSectionItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleSectionItem.swift; sourceTree = "<group>"; };
@@ -108,13 +110,10 @@
 				0A3763821F62556300A80613 /* AppDelegate.swift */,
 				629A6D6C61B4795949B30938 /* MainViewController.swift */,
 				0ACA6FCD1F6275D200782C1E /* DetailViewController.swift */,
-				0E1EDA5A228946DF0087253A /* DiffViewController.swift */,
 				629A6B7B0DC722197E2D2AC9 /* SectionItems */,
 				0ACA6FC71F626AED00782C1E /* CellItems */,
 				0ACA6FCA1F626D1700782C1E /* Cells */,
-				0E506C12228EBC6E00E16640 /* DiffableTesting.swift */,
-				0E506C07228EBAA200E16640 /* DiffableTestObject.swift */,
-				0E506C0D228EBC3600E16640 /* CollectionViewDiffs */,
+				0E4CB5892296733A002A3C59 /* Diff */,
 				0A3763891F62556300A80613 /* Assets.xcassets */,
 				0A37638B1F62556400A80613 /* LaunchScreen.storyboard */,
 				0A37638E1F62556400A80613 /* Info.plist */,
@@ -152,6 +151,26 @@
 				629A60E846B05B88D62C7880 /* TextCollectionViewCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		0E4CB5892296733A002A3C59 /* Diff */ = {
+			isa = PBXGroup;
+			children = (
+				0E1EDA5A228946DF0087253A /* DiffViewController.swift */,
+				0E4CB58A2296736B002A3C59 /* Models */,
+				0E506C0D228EBC3600E16640 /* CollectionViewDiffs */,
+			);
+			path = Diff;
+			sourceTree = "<group>";
+		};
+		0E4CB58A2296736B002A3C59 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0E4CB58B22967386002A3C59 /* Group.swift */,
+				0E4CB58D2296739E002A3C59 /* Object.swift */,
+				0E4CB58F229673A9002A3C59 /* Color.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		0E506C0D228EBC3600E16640 /* CollectionViewDiffs */ = {
@@ -278,16 +297,17 @@
 				0ACA6FCE1F6275D200782C1E /* DetailViewController.swift in Sources */,
 				0ACA6FCC1F626D2E00782C1E /* ImageCollectionViewCell.swift in Sources */,
 				0A3763831F62556300A80613 /* AppDelegate.swift in Sources */,
+				0E4CB590229673A9002A3C59 /* Color.swift in Sources */,
 				629A6E35B86008DC359DB40B /* TextCellItem.swift in Sources */,
 				0E1EDA57228934A80087253A /* ColorCellItem.swift in Sources */,
+				0E4CB58C22967386002A3C59 /* Group.swift in Sources */,
 				629A6F552D5D656B36F4F52C /* TextCollectionViewCell.swift in Sources */,
-				0E506C13228EBC6E00E16640 /* DiffableTesting.swift in Sources */,
 				0E1EDA59228934D50087253A /* ColorCollectionViewCell.swift in Sources */,
+				0E4CB58E2296739E002A3C59 /* Object.swift in Sources */,
 				629A6B0205FC8F49878C89C1 /* MainViewController.swift in Sources */,
 				0E506C10228EBC3600E16640 /* CollectionViewIGListKitDiff.swift in Sources */,
 				0E1EDA5B228946DF0087253A /* DiffViewController.swift in Sources */,
 				629A63FBA018222A355686F6 /* ExampleSectionItem.swift in Sources */,
-				0E506C08228EBAA200E16640 /* DiffableTestObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

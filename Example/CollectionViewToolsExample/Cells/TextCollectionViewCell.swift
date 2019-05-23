@@ -17,7 +17,6 @@ final class TextCollectionViewCell: UICollectionViewCell {
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 12)
         return label
     }()
     
@@ -29,8 +28,6 @@ final class TextCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .white
-        contentView.layer.cornerRadius = 4
         contentView.addSubview(titleLabel)
     }
     
@@ -40,6 +37,7 @@ final class TextCollectionViewCell: UICollectionViewCell {
     }
     
     override func sizeThatFits(_ size: CGSize) -> CGSize {
-        return titleLabel.sizeThatFits(.init(width: .greatestFiniteMagnitude, height: size.height))
+        return titleLabel.sizeThatFits(.init(width: CGFloat.greatestFiniteMagnitude,
+                                             height: .greatestFiniteMagnitude))
     }
 }

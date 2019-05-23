@@ -51,6 +51,6 @@ final class ColorCellItem: CollectionViewCellItem, CollectionViewDiffableItem, C
 
     var description: String {
         let colorString = "\(color)".replacingOccurrences(of: "UIExtendedSRGBColorSpace ", with: "")
-        return "\nid = \(diffIdentifier), color = \(colorString), title = \(title)"
+        return "\n cellItem id = \(diffIdentifier), color = \(colorString), title = \(title)"
     }
 }

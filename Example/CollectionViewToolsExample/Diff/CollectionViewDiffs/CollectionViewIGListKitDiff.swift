@@ -11,7 +11,6 @@ final class CollectionViewIGListKitDiff: CollectionViewDiff {
         let oldWrappers = old.map { IGListKitDiffableItemWrapper(item: $0) }
         let newWrappers = new.map { IGListKitDiffableItemWrapper(item: $0) }
         let result = ListDiff(oldArray: oldWrappers, newArray: newWrappers, option: .equality)
-        print("<<< IG LIST KIT DIFF \(result)")
         let inserts = result.inserts.map { index in
             CollectionViewChange(insert: .init(item: new[index], index: index))
         }
@@ -24,11 +23,21 @@ final class CollectionViewIGListKitDiff: CollectionViewDiff {
                                                           to: move.to))
         }
         let updates = result.updates.map { index -> CollectionViewChange<T> in
+            //recalculate indexes for updates
             let oldItem = old[index]
-            let newItem = new.first { $0.diffIdentifier == oldItem.diffIdentifier }
+            var newItem: T?
+            var newIndex: Int?
+            for (index, item) in new.enumerated() {
+                guard oldItem.diffIdentifier == item.diffIdentifier else {
+                    continue
+                }
+                newItem = item
+                newIndex = index
+                break
+            }
             return CollectionViewChange(update: CollectionViewUpdate(oldItem: oldItem,
                                                                      newItem: newItem,
-                                                                     index: index))
+                                                                     index: newIndex))
         }
         let changes = inserts + deletes + updates + moves
         return changes

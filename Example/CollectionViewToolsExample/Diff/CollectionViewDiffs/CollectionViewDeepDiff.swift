@@ -23,7 +23,6 @@ final class CollectionViewDeepDiff: CollectionViewDiff {
                                                                  from: result.move?.fromIndex,
                                                                  to: result.move?.toIndex))
         }
-        print("<<< DEEP DIFF \(results)")
         return changes
     }
 }
@@ -58,7 +57,7 @@ extension DeepDiff.Change: CustomStringConvertible {
             strings.append("delete \(delete.index)")
         }
         if let replace = replace {
-            strings.append("replace \(replace.index)")
+            strings.append("update \(replace.index)")
         }
         if let move = move {
             strings.append("move from \(move.fromIndex) to \(move.toIndex)")
