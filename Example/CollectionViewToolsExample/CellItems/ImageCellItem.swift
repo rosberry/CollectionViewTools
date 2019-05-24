@@ -27,11 +27,7 @@ final class ImageCellItem: CollectionViewCellItem {
         self.image = image
         self.selectionHandler = selectionHandler
     }
-    
-    deinit {
-        print("\(self) deinit")
-    }
-    
+        
     func size(in collectionView: UICollectionView, sectionItem: CollectionViewSectionItem) -> CGSize {
         var shift = sectionItem.insets.left / 2 + sectionItem.insets.right / 2
         shift += shift / 2

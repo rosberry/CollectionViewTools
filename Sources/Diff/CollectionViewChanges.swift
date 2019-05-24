@@ -27,7 +27,7 @@ public final class CollectionViewDeleteInsert<T>: CustomStringConvertible {
     }
 }
 
-public final class CollectionViewUpdate<T>: CustomStringConvertible {
+public final class CollectionViewUpdate<T>: Hashable, CustomStringConvertible {
 
     let oldItem: T
     let newItem: T
@@ -52,6 +52,14 @@ public final class CollectionViewUpdate<T>: CustomStringConvertible {
 
     public var description: String {
         return "\(index)"
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(index)
+    }
+
+    public static func == (lhs: CollectionViewUpdate<T>, rhs: CollectionViewUpdate<T>) -> Bool {
+        return lhs.index == rhs.index
     }
 }
 
@@ -130,6 +138,11 @@ final class CollectionViewChanges<T>: CustomStringConvertible {
     let updates: [CollectionViewUpdate<T>]
     let moves: [CollectionViewMove<T>]
 
+    let hasInserts: Bool
+    let hasDeletes: Bool
+    let hasUpdates: Bool
+    let hasMoves: Bool
+
     init(changes: [CollectionViewChange<CollectionViewDiffableItemWrapper>]) {
         var inserts: [CollectionViewDeleteInsert<T>] = []
         var insertedIndexes: [Int] = []
@@ -162,49 +175,16 @@ final class CollectionViewChanges<T>: CustomStringConvertible {
             }
         }
 
-        var filteredMoves = moves
-//        for move in moves {
-//            guard let updatedIndex = updatedIndexes.firstIndex(of: move.from),
-//                let index = filteredMoves.firstIndex(of: move) else {
-//                    continue
-//            }
-//            filteredMoves.remove(at: index)
-//            updates.remove(at: updatedIndex)
-//            updatedIndexes.remove(at: updatedIndex)
-//            deletes.append(CollectionViewDeleteInsert(item: move.item, index: move.from))
-//            inserts.append(CollectionViewDeleteInsert(item: move.item, index: move.to))
-//        }
-//
-//        for move in moves {
-//            let deletedIndex = deletedIndexes.firstIndex(of: move.from)
-//            let insertedIndex = insertedIndexes.firstIndex(of: move.to)
-//            guard deletedIndex != nil || insertedIndex != nil else {
-//                continue
-//            }
-//            if let index = filteredMoves.firstIndex(of: move) {
-//                filteredMoves.remove(at: index)
-//            }
-//            deletes.append(CollectionViewDeleteInsert(item: move.item, index: move.from))
-//            inserts.append(CollectionViewDeleteInsert(item: move.item, index: move.to))
-//        }
-//        
-//
-//        if inserts.count > 0 ||
-//            deletes.count > 0 {
-//            for update in updates {
-//                deletes.append(CollectionViewDeleteInsert(item: update.newItem, index: update.index))
-//                inserts.append(CollectionViewDeleteInsert(item: update.newItem, index: update.index))
-//            }
-//            updates.removeAll()
-//        }
-
         self.inserts = inserts
         self.deletes = deletes
         self.updates = updates
-        self.moves = filteredMoves
-    }
+        self.moves = moves
 
-    // MARK: - CustomStringConvertible
+        self.hasInserts = inserts.count > 0
+        self.hasDeletes = deletes.count > 0
+        self.hasUpdates = updates.count > 0
+        self.hasMoves = moves.count > 0
+    }
 
     var description: String {
         var strings: [String] = []
@@ -227,14 +207,51 @@ final class CollectionViewChanges<T>: CustomStringConvertible {
 final class CollectionViewDiffResult {
 
     typealias SectionChanges = CollectionViewChanges<CollectionViewDiffableSectionItem>
+    typealias SectionUpdate = CollectionViewUpdate<CollectionViewDiffableSectionItem>
     typealias CellChanges = CollectionViewChanges<CollectionViewDiffableCellItem>
-    typealias CellChangesMap = [Int: CellChanges]
+    typealias CellChangesMap = [SectionUpdate: CellChanges]
 
     let sectionChanges: SectionChanges
     let cellChangesMap: CellChangesMap
 
+    let sectionUpdates: [SectionUpdate]
+    let cellUpdatesMap: CellChangesMap
+    let cellDeletesInsertsMovesMap: CellChangesMap
+
+    let hasSectionUpdates: Bool
+    let hasCellUpdates: Bool
+    let hasCellDeletesInsertsMoves: Bool
+
     init(sectionChanges: SectionChanges, cellChangesMap: CellChangesMap) {
         self.sectionChanges = sectionChanges
         self.cellChangesMap = cellChangesMap
+
+        var sectionUpdates: [SectionUpdate] = []
+        var cellUpdatesMap: CellChangesMap = [:]
+        var cellDeletesInsertsMovesMap: CellChangesMap = [:]
+
+        for update in sectionChanges.updates {
+            if let cellChanges = cellChangesMap[update] {
+                if cellChanges.hasDeletes ||
+                    cellChanges.hasInserts ||
+                    cellChanges.hasMoves {
+                    cellDeletesInsertsMovesMap[update] = cellChanges
+                }
+                if cellChanges.hasUpdates {
+                    cellUpdatesMap[update] = cellChanges
+                }
+            }
+            else {
+                sectionUpdates.append(update)
+            }
+        }
+
+        self.sectionUpdates = sectionUpdates
+        self.cellUpdatesMap = cellUpdatesMap
+        self.cellDeletesInsertsMovesMap = cellDeletesInsertsMovesMap
+
+        hasSectionUpdates = sectionUpdates.count > 0
+        self.hasCellUpdates = cellUpdatesMap.count > 0
+        self.hasCellDeletesInsertsMoves = cellDeletesInsertsMovesMap.count > 0
     }
 }

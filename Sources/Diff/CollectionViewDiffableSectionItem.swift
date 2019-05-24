@@ -46,7 +46,6 @@ open class GeneralCollectionViewDiffableSectionItem: CollectionViewDiffableSecti
     }
 
     public var description: String {
-//        return "\n\n sectionItem id = \(diffIdentifier) \ncellItems =\n\(cellItems)"
-        return "id = \(diffIdentifier) items = \(cellItems.count)"
+        return "\n\n sectionItem id = \(diffIdentifier) \ncellItems =\n\(cellItems)"
     }
 }
