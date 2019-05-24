@@ -8,7 +8,7 @@ final class TextCollectionViewCell: UICollectionViewCell {
 
     override var isHighlighted: Bool {
         didSet {
-            titleLabel.alpha = isHighlighted ? 0.7 : 1.0
+            contentView.alpha = isHighlighted ? 0.7 : 1.0
         }
     }
 

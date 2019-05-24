@@ -8,6 +8,12 @@ import UIKit
 
 final class ColorCollectionViewCell: UICollectionViewCell {
 
+    override var isHighlighted: Bool {
+        didSet {
+            contentView.alpha = isHighlighted ? 0.7 : 1.0
+        }
+    }
+
     // MARK: Subviews
 
     lazy var label: UILabel = {

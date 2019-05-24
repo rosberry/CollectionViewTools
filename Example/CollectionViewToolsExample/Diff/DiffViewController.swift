@@ -14,7 +14,7 @@ class DiffViewController: UIViewController {
     private let groupsCacheKey: String = "groups"
     private var lastGroupId: Int = 1
     private var lastObjectId: Int = 1
-
+    private let defaultObjectsCount: Int = 10
 
     // MARK: Subviews
 
@@ -78,15 +78,19 @@ class DiffViewController: UIViewController {
 
     // MARK: - Models
 
-    private func makeGroup(color: Color, objectsCount: Int) -> Group {
-        let objects = (0..<objectsCount).map { objectIndex -> Object in
-            let object = Object(id: lastObjectId, color: color, title: "\(lastObjectId)")
-            lastObjectId += 1
-            return object
+    private func makeGroup(color: Color, title: String, objectsCount: Int) -> Group {
+        let objects = (0..<objectsCount).map { objectIndex in
+            makeObject(color: color, title: "\(objectIndex + 1)")
         }
-        let group = Group(id: lastGroupId, objects: objects, color: color, title: "Section \(lastGroupId)")
+        let group = Group(id: lastGroupId, objects: objects, color: color, title: title)
         lastGroupId += 1
         return group
+    }
+
+    private func makeObject(color: Color, title: String) -> Object {
+        let object = Object(id: lastObjectId, color: color, title: title)
+        lastObjectId += 1
+        return object
     }
 
     private func resetGroupsAndObjects() {
@@ -94,8 +98,9 @@ class DiffViewController: UIViewController {
         lastGroupId = 1
         lastObjectId = 1
         groups = colors.enumerated().map { (groupIndex, color) -> Group in
-            let objectsCount = 10 - groupIndex
-            return makeGroup(color: color, objectsCount: objectsCount)
+            makeGroup(color: color,
+                      title: groupTitle(with: groupIndex + 1),
+                      objectsCount: defaultObjectsCount)
         }
     }
 
@@ -127,6 +132,10 @@ class DiffViewController: UIViewController {
     }
 
     private func shuffleGroupObjects(withUpdates: Bool) {
+        shuffleGroupObjects(for: groups, withUpdates: withUpdates)
+    }
+
+    private func shuffleGroupObjects(for groups: [Group], withUpdates: Bool) {
         for group in groups {
             group.objects.shuffle()
             if withUpdates {
@@ -168,23 +177,36 @@ class DiffViewController: UIViewController {
     private func delete(_ group: Group) {
         if let index = groups.firstIndex(of: group) {
             groups.remove(at: index)
-            updateMainCollection(animated: true)
         }
     }
 
     private func delete(_ object: Object, from group: Group) {
         if let index = group.objects.firstIndex(of: object) {
             group.objects.remove(at: index)
-            updateMainCollection(animated: true)
         }
     }
 
     private func insertGroup(after group: Group) {
         if let index = groups.firstIndex(of: group) {
-            let newGroup = makeGroup(color: .random, objectsCount: 10)
+            let newGroup = makeGroup(color: .random,
+                                     title: groupTitle(with: groups.count + 1),
+                                     objectsCount: defaultObjectsCount)
             groups.insert(newGroup, at: index + 1)
-            updateMainCollection(animated: true)
         }
+    }
+
+    private func insertObject(in group: Group, after object: Object?) {
+        var index = 0
+        if let object = object,
+            let idx = group.objects.firstIndex(of: object) {
+            index = idx
+        }
+        let newObject = makeObject(color: group.color, title: "\(group.objects.count + 1)")
+        group.objects.insert(newObject, at: index + 1)
+    }
+
+    private func addObject(in group: Group) {
+        insertObject(in: group, after: group.objects.last)
     }
 
     private func cache(_ groups: [Group]) {
@@ -198,6 +220,10 @@ class DiffViewController: UIViewController {
                 return []
         }
         return groups
+    }
+
+    private func groupTitle(with index: Int) -> String {
+        return "Section \(index)"
     }
 
     // MARK: - Main Collection
@@ -221,21 +247,42 @@ class DiffViewController: UIViewController {
 
     func makeMainSectionItems(groups: [Group]) -> [CollectionViewDiffableSectionItem] {
         return groups.reduce([]) { (result, group) in
-            result + [makeGroupSectionItem(group: group), makePlusSectionItem(after: group)]
+            result + [makeGroupSectionItem(group: group),
+                      makeGroupActionsSectionItem(group: group),
+                      makePlusSectionItem(after: group)]
         }
     }
 
     func makeGroupSectionItem(group: Group) -> CollectionViewDiffableSectionItem {
         let sectionItem = GeneralCollectionViewDiffableSectionItem()
         sectionItem.diffIdentifier = "\(group.id)"
-        sectionItem.cellItems.append(makeGroupTitleCellItem(group: group))
-        for object in group.objects {
-            let cellItem = makeColorCellItem(object: object, group: group)
-            sectionItem.cellItems.append(cellItem)
-        }
         sectionItem.insets = .init(top: 0, left: 8, bottom: 0, right: 8)
         sectionItem.minimumInteritemSpacing = 2
         sectionItem.minimumLineSpacing = 2
+        sectionItem.cellItems.append(makeGroupTitleCellItem(group: group))
+        for object in group.objects {
+            let cellItem = makeObjectCellItem(object: object, group: group)
+            sectionItem.cellItems.append(cellItem)
+        }
+        return sectionItem
+    }
+
+    func makeGroupActionsSectionItem(group: Group) -> CollectionViewDiffableSectionItem {
+        let sectionItem = GeneralCollectionViewDiffableSectionItem()
+        sectionItem.diffIdentifier = "actions_\(group.id)"
+        sectionItem.insets = .init(top: 8, left: 8, bottom: 0, right: 8)
+        sectionItem.minimumInteritemSpacing = 2
+        sectionItem.minimumLineSpacing = 2
+        sectionItem.cellItems = [
+            makeMainActionCellItem(title: "Add cell") { [weak self] in
+                self?.addObject(in: group)
+                self?.updateMainCollection(animated: true, cache: false)
+            },
+            makeMainActionCellItem(title: "Shuffle cells") { [weak self] in
+                self?.shuffleGroupObjects(for: [group], withUpdates: false)
+                self?.updateMainCollection(animated: true, cache: false)
+            }
+        ]
         return sectionItem
     }
 
@@ -255,6 +302,7 @@ class DiffViewController: UIViewController {
         cellItem.diffIdentifier = "group_title_\(group.id)"
         cellItem.itemDidSelectHandler = { [weak self] _ in
             self?.delete(group)
+            self?.updateMainCollection(animated: true, cache: false)
         }
         return cellItem
     }
@@ -268,15 +316,26 @@ class DiffViewController: UIViewController {
         cellItem.diffIdentifier = "group_plus_\(group.id)"
         cellItem.itemDidSelectHandler = { [weak self] _ in
             self?.insertGroup(after: group)
+            self?.updateMainCollection(animated: true, cache: false)
         }
         return cellItem
     }
 
-    private func makeColorCellItem(object: Object, group: Group) -> ColorCellItem {
+    private func makeObjectCellItem(object: Object, group: Group) -> ColorCellItem {
         let cellItem = ColorCellItem(color: object.color.uiColor, title: "\(object.title)")
         cellItem.diffIdentifier = "object_item_\(object.id)"
         cellItem.itemDidSelectHandler = { [weak self] _ in
             self?.delete(object, from: group)
+            self?.updateMainCollection(animated: true, cache: false)
+        }
+        return cellItem
+    }
+
+    func makeMainActionCellItem(title: String, action: @escaping (() -> Void)) -> TextCellItem {
+        let cellItem = TextCellItem(text: title, backgroundColor: UIColor.black.withAlphaComponent(0.2), roundCorners: true)
+        cellItem.diffIdentifier = "action_\(title)"
+        cellItem.itemDidSelectHandler = { _ in
+            action()
         }
         return cellItem
     }
@@ -287,7 +346,6 @@ class DiffViewController: UIViewController {
         let sectionItem = GeneralCollectionViewSectionItem()
         sectionItem.cellItems = [
             makeResetActionCellItem(),
-            makeCacheActionCellItem(),
             // Sections
             makeShuffleSectionsActionCellItem(),
             makeShuffleSectionsWithUpdatesActionCellItem(),
@@ -298,8 +356,9 @@ class DiffViewController: UIViewController {
             makeShuffleAllCellsActionCellItem(),
             makeShuffleAllCellsWithUpdatesActionCellItem(),
             makeShuffleSectionCellsActionCellItem(),
-            makeShuffleSectionCellsWithUpdatesActionCellItem()
-
+            makeShuffleSectionCellsWithUpdatesActionCellItem(),
+            // Cache
+            makeCacheActionCellItem()
         ]
         sectionItem.insets = .init(top: 0, left: 8, bottom: 0, right: 8)
         sectionItem.minimumInteritemSpacing = 8
