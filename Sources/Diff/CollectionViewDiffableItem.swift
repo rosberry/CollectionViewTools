@@ -9,6 +9,10 @@ public protocol CollectionViewDiffableItem {
     func equal(to item: CollectionViewDiffableItem) -> Bool
 }
 
+public typealias CollectionViewDiffableSectionItem = CollectionViewSectionItem & CollectionViewDiffableItem
+
+public typealias CollectionViewDiffableCellItem = CollectionViewCellItem & CollectionViewDiffableItem
+
 public final class CollectionViewDiffableItemWrapper: CollectionViewDiffableItem {
 
     let item: CollectionViewDiffableItem

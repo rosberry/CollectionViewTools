@@ -2,9 +2,6 @@
 //  Copyright © 2019 Rosberry. All rights reserved.
 //
 
-public typealias CollectionViewDiffableSectionItem = CollectionViewSectionItem &
-                                                     CollectionViewDiffableItem
-
 open class GeneralCollectionViewDiffableSectionItem: CollectionViewDiffableSectionItem, Equatable, CustomStringConvertible {
 
     public var diffIdentifier: String = ""
@@ -36,9 +33,9 @@ open class GeneralCollectionViewDiffableSectionItem: CollectionViewDiffableSecti
         }
         // TODO: add reusableViewItems here
         return zip(cellItems, itemCellItems).first { !$0.equal(to: $1) } == nil &&
-               minimumLineSpacing == item.minimumLineSpacing &&
-               minimumInteritemSpacing == item.minimumInteritemSpacing &&
-               insets == item.insets
+            minimumLineSpacing == item.minimumLineSpacing &&
+            minimumInteritemSpacing == item.minimumInteritemSpacing &&
+            insets == item.insets
     }
 
     public static func == (lhs: GeneralCollectionViewDiffableSectionItem, rhs: GeneralCollectionViewDiffableSectionItem) -> Bool {
@@ -47,5 +44,12 @@ open class GeneralCollectionViewDiffableSectionItem: CollectionViewDiffableSecti
 
     public var description: String {
         return "\n\n sectionItem id = \(diffIdentifier) \ncellItems =\n\(cellItems)"
+    }
+}
+
+extension CollectionViewSectionItem {
+
+    var diffableCellItems: [CollectionViewDiffableCellItem] {
+        return cellItems.compactMap { $0 as? CollectionViewDiffableCellItem }
     }
 }
