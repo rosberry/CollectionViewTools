@@ -376,6 +376,7 @@ open class CollectionViewManager: NSObject {
                       with cellItems: [CellItem],
                       in sectionItem: SectionItem,
                       performUpdates: Bool = true,
+                      configureAnimated: Bool = false,
                       completion: Completion? = nil) {
         guard indexes.count > 0 else {
             return
@@ -402,6 +403,7 @@ open class CollectionViewManager: NSObject {
                     if !cellItem.isReplacementAnimationEnabled,
                         let cell = collectionView?.cellForItem(at: indexPath) {
                         cellItem.configure(cell)
+                        cellItem.configure(cell, animated: configureAnimated)
                     }
                     else {                        
                         indexPaths.append(indexPath)
@@ -691,12 +693,13 @@ open class CollectionViewManager: NSObject {
         }
     }
 
-    func configureCellItems() {
+    func configureCellItems(animated: Bool = false) {
         for sectionItem in _sectionItems {
             for cellItem in sectionItem.cellItems {
                 if let indexPath = cellItem.indexPath,
                     let cell = collectionView.cellForItem(at: indexPath) {
                     cellItem.configure(cell)
+                    cellItem.configure(cell, animated: animated)
                 }
             }
         }

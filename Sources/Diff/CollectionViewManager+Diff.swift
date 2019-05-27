@@ -30,6 +30,7 @@ extension CollectionViewManager {
                 self.updateCollectionView(with: sectionItems,
                                           diffResult: diffResult,
                                           ignoreCellItemsChanges: ignoreCellItemsChanges,
+                                          animated: animated,
                                           completion: completion)
             }
         }
@@ -54,13 +55,17 @@ extension CollectionViewManager {
     private func updateCollectionView(with sectionItems: [CollectionViewDiffableSectionItem],
                                       diffResult: CollectionViewDiffResult,
                                       ignoreCellItemsChanges: Bool,
+                                      animated: Bool,
                                       completion: DiffCompletion?) {
         var hasDeletesInsertsMoves: Bool?
         var hasUpdates: Bool?
+        var itemsWereUpdated: Bool?
 
         func complete() {
             if let hasDeletesInsertsMoves = hasDeletesInsertsMoves,
-                let hasUpdates = hasUpdates {
+                let hasUpdates = hasUpdates,
+                itemsWereUpdated != nil {
+                diffSemaphore.signal()
                 completion?(hasDeletesInsertsMoves || hasUpdates)
             }
         }
@@ -70,13 +75,16 @@ extension CollectionViewManager {
             complete()
         }
 
-        updateSectionItems(for: diffResult, ignoreCellItemsChanges: ignoreCellItemsChanges) { changed in
+        updateSectionItems(for: diffResult, ignoreCellItemsChanges: ignoreCellItemsChanges, animated: animated) { changed in
             hasUpdates = changed
             complete()
         }
 
         update(sectionItems, shouldReloadData: false)
         recalculateIndexes()
+
+        itemsWereUpdated = true
+        complete()
     }
 
     // MARK: - Section Items
@@ -100,6 +108,7 @@ extension CollectionViewManager {
 
     private func updateSectionItems(for diffResult: CollectionViewDiffResult,
                                     ignoreCellItemsChanges: Bool,
+                                    animated: Bool,
                                     completion: DiffCompletion?) {
         guard diffResult.sectionChanges.hasUpdates else {
             completion?(false)
@@ -126,7 +135,7 @@ extension CollectionViewManager {
                 complete()
             }
 
-            updateCellItems(for: diffResult) { changed in
+            updateCellItems(for: diffResult, animated: animated) { changed in
                 hasUpdates = changed
                 complete()
             }
@@ -196,7 +205,7 @@ extension CollectionViewManager {
         })
     }
 
-    private func updateCellItems(for diffResult: CollectionViewDiffResult, completion: DiffCompletion?) {
+    private func updateCellItems(for diffResult: CollectionViewDiffResult, animated: Bool, completion: DiffCompletion?) {
         guard diffResult.hasSectionUpdates ||
             diffResult.hasCellUpdates else {
                 completion?(false)
@@ -204,7 +213,7 @@ extension CollectionViewManager {
         }
         collectionView.performBatchUpdates({
             diffResult.cellUpdatesMap.forEach { (update, cellChanges) in
-                updateCellItems(with: cellChanges.updates, in: update.oldItem)
+                updateCellItems(with: cellChanges.updates, in: update.oldItem, animated: animated)
             }
             updateSectionItems(with: diffResult.sectionUpdates)
         }, completion: { _ in
@@ -213,7 +222,8 @@ extension CollectionViewManager {
     }
 
     private func updateCellItems(with updates: [CollectionViewUpdate<CollectionViewDiffableCellItem>],
-                                 in sectionItem: CollectionViewSectionItem) {
+                                 in sectionItem: CollectionViewSectionItem,
+                                 animated: Bool) {
         if updates.isEmpty {
             return
         }
@@ -223,7 +233,7 @@ extension CollectionViewManager {
             indexes.append(update.index)
             items.append(update.newItem)
         }
-        replace(cellItemsAt: indexes, with: items, in: sectionItem, performUpdates: false)
+        replace(cellItemsAt: indexes, with: items, in: sectionItem, performUpdates: false, configureAnimated: animated)
     }
 
     private func deleteCellItems(with deletes: [CollectionViewDeleteInsert<CollectionViewDiffableCellItem>],
@@ -268,31 +278,50 @@ extension CollectionViewManager {
 
     private enum AssociatedKeys {
         static var diffResultQueue = "rsb_diffResultQueue"
+        static var diffSemaphore = "rsb_diffSemaphore"
     }
-    
+
     private var diffResultQueue: DispatchQueue {
         get {
             if let diffResultQueue = objc_getAssociatedObject(self, &AssociatedKeys.diffResultQueue) as? DispatchQueue {
                 return diffResultQueue
             }
-            self.diffResultQueue = DispatchQueue.global()
+            self.diffResultQueue = .init(label: "DiffResultQueue", qos: .background)
             return self.diffResultQueue
         }
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.diffResultQueue, newValue, .OBJC_ASSOCIATION_ASSIGN)
+            objc_setAssociatedObject(self, &AssociatedKeys.diffResultQueue, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    private var diffSemaphore: DispatchSemaphore {
+        get {
+            if let diffSemaphore = objc_getAssociatedObject(self, &AssociatedKeys.diffSemaphore) as? DispatchSemaphore {
+                return diffSemaphore
+            }
+            self.diffSemaphore = .init(value: 1)
+            return self.diffSemaphore
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.diffSemaphore, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 
     private func calculateDiffResult(for sectionItems: [CollectionViewDiffableSectionItem],
                                      diff: CollectionViewDiff,
                                      completion: @escaping (CollectionViewDiffResult?) -> Void) {
+        func complete(with result: CollectionViewDiffResult?) {
+            completion(result)
+        }
         diffResultQueue.async {
+            self.diffSemaphore.wait()
+
             let oldSectionItems = self.diffableSectionItems
             let sectionDiffs = diff.changes(old: self.diffableItemWrappers(for: oldSectionItems),
                                             new: self.diffableItemWrappers(for: sectionItems))
             if sectionDiffs.isEmpty {
                 DispatchQueue.main.async {
-                    completion(nil)
+                    complete(with: nil)
                 }
             }
             let sectionChanges = CollectionViewChanges<CollectionViewDiffableSectionItem>(changes: sectionDiffs)
@@ -308,7 +337,7 @@ extension CollectionViewManager {
             }
             let result = CollectionViewDiffResult(sectionChanges: sectionChanges, cellChangesMap: cellChangesMap)
             DispatchQueue.main.async {
-                completion(result)
+                complete(with: result)
             }
         }
     }

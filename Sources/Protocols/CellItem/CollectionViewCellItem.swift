@@ -35,11 +35,14 @@ public protocol CollectionViewSizeCellItem: AnyObject {
 public protocol CollectionViewConfigureCellItem: AnyObject {
     var isReplacementAnimationEnabled: Bool { get }
     func configure(_ cell: UICollectionViewCell)
+    func configure(_ cell: UICollectionViewCell, animated: Bool)
 }
 
 public extension CollectionViewConfigureCellItem {
     var isReplacementAnimationEnabled: Bool {
         return true
+    }
+    func configure(_ cell: UICollectionViewCell, animated: Bool) {
     }
 }
 

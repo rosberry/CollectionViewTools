@@ -14,7 +14,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = .white
+        #if DIFF
         window?.rootViewController = UINavigationController(rootViewController: DiffViewController())
+        #else
+        window?.rootViewController = UINavigationController(rootViewController: MainViewController())
+        #endif
         window?.makeKeyAndVisible()
         return true
     }

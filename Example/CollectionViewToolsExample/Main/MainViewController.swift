@@ -35,16 +35,21 @@ class MainViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .clear
         return view
     }()
-    
-    lazy var mainCollectionView: UICollectionView = {
+    private lazy var mainCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.backgroundColor = .clear
         collectionView.alwaysBounceVertical = true
         return collectionView
     }()
+    private lazy var actionsCollectionBackgroundView: UIVisualEffectView = {
+        let view = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+        view.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
+        return view
+    }()
+
     
     // MARK: Lifecycle
     
@@ -53,9 +58,11 @@ class MainViewController: UIViewController {
         
         navigationItem.title = "Library"
         edgesForExtendedLayout = []
+
         view.addSubview(mainCollectionView)
+        view.addSubview(actionsCollectionBackgroundView)
         view.addSubview(actionsCollectionView)
-        
+
         resetMainCollection()
         actionsCollectionViewManager.sectionItems = [makeActionsSectionItem()]
     }
@@ -63,19 +70,18 @@ class MainViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        var bottomInset: CGFloat = 0
-        if #available(iOS 11.0, *) {
-            bottomInset = view.safeAreaInsets.bottom
-        }
-        let actionsCollectionHeight: CGFloat = 70
-        mainCollectionView.frame = .init(x: 0,
-                                         y: 0,
-                                         width: view.bounds.width,
-                                         height: view.bounds.height - actionsCollectionHeight - bottomInset)
-        actionsCollectionView.frame = .init(x: 0,
-                                            y: view.bounds.height - actionsCollectionHeight - bottomInset,
-                                            width: view.bounds.width,
-                                            height: actionsCollectionHeight)
+        actionsCollectionView.frame.size.width = view.bounds.width
+        actionsCollectionView.frame.size.height = 50 + bottomLayoutGuide.length
+        actionsCollectionView.frame.origin.y = view.bounds.height - actionsCollectionView.frame.height
+        actionsCollectionView.contentInset.bottom = bottomLayoutGuide.length
+
+        actionsCollectionBackgroundView.frame = actionsCollectionView.frame
+
+        mainCollectionView.frame.size.width = view.bounds.width
+        mainCollectionView.frame.size.height = view.bounds.height
+        mainCollectionView.contentInset.top = 8
+        mainCollectionView.contentInset.bottom = 8 + actionsCollectionView.frame.height - bottomLayoutGuide.length
+        mainCollectionView.scrollIndicatorInsets = mainCollectionView.contentInset
     }
     
     // MARK: - Private
