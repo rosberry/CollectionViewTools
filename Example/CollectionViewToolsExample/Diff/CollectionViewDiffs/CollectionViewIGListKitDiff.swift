@@ -7,7 +7,7 @@ import CollectionViewTools
 
 final class CollectionViewIGListKitDiff: CollectionViewDiff {
 
-    func changes<T: CollectionViewDiffableItem>(old: [T], new: [T]) -> [CollectionViewChange<T>] {
+    func changes<T: CollectionViewDiffItem>(old: [T], new: [T]) -> [CollectionViewChange<T>] {
         let oldWrappers = old.map { IGListKitDiffableItemWrapper(item: $0) }
         let newWrappers = new.map { IGListKitDiffableItemWrapper(item: $0) }
         let result = ListDiff(oldArray: oldWrappers, newArray: newWrappers, option: .equality)
@@ -44,7 +44,7 @@ final class CollectionViewIGListKitDiff: CollectionViewDiff {
     }
 }
 
-public final class IGListKitDiffableItemWrapper<T: CollectionViewDiffableItem>: ListDiffable {
+public final class IGListKitDiffableItemWrapper<T: CollectionViewDiffItem>: ListDiffable {
 
     let item: T
 

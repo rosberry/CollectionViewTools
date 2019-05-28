@@ -4,5 +4,5 @@
 
 public protocol CollectionViewDiff {
 
-    func changes<T: CollectionViewDiffableItem>(old: [T], new: [T]) -> [CollectionViewChange<T>]
+    func changes<T: CollectionViewDiffItem>(old: [T], new: [T]) -> [CollectionViewChange<T>]
 }

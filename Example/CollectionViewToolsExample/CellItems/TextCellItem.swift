@@ -4,7 +4,7 @@
 
 import CollectionViewTools
 
-final class TextCellItem: CollectionViewCellItem, CollectionViewDiffableItem, CustomStringConvertible {
+final class TextCellItem: CollectionViewCellItem, CollectionViewDiffItem, CustomStringConvertible {
     
     private typealias Cell = TextCollectionViewCell
 
@@ -60,7 +60,7 @@ final class TextCellItem: CollectionViewCellItem, CollectionViewDiffableItem, Cu
 
     var diffIdentifier: String = ""
 
-    func equal(to item: CollectionViewDiffableItem) -> Bool {
+    func equal(to item: CollectionViewDiffItem) -> Bool {
         guard let item = item as? TextCellItem else {
             return false
         }

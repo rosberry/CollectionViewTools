@@ -245,7 +245,7 @@ class DiffViewController: UIViewController {
         })
     }
 
-    func makeMainSectionItems(groups: [Group]) -> [CollectionViewDiffableSectionItem] {
+    func makeMainSectionItems(groups: [Group]) -> [CollectionViewDiffSectionItem] {
         return groups.reduce([]) { (result, group) in
             result + [makeGroupSectionItem(group: group),
                       makeGroupActionsSectionItem(group: group),
@@ -253,8 +253,8 @@ class DiffViewController: UIViewController {
         }
     }
 
-    func makeGroupSectionItem(group: Group) -> CollectionViewDiffableSectionItem {
-        let sectionItem = GeneralCollectionViewDiffableSectionItem()
+    func makeGroupSectionItem(group: Group) -> CollectionViewDiffSectionItem {
+        let sectionItem = GeneralCollectionViewDiffSectionItem()
         sectionItem.diffIdentifier = "\(group.id)"
         sectionItem.insets = .init(top: 0, left: 8, bottom: 0, right: 8)
         sectionItem.minimumInteritemSpacing = 2
@@ -267,8 +267,8 @@ class DiffViewController: UIViewController {
         return sectionItem
     }
 
-    func makeGroupActionsSectionItem(group: Group) -> CollectionViewDiffableSectionItem {
-        let sectionItem = GeneralCollectionViewDiffableSectionItem()
+    func makeGroupActionsSectionItem(group: Group) -> CollectionViewDiffSectionItem {
+        let sectionItem = GeneralCollectionViewDiffSectionItem()
         sectionItem.diffIdentifier = "actions_\(group.id)"
         sectionItem.insets = .init(top: 8, left: 8, bottom: 0, right: 8)
         sectionItem.minimumInteritemSpacing = 2
@@ -286,8 +286,8 @@ class DiffViewController: UIViewController {
         return sectionItem
     }
 
-    func makePlusSectionItem(after group: Group) -> CollectionViewDiffableSectionItem {
-        let sectionItem = GeneralCollectionViewDiffableSectionItem()
+    func makePlusSectionItem(after group: Group) -> CollectionViewDiffSectionItem {
+        let sectionItem = GeneralCollectionViewDiffSectionItem()
         sectionItem.diffIdentifier = "plus_\(group.id)"
         sectionItem.cellItems.append(makeGroupPlusCellItem(group: group))
         return sectionItem

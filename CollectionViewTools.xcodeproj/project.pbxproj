@@ -23,11 +23,12 @@
 		0A3763731F62545A00A80613 /* CollectionViewCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763621F62545A00A80613 /* CollectionViewCellItem.swift */; };
 		0A3763741F62545A00A80613 /* CollectionViewReusableViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763641F62545A00A80613 /* CollectionViewReusableViewItem.swift */; };
 		0A3763751F62545A00A80613 /* CollectionViewSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763661F62545A00A80613 /* CollectionViewSectionItem.swift */; };
-		0E0F409D222D4F0600B88DF3 /* GeneralCollectionViewDiffableSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0F4097222D4F0600B88DF3 /* GeneralCollectionViewDiffableSectionItem.swift */; };
-		0E0F409E222D4F0600B88DF3 /* CollectionViewDiffableItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0F4098222D4F0600B88DF3 /* CollectionViewDiffableItem.swift */; };
+		0E0F409D222D4F0600B88DF3 /* GeneralCollectionViewDiffSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0F4097222D4F0600B88DF3 /* GeneralCollectionViewDiffSectionItem.swift */; };
+		0E0F409E222D4F0600B88DF3 /* CollectionViewDiffItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0F4098222D4F0600B88DF3 /* CollectionViewDiffItem.swift */; };
 		0E0F409F222D4F0600B88DF3 /* CollectionViewDiffResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0F4099222D4F0600B88DF3 /* CollectionViewDiffResult.swift */; };
 		0E0F40A0222D4F0600B88DF3 /* CollectionViewManager+Diff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0F409A222D4F0600B88DF3 /* CollectionViewManager+Diff.swift */; };
 		0E0F40A1222D4F0600B88DF3 /* CollectionViewDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0F409B222D4F0600B88DF3 /* CollectionViewDiff.swift */; };
+		0E4B31D1229C02B800CE0B13 /* CollectionViewChanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4B31D0229C02B800CE0B13 /* CollectionViewChanges.swift */; };
 		629A6091BFB23B9D95D9BF56 /* Print.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A64DA578C05AC298ECFFD /* Print.swift */; };
 /* End PBXBuildFile section */
 
@@ -62,11 +63,12 @@
 		0A3763621F62545A00A80613 /* CollectionViewCellItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCellItem.swift; sourceTree = "<group>"; };
 		0A3763641F62545A00A80613 /* CollectionViewReusableViewItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewReusableViewItem.swift; sourceTree = "<group>"; };
 		0A3763661F62545A00A80613 /* CollectionViewSectionItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewSectionItem.swift; sourceTree = "<group>"; };
-		0E0F4097222D4F0600B88DF3 /* GeneralCollectionViewDiffableSectionItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralCollectionViewDiffableSectionItem.swift; sourceTree = "<group>"; };
-		0E0F4098222D4F0600B88DF3 /* CollectionViewDiffableItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDiffableItem.swift; sourceTree = "<group>"; };
+		0E0F4097222D4F0600B88DF3 /* GeneralCollectionViewDiffSectionItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralCollectionViewDiffSectionItem.swift; sourceTree = "<group>"; };
+		0E0F4098222D4F0600B88DF3 /* CollectionViewDiffItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDiffItem.swift; sourceTree = "<group>"; };
 		0E0F4099222D4F0600B88DF3 /* CollectionViewDiffResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDiffResult.swift; sourceTree = "<group>"; };
 		0E0F409A222D4F0600B88DF3 /* CollectionViewManager+Diff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionViewManager+Diff.swift"; sourceTree = "<group>"; };
 		0E0F409B222D4F0600B88DF3 /* CollectionViewDiff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDiff.swift; sourceTree = "<group>"; };
+		0E4B31D0229C02B800CE0B13 /* CollectionViewChanges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewChanges.swift; sourceTree = "<group>"; };
 		629A64DA578C05AC298ECFFD /* Print.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Print.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -202,9 +204,10 @@
 			children = (
 				0E0F409A222D4F0600B88DF3 /* CollectionViewManager+Diff.swift */,
 				0E0F409B222D4F0600B88DF3 /* CollectionViewDiff.swift */,
+				0E4B31D0229C02B800CE0B13 /* CollectionViewChanges.swift */,
 				0E0F4099222D4F0600B88DF3 /* CollectionViewDiffResult.swift */,
-				0E0F4098222D4F0600B88DF3 /* CollectionViewDiffableItem.swift */,
-				0E0F4097222D4F0600B88DF3 /* GeneralCollectionViewDiffableSectionItem.swift */,
+				0E0F4098222D4F0600B88DF3 /* CollectionViewDiffItem.swift */,
+				0E0F4097222D4F0600B88DF3 /* GeneralCollectionViewDiffSectionItem.swift */,
 			);
 			path = Diff;
 			sourceTree = "<group>";
@@ -343,12 +346,13 @@
 				0E0F40A0222D4F0600B88DF3 /* CollectionViewManager+Diff.swift in Sources */,
 				0A37636C1F62545A00A80613 /* CollectionViewManager+UICollectionViewDelegate.swift in Sources */,
 				0E0F409F222D4F0600B88DF3 /* CollectionViewDiffResult.swift in Sources */,
-				0E0F409D222D4F0600B88DF3 /* GeneralCollectionViewDiffableSectionItem.swift in Sources */,
+				0E4B31D1229C02B800CE0B13 /* CollectionViewChanges.swift in Sources */,
+				0E0F409D222D4F0600B88DF3 /* GeneralCollectionViewDiffSectionItem.swift in Sources */,
 				0A3763721F62545A00A80613 /* CollectionViewCellItemDataSourcePrefetching.swift in Sources */,
 				0A3763731F62545A00A80613 /* CollectionViewCellItem.swift in Sources */,
 				0A3763711F62545A00A80613 /* GeneralCollectionViewSectionItem.swift in Sources */,
 				0A3763671F62545A00A80613 /* ClosureWrapper.swift in Sources */,
-				0E0F409E222D4F0600B88DF3 /* CollectionViewDiffableItem.swift in Sources */,
+				0E0F409E222D4F0600B88DF3 /* CollectionViewDiffItem.swift in Sources */,
 				0A37636E1F62545A00A80613 /* CollectionViewManager+UIScrollViewDelegate.swift in Sources */,
 				0A3763751F62545A00A80613 /* CollectionViewSectionItem.swift in Sources */,
 				629A6091BFB23B9D95D9BF56 /* Print.swift in Sources */,

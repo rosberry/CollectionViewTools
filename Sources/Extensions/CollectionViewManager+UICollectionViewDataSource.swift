@@ -28,7 +28,9 @@ extension CollectionViewManager: UICollectionViewDataSource {
                              viewForSupplementaryElementOfKind kind: String,
                              at indexPath: IndexPath) -> UICollectionReusableView {
         //TODO: Add same `configure` logic as with cell items
-        let reusableViewItem = sectionItem(for: indexPath)?.reusableViewItems.filter { $0.type.kind == kind }.first
+        let reusableViewItem = sectionItem(for: indexPath)?.reusableViewItems.first { item in
+            item.type.kind == kind
+        }
         let view = reusableViewItem?.view(for: collectionView, at: indexPath)
         return view ?? UICollectionReusableView()
     }
