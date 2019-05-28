@@ -10,6 +10,8 @@ import CollectionViewTools
 
 class DiffViewController: UIViewController {
 
+    typealias Diff = (name: String, value: CollectionViewDiff)
+
     private lazy var groups: [Group] = []
     private let groupsCacheKey: String = "groups"
     private var lastGroupId: Int = 1
@@ -18,8 +20,10 @@ class DiffViewController: UIViewController {
 
     // MARK: Subviews
 
+    private lazy var mainCollectionViewDiffs: [Diff] = [("DeepDiff", CollectionViewDeepDiff()),
+                                                         ("IGListKit", CollectionViewIGListKitDiff())]
+    private lazy var mainCollectionViewDiff: Diff = mainCollectionViewDiffs[0]
     private lazy var mainCollectionViewManager: CollectionViewManager = .init(collectionView: mainCollectionView)
-    private lazy var mainCollectionViewDiff: CollectionViewDiff = CollectionViewIGListKitDiff()
     private lazy var actionsCollectionViewManager: CollectionViewManager = .init(collectionView: actionsCollectionView)
 
     private lazy var mainCollectionView: UICollectionView = {
@@ -47,7 +51,8 @@ class DiffViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.title = "Diff"
+        navigationItem.title = "CollectionViewTools"
+        updateRightBarButtonItem()
 
         view.addSubview(mainCollectionView)
         view.addSubview(actionsCollectionBackgroundView)
@@ -74,6 +79,13 @@ class DiffViewController: UIViewController {
         mainCollectionView.contentInset.top = 8
         mainCollectionView.contentInset.bottom = 8 + actionsCollectionView.frame.height - bottomLayoutGuide.length
         mainCollectionView.scrollIndicatorInsets = mainCollectionView.contentInset
+    }
+
+    private func updateRightBarButtonItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: mainCollectionViewDiff.name,
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(presentDiffSelectionPopup))
     }
 
     // MARK: - Models
@@ -234,7 +246,7 @@ class DiffViewController: UIViewController {
         print("<<< OLD ITEMS = \(oldSectionItems)")
         print("<<< NEW ITEMS = \(newSectionItems)")
         mainCollectionViewManager.update(with: newSectionItems,
-                                         diff: CollectionViewDeepDiff(),
+                                         diff: mainCollectionViewDiff.value,
                                          ignoreCellItemsChanges: false,
                                          animated: animated,
                                          completion: { [weak self] _ in
@@ -447,5 +459,22 @@ class DiffViewController: UIViewController {
             action()
         }
         return cellItem
+    }
+
+    // MARK: - Diff Selection
+
+    @objc private func presentDiffSelectionPopup() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        mainCollectionViewDiffs.forEach { diff in
+            let action = UIAlertAction(title: diff.name, style: .default) { [weak self] _ in
+                self?.mainCollectionViewDiff = diff
+                self?.updateRightBarButtonItem()
+            }
+            let isSelected = mainCollectionViewDiff.name == diff.name
+            action.setValue(NSNumber(value: isSelected), forKey: "checked")
+            alertController.addAction(action)
+        }
+        alertController.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
+        present(alertController, animated: true)
     }
 }

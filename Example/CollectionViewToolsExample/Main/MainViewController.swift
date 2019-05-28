@@ -56,7 +56,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "Library"
+        navigationItem.title = "CollectionViewTools"
         edgesForExtendedLayout = []
 
         view.addSubview(mainCollectionView)
