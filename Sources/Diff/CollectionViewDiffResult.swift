@@ -57,29 +57,39 @@ final class CollectionViewDiffResultProvider {
 
     let backgroundQueue: DispatchQueue = .init(label: "DiffBackgroundQueue", qos: .background)
     let semaphore: DispatchSemaphore = .init(value: 1)
+    var sectionItems: [CollectionViewDiffSectionItem]?
 
     func diffResult(for sectionItems: [CollectionViewDiffSectionItem],
                     in manager: CollectionViewManager,
                     diff: CollectionViewDiff,
+                    async: Bool = false,
                     completion: @escaping (CollectionViewDiffResult?) -> Void) {
-        backgroundQueue.async {
-            self.semaphore.wait()
-
-            let oldSectionItems = manager.diffSectionItems
-
-            let sectionDiffs = diff.changes(old: self.wrappers(for: oldSectionItems),
-                                            new: self.wrappers(for: sectionItems))
-            if sectionDiffs.isEmpty {
+        func complete(with result: CollectionViewDiffResult?) {
+            if async {
+                self.semaphore.signal()
                 DispatchQueue.main.async {
-                    completion(nil)
+                    completion(result)
                 }
+            }
+            else {
+                completion(result)
+            }
+        }
+        func calculateDiff() {
+            let oldSectionItems = self.sectionItems ?? manager.diffSectionItems
+            self.sectionItems = sectionItems
+
+            let sectionDiffs = diff.changes(old: wrappers(for: oldSectionItems),
+                                            new: wrappers(for: sectionItems))
+            if sectionDiffs.isEmpty {
+                complete(with: nil)
                 return
             }
             let sectionChanges = CollectionViewChanges<CollectionViewDiffSectionItem>(changes: sectionDiffs)
             var cellChangesMap: CollectionViewDiffResult.CellChangesMap = [:]
             for update in sectionChanges.updates {
-                let cellDiffs = diff.changes(old: self.wrappers(for: update.oldItem.diffCellItems),
-                                             new: self.wrappers(for: update.newItem.diffCellItems))
+                let cellDiffs = diff.changes(old: wrappers(for: update.oldItem.diffCellItems),
+                                             new: wrappers(for: update.newItem.diffCellItems))
                 if cellDiffs.isEmpty {
                     continue
                 }
@@ -87,9 +97,16 @@ final class CollectionViewDiffResultProvider {
                 cellChangesMap[update] = cellChanges
             }
             let result = CollectionViewDiffResult(sectionChanges: sectionChanges, cellChangesMap: cellChangesMap)
-            DispatchQueue.main.async {
-                completion(result)
+            complete(with: result)
+        }
+        if async {
+            backgroundQueue.async {
+                self.semaphore.wait()
+                calculateDiff()
             }
+        }
+        else {
+            calculateDiff()
         }
     }
 

@@ -27,8 +27,17 @@ extension CollectionViewManager {
             }
         }
         else {
-            update(sectionItems, shouldReloadData: true)
+            updateWithoutAnimation(sectionItems: sectionItems, shouldReload: true)
             completion?(true)
+        }
+    }
+
+    private func updateWithoutAnimation(sectionItems: [CollectionViewDiffSectionItem], shouldReload: Bool) {
+        _sectionItems = sectionItems
+        registerSectionItems()
+        recalculateIndexes()
+        if shouldReload {
+            collectionView.reloadData()
         }
     }
 
@@ -49,7 +58,7 @@ extension CollectionViewManager {
                                       animated: Bool,
                                       completion: DiffCompletion?) {
         guard let diffResult = diffResult else {
-            diffResultProvider.semaphore.signal()
+            diffResultProvider.sectionItems = nil
             completion?(false)
             return
         }
@@ -61,7 +70,6 @@ extension CollectionViewManager {
             if let hasDeletesInsertsMoves = hasDeletesInsertsMoves,
                let hasUpdates = hasUpdates,
                itemsWereUpdated != nil {
-                configureCellItems()
                 completion?(hasDeletesInsertsMoves || hasUpdates)
             }
         }
@@ -75,9 +83,8 @@ extension CollectionViewManager {
             complete()
         }
 
-        update(sectionItems, shouldReloadData: false)
-        recalculateIndexes()
-        diffResultProvider.semaphore.signal()
+        updateWithoutAnimation(sectionItems: sectionItems, shouldReload: false)
+        diffResultProvider.sectionItems = nil
         itemsWereUpdated = true
         complete()
     }
@@ -184,9 +191,15 @@ extension CollectionViewManager {
                         performUpdates: false,
                         configureAnimated: animated)
             }
-            replace(sectionItemsAt: diffResult.sectionChanges.updatedIndexes,
-                    with: diffResult.sectionChanges.updatedItems,
-                    performUpdates: false)
+            if diffResult.hasSectionUpdates {
+                var sectionUpdatedIndexes: [Int] = []
+                var sectionUpdatedItems: [CollectionViewDiffSectionItem] = []
+                for update in diffResult.sectionUpdates {
+                    sectionUpdatedIndexes.append(update.index)
+                    sectionUpdatedItems.append(update.newItem)
+                }
+                replace(sectionItemsAt: sectionUpdatedIndexes, with: sectionUpdatedItems, performUpdates: false)
+            }
         }, completion: { _ in
             completion(true)
         })
