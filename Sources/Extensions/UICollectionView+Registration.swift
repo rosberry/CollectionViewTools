@@ -35,9 +35,13 @@ public extension UICollectionView {
                 break
         }
     }
+
+    func registerView(by viewItem: CollectionViewReusableViewItem) {
+        register(viewItem.classType, forSupplementaryViewOfKind: viewItem.type.kind, withReuseIdentifier: viewItem.identifier)
+    }
     
-    func dequeueReusableSupplementaryView<T: UICollectionReusableView>(with type: ReusableViewType, at indexPath: IndexPath) -> T {
+    func dequeueReusableSupplementaryView<T: UICollectionReusableView>(with item: CollectionViewReusableViewItem, at indexPath: IndexPath) -> T {
         // swiftlint:disable:next force_cast
-        return dequeueReusableSupplementaryView(ofKind: type.kind, withReuseIdentifier: "\(T.self)", for: indexPath) as! T
+        return dequeueReusableSupplementaryView(ofKind: item.type.kind, withReuseIdentifier: item.identifier, for: indexPath) as! T
     }
 }

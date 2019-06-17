@@ -7,7 +7,8 @@
 import UIKit.UICollectionView
 
 public enum ReusableViewType {
-    case header, footer
+    case header
+    case footer
     
     public var kind: String {
         switch self {
@@ -19,11 +20,20 @@ public enum ReusableViewType {
     }
 }
 
-public protocol CollectionViewReusableViewItem {
+public protocol CollectionViewReusableViewItem: CollectionViewSiblingCellItem {
     
     var type: ReusableViewType { get set }
+
+    var classType: UIView.Type { get }
     
     func size(for collectionView: UICollectionView, with layout: UICollectionViewLayout) -> CGSize
     func view(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionReusableView
-    func register(for collectionView: UICollectionView)
 }
+
+extension CollectionViewReusableViewItem {
+    var identifier: String {
+        return String(describing: classType.self)
+    }
+}
+
+

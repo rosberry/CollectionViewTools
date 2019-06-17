@@ -10,6 +10,7 @@ open class CollectionViewManager: NSObject {
     
     public typealias SectionItem = CollectionViewSectionItem
     public typealias CellItem = CollectionViewCellItem
+    public typealias ViewItem = CollectionViewReusableViewItem
     public typealias Completion = (Bool) -> Void
     
     /// `UICollectionView` object for managing
@@ -182,7 +183,7 @@ open class CollectionViewManager: NSObject {
         }
         for index in 0..<sectionItem.reusableViewItems.count {
             let reusableViewItem = sectionItem.reusableViewItems[index]
-            reusableViewItem.register(for: collectionView)
+            register(reusableViewItem)
         }
     }
     
@@ -192,6 +193,14 @@ open class CollectionViewManager: NSObject {
     open func register(_ cellItem: CellItem) {
         cellItem.collectionView = collectionView
         collectionView.register(by: cellItem.reuseType)
+    }
+
+    /// Use this function to force suplemented views registration process if you override add/replace/reload methods
+    ///
+    /// - Parameter viewItem: The view item which need to be registered
+    open func register(_ viewItem: ViewItem) {
+        viewItem.collectionView = collectionView
+        collectionView.registerView(by: viewItem)
     }
     
     // MARK: - Index paths
@@ -500,7 +509,7 @@ open class CollectionViewManager: NSObject {
     ///   - completion: A closure that either specifies any additional actions which should be performed after removing.
     open func remove(_ sectionItems: [CollectionViewSectionItem], completion: Completion? = nil) {
         let indexes = sectionItems.compactMap { sectionItem in
-            return _sectionItems.index { element in
+            return _sectionItems.firstIndex { element in
                 element === sectionItem
             }
         }
