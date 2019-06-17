@@ -9,14 +9,17 @@
 import CollectionViewTools
 
 final class ReusableViewItem: CollectionViewReusableViewItem {
+
+    var classType: UICollectionReusableView.Type = ReusableView.self
+
     var type: ReusableViewType = .header
 
-    var classType: UIView.Type {
-        return ReusableView.self
-    }
+    func configure(_ view: UICollectionReusableView) {
+        guard let view = view as? ReusableView else {
+            return
+        }
 
-    func view(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionReusableView {
-        return collectionView.dequeueReusableSupplementaryView(with: self, at: indexPath)
+        view.backgroundColor = .green
     }
 
     func size(for collectionView: UICollectionView, with layout: UICollectionViewLayout) -> CGSize {

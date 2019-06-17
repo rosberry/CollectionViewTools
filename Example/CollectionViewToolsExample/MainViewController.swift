@@ -122,7 +122,6 @@ class MainViewController: UIViewController {
     
     func makeActionsSectionItem() -> CollectionViewSectionItem {
         let sectionItem = ExampleSectionItem()
-        sectionItem.reusableViewItems = [ReusableViewItem()]
         sectionItem.cellItems = [
             makeResetActionCellItem(),
             // Insert cells

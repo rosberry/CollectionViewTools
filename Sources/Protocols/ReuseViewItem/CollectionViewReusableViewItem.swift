@@ -24,10 +24,10 @@ public protocol CollectionViewReusableViewItem: CollectionViewSiblingCellItem {
     
     var type: ReusableViewType { get set }
 
-    var classType: UIView.Type { get }
+    var classType: UICollectionReusableView.Type { get }
     
     func size(for collectionView: UICollectionView, with layout: UICollectionViewLayout) -> CGSize
-    func view(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionReusableView
+    func configure(_ view: UICollectionReusableView)
 }
 
 extension CollectionViewReusableViewItem {
