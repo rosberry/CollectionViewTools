@@ -97,7 +97,6 @@ class MainViewController: UIViewController {
     
     func makeImagesSectionItem(images: [UIImage]) -> CollectionViewSectionItem {
         let sectionItem = ExampleSectionItem()
-        sectionItem.reusableViewItems = [ReusableViewItem()]
         sectionItem.cellItems = images.map { image in
             return makeImageCellItem(image: image)
         }
