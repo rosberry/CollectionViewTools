@@ -1,6 +1,4 @@
 //
-//  CollectionViewChanges.swift
-//
 //  Copyright © 2019 Rosberry. All rights reserved.
 //
 
@@ -152,7 +150,7 @@ final class CollectionViewChanges<T>: CustomStringConvertible {
     let hasUpdates: Bool
     let hasMoves: Bool
 
-    init(changes: [CollectionViewChange<CollectionViewDiffItemWrapper>]) {
+    init(changes: [CollectionViewChange<DiffItemWrapper>]) {
         var inserts: [CollectionViewDeleteInsert<T>] = []
         var deletes: [CollectionViewDeleteInsert<T>] = []
         var updates: [CollectionViewUpdate<T>] = []

@@ -2,6 +2,19 @@
 //  Copyright © 2019 Rosberry. All rights reserved.
 //
 
+import Foundation
+
+public typealias CollectionViewDiffSectionItem = CollectionViewSectionItem & DiffItem
+
+extension CollectionViewSectionItem {
+
+    var diffCellItems: [CollectionViewDiffCellItem] {
+        return cellItems.compactMap { cellItem in
+            cellItem as? CollectionViewDiffCellItem
+        }
+    }
+}
+
 open class GeneralCollectionViewDiffSectionItem: CollectionViewDiffSectionItem, Equatable, CustomStringConvertible {
 
     public var diffIdentifier: String = ""
@@ -22,7 +35,7 @@ open class GeneralCollectionViewDiffSectionItem: CollectionViewDiffSectionItem, 
         hasher.combine(diffIdentifier)
     }
 
-    open func equal(to item: CollectionViewDiffItem) -> Bool {
+    open func equal(to item: DiffItem) -> Bool {
         guard let item = item as? GeneralCollectionViewDiffSectionItem else {
             return false
         }
@@ -34,7 +47,7 @@ open class GeneralCollectionViewDiffSectionItem: CollectionViewDiffSectionItem, 
         // TODO: add reusableViewItems here
         let areItemsEqual = zip(cellItems, itemCellItems).contains { lhs, rhs in
             !lhs.equal(to: rhs)
-        } == false
+            } == false
         return areItemsEqual &&
             minimumLineSpacing == item.minimumLineSpacing &&
             minimumInteritemSpacing == item.minimumInteritemSpacing &&

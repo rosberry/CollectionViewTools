@@ -8,6 +8,12 @@ extension CollectionViewManager {
 
     public typealias DiffCompletion = (Bool) -> Void
 
+    var diffSectionItems: [CollectionViewDiffSectionItem] {
+        return sectionItems.compactMap { sectionItem in
+            sectionItem as? CollectionViewDiffSectionItem
+        }
+    }
+
     open func update(with sectionItems: [CollectionViewDiffSectionItem],
                      diff: CollectionViewDiff,
                      ignoreCellItemsChanges: Bool = false,
@@ -18,13 +24,11 @@ extension CollectionViewManager {
                 updateEmptyCollectionView(with: sectionItems, completion: completion)
                 return
             }
-            diffResultProvider.diffResult(for: sectionItems, in: self, diff: diff) { diffResult in
-                self.updateCollectionView(with: sectionItems,
-                                          diffResult: diffResult,
-                                          ignoreCellItemsChanges: ignoreCellItemsChanges,
-                                          animated: animated,
-                                          completion: completion)
-            }
+            updateCollectionView(with: sectionItems,
+                                 diffResult: .diffResult(for: sectionItems, in: self, diff: diff),
+                                 ignoreCellItemsChanges: ignoreCellItemsChanges,
+                                 animated: animated,
+                                 completion: completion)
         }
         else {
             updateWithoutAnimation(sectionItems: sectionItems, shouldReload: true)
@@ -58,7 +62,6 @@ extension CollectionViewManager {
                                       animated: Bool,
                                       completion: DiffCompletion?) {
         guard let diffResult = diffResult else {
-            diffResultProvider.sectionItems = nil
             completion?(false)
             return
         }
@@ -68,8 +71,8 @@ extension CollectionViewManager {
 
         func complete() {
             if let hasDeletesInsertsMoves = hasDeletesInsertsMoves,
-               let hasUpdates = hasUpdates,
-               itemsWereUpdated != nil {
+                let hasUpdates = hasUpdates,
+                itemsWereUpdated != nil {
                 completion?(hasDeletesInsertsMoves || hasUpdates)
             }
         }
@@ -84,7 +87,7 @@ extension CollectionViewManager {
         }
 
         updateWithoutAnimation(sectionItems: sectionItems, shouldReload: false)
-        diffResultProvider.sectionItems = nil
+
         itemsWereUpdated = true
         complete()
     }
@@ -224,11 +227,11 @@ extension CollectionViewManager {
         var items = items
         var fromIndexes: [Int] = []
         for move in moves {
-            guard let moveItem = move.item as? CollectionViewDiffItem else {
+            guard let moveItem = move.item as? DiffItem else {
                 continue
             }
             let fromIndex = items.firstIndex { item -> Bool in
-                guard let item = item as? CollectionViewDiffItem else {
+                guard let item = item as? DiffItem else {
                     return false
                 }
                 return item.diffIdentifier == moveItem.diffIdentifier
@@ -254,24 +257,5 @@ extension CollectionViewManager {
             }
         }
         return items
-    }
-
-    // MARK: - Diff Result
-
-    private enum AssociatedKeys {
-        static var diffResultProvider = "rsb_diffResultProvider"
-    }
-
-    private var diffResultProvider: CollectionViewDiffResultProvider {
-        get {
-            if let provider = objc_getAssociatedObject(self, &AssociatedKeys.diffResultProvider) as? CollectionViewDiffResultProvider {
-                return provider
-            }
-            self.diffResultProvider = .init()
-            return self.diffResultProvider
-        }
-        set {
-            objc_setAssociatedObject(self, &AssociatedKeys.diffResultProvider, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
     }
 }

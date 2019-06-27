@@ -7,7 +7,7 @@
 import CollectionViewTools
 import Foundation
 
-final class ColorCellItem: CollectionViewCellItem, CollectionViewDiffItem, CustomStringConvertible {
+final class ColorCellItem: CollectionViewCellItem, DiffItem, CustomStringConvertible {
 
     typealias Cell = ColorCollectionViewCell
     private(set) var reuseType: ReuseType = .class(Cell.self)
@@ -39,7 +39,7 @@ final class ColorCellItem: CollectionViewCellItem, CollectionViewDiffItem, Custo
 
     var diffIdentifier: String = ""
 
-    func equal(to item: CollectionViewDiffItem) -> Bool {
+    func equal(to item: DiffItem) -> Bool {
         guard let item = item as? ColorCellItem else {
             return false
         }

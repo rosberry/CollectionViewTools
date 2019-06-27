@@ -7,27 +7,26 @@ import CollectionViewTools
 
 final class CollectionViewDeepDiff: CollectionViewDiff {
 
-    func changes<T: CollectionViewDiffItem>(old: [T], new: [T]) -> [CollectionViewChange<T>] {
+    func changes<T: DiffItem>(old: [T], new: [T]) -> [CollectionViewChange<T>] {
         let oldWrappers = old.map { DeepDiffDiffableItemWrapper(item: $0) }
         let newWrappers = new.map { DeepDiffDiffableItemWrapper(item: $0) }
         let results = DeepDiff.diff(old: oldWrappers, new: newWrappers)
-        let changes = results.map { result -> CollectionViewChange<T> in
-            return CollectionViewChange(insert: CollectionViewDeleteInsert(item: result.insert?.item.item,
-                                                                           index: result.insert?.index),
-                                        delete: CollectionViewDeleteInsert(item: result.delete?.item.item,
-                                                                           index: result.delete?.index),
-                                        update: CollectionViewUpdate(oldItem: result.replace?.oldItem.item,
-                                                                     newItem: result.replace?.newItem.item,
-                                                                     index: result.replace?.index),
-                                        move: CollectionViewMove(item: result.move?.item.item,
-                                                                 from: result.move?.fromIndex,
-                                                                 to: result.move?.toIndex))
-        }
+        let changes = results.map { result in
+            CollectionViewChange(insert: CollectionViewDeleteInsert(item: result.insert?.item.item,
+                                                                    index: result.insert?.index),
+                                 delete: CollectionViewDeleteInsert(item: result.delete?.item.item,
+                                                                    index: result.delete?.index),
+                                 update: CollectionViewUpdate(oldItem: result.replace?.oldItem.item,
+                                                              newItem: result.replace?.newItem.item,
+                                                              index: result.replace?.index),
+                                 move: CollectionViewMove(item: result.move?.item.item,
+                                                          from: result.move?.fromIndex,
+                                                          to: result.move?.toIndex))        }
         return changes
     }
 }
 
-public final class DeepDiffDiffableItemWrapper<T: CollectionViewDiffItem>: DiffAware {
+public final class DeepDiffDiffableItemWrapper<T: DiffItem>: DiffAware {
 
     public typealias DiffId = String
 
@@ -65,3 +64,4 @@ extension DeepDiff.Change: CustomStringConvertible {
         return strings.isEmpty ? "no changes" : strings.joined(separator: " ")
     }
 }
+

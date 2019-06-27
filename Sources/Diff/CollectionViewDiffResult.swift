@@ -51,68 +51,34 @@ final class CollectionViewDiffResult {
         self.hasCellUpdates = cellUpdatesMap.count > 0
         self.hasCellDeletesInsertsMoves = cellDeletesInsertsMovesMap.count > 0
     }
-}
 
-final class CollectionViewDiffResultProvider {
-
-    let backgroundQueue: DispatchQueue = .init(label: "DiffBackgroundQueue", qos: .background)
-    let semaphore: DispatchSemaphore = .init(value: 1)
-    var sectionItems: [CollectionViewDiffSectionItem]?
-
-    func diffResult(for sectionItems: [CollectionViewDiffSectionItem],
-                    in manager: CollectionViewManager,
-                    diff: CollectionViewDiff,
-                    async: Bool = false,
-                    completion: @escaping (CollectionViewDiffResult?) -> Void) {
-        func complete(with result: CollectionViewDiffResult?) {
-            if async {
-                self.semaphore.signal()
-                DispatchQueue.main.async {
-                    completion(result)
-                }
-            }
-            else {
-                completion(result)
-            }
+    static func diffResult(for sectionItems: [CollectionViewDiffSectionItem],
+                           in manager: CollectionViewManager,
+                           diff: CollectionViewDiff,
+                           async: Bool = false) -> CollectionViewDiffResult? {
+        let sectionDiffs = diff.changes(old: wrappers(for: manager.diffSectionItems),
+                                        new: wrappers(for: sectionItems))
+        if sectionDiffs.isEmpty {
+            return nil
         }
-        func calculateDiff() {
-            let oldSectionItems = self.sectionItems ?? manager.diffSectionItems
-            self.sectionItems = sectionItems
-
-            let sectionDiffs = diff.changes(old: wrappers(for: oldSectionItems),
-                                            new: wrappers(for: sectionItems))
-            if sectionDiffs.isEmpty {
-                complete(with: nil)
-                return
+        let sectionChanges = CollectionViewChanges<CollectionViewDiffSectionItem>(changes: sectionDiffs)
+        var cellChangesMap: CollectionViewDiffResult.CellChangesMap = [:]
+        for update in sectionChanges.updates {
+            let cellDiffs = diff.changes(old: wrappers(for: update.oldItem.diffCellItems),
+                                         new: wrappers(for: update.newItem.diffCellItems))
+            if cellDiffs.isEmpty {
+                continue
             }
-            let sectionChanges = CollectionViewChanges<CollectionViewDiffSectionItem>(changes: sectionDiffs)
-            var cellChangesMap: CollectionViewDiffResult.CellChangesMap = [:]
-            for update in sectionChanges.updates {
-                let cellDiffs = diff.changes(old: wrappers(for: update.oldItem.diffCellItems),
-                                             new: wrappers(for: update.newItem.diffCellItems))
-                if cellDiffs.isEmpty {
-                    continue
-                }
-                let cellChanges = CollectionViewChanges<CollectionViewDiffCellItem>(changes: cellDiffs)
-                cellChangesMap[update] = cellChanges
-            }
-            let result = CollectionViewDiffResult(sectionChanges: sectionChanges, cellChangesMap: cellChangesMap)
-            complete(with: result)
+            let cellChanges = CollectionViewChanges<CollectionViewDiffCellItem>(changes: cellDiffs)
+            cellChangesMap[update] = cellChanges
         }
-        if async {
-            backgroundQueue.async {
-                self.semaphore.wait()
-                calculateDiff()
-            }
-        }
-        else {
-            calculateDiff()
-        }
+        let result = CollectionViewDiffResult(sectionChanges: sectionChanges, cellChangesMap: cellChangesMap)
+        return result
     }
 
-    private func wrappers(for items: [CollectionViewDiffItem]) -> [CollectionViewDiffItemWrapper] {
+    private static func wrappers(for items: [DiffItem]) -> [DiffItemWrapper] {
         return items.map { item in
-            CollectionViewDiffItemWrapper(item: item)
+            DiffItemWrapper(item: item)
         }
     }
 }
