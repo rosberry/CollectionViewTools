@@ -15,6 +15,8 @@
 		0ACA6FCE1F6275D200782C1E /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA6FCD1F6275D200782C1E /* DetailViewController.swift */; };
 		0E1EDA57228934A80087253A /* ColorCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1EDA56228934A80087253A /* ColorCellItem.swift */; };
 		0E1EDA59228934D50087253A /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1EDA58228934D50087253A /* ColorCollectionViewCell.swift */; };
+		0E5676E222C5DEC0008A88EA /* CollectionViewTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE6E86B31FB961B20027A8FE /* CollectionViewTools.framework */; };
+		0E5676E322C5DEC0008A88EA /* CollectionViewTools.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FE6E86B31FB961B20027A8FE /* CollectionViewTools.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0EB8E642229BF9370000B921 /* ImageCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA6FC81F626AF900782C1E /* ImageCellItem.swift */; };
 		0EB8E643229BF9370000B921 /* CollectionViewDeepDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E506C0F228EBC3600E16640 /* CollectionViewDeepDiff.swift */; };
 		0EB8E644229BF9370000B921 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA6FCD1F6275D200782C1E /* DetailViewController.swift */; };
@@ -33,10 +35,8 @@
 		0EB8E651229BF9370000B921 /* ExampleSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A688DD33578289A57B452 /* ExampleSectionItem.swift */; };
 		0EB8E653229BF9370000B921 /* IGListKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EB9277F2292A35C000666A2 /* IGListKit.framework */; };
 		0EB8E654229BF9370000B921 /* DeepDiff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E506C0A228EBBDB00E16640 /* DeepDiff.framework */; };
-		0EB8E655229BF9370000B921 /* CollectionViewTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE6E86B31FB961B20027A8FE /* CollectionViewTools.framework */; };
 		0EB8E657229BF9370000B921 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A37638B1F62556400A80613 /* LaunchScreen.storyboard */; };
 		0EB8E658229BF9370000B921 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A3763891F62556300A80613 /* Assets.xcassets */; };
-		0EB8E65A229BF9370000B921 /* CollectionViewTools.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FE6E86B31FB961B20027A8FE /* CollectionViewTools.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0EB8E662229BFA710000B921 /* DiffInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0EB8E661229BFA710000B921 /* DiffInfo.plist */; };
 		629A63FBA018222A355686F6 /* ExampleSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A688DD33578289A57B452 /* ExampleSectionItem.swift */; };
 		629A6B0205FC8F49878C89C1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A6D6C61B4795949B30938 /* MainViewController.swift */; };
@@ -47,6 +47,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		0E5676E422C5DEC0008A88EA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0E5676E322C5DEC0008A88EA /* CollectionViewTools.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FED796BC20EF6B3B0044B82F /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -103,9 +114,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E5676E222C5DEC0008A88EA /* CollectionViewTools.framework in Frameworks */,
 				0EB8E653229BF9370000B921 /* IGListKit.framework in Frameworks */,
 				0EB8E654229BF9370000B921 /* DeepDiff.framework in Frameworks */,
-				0EB8E655229BF9370000B921 /* CollectionViewTools.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,8 +265,8 @@
 				0EB8E641229BF9370000B921 /* Sources */,
 				0EB8E652229BF9370000B921 /* Frameworks */,
 				0EB8E656229BF9370000B921 /* Resources */,
-				0EB8E659229BF9370000B921 /* Embed Frameworks */,
 				0EB8E65B229BF9370000B921 /* Carthage */,
+				0E5676E422C5DEC0008A88EA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
