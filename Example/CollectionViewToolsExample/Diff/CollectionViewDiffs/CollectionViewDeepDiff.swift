@@ -21,7 +21,8 @@ final class CollectionViewDeepDiff: CollectionViewDiff {
                                                               index: result.replace?.index),
                                  move: CollectionViewMove(item: result.move?.item.item,
                                                           from: result.move?.fromIndex,
-                                                          to: result.move?.toIndex))        }
+                                                          to: result.move?.toIndex))
+        }
         return changes
     }
 }
