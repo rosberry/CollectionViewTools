@@ -85,16 +85,14 @@ extension CollectionViewSiblingCellItem {
     }
     
     public weak var cell: UICollectionViewCell? {
-        get {
-            if let object = objc_getAssociatedObject(self, &AssociatedKeys.cell) as? UICollectionViewCell {
-                return object
-            }
-            printContextWarning("We found out that cell property for \(self) is nil")
-            return nil
+        if let cell = objc_getAssociatedObject(self, &AssociatedKeys.cell) as? UICollectionViewCell {
+            return cell
         }
+        printContextWarning("We found out that cell property for \(self) is nil")
+        return nil
     }
     
-    internal func _set(cell: UICollectionViewCell) {
+    func update(with cell: UICollectionViewCell) {
         objc_setAssociatedObject(self, &AssociatedKeys.cell, cell, .OBJC_ASSOCIATION_ASSIGN)
     }
 }
@@ -163,7 +161,7 @@ private enum AssociatedKeys {
     static var collectionView = "rsb_collectionView"
     static var indexPath = "rsb_indexPath"
     static var sectionItem = "rsb_sectionItem"
-    static var cell = "rsb_sectionItem"
+    static var cell = "rsb_cell"
 }
 
 public extension CollectionViewGeneralCellItem {

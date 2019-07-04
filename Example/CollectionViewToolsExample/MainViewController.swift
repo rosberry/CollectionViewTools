@@ -119,6 +119,7 @@ class MainViewController: UIViewController {
                 UIView.animate(withDuration: 0.2, animations: {
                     imageView?.alpha = 1
                 })
+                cellItem?.didSelect()
             })
         }
         cellItem.removeActionHandler = { [weak self, weak cellItem] in
