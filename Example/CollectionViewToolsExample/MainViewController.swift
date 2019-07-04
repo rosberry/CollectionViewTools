@@ -111,6 +111,16 @@ class MainViewController: UIViewController {
             detailViewController.image = image
             self?.navigationController?.pushViewController(detailViewController, animated: true)
         }
+        cellItem.itemDidSelectHandler = { [weak cellItem] _ in
+            weak var imageView = (cellItem?.cell as? ImageCollectionViewCell)?.imageView
+            UIView.animate(withDuration: 0.2, animations: {
+                imageView?.alpha = 0.5
+            }, completion: { _ in
+                UIView.animate(withDuration: 0.2, animations: {
+                    imageView?.alpha = 1
+                })
+            })
+        }
         cellItem.removeActionHandler = { [weak self, weak cellItem] in
             self?.remove(cellItem)
         }
