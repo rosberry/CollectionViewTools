@@ -28,6 +28,29 @@ class MainViewController: UIViewController {
     
     lazy var mainCollectionViewManager: CollectionViewManager = .init(collectionView: mainCollectionView)
     lazy var actionsCollectionViewManager: CollectionViewManager = .init(collectionView: actionsCollectionView)
+
+    lazy var imageCellItemFactory: CellItemFactory<UIImage, ImageCollectionViewCell> = {
+        let factory = CellItemFactory<UIImage, ImageCollectionViewCell>()
+        factory.configurationHandler = { image, cell, cellItem in
+            cell.imageView.image = image
+            cell.removeActionHandler = { [weak self, weak cellItem] in
+                self?.remove(cellItem)
+            }
+            cellItem.itemDidSelectHandler = { [weak self] _ in
+                let detailViewController = DetailViewController()
+                detailViewController.image = image
+                self?.navigationController?.pushViewController(detailViewController, animated: true)
+            }
+        }
+        factory.sizeConfigurationHandler = { image, collectionView, sectionItem in
+            var shift = sectionItem.insets.left / 2 + sectionItem.insets.right / 2
+            shift += shift / 2
+            let ratio = image.size.width / image.size.height
+            let width = (collectionView.bounds.width) / 2 - shift
+            return .init(width: width, height: width / ratio)
+        }
+        return factory
+    }()
     
     // MARK: Subviews
     
@@ -97,9 +120,7 @@ class MainViewController: UIViewController {
     
     func makeImagesSectionItem(images: [UIImage]) -> CollectionViewSectionItem {
         let sectionItem = ExampleSectionItem()
-        sectionItem.cellItems = images.map { image in
-            return makeImageCellItem(image: image)
-        }
+        sectionItem.cellItems = imageCellItemFactory.makeCellItems(for: images)
         sectionItem.insets = .init(top: 0, left: 12, bottom: 12, right: 12)
         sectionItem.minimumLineSpacing = 8
         return sectionItem
