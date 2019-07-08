@@ -20,7 +20,7 @@ public enum ReusableViewType {
     }
 }
 
-public protocol CollectionViewReusableViewItem: CollectionViewSiblingCellItem {
+public protocol CollectionViewReusableViewItem: CollectionViewSiblingItem {
     
     var type: ReusableViewType { get set }
 

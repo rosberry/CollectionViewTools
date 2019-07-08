@@ -26,13 +26,13 @@ extension CollectionViewManager: UICollectionViewDataSource {
     open func collectionView(_ collectionView: UICollectionView,
                              viewForSupplementaryElementOfKind kind: String,
                              at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let viewItem = self.viewItem(for: indexPath) else {
+        guard let reusableViewItem = self.reusableViewItem(for: indexPath, and: kind) else {
             return UICollectionReusableView()
         }
-        let view = collectionView.dequeueReusableSupplementaryView(ofKind: viewItem.type.kind,
-                                                                   withReuseIdentifier: viewItem.identifier,
+        let view = collectionView.dequeueReusableSupplementaryView(ofKind: reusableViewItem.type.kind,
+                                                                   withReuseIdentifier: reusableViewItem.identifier,
                                                                    for: indexPath)
-        viewItem.configure(view)
+        reusableViewItem.configure(view)
         return view
     }
     

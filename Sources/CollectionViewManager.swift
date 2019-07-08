@@ -10,7 +10,7 @@ open class CollectionViewManager: NSObject {
     
     public typealias SectionItem = CollectionViewSectionItem
     public typealias CellItem = CollectionViewCellItem
-    public typealias ViewItem = CollectionViewReusableViewItem
+    public typealias ReusableViewItem = CollectionViewReusableViewItem
     public typealias Completion = (Bool) -> Void
     
     /// `UICollectionView` object for managing
@@ -132,12 +132,16 @@ open class CollectionViewManager: NSObject {
     /// - Parameter indexPath: The index path locating the item in the collection view.
     /// - Returns: A reusable view item associated with reusable view of the collection, or nil if the view item
     /// wasn't added to manager or indexPath is out of range.
-    open func viewItem(for indexPath: IndexPath) -> CollectionViewReusableViewItem? {
-        guard let sectionItem = sectionItem(for: indexPath), sectionItem.reusableViewItems.count > indexPath.row else {
+    open func reusableViewItem(for indexPath: IndexPath, and kind: String) -> CollectionViewReusableViewItem? {
+        guard let sectionItem = sectionItem(for: indexPath),
+            sectionItem.reusableViewItems.count > indexPath.row else {
             return nil
         }
-
-        return sectionItem.reusableViewItems[indexPath.row]
+        let reusableView = sectionItem.reusableViewItems[indexPath.row]
+        guard reusableView.type.kind == kind else {
+            return nil
+        }
+        return reusableView
     }
     
     /// Returns the section item at the specified index path.
@@ -211,7 +215,7 @@ open class CollectionViewManager: NSObject {
     /// Use this function to force suplemented views registration process if you override add/replace/reload methods
     ///
     /// - Parameter viewItem: The view item which need to be registered
-    open func register(_ viewItem: ViewItem) {
+    open func register(_ viewItem: ReusableViewItem) {
         viewItem.collectionView = collectionView
         collectionView.registerView(by: viewItem)
     }
