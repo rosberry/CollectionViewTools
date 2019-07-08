@@ -29,8 +29,10 @@ extension CollectionViewManager: UICollectionViewDataSource {
         guard let reusableViewItem = self.reusableViewItem(for: indexPath, and: kind) else {
             return UICollectionReusableView()
         }
-        let view = collectionView.dequeueReusableSupplementaryView(ofKind: reusableViewItem.type.kind,
-                                                                   withReuseIdentifier: reusableViewItem.identifier,
+        let kind = reusableViewItem.type.kind
+        let identifier = reusableViewItem.reuseType.identifier
+        let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                   withReuseIdentifier: identifier,
                                                                    for: indexPath)
         reusableViewItem.configure(view)
         return view

@@ -9,10 +9,10 @@
 import CollectionViewTools
 
 final class ReusableViewItem: CollectionViewReusableViewItem {
-
-    var classType: UICollectionReusableView.Type = ReusableView.self
-
+    
     var type: ReusableViewType = .header
+
+    var reuseType: ReuseType = .class(ReusableView.self)
 
     func configure(_ view: UICollectionReusableView) {
         guard let view = view as? ReusableView else {

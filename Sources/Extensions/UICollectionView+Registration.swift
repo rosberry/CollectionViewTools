@@ -9,7 +9,7 @@ import UIKit.UICollectionView
 public enum ReuseType {
     case storyboardIdentifier(String)
     case nib(UINib, identifier: String)
-    case `class`(UICollectionViewCell.Type)
+    case `class`(UICollectionReusableView.Type)
     
     public var identifier: String {
         switch self {
@@ -37,6 +37,15 @@ public extension UICollectionView {
     }
 
     func registerView(by viewItem: CollectionViewReusableViewItem) {
-        register(viewItem.classType, forSupplementaryViewOfKind: viewItem.type.kind, withReuseIdentifier: viewItem.identifier)
+        let kind = viewItem.type.kind
+        let reuseType = viewItem.reuseType
+        switch reuseType {
+        case let .nib(nib, identifier):
+            register(nib, forSupplementaryViewOfKind: kind, withReuseIdentifier: identifier)
+        case let .class(`class`):
+            register(`class`, forSupplementaryViewOfKind: kind, withReuseIdentifier: reuseType.identifier)
+        default:
+            break
+        }
     }
 }
