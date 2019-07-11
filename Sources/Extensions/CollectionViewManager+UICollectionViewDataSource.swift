@@ -7,35 +7,43 @@
 import UIKit.UICollectionView
 
 extension CollectionViewManager: UICollectionViewDataSource {
-    
+
     open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if let dataSource = dataSource {
+            return dataSource.itemDataSource(at: section)?.itemCount ?? 0
+        }
+
         return _sectionItems[section].cellItems.count
     }
-    
+
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellItem = self.cellItem(for: indexPath)!
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellItem.reuseType.identifier, for: indexPath)
         cellItem.configure(cell)
         return cell
     }
-    
+
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
+        if let dataSource = dataSource {
+            return dataSource.sectionCount
+        }
+
         return _sectionItems.count
     }
-    
+
     open func collectionView(_ collectionView: UICollectionView,
                              viewForSupplementaryElementOfKind kind: String,
                              at indexPath: IndexPath) -> UICollectionReusableView {
         //TODO: Add same `configure` logic as with cell items
-        let reusableViewItem = sectionItem(for: indexPath)?.reusableViewItems.filter { $0.type.kind == kind }.first
+        let reusableViewItem = sectionItem(for: indexPath)?.reusableViewItems.first { $0.type.kind == kind }
         let view = reusableViewItem?.view(for: collectionView, at: indexPath)
         return view ?? UICollectionReusableView()
     }
-    
+
     open func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
-        return cellItem(for: indexPath)?.canMove(at: indexPath) ?? false
+        return cellItem(for: indexPath)?.canMove() ?? false
     }
-    
+
     open func collectionView(_ collectionView: UICollectionView,
                              moveItemAt sourceIndexPath: IndexPath,
                              to destinationIndexPath: IndexPath) {

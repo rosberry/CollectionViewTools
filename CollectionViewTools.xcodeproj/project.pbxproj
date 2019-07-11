@@ -9,21 +9,24 @@
 /* Begin PBXBuildFile section */
 		0A37632F1F6251A600A80613 /* CollectionViewTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3763251F6251A600A80613 /* CollectionViewTools.framework */; };
 		0A3763341F6251A600A80613 /* CollectionViewToolsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763331F6251A600A80613 /* CollectionViewToolsTests.swift */; };
-		0A3763671F62545A00A80613 /* ClosureWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763521F62545A00A80613 /* ClosureWrapper.swift */; };
-		0A3763681F62545A00A80613 /* CollectionViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763531F62545A00A80613 /* CollectionViewManager.swift */; };
 		0A3763691F62545A00A80613 /* CollectionViewTools.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A3763541F62545A00A80613 /* CollectionViewTools.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0A37636A1F62545A00A80613 /* CollectionViewManager+UICollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763561F62545A00A80613 /* CollectionViewManager+UICollectionViewDataSource.swift */; };
-		0A37636B1F62545A00A80613 /* CollectionViewManager+UICollectionViewDataSourcePrefetching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763571F62545A00A80613 /* CollectionViewManager+UICollectionViewDataSourcePrefetching.swift */; };
-		0A37636C1F62545A00A80613 /* CollectionViewManager+UICollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763581F62545A00A80613 /* CollectionViewManager+UICollectionViewDelegate.swift */; };
-		0A37636D1F62545A00A80613 /* CollectionViewManager+UICollectionViewDelegateFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763591F62545A00A80613 /* CollectionViewManager+UICollectionViewDelegateFlowLayout.swift */; };
-		0A37636E1F62545A00A80613 /* CollectionViewManager+UIScrollViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A37635A1F62545A00A80613 /* CollectionViewManager+UIScrollViewDelegate.swift */; };
-		0A37636F1F62545A00A80613 /* UICollectionView+Registration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A37635B1F62545A00A80613 /* UICollectionView+Registration.swift */; };
-		0A3763711F62545A00A80613 /* GeneralCollectionViewSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A37635E1F62545A00A80613 /* GeneralCollectionViewSectionItem.swift */; };
-		0A3763721F62545A00A80613 /* CollectionViewCellItemDataSourcePrefetching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763611F62545A00A80613 /* CollectionViewCellItemDataSourcePrefetching.swift */; };
-		0A3763731F62545A00A80613 /* CollectionViewCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763621F62545A00A80613 /* CollectionViewCellItem.swift */; };
-		0A3763741F62545A00A80613 /* CollectionViewReusableViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763641F62545A00A80613 /* CollectionViewReusableViewItem.swift */; };
-		0A3763751F62545A00A80613 /* CollectionViewSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763661F62545A00A80613 /* CollectionViewSectionItem.swift */; };
-		629A6091BFB23B9D95D9BF56 /* Print.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A64DA578C05AC298ECFFD /* Print.swift */; };
+		13B84C2E22D731F7007E2FB3 /* CollectionViewCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B84C2622D731F6007E2FB3 /* CollectionViewCellItem.swift */; };
+		13B84C2F22D731F7007E2FB3 /* CollectionViewCellItemDataSourcePrefetching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B84C2722D731F6007E2FB3 /* CollectionViewCellItemDataSourcePrefetching.swift */; };
+		13B84C3022D731F7007E2FB3 /* CollectionViewSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B84C2922D731F6007E2FB3 /* CollectionViewSectionItem.swift */; };
+		13B84C3122D731F7007E2FB3 /* CollectionViewReusableViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B84C2B22D731F6007E2FB3 /* CollectionViewReusableViewItem.swift */; };
+		13B84C3222D731F7007E2FB3 /* GeneralCollectionViewSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B84C2D22D731F7007E2FB3 /* GeneralCollectionViewSectionItem.swift */; };
+		13B84C3A22D7321E007E2FB3 /* CollectionViewManager+UICollectionViewDelegateFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B84C3422D7321E007E2FB3 /* CollectionViewManager+UICollectionViewDelegateFlowLayout.swift */; };
+		13B84C3B22D7321E007E2FB3 /* CollectionViewManager+UICollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B84C3522D7321E007E2FB3 /* CollectionViewManager+UICollectionViewDelegate.swift */; };
+		13B84C3C22D7321E007E2FB3 /* CollectionViewManager+UICollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B84C3622D7321E007E2FB3 /* CollectionViewManager+UICollectionViewDataSource.swift */; };
+		13B84C3D22D7321E007E2FB3 /* UICollectionView+Registration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B84C3722D7321E007E2FB3 /* UICollectionView+Registration.swift */; };
+		13B84C3E22D7321E007E2FB3 /* CollectionViewManager+UIScrollViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B84C3822D7321E007E2FB3 /* CollectionViewManager+UIScrollViewDelegate.swift */; };
+		13B84C3F22D7321E007E2FB3 /* CollectionViewManager+UICollectionViewDataSourcePrefetching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B84C3922D7321E007E2FB3 /* CollectionViewManager+UICollectionViewDataSourcePrefetching.swift */; };
+		13B84C4222D7323F007E2FB3 /* Print.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B84C4122D7323F007E2FB3 /* Print.swift */; };
+		13B84C4C22D73268007E2FB3 /* ClosureWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B84C4B22D73267007E2FB3 /* ClosureWrapper.swift */; };
+		13B84C4E22D7327D007E2FB3 /* CollectionViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B84C4D22D7327D007E2FB3 /* CollectionViewManager.swift */; };
+		13B84C5322D73317007E2FB3 /* GeneralCollectionViewItemDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B84C5022D73317007E2FB3 /* GeneralCollectionViewItemDataSource.swift */; };
+		13B84C5422D73317007E2FB3 /* GeneralCollectionViewSectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B84C5122D73317007E2FB3 /* GeneralCollectionViewSectionDataSource.swift */; };
+		13B84C5522D73317007E2FB3 /* CollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B84C5222D73317007E2FB3 /* CollectionViewDataSource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,22 +45,25 @@
 		0A37632E1F6251A600A80613 /* CollectionViewToolsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CollectionViewToolsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3763331F6251A600A80613 /* CollectionViewToolsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewToolsTests.swift; sourceTree = "<group>"; };
 		0A3763351F6251A600A80613 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0A3763521F62545A00A80613 /* ClosureWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClosureWrapper.swift; sourceTree = "<group>"; };
-		0A3763531F62545A00A80613 /* CollectionViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewManager.swift; sourceTree = "<group>"; };
 		0A3763541F62545A00A80613 /* CollectionViewTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewTools.h; sourceTree = "<group>"; };
-		0A3763561F62545A00A80613 /* CollectionViewManager+UICollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionViewManager+UICollectionViewDataSource.swift"; sourceTree = "<group>"; };
-		0A3763571F62545A00A80613 /* CollectionViewManager+UICollectionViewDataSourcePrefetching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionViewManager+UICollectionViewDataSourcePrefetching.swift"; sourceTree = "<group>"; };
-		0A3763581F62545A00A80613 /* CollectionViewManager+UICollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionViewManager+UICollectionViewDelegate.swift"; sourceTree = "<group>"; };
-		0A3763591F62545A00A80613 /* CollectionViewManager+UICollectionViewDelegateFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionViewManager+UICollectionViewDelegateFlowLayout.swift"; sourceTree = "<group>"; };
-		0A37635A1F62545A00A80613 /* CollectionViewManager+UIScrollViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionViewManager+UIScrollViewDelegate.swift"; sourceTree = "<group>"; };
-		0A37635B1F62545A00A80613 /* UICollectionView+Registration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Registration.swift"; sourceTree = "<group>"; };
 		0A37635C1F62545A00A80613 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0A37635E1F62545A00A80613 /* GeneralCollectionViewSectionItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralCollectionViewSectionItem.swift; sourceTree = "<group>"; };
-		0A3763611F62545A00A80613 /* CollectionViewCellItemDataSourcePrefetching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCellItemDataSourcePrefetching.swift; sourceTree = "<group>"; };
-		0A3763621F62545A00A80613 /* CollectionViewCellItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCellItem.swift; sourceTree = "<group>"; };
-		0A3763641F62545A00A80613 /* CollectionViewReusableViewItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewReusableViewItem.swift; sourceTree = "<group>"; };
-		0A3763661F62545A00A80613 /* CollectionViewSectionItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewSectionItem.swift; sourceTree = "<group>"; };
-		629A64DA578C05AC298ECFFD /* Print.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Print.swift; sourceTree = "<group>"; };
+		13B84C2622D731F6007E2FB3 /* CollectionViewCellItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCellItem.swift; sourceTree = "<group>"; };
+		13B84C2722D731F6007E2FB3 /* CollectionViewCellItemDataSourcePrefetching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCellItemDataSourcePrefetching.swift; sourceTree = "<group>"; };
+		13B84C2922D731F6007E2FB3 /* CollectionViewSectionItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewSectionItem.swift; sourceTree = "<group>"; };
+		13B84C2B22D731F6007E2FB3 /* CollectionViewReusableViewItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewReusableViewItem.swift; sourceTree = "<group>"; };
+		13B84C2D22D731F7007E2FB3 /* GeneralCollectionViewSectionItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralCollectionViewSectionItem.swift; sourceTree = "<group>"; };
+		13B84C3422D7321E007E2FB3 /* CollectionViewManager+UICollectionViewDelegateFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionViewManager+UICollectionViewDelegateFlowLayout.swift"; sourceTree = "<group>"; };
+		13B84C3522D7321E007E2FB3 /* CollectionViewManager+UICollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionViewManager+UICollectionViewDelegate.swift"; sourceTree = "<group>"; };
+		13B84C3622D7321E007E2FB3 /* CollectionViewManager+UICollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionViewManager+UICollectionViewDataSource.swift"; sourceTree = "<group>"; };
+		13B84C3722D7321E007E2FB3 /* UICollectionView+Registration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Registration.swift"; sourceTree = "<group>"; };
+		13B84C3822D7321E007E2FB3 /* CollectionViewManager+UIScrollViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionViewManager+UIScrollViewDelegate.swift"; sourceTree = "<group>"; };
+		13B84C3922D7321E007E2FB3 /* CollectionViewManager+UICollectionViewDataSourcePrefetching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionViewManager+UICollectionViewDataSourcePrefetching.swift"; sourceTree = "<group>"; };
+		13B84C4122D7323F007E2FB3 /* Print.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Print.swift; sourceTree = "<group>"; };
+		13B84C4B22D73267007E2FB3 /* ClosureWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClosureWrapper.swift; sourceTree = "<group>"; };
+		13B84C4D22D7327D007E2FB3 /* CollectionViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewManager.swift; sourceTree = "<group>"; };
+		13B84C5022D73317007E2FB3 /* GeneralCollectionViewItemDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralCollectionViewItemDataSource.swift; sourceTree = "<group>"; };
+		13B84C5122D73317007E2FB3 /* GeneralCollectionViewSectionDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralCollectionViewSectionDataSource.swift; sourceTree = "<group>"; };
+		13B84C5222D73317007E2FB3 /* CollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,86 +118,98 @@
 			children = (
 				0A37635C1F62545A00A80613 /* Info.plist */,
 				0A3763541F62545A00A80613 /* CollectionViewTools.h */,
-				0A3763531F62545A00A80613 /* CollectionViewManager.swift */,
-				0A3763511F62545A00A80613 /* Additions */,
-				0A3763551F62545A00A80613 /* Extensions */,
-				0A37635D1F62545A00A80613 /* Items */,
-				0A37635F1F62545A00A80613 /* Protocols */,
-				629A633A0A14B7B8D623A113 /* Helpers */,
+				13B84C4D22D7327D007E2FB3 /* CollectionViewManager.swift */,
+				13B84C2C22D731F7007E2FB3 /* Items */,
+				13B84C4A22D73267007E2FB3 /* Additions */,
+				13B84C2422D731F6007E2FB3 /* Protocols */,
+				13B84C3322D7321E007E2FB3 /* Extensions */,
+				13B84C4F22D73317007E2FB3 /* DataSource */,
+				13B84C4022D7323F007E2FB3 /* Helpers */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
 		};
-		0A3763511F62545A00A80613 /* Additions */ = {
+		13B84C2422D731F6007E2FB3 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				0A3763521F62545A00A80613 /* ClosureWrapper.swift */,
-			);
-			path = Additions;
-			sourceTree = "<group>";
-		};
-		0A3763551F62545A00A80613 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				0A3763561F62545A00A80613 /* CollectionViewManager+UICollectionViewDataSource.swift */,
-				0A3763571F62545A00A80613 /* CollectionViewManager+UICollectionViewDataSourcePrefetching.swift */,
-				0A3763581F62545A00A80613 /* CollectionViewManager+UICollectionViewDelegate.swift */,
-				0A3763591F62545A00A80613 /* CollectionViewManager+UICollectionViewDelegateFlowLayout.swift */,
-				0A37635A1F62545A00A80613 /* CollectionViewManager+UIScrollViewDelegate.swift */,
-				0A37635B1F62545A00A80613 /* UICollectionView+Registration.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		0A37635D1F62545A00A80613 /* Items */ = {
-			isa = PBXGroup;
-			children = (
-				0A37635E1F62545A00A80613 /* GeneralCollectionViewSectionItem.swift */,
-			);
-			path = Items;
-			sourceTree = "<group>";
-		};
-		0A37635F1F62545A00A80613 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				0A3763601F62545A00A80613 /* CellItem */,
-				0A3763631F62545A00A80613 /* ReuseViewItem */,
-				0A3763651F62545A00A80613 /* SectionItem */,
+				13B84C2522D731F6007E2FB3 /* CellItem */,
+				13B84C2822D731F6007E2FB3 /* SectionItem */,
+				13B84C2A22D731F6007E2FB3 /* ReuseViewItem */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-		0A3763601F62545A00A80613 /* CellItem */ = {
+		13B84C2522D731F6007E2FB3 /* CellItem */ = {
 			isa = PBXGroup;
 			children = (
-				0A3763611F62545A00A80613 /* CollectionViewCellItemDataSourcePrefetching.swift */,
-				0A3763621F62545A00A80613 /* CollectionViewCellItem.swift */,
+				13B84C2622D731F6007E2FB3 /* CollectionViewCellItem.swift */,
+				13B84C2722D731F6007E2FB3 /* CollectionViewCellItemDataSourcePrefetching.swift */,
 			);
 			path = CellItem;
 			sourceTree = "<group>";
 		};
-		0A3763631F62545A00A80613 /* ReuseViewItem */ = {
+		13B84C2822D731F6007E2FB3 /* SectionItem */ = {
 			isa = PBXGroup;
 			children = (
-				0A3763641F62545A00A80613 /* CollectionViewReusableViewItem.swift */,
-			);
-			path = ReuseViewItem;
-			sourceTree = "<group>";
-		};
-		0A3763651F62545A00A80613 /* SectionItem */ = {
-			isa = PBXGroup;
-			children = (
-				0A3763661F62545A00A80613 /* CollectionViewSectionItem.swift */,
+				13B84C2922D731F6007E2FB3 /* CollectionViewSectionItem.swift */,
 			);
 			path = SectionItem;
 			sourceTree = "<group>";
 		};
-		629A633A0A14B7B8D623A113 /* Helpers */ = {
+		13B84C2A22D731F6007E2FB3 /* ReuseViewItem */ = {
 			isa = PBXGroup;
 			children = (
-				629A64DA578C05AC298ECFFD /* Print.swift */,
+				13B84C2B22D731F6007E2FB3 /* CollectionViewReusableViewItem.swift */,
+			);
+			path = ReuseViewItem;
+			sourceTree = "<group>";
+		};
+		13B84C2C22D731F7007E2FB3 /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				13B84C2D22D731F7007E2FB3 /* GeneralCollectionViewSectionItem.swift */,
+			);
+			path = Items;
+			sourceTree = "<group>";
+		};
+		13B84C3322D7321E007E2FB3 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				13B84C3422D7321E007E2FB3 /* CollectionViewManager+UICollectionViewDelegateFlowLayout.swift */,
+				13B84C3522D7321E007E2FB3 /* CollectionViewManager+UICollectionViewDelegate.swift */,
+				13B84C3622D7321E007E2FB3 /* CollectionViewManager+UICollectionViewDataSource.swift */,
+				13B84C3722D7321E007E2FB3 /* UICollectionView+Registration.swift */,
+				13B84C3822D7321E007E2FB3 /* CollectionViewManager+UIScrollViewDelegate.swift */,
+				13B84C3922D7321E007E2FB3 /* CollectionViewManager+UICollectionViewDataSourcePrefetching.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		13B84C4022D7323F007E2FB3 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				13B84C4122D7323F007E2FB3 /* Print.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		13B84C4A22D73267007E2FB3 /* Additions */ = {
+			isa = PBXGroup;
+			children = (
+				13B84C4B22D73267007E2FB3 /* ClosureWrapper.swift */,
+			);
+			path = Additions;
+			sourceTree = "<group>";
+		};
+		13B84C4F22D73317007E2FB3 /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				13B84C5022D73317007E2FB3 /* GeneralCollectionViewItemDataSource.swift */,
+				13B84C5122D73317007E2FB3 /* GeneralCollectionViewSectionDataSource.swift */,
+				13B84C5222D73317007E2FB3 /* CollectionViewDataSource.swift */,
+			);
+			name = DataSource;
+			path = Helpers/DataSource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -251,7 +269,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = Rosberry;
 				TargetAttributes = {
 					0A3763241F6251A600A80613 = {
@@ -273,6 +291,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 0A37631B1F6251A600A80613;
@@ -308,20 +327,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A37636B1F62545A00A80613 /* CollectionViewManager+UICollectionViewDataSourcePrefetching.swift in Sources */,
-				0A3763741F62545A00A80613 /* CollectionViewReusableViewItem.swift in Sources */,
-				0A37636F1F62545A00A80613 /* UICollectionView+Registration.swift in Sources */,
-				0A37636A1F62545A00A80613 /* CollectionViewManager+UICollectionViewDataSource.swift in Sources */,
-				0A37636D1F62545A00A80613 /* CollectionViewManager+UICollectionViewDelegateFlowLayout.swift in Sources */,
-				0A3763681F62545A00A80613 /* CollectionViewManager.swift in Sources */,
-				0A37636C1F62545A00A80613 /* CollectionViewManager+UICollectionViewDelegate.swift in Sources */,
-				0A3763721F62545A00A80613 /* CollectionViewCellItemDataSourcePrefetching.swift in Sources */,
-				0A3763731F62545A00A80613 /* CollectionViewCellItem.swift in Sources */,
-				0A3763711F62545A00A80613 /* GeneralCollectionViewSectionItem.swift in Sources */,
-				0A3763671F62545A00A80613 /* ClosureWrapper.swift in Sources */,
-				0A37636E1F62545A00A80613 /* CollectionViewManager+UIScrollViewDelegate.swift in Sources */,
-				0A3763751F62545A00A80613 /* CollectionViewSectionItem.swift in Sources */,
-				629A6091BFB23B9D95D9BF56 /* Print.swift in Sources */,
+				13B84C3E22D7321E007E2FB3 /* CollectionViewManager+UIScrollViewDelegate.swift in Sources */,
+				13B84C2F22D731F7007E2FB3 /* CollectionViewCellItemDataSourcePrefetching.swift in Sources */,
+				13B84C3022D731F7007E2FB3 /* CollectionViewSectionItem.swift in Sources */,
+				13B84C3122D731F7007E2FB3 /* CollectionViewReusableViewItem.swift in Sources */,
+				13B84C4C22D73268007E2FB3 /* ClosureWrapper.swift in Sources */,
+				13B84C3D22D7321E007E2FB3 /* UICollectionView+Registration.swift in Sources */,
+				13B84C3A22D7321E007E2FB3 /* CollectionViewManager+UICollectionViewDelegateFlowLayout.swift in Sources */,
+				13B84C3F22D7321E007E2FB3 /* CollectionViewManager+UICollectionViewDataSourcePrefetching.swift in Sources */,
+				13B84C4222D7323F007E2FB3 /* Print.swift in Sources */,
+				13B84C5522D73317007E2FB3 /* CollectionViewDataSource.swift in Sources */,
+				13B84C3222D731F7007E2FB3 /* GeneralCollectionViewSectionItem.swift in Sources */,
+				13B84C4E22D7327D007E2FB3 /* CollectionViewManager.swift in Sources */,
+				13B84C3C22D7321E007E2FB3 /* CollectionViewManager+UICollectionViewDataSource.swift in Sources */,
+				13B84C5422D73317007E2FB3 /* GeneralCollectionViewSectionDataSource.swift in Sources */,
+				13B84C3B22D7321E007E2FB3 /* CollectionViewManager+UICollectionViewDelegate.swift in Sources */,
+				13B84C5322D73317007E2FB3 /* GeneralCollectionViewItemDataSource.swift in Sources */,
+				13B84C2E22D731F7007E2FB3 /* CollectionViewCellItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,6 +370,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -410,6 +433,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
