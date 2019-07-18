@@ -43,8 +43,8 @@ extension Color {
     static let red: Color = .init(r: 242, g: 86, b: 92)
     static let purple: Color = .init(r: 151, g: 114, b: 196)
     static var random: Color {
-        return .init(r: Int(arc4random() % 255),
-                     g: Int(arc4random() % 255),
-                     b: Int(arc4random() % 255))
+        return .init(r: .random(in: 0...1),
+                     g: .random(in: 0...1),
+                     b: .random(in: 0...1))
     }
 }

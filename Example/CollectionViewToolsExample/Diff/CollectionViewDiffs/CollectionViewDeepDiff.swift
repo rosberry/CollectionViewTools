@@ -8,8 +8,12 @@ import CollectionViewTools
 final class CollectionViewDeepDiff: CollectionViewDiff {
 
     func changes<T: DiffItem>(old: [T], new: [T]) -> [CollectionViewChange<T>] {
-        let oldWrappers = old.map { DeepDiffDiffableItemWrapper(item: $0) }
-        let newWrappers = new.map { DeepDiffDiffableItemWrapper(item: $0) }
+        let oldWrappers = old.map { item in
+            DeepDiffDiffableItemWrapper(item: item)
+        }
+        let newWrappers = new.map { item in
+            DeepDiffDiffableItemWrapper(item: item)
+        }
         let results = DeepDiff.diff(old: oldWrappers, new: newWrappers)
         let changes = results.map { result in
             CollectionViewChange(insert: CollectionViewDeleteInsert(item: result.insert?.item.item,

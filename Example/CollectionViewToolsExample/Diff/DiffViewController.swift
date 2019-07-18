@@ -8,7 +8,7 @@ import UIKit
 import Foundation
 import CollectionViewTools
 
-class DiffViewController: UIViewController {
+final class DiffViewController: UIViewController {
 
     typealias Diff = (name: String, value: CollectionViewDiff)
 

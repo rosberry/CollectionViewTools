@@ -275,6 +275,7 @@ open class CollectionViewManager: NSObject {
     ///   - cellItems: An array of cell items to insert, which respond for cell configuration at specified index path
     ///   - sectionItem: Section item within which cell items should be inserted
     ///   - indexes: An array of locations, that contains indexes of positions where specified cell items should be inserted
+    ///   - performUpdates: A Boolean value determines whether the performBatchUpdates is called.
     ///   - completion: A closure that either specifies any additional actions which should be performed after insertion.
     open func insert(_ cellItems: [CellItem],
                      to sectionItem: SectionItem,
@@ -333,6 +334,7 @@ open class CollectionViewManager: NSObject {
     ///   - newIndex: Index of cell item's new location inside specified section item
     ///   - cellItem: New cell item. If cell item is nil the old cell item is used.
     ///   - sectionItem: Section item within which cell item should be moved
+    ///   - performUpdates: A Boolean value determines whether the performBatchUpdates is called.
     ///   - completion: A closure that either specifies any additional actions which should be performed after moving.
     open func move(cellItemAt index: Int,
                    to newIndex: Int,
@@ -371,6 +373,9 @@ open class CollectionViewManager: NSObject {
     ///   - indexes: An array of locations, that contains indexes of cell items to replace inside specified section item
     ///   - cellItems: An array of replacement cell items, which respond for cell configuration at specified index path
     ///   - sectionItem: Section item within which cell items should be replaced
+    ///   - performUpdates: A Boolean value determines whether the performBatchUpdates is called.
+    ///   - configureAnimated: A Boolean value determines whether configuration of cell item performed animated.
+    /// Cell item isReplacementAnimationEnabled value should be false in that case.
     ///   - completion: A closure that either specifies any additional actions which should be performed after replacing.
     open func replace(cellItemsAt indexes: [Int],
                       with cellItems: [CellItem],
@@ -409,7 +414,7 @@ open class CollectionViewManager: NSObject {
                         indexPaths.append(indexPath)
                     }
                 }
-
+                
                 collectionView?.reloadItems(at: indexPaths)
             }
             else {
@@ -442,6 +447,7 @@ open class CollectionViewManager: NSObject {
     ///
     /// - Parameters:
     ///   - cellItems: Cell items to remove
+    ///   - performUpdates: A Boolean value determines whether the performBatchUpdates is called.
     ///   - completion: A closure that either specifies any additional actions which should be performed after removing.
     open func remove(_ cellItems: [CellItem],
                      performUpdates: Bool = true,
@@ -471,6 +477,7 @@ open class CollectionViewManager: NSObject {
     /// - Parameters:
     ///   - cellItems: Cell items to remove
     ///   - sectionItem: Section item that contains cell items to remove
+    ///   - performUpdates: A Boolean value determines whether the performBatchUpdates is called.
     ///   - completion: A closure that either specifies any additional actions which should be performed after removing.
     open func removeCellItems(at indexes: [Int],
                               from sectionItem: SectionItem,
@@ -511,6 +518,7 @@ open class CollectionViewManager: NSObject {
     ///   - sectionItems: An array of `CollectionViewSectionItem` objects to insert
     ///   - indexes: An array of locations that specifies the sections to insert in the collection view.
     /// If a section already exists at the specified index location, it is moved down one index location.
+    ///   - performUpdates: A Boolean value determines whether the performBatchUpdates is called.
     ///   - completion: A closure that either specifies any additional actions which should be performed after insertion.
     open func insert(_ sectionItems: [CollectionViewSectionItem],
                      at indexes: [Int],
@@ -563,6 +571,7 @@ open class CollectionViewManager: NSObject {
     ///   - index: Index of section you want to move in the collection view.
     ///   - newIndex: Index of section's new location in the collection view.
     ///   - sectionItem: New section item. If section item is nil the old section item is used.
+    ///   - performUpdates: A Boolean value determines whether the performBatchUpdates is called.
     ///   - completion: A closure that either specifies any additional actions which should be performed after moving.
     open func move(sectionItemAt index: Int,
                    to newIndex: Int,
@@ -589,6 +598,7 @@ open class CollectionViewManager: NSObject {
     /// - Parameters:
     ///   - indexes: An array of locations that specifies the sections to replace in the collection view.
     ///   - sectionItems: An array of replacement `CollectionViewSectionItem` objects
+    ///   - performUpdates: A Boolean value determines whether the performBatchUpdates is called.
     ///   - completion: A closure that either specifies any additional actions which should be performed after replacing.
     open func replace(sectionItemsAt indexes: [Int],
                       with sectionItems: [SectionItem],
@@ -635,6 +645,7 @@ open class CollectionViewManager: NSObject {
     /// Removes one or more section items. Be sure that `CollectionViewManager` contains section items.
     /// - Parameters:
     ///   - sectionItems: An array of `CollectionViewSectionItem` objects to remove
+    ///   - performUpdates: A Boolean value determines whether the performBatchUpdates is called.
     ///   - completion: A closure that either specifies any additional actions which should be performed after removing.
     open func remove(_ sectionItems: [CollectionViewSectionItem],
                      performUpdates: Bool = true,
@@ -653,6 +664,7 @@ open class CollectionViewManager: NSObject {
     /// - Parameters:
     ///   - indexes: An array of locations that specifies the sections to remove.
     /// If a section exists after the specified index location, it is moved up by one index location.
+    ///   - performUpdates: A Boolean value determines whether the performBatchUpdates is called.
     ///   - completion: A closure that either specifies any additional actions which should be performed after removing.
     open func remove(sectionItemsAt indexes: [Int],
                      performUpdates: Bool = true,

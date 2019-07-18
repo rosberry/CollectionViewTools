@@ -31,7 +31,7 @@ final class ColorCellItem: CollectionViewCellItem, DiffItem, CustomStringConvert
     func size(in collectionView: UICollectionView, sectionItem: CollectionViewSectionItem) -> CGSize {
         let numberOfItemsInRow: CGFloat = 5
         let width = (collectionView.bounds.width - sectionItem.insets.left - sectionItem.insets.right -
-        sectionItem.minimumInteritemSpacing * (numberOfItemsInRow - 1)) / numberOfItemsInRow
+            sectionItem.minimumInteritemSpacing * (numberOfItemsInRow - 1)) / numberOfItemsInRow
         return .init(width: width, height: width)
     }
 

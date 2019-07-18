@@ -45,9 +45,9 @@ open class GeneralCollectionViewDiffSectionItem: CollectionViewDiffSectionItem, 
             return false
         }
         // TODO: add reusableViewItems here
-        let areItemsEqual = zip(cellItems, itemCellItems).contains { lhs, rhs in
-            !lhs.equal(to: rhs)
-            } == false
+        let areItemsEqual = zip(cellItems, itemCellItems).allSatisfy { lhs, rhs in
+            lhs.equal(to: rhs)
+        }
         return areItemsEqual &&
             minimumLineSpacing == item.minimumLineSpacing &&
             minimumInteritemSpacing == item.minimumInteritemSpacing &&
