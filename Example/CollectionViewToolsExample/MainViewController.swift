@@ -111,17 +111,6 @@ class MainViewController: UIViewController {
             detailViewController.image = image
             self?.navigationController?.pushViewController(detailViewController, animated: true)
         }
-        cellItem.itemDidSelectHandler = { [weak cellItem] _ in
-            weak var imageView = (cellItem?.cell as? ImageCollectionViewCell)?.imageView
-            UIView.animate(withDuration: 0.2, animations: {
-                imageView?.alpha = 0.5
-            }, completion: { _ in
-                UIView.animate(withDuration: 0.2, animations: {
-                    imageView?.alpha = 1
-                })
-                cellItem?.didSelect()
-            })
-        }
         cellItem.removeActionHandler = { [weak self, weak cellItem] in
             self?.remove(cellItem)
         }
@@ -149,7 +138,9 @@ class MainViewController: UIViewController {
             // Replace cells
             makeReplaceCellItemsActionCellItem(),
             // Replace sections
-            makeReplaceSectionItemsActionCellItem()
+            makeReplaceSectionItemsActionCellItem(),
+            // Change images
+            makeChangeImagesActionCellItem()
         ]
         sectionItem.insets = .init(top: 0, left: 8, bottom: 0, right: 8)
         sectionItem.minimumInteritemSpacing = 8
@@ -397,6 +388,27 @@ class MainViewController: UIViewController {
             
             let replaceIndexes = Array(0..<self.mainCollectionViewManager.sectionItems.count)
             self.mainCollectionViewManager.replace(sectionItemsAt: replaceIndexes, with: sectionItems)
+        }
+    }
+    
+    // MARK: Change images
+    
+    func makeChangeImagesActionCellItem() -> CollectionViewCellItem {
+        return makeActionCellItem(title: "Change images") { [weak self] in
+            guard let `self` = self else {
+                return
+            }
+            
+            self.mainCollectionViewManager.sectionItems.forEach { sectionItem in
+                sectionItem.cellItems.forEach { cellItem in
+                    guard let cellItem = cellItem as? ImageCellItem,
+                        let cell = cellItem.cell as? ImageCollectionViewCell,
+                        self.images.isEmpty == false else {
+                        return
+                    }
+                    cell.imageView.image = self.images[Int.random(in: 0..<self.images.count)]
+                }
+            }
         }
     }
     

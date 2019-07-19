@@ -85,15 +85,16 @@ extension CollectionViewSiblingCellItem {
     }
     
     public weak var cell: UICollectionViewCell? {
-        if let cell = objc_getAssociatedObject(self, &AssociatedKeys.cell) as? UICollectionViewCell {
-            return cell
+        get {
+            if let cell = objc_getAssociatedObject(self, &AssociatedKeys.cell) as? UICollectionViewCell {
+                return cell
+            }
+            printContextWarning("We found out that cell property for \(self) is nil")
+            return nil
         }
-        printContextWarning("We found out that cell property for \(self) is nil")
-        return nil
-    }
-    
-    func update(with cell: UICollectionViewCell) {
-        objc_setAssociatedObject(self, &AssociatedKeys.cell, cell, .OBJC_ASSOCIATION_ASSIGN)
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.cell, newValue, .OBJC_ASSOCIATION_ASSIGN)
+        }
     }
 }
 
