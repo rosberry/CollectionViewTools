@@ -13,6 +13,12 @@ extension CollectionViewSectionItem {
             cellItem as? CollectionViewDiffCellItem
         }
     }
+    
+    var diffReusableViewItems: [CollectionViewDiffReusableViewItem] {
+        return reusableViewItems.compactMap { cellItem in
+            cellItem as? CollectionViewDiffReusableViewItem
+        }
+    }
 }
 
 open class GeneralCollectionViewDiffSectionItem: CollectionViewDiffSectionItem, Equatable, CustomStringConvertible {
@@ -39,19 +45,34 @@ open class GeneralCollectionViewDiffSectionItem: CollectionViewDiffSectionItem, 
         guard let item = item as? GeneralCollectionViewDiffSectionItem else {
             return false
         }
+        
+        let reusableViewItems = diffReusableViewItems
+        let itemReusableViewItems = item.diffReusableViewItems
+        guard reusableViewItems.count == itemReusableViewItems.count else {
+            return false
+        }
+        let areReusableViewItemsEqual = zip(reusableViewItems, itemReusableViewItems).allSatisfy { lhs, rhs in
+            lhs.equal(to: rhs)
+        }
+        guard areReusableViewItemsEqual else {
+            return false
+        }
+        
         let cellItems = diffCellItems
         let itemCellItems = item.diffCellItems
         guard cellItems.count == itemCellItems.count else {
             return false
         }
-        // TODO: add reusableViewItems here
-        let areItemsEqual = zip(cellItems, itemCellItems).allSatisfy { lhs, rhs in
+        let areCellItemsEqual = zip(cellItems, itemCellItems).allSatisfy { lhs, rhs in
             lhs.equal(to: rhs)
         }
-        return areItemsEqual &&
-            minimumLineSpacing == item.minimumLineSpacing &&
-            minimumInteritemSpacing == item.minimumInteritemSpacing &&
-            insets == item.insets
+        guard areCellItemsEqual else {
+            return false
+        }
+
+        return minimumLineSpacing == item.minimumLineSpacing &&
+                minimumInteritemSpacing == item.minimumInteritemSpacing &&
+                insets == item.insets
     }
 
     public static func == (lhs: GeneralCollectionViewDiffSectionItem, rhs: GeneralCollectionViewDiffSectionItem) -> Bool {

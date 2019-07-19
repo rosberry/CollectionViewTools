@@ -4,7 +4,7 @@
 
 import CollectionViewTools
 
-final class TextCellItem: CollectionViewCellItem, DiffItem, CustomStringConvertible {
+final class TextCellItem: CollectionViewDiffCellItem, CustomStringConvertible {
     
     private typealias Cell = TextCollectionViewCell
 

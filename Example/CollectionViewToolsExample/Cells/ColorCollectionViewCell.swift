@@ -16,7 +16,7 @@ final class ColorCollectionViewCell: UICollectionViewCell {
 
     // MARK: Subviews
 
-    lazy var label: UILabel = {
+    private(set) lazy var label: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         return label
@@ -35,7 +35,6 @@ final class ColorCollectionViewCell: UICollectionViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-
         label.frame = contentView.bounds
     }
 }

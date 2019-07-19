@@ -7,7 +7,7 @@
 import CollectionViewTools
 import Foundation
 
-final class ColorCellItem: CollectionViewCellItem, DiffItem, CustomStringConvertible {
+final class ColorCellItem: CollectionViewDiffCellItem, CustomStringConvertible {
 
     typealias Cell = ColorCollectionViewCell
     private(set) var reuseType: ReuseType = .class(Cell.self)

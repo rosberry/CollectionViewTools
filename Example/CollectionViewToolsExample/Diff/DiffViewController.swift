@@ -106,7 +106,8 @@ final class DiffViewController: UIViewController {
     }
 
     private func resetGroupsAndObjects() {
-        let colors: [Color] = [.red, .green, .orange, .purple, .blue]
+//        let colors: [Color] = [.red, .green, .orange, .purple, .blue]
+        let colors: [Color] = [.red]
         lastGroupId = 1
         lastObjectId = 1
         groups = colors.enumerated().map { (groupIndex, color) -> Group in
@@ -259,14 +260,16 @@ final class DiffViewController: UIViewController {
 
     func makeMainSectionItems(groups: [Group]) -> [CollectionViewDiffSectionItem] {
         return groups.reduce([]) { (result, group) in
-            result + [makeGroupSectionItem(group: group),
-                      makeGroupActionsSectionItem(group: group),
-                      makePlusSectionItem(after: group)]
+//            result + [makeGroupSectionItem(group: group),
+//                      makeGroupActionsSectionItem(group: group),
+//                      makePlusSectionItem(after: group)]
+            result + [makeGroupSectionItem(group: group)]
         }
     }
 
     func makeGroupSectionItem(group: Group) -> CollectionViewDiffSectionItem {
         let sectionItem = GeneralCollectionViewDiffSectionItem()
+        sectionItem.reusableViewItems = [makeGroupHeaderItem(group: group)]
         sectionItem.diffIdentifier = "\(group.id)"
         sectionItem.insets = .init(top: 0, left: 8, bottom: 0, right: 8)
         sectionItem.minimumInteritemSpacing = 2
@@ -305,6 +308,16 @@ final class DiffViewController: UIViewController {
         return sectionItem
     }
 
+    private func makeGroupHeaderItem(group: Group) -> HeaderViewItem {
+        let headerItem = HeaderViewItem(title: group.title)
+        headerItem.diffIdentifier = "group_header_\(group.id)"
+        headerItem.selectionHandler = { [weak self] in
+            group.title = "BLAAAAA"
+            self?.updateMainCollection(animated: true, cache: false)
+        }
+        return headerItem
+    }
+    
     private func makeGroupTitleCellItem(group: Group) -> TextCellItem {
         let cellItem = TextCellItem(text: group.title,
                                     backgroundColor: group.color.uiColor,

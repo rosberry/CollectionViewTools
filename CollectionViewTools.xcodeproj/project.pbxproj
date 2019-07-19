@@ -30,6 +30,7 @@
 		0E21E22B22C4E1A2004364FA /* CollectionViewDiffCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E21E22A22C4E1A2004364FA /* CollectionViewDiffCellItem.swift */; };
 		0E21E22D22C4E1E2004364FA /* CollectionViewDiffSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E21E22C22C4E1E2004364FA /* CollectionViewDiffSectionItem.swift */; };
 		0E4B31D1229C02B800CE0B13 /* CollectionViewChanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4B31D0229C02B800CE0B13 /* CollectionViewChanges.swift */; };
+		1078655122E1DE6C0075C74A /* CollectionViewDiffReusableViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1078655022E1DE6C0075C74A /* CollectionViewDiffReusableViewItem.swift */; };
 		629A6091BFB23B9D95D9BF56 /* Print.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A64DA578C05AC298ECFFD /* Print.swift */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +72,7 @@
 		0E21E22A22C4E1A2004364FA /* CollectionViewDiffCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewDiffCellItem.swift; sourceTree = "<group>"; };
 		0E21E22C22C4E1E2004364FA /* CollectionViewDiffSectionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewDiffSectionItem.swift; sourceTree = "<group>"; };
 		0E4B31D0229C02B800CE0B13 /* CollectionViewChanges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewChanges.swift; sourceTree = "<group>"; };
+		1078655022E1DE6C0075C74A /* CollectionViewDiffReusableViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewDiffReusableViewItem.swift; sourceTree = "<group>"; };
 		629A64DA578C05AC298ECFFD /* Print.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Print.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -210,6 +212,7 @@
 				0E4B31D0229C02B800CE0B13 /* CollectionViewChanges.swift */,
 				0E21E22C22C4E1E2004364FA /* CollectionViewDiffSectionItem.swift */,
 				0E21E22A22C4E1A2004364FA /* CollectionViewDiffCellItem.swift */,
+				1078655022E1DE6C0075C74A /* CollectionViewDiffReusableViewItem.swift */,
 				0E0F4098222D4F0600B88DF3 /* DiffItem.swift */,
 			);
 			path = Diff;
@@ -355,6 +358,7 @@
 				0A3763711F62545A00A80613 /* GeneralCollectionViewSectionItem.swift in Sources */,
 				0A3763671F62545A00A80613 /* ClosureWrapper.swift in Sources */,
 				0E0F409E222D4F0600B88DF3 /* DiffItem.swift in Sources */,
+				1078655122E1DE6C0075C74A /* CollectionViewDiffReusableViewItem.swift in Sources */,
 				0A37636E1F62545A00A80613 /* CollectionViewManager+UIScrollViewDelegate.swift in Sources */,
 				0E21E22D22C4E1E2004364FA /* CollectionViewDiffSectionItem.swift in Sources */,
 				0A3763751F62545A00A80613 /* CollectionViewSectionItem.swift in Sources */,
