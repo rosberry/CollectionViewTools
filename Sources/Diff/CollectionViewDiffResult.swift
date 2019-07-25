@@ -38,9 +38,7 @@ final class CollectionViewDiffResult {
                     cellUpdatesMap[update] = cellChanges
                 }
             }
-            else {
-                sectionUpdates.append(update)
-            }
+            sectionUpdates.append(update)
         }
 
         self.sectionUpdates = sectionUpdates

@@ -6,7 +6,7 @@ public protocol DiffItem {
 
     var diffIdentifier: String { get }
 
-    func equal(to item: DiffItem) -> Bool
+    func isEqual(to item: DiffItem) -> Bool
 }
 
 public final class DiffItemWrapper: DiffItem {
@@ -21,11 +21,11 @@ public final class DiffItemWrapper: DiffItem {
         return item.diffIdentifier
     }
 
-    public func equal(to item: DiffItem) -> Bool {
+    public func isEqual(to item: DiffItem) -> Bool {
         guard let wrapper = item as? DiffItemWrapper else {
             return false
         }
-        return self.item.equal(to: wrapper.item)
+        return self.item.isEqual(to: wrapper.item)
     }
 }
 

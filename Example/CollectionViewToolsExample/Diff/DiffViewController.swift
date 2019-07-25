@@ -243,8 +243,8 @@ final class DiffViewController: UIViewController {
     private func updateMainCollection(animated: Bool, cache: Bool = true) {
         let oldSectionItems = mainCollectionViewManager.sectionItems
         let newSectionItems = makeMainSectionItems(groups: groups)
-        print("<<< OLD ITEMS = \(oldSectionItems)")
-        print("<<< NEW ITEMS = \(newSectionItems)")
+//        print("<<< OLD ITEMS = \(oldSectionItems)")
+//        print("<<< NEW ITEMS = \(newSectionItems)")
         mainCollectionViewManager.update(with: newSectionItems,
                                          diff: mainCollectionViewDiff.value,
                                          ignoreCellItemsChanges: false,
@@ -267,14 +267,16 @@ final class DiffViewController: UIViewController {
 
     func makeGroupSectionItem(group: Group) -> CollectionViewDiffSectionItem {
         let sectionItem = GeneralCollectionViewDiffSectionItem()
+        sectionItem.reusableViewItems = [makeGroupHeaderItem(group: group)]
         sectionItem.diffIdentifier = "\(group.id)"
-        sectionItem.insets = .init(top: 0, left: 8, bottom: 0, right: 8)
+        sectionItem.insets = .init(top: 2, left: 8, bottom: 0, right: 8)
         sectionItem.minimumInteritemSpacing = 2
         sectionItem.minimumLineSpacing = 2
-        sectionItem.cellItems.append(makeGroupTitleCellItem(group: group))
-        for object in group.objects {
-            let cellItem = makeObjectCellItem(object: object, group: group)
-            sectionItem.cellItems.append(cellItem)
+        if !group.isFolded {
+            for object in group.objects {
+                let cellItem = makeObjectCellItem(object: object, group: group)
+                sectionItem.cellItems.append(cellItem)
+            }
         }
         return sectionItem
     }
@@ -305,20 +307,22 @@ final class DiffViewController: UIViewController {
         return sectionItem
     }
 
-    private func makeGroupTitleCellItem(group: Group) -> TextCellItem {
-        let cellItem = TextCellItem(text: group.title,
-                                    backgroundColor: group.color.uiColor,
-                                    font: .systemFont(ofSize: 16),
-                                    roundCorners: true,
-                                    contentRelatedWidth: false)
-        cellItem.diffIdentifier = "group_title_\(group.id)"
-        cellItem.itemDidSelectHandler = { [weak self] _ in
+    private func makeGroupHeaderItem(group: Group) -> HeaderViewItem {
+        let headerItem = HeaderViewItem(title: group.title,
+                                        backgroundColor: group.color.uiColor,
+                                        isFolded: group.isFolded)
+        headerItem.diffIdentifier = "group_header_\(group.id)"
+        headerItem.foldHandler = { [weak self] in
+            group.isFolded.toggle()
+            self?.updateMainCollection(animated: true, cache: false)
+        }
+        headerItem.removeHandler = { [weak self] in
             self?.delete(group)
             self?.updateMainCollection(animated: true, cache: false)
         }
-        return cellItem
+        return headerItem
     }
-
+    
     private func makeGroupPlusCellItem(group: Group) -> TextCellItem {
         let cellItem = TextCellItem(text: "+",
                                     backgroundColor: .white,

@@ -86,7 +86,8 @@ extension CollectionViewManager {
             complete()
         }
 
-        updateWithoutAnimation(sectionItems: sectionItems, shouldReload: false)
+        registerSectionItems()
+        recalculateIndexes()
 
         itemsWereUpdated = true
         complete()
@@ -198,6 +199,15 @@ extension CollectionViewManager {
                 var sectionUpdatedIndexes: [Int] = []
                 var sectionUpdatedItems: [CollectionViewDiffSectionItem] = []
                 for update in diffResult.sectionUpdates {
+                    guard let oldSectionItem = update.oldItem as? GeneralCollectionViewDiffSectionItem,
+                        let newSectionItem = update.newItem as? GeneralCollectionViewDiffSectionItem else {
+                            continue
+                    }
+                    let areInsetsAndSpacingsEqual = newSectionItem.areInsetsAndSpacingsEqual(to: oldSectionItem)
+                    let areReusableViewsEqual = newSectionItem.areReusableViewsEqual(to: oldSectionItem)
+                    guard !areInsetsAndSpacingsEqual || !areReusableViewsEqual else {
+                        continue
+                    }
                     sectionUpdatedIndexes.append(update.index)
                     sectionUpdatedItems.append(update.newItem)
                 }
