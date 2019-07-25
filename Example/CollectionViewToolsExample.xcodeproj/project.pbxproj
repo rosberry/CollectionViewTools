@@ -18,7 +18,6 @@
 		0E5676E222C5DEC0008A88EA /* CollectionViewTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE6E86B31FB961B20027A8FE /* CollectionViewTools.framework */; };
 		0E5676E322C5DEC0008A88EA /* CollectionViewTools.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FE6E86B31FB961B20027A8FE /* CollectionViewTools.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0EB8E642229BF9370000B921 /* ImageCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA6FC81F626AF900782C1E /* ImageCellItem.swift */; };
-		0EB8E643229BF9370000B921 /* CollectionViewDeepDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E506C0F228EBC3600E16640 /* CollectionViewDeepDiff.swift */; };
 		0EB8E644229BF9370000B921 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA6FCD1F6275D200782C1E /* DetailViewController.swift */; };
 		0EB8E645229BF9370000B921 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACA6FCB1F626D2E00782C1E /* ImageCollectionViewCell.swift */; };
 		0EB8E646229BF9370000B921 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763821F62556300A80613 /* AppDelegate.swift */; };
@@ -33,11 +32,10 @@
 		0EB8E64F229BF9370000B921 /* CollectionViewIGListKitDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E506C0E228EBC3600E16640 /* CollectionViewIGListKitDiff.swift */; };
 		0EB8E650229BF9370000B921 /* DiffViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1EDA5A228946DF0087253A /* DiffViewController.swift */; };
 		0EB8E651229BF9370000B921 /* ExampleSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A688DD33578289A57B452 /* ExampleSectionItem.swift */; };
-		0EB8E653229BF9370000B921 /* IGListKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EB9277F2292A35C000666A2 /* IGListKit.framework */; };
-		0EB8E654229BF9370000B921 /* DeepDiff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E506C0A228EBBDB00E16640 /* DeepDiff.framework */; };
 		0EB8E657229BF9370000B921 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A37638B1F62556400A80613 /* LaunchScreen.storyboard */; };
 		0EB8E658229BF9370000B921 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A3763891F62556300A80613 /* Assets.xcassets */; };
 		0EB8E662229BFA710000B921 /* DiffInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0EB8E661229BFA710000B921 /* DiffInfo.plist */; };
+		1028238F22E9B0950061C54F /* IGListKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1028238E22E9B0950061C54F /* IGListKit.framework */; };
 		1078655822E1EADB0075C74A /* HeaderViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1078655322E1E5C60075C74A /* HeaderViewItem.swift */; };
 		1078655922E1EADF0075C74A /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1078655622E1E7060075C74A /* HeaderView.swift */; };
 		629A63FBA018222A355686F6 /* ExampleSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A688DD33578289A57B452 /* ExampleSectionItem.swift */; };
@@ -90,12 +88,10 @@
 		0E4CB58F229673A9002A3C59 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		0E506C05228EBA4400E16640 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = SOURCE_ROOT; };
 		0E506C06228EBA4500E16640 /* Cartfile.resolved */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.resolved; sourceTree = SOURCE_ROOT; };
-		0E506C0A228EBBDB00E16640 /* DeepDiff.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeepDiff.framework; path = Carthage/Build/iOS/DeepDiff.framework; sourceTree = "<group>"; };
 		0E506C0E228EBC3600E16640 /* CollectionViewIGListKitDiff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewIGListKitDiff.swift; sourceTree = "<group>"; };
-		0E506C0F228EBC3600E16640 /* CollectionViewDeepDiff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDeepDiff.swift; sourceTree = "<group>"; };
 		0EB8E65F229BF9370000B921 /* CollectionViewToolsDiffExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionViewToolsDiffExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EB8E661229BFA710000B921 /* DiffInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DiffInfo.plist; sourceTree = "<group>"; };
-		0EB9277F2292A35C000666A2 /* IGListKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IGListKit.framework; path = Carthage/Build/iOS/IGListKit.framework; sourceTree = "<group>"; };
+		1028238E22E9B0950061C54F /* IGListKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IGListKit.framework; path = Carthage/Build/iOS/IGListKit.framework; sourceTree = "<group>"; };
 		1078655322E1E5C60075C74A /* HeaderViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderViewItem.swift; sourceTree = "<group>"; };
 		1078655622E1E7060075C74A /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		629A60E846B05B88D62C7880 /* TextCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -118,9 +114,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1028238F22E9B0950061C54F /* IGListKit.framework in Frameworks */,
 				0E5676E222C5DEC0008A88EA /* CollectionViewTools.framework in Frameworks */,
-				0EB8E653229BF9370000B921 /* IGListKit.framework in Frameworks */,
-				0EB8E654229BF9370000B921 /* DeepDiff.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,8 +164,7 @@
 		0ACA6FC41F62659500782C1E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0EB9277F2292A35C000666A2 /* IGListKit.framework */,
-				0E506C0A228EBBDB00E16640 /* DeepDiff.framework */,
+				1028238E22E9B0950061C54F /* IGListKit.framework */,
 				FE6E86B31FB961B20027A8FE /* CollectionViewTools.framework */,
 			);
 			name = Frameworks;
@@ -219,7 +213,6 @@
 		0E506C0D228EBC3600E16640 /* CollectionViewDiffs */ = {
 			isa = PBXGroup;
 			children = (
-				0E506C0F228EBC3600E16640 /* CollectionViewDeepDiff.swift */,
 				0E506C0E228EBC3600E16640 /* CollectionViewIGListKitDiff.swift */,
 			);
 			path = CollectionViewDiffs;
@@ -287,8 +280,8 @@
 				0EB8E641229BF9370000B921 /* Sources */,
 				0EB8E652229BF9370000B921 /* Frameworks */,
 				0EB8E656229BF9370000B921 /* Resources */,
-				0EB8E65B229BF9370000B921 /* Carthage */,
 				0E5676E422C5DEC0008A88EA /* Embed Frameworks */,
+				0EB8E65B229BF9370000B921 /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -371,7 +364,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/DeepDiff.framework",
+				"$(SRCROOT)/../Carthage/Build/iOS/DeepDiff.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/IGListKit.framework",
 			);
 			name = Carthage;
@@ -394,15 +387,13 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/DeepDiff.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/IGListKit.framework",
+				"$(SRCROOT)/../Carthage/Build/iOS/DeepDiff.framework",
 			);
 			name = Carthage;
 			outputFileListPaths = (
 			);
 			outputPaths = (
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/DeepDiff.framework",
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/IGListKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -435,7 +426,6 @@
 			files = (
 				0EB8E642229BF9370000B921 /* ImageCellItem.swift in Sources */,
 				1078655922E1EADF0075C74A /* HeaderView.swift in Sources */,
-				0EB8E643229BF9370000B921 /* CollectionViewDeepDiff.swift in Sources */,
 				0EB8E644229BF9370000B921 /* DetailViewController.swift in Sources */,
 				0EB8E645229BF9370000B921 /* ImageCollectionViewCell.swift in Sources */,
 				0EB8E646229BF9370000B921 /* AppDelegate.swift in Sources */,
@@ -584,14 +574,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = GPVA8JVMU3;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = CollectionViewToolsExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewToolsExample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.collectionViewToolsExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -602,14 +589,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = GPVA8JVMU3;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = CollectionViewToolsExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewToolsExample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.collectionViewToolsExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -622,6 +606,7 @@
 				DEVELOPMENT_TEAM = GPVA8JVMU3;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/../Carthage/Build/iOS\"",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -633,7 +618,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "-DDIFF";
-				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewToolsDiffExample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.collectionViewToolsDiffExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -646,6 +631,7 @@
 				DEVELOPMENT_TEAM = GPVA8JVMU3;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/../Carthage/Build/iOS\"",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = "DIFF=1";
@@ -653,7 +639,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "-DDIFF";
-				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewToolsDiffExample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.collectionViewToolsDiffExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};

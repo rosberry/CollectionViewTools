@@ -15,6 +15,16 @@ extension CollectionViewManager {
     }
 
     open func update(with sectionItems: [CollectionViewDiffSectionItem],
+                     ignoreCellItemsChanges: Bool = false,
+                     animated: Bool,
+                     completion: DiffCompletion? = nil) {
+        update(with: sectionItems,
+               diff: CollectionViewDeepDiff(),
+               ignoreCellItemsChanges: ignoreCellItemsChanges,
+               animated: animated,
+               completion: completion)
+    }
+    open func update(with sectionItems: [CollectionViewDiffSectionItem],
                      diff: CollectionViewDiff,
                      ignoreCellItemsChanges: Bool = false,
                      animated: Bool,

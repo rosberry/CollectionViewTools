@@ -3,11 +3,13 @@
 //
 
 import DeepDiff
-import CollectionViewTools
 
-final class CollectionViewDeepDiff: CollectionViewDiff {
+public final class CollectionViewDeepDiff: CollectionViewDiff {
 
-    func changes<T: DiffItem>(old: [T], new: [T]) -> [CollectionViewChange<T>] {
+    public init() {
+    }
+    
+    public func changes<T: DiffItem>(old: [T], new: [T]) -> [CollectionViewChange<T>] {
         let oldWrappers = old.map { item in
             DeepDiffDiffableItemWrapper(item: item)
         }
