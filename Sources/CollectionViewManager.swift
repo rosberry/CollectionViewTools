@@ -209,7 +209,7 @@ open class CollectionViewManager: NSObject {
     /// - Parameter cellItem: The cell item which need to be registered
     open func register(_ cellItem: CellItem) {
         cellItem.collectionView = collectionView
-        collectionView.registerCell(by: cellItem.reuseType)
+        collectionView.registerCell(with: cellItem.reuseType)
     }
 
     /// Use this function to force suplemented views registration process if you override add/replace/reload methods
