@@ -25,7 +25,7 @@ public enum ReuseType {
 
 public extension UICollectionView {
     
-    func register(by type: ReuseType) {
+    func registerCell(by type: ReuseType) {
         switch type {
             case let .nib(nib, identifier):
                 register(nib, forCellWithReuseIdentifier: identifier)
@@ -36,14 +36,12 @@ public extension UICollectionView {
         }
     }
 
-    func registerView(by viewItem: CollectionViewReusableViewItem) {
-        let kind = viewItem.type.kind
-        let reuseType = viewItem.reuseType
-        switch reuseType {
+    func registerView(with type: ReuseType, kind: String) {
+        switch type {
         case let .nib(nib, identifier):
             register(nib, forSupplementaryViewOfKind: kind, withReuseIdentifier: identifier)
         case let .class(`class`):
-            register(`class`, forSupplementaryViewOfKind: kind, withReuseIdentifier: reuseType.identifier)
+            register(`class`, forSupplementaryViewOfKind: kind, withReuseIdentifier: type.identifier)
         default:
             break
         }

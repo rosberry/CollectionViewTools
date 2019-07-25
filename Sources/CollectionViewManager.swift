@@ -137,11 +137,11 @@ open class CollectionViewManager: NSObject {
             sectionItem.reusableViewItems.count > indexPath.row else {
             return nil
         }
-        let reusableView = sectionItem.reusableViewItems[indexPath.row]
-        guard reusableView.type.kind == kind else {
+        let reusableViewItem = sectionItem.reusableViewItems[indexPath.row]
+        guard reusableViewItem.type.kind == kind else {
             return nil
         }
-        return reusableView
+        return reusableViewItem
     }
     
     /// Returns the section item at the specified index path.
@@ -209,15 +209,15 @@ open class CollectionViewManager: NSObject {
     /// - Parameter cellItem: The cell item which need to be registered
     open func register(_ cellItem: CellItem) {
         cellItem.collectionView = collectionView
-        collectionView.register(by: cellItem.reuseType)
+        collectionView.registerCell(by: cellItem.reuseType)
     }
 
     /// Use this function to force suplemented views registration process if you override add/replace/reload methods
     ///
     /// - Parameter viewItem: The view item which need to be registered
-    open func register(_ viewItem: ReusableViewItem) {
-        viewItem.collectionView = collectionView
-        collectionView.registerView(by: viewItem)
+    open func register(_ reusableViewItem: ReusableViewItem) {
+        reusableViewItem.collectionView = collectionView
+        collectionView.registerView(with: reusableViewItem.reuseType, kind: reusableViewItem.type.kind)
     }
     
     // MARK: - Index paths
