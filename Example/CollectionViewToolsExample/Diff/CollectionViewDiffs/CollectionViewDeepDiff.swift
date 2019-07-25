@@ -46,7 +46,7 @@ public final class DeepDiffDiffableItemWrapper<T: DiffItem>: DiffAware {
     }
 
     public static func compareContent(_ a: DeepDiffDiffableItemWrapper, _ b: DeepDiffDiffableItemWrapper) -> Bool {
-        return a.item.equal(to: b.item)
+        return a.item.isEqual(to: b.item)
     }
 }
 

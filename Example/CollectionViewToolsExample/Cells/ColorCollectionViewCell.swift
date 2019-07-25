@@ -36,5 +36,5 @@ final class ColorCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         label.frame = contentView.bounds
-    }
+    }    
 }

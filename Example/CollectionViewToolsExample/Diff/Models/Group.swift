@@ -12,6 +12,7 @@ final class Group: Codable, Equatable, CustomStringConvertible {
     var objects: [Object]
     var color: Color
     var title: String
+    var isFolded: Bool = false
 
     init(id: Int, objects: [Object], color: Color, title: String) {
         self.id = id

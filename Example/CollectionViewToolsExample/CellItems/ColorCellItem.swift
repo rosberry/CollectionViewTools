@@ -39,7 +39,7 @@ final class ColorCellItem: CollectionViewDiffCellItem, CustomStringConvertible {
 
     var diffIdentifier: String = ""
 
-    func equal(to item: DiffItem) -> Bool {
+    func isEqual(to item: DiffItem) -> Bool {
         guard let item = item as? ColorCellItem else {
             return false
         }

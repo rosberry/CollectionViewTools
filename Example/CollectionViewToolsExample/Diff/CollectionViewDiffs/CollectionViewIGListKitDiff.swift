@@ -63,7 +63,7 @@ public final class IGListKitDiffableItemWrapper<T: DiffItem>: ListDiffable {
         guard let wrapper = object as? IGListKitDiffableItemWrapper<T> else {
             return false
         }
-        return item.equal(to: wrapper.item)
+        return item.isEqual(to: wrapper.item)
     }
 }
 

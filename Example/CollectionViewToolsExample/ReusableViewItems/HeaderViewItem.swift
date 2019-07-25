@@ -11,18 +11,23 @@ final class HeaderViewItem: CollectionViewDiffReusableViewItem {
     
     typealias View = HeaderView
     
-    var selectionHandler: (() -> Void)?
+    var foldHandler: (() -> Void)?
+    var removeHandler: (() -> Void)?
 
     var title: String
-    
+    var backgroundColor: UIColor
+    var isFolded: Bool
+
     var diffIdentifier: String = ""
     
-    init(title: String) {
+    init(title: String, backgroundColor: UIColor, isFolded: Bool) {
         self.title = title
+        self.backgroundColor = backgroundColor
+        self.isFolded = isFolded
     }
     
     func size(for collectionView: UICollectionView, with layout: UICollectionViewLayout) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 100)
+        return CGSize(width: collectionView.bounds.width, height: 44)
     }
     
     func view(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -31,10 +36,18 @@ final class HeaderViewItem: CollectionViewDiffReusableViewItem {
                                                                          for: indexPath) as? View else {
                                                                             return HeaderView()
         }
+        headerView.contentView.backgroundColor = backgroundColor
         headerView.label.text = title
-        headerView.selectionHandler = { [weak self] in
-            self?.selectionHandler?()
+        let foldButtonTitle = isFolded ? "Unfold" : "Fold"
+        headerView.foldButton.setTitle(foldButtonTitle, for: .normal)
+        headerView.removeHandler = { [weak self] in
+            self?.removeHandler?()
         }
+        headerView.foldHandler = { [weak self] in
+            self?.foldHandler?()
+        }
+        headerView.setNeedsLayout()
+        headerView.layoutIfNeeded()
         return headerView
     }
     
@@ -44,10 +57,11 @@ final class HeaderViewItem: CollectionViewDiffReusableViewItem {
                                 withReuseIdentifier: NSStringFromClass(View.self))
     }
     
-    func equal(to item: DiffItem) -> Bool {
+    func isEqual(to item: DiffItem) -> Bool {
         guard let item = item as? HeaderViewItem else {
             return false
         }
-        return title == item.title
+        return title == item.title &&
+            isFolded == item.isFolded
     }
 }

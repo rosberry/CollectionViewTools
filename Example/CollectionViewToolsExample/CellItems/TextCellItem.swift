@@ -60,7 +60,7 @@ final class TextCellItem: CollectionViewDiffCellItem, CustomStringConvertible {
 
     var diffIdentifier: String = ""
 
-    func equal(to item: DiffItem) -> Bool {
+    func isEqual(to item: DiffItem) -> Bool {
         guard let item = item as? TextCellItem else {
             return false
         }
