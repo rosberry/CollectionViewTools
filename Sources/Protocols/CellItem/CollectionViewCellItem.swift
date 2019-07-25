@@ -42,9 +42,12 @@ public protocol CollectionViewSiblingCellItem: AnyObject {
     var collectionView: UICollectionView? { get set }
     var indexPath: IndexPath? { get set }
     var sectionItem: CollectionViewSectionItem? { get set }
+    var cell: UICollectionViewCell? { get }
 }
 
 extension CollectionViewSiblingCellItem {
+    
+    /// A collection view associated with the cellItem
     public weak var collectionView: UICollectionView? {
         get {
             if let object = objc_getAssociatedObject(self, &AssociatedKeys.collectionView) as? UICollectionView {
@@ -58,6 +61,7 @@ extension CollectionViewSiblingCellItem {
         }
     }
     
+    /// An indexPath associated with the cellItem
     public var indexPath: IndexPath? {
         get {
             if let object = objc_getAssociatedObject(self, &AssociatedKeys.indexPath) as? IndexPath {
@@ -71,6 +75,7 @@ extension CollectionViewSiblingCellItem {
         }
     }
     
+    /// A sectionItem in what the cellItem placed
     public weak var sectionItem: CollectionViewSectionItem? {
         get {
             if let object = objc_getAssociatedObject(self, &AssociatedKeys.sectionItem) as? CollectionViewSectionItem {
@@ -84,13 +89,12 @@ extension CollectionViewSiblingCellItem {
         }
     }
     
+    /// Returns a cell from collection view that corresponds to cellItem's indexPath
     public weak var cell: UICollectionViewCell? {
-        get {
-            if let indexPath = self.indexPath {
-                return collectionView?.cellForItem(at: indexPath)
-            }
-            return nil
+        if let indexPath = self.indexPath {
+            return collectionView?.cellForItem(at: indexPath)
         }
+        return nil
     }
 }
 
