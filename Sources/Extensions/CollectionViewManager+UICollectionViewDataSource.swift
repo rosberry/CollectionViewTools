@@ -26,7 +26,7 @@ extension CollectionViewManager: UICollectionViewDataSource {
     open func collectionView(_ collectionView: UICollectionView,
                              viewForSupplementaryElementOfKind kind: String,
                              at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let reusableViewItem = self.reusableViewItem(for: indexPath, and: kind) else {
+        guard let reusableViewItem = self.reusableViewItem(for: indexPath, kind: kind) else {
             return UICollectionReusableView()
         }
         let kind = reusableViewItem.type.kind

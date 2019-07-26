@@ -132,7 +132,7 @@ open class CollectionViewManager: NSObject {
     /// - Parameter indexPath: The index path locating the item in the collection view.
     /// - Returns: A reusable view item associated with reusable view of the collection, or nil if the view item
     /// wasn't added to manager or indexPath is out of range.
-    open func reusableViewItem(for indexPath: IndexPath, and kind: String) -> CollectionViewReusableViewItem? {
+    open func reusableViewItem(for indexPath: IndexPath, kind: String) -> CollectionViewReusableViewItem? {
         guard let sectionItem = sectionItem(for: indexPath),
             sectionItem.reusableViewItems.count > indexPath.row else {
             return nil
