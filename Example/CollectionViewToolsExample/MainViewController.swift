@@ -395,15 +395,14 @@ class MainViewController: UIViewController {
     
     func makeChangeImagesActionCellItem() -> CollectionViewCellItem {
         return makeActionCellItem(title: "Change images") { [weak self] in
-            guard let `self` = self else {
+            guard let `self` = self, self.images.isEmpty == false else {
                 return
             }
             
             self.mainCollectionViewManager.sectionItems.forEach { sectionItem in
                 sectionItem.cellItems.forEach { cellItem in
                     guard let cellItem = cellItem as? ImageCellItem,
-                        let cell = cellItem.cell as? ImageCollectionViewCell,
-                        self.images.isEmpty == false else {
+                        let cell = cellItem.cell as? ImageCollectionViewCell else {
                         return
                     }
                     cell.imageView.image = self.images[Int.random(in: 0..<self.images.count)]

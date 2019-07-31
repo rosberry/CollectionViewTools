@@ -162,7 +162,6 @@ private enum AssociatedKeys {
     static var collectionView = "rsb_collectionView"
     static var indexPath = "rsb_indexPath"
     static var sectionItem = "rsb_sectionItem"
-    static var cell = "rsb_cell"
 }
 
 public extension CollectionViewGeneralCellItem {
