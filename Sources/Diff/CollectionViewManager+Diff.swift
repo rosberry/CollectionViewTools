@@ -4,16 +4,25 @@
 
 import UIKit
 
+/// Extension that allows you to use CollectionViewManager with diff algorithms.
 extension CollectionViewManager {
 
     public typealias DiffCompletion = (Bool) -> Void
 
+    /// Read only array of `CollectionViewDiffSectionItem` objects.
     var diffSectionItems: [CollectionViewDiffSectionItem] {
         return sectionItems.compactMap { sectionItem in
             sectionItem as? CollectionViewDiffSectionItem
         }
     }
 
+    /// Use this function if you need to set new diff section items.
+    /// This function uses DeepDiff dependency to perform diff logic.
+    /// - Parameters:
+    ///   - sectionItems: Array of `CollectionViewDiffSectionItem` objects.
+    ///   - ignoreCellItemsChanges: If this value is `true` animation of cell insertions/deletions/updates is replaced by section update animation.
+    ///   - animated: Animates all sections and cells insertions/deletions/updates. If this value is `false` diff algorithm is disabled and section items just replace old section items.
+    ///   - completion: Will be called when all updates finish.
     open func update(with sectionItems: [CollectionViewDiffSectionItem],
                      ignoreCellItemsChanges: Bool = false,
                      animated: Bool,
@@ -24,6 +33,14 @@ extension CollectionViewManager {
                animated: animated,
                completion: completion)
     }
+    
+    /// Use this function if you need to set new diff section items.
+    /// - Parameters:
+    ///   - sectionItems: Array of `CollectionViewDiffSectionItem` objects.
+    ///   - diff: Use this parameter to implement your own diff algorithm
+    ///   - ignoreCellItemsChanges: If this value is `true` animation of cell insertions/deletions/updates is replaced by section update animation.
+    ///   - animated: Animates all sections and cells insertions/deletions/updates. If this value is `false` diff algorithm is disabled and section items just replace old section items.
+    ///   - completion: Will be called when all updates finish.
     open func update(with sectionItems: [CollectionViewDiffSectionItem],
                      diff: CollectionViewDiff,
                      ignoreCellItemsChanges: Bool = false,

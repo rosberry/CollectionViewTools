@@ -18,10 +18,10 @@ public final class CollectionViewDeepDiff: CollectionViewDiff {
         }
         let results = DeepDiff.diff(old: oldWrappers, new: newWrappers)
         let changes = results.map { result in
-            CollectionViewChange(insert: CollectionViewDeleteInsert(item: result.insert?.item.item,
-                                                                    index: result.insert?.index),
-                                 delete: CollectionViewDeleteInsert(item: result.delete?.item.item,
-                                                                    index: result.delete?.index),
+            CollectionViewChange(insert: CollectionViewInsert(item: result.insert?.item.item,
+                                                              index: result.insert?.index),
+                                 delete: CollectionViewDelete(item: result.delete?.item.item,
+                                                              index: result.delete?.index),
                                  update: CollectionViewUpdate(oldItem: result.replace?.oldItem.item,
                                                               newItem: result.replace?.newItem.item,
                                                               index: result.replace?.index),

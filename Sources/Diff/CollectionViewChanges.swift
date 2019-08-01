@@ -2,7 +2,8 @@
 //  Copyright © 2019 Rosberry. All rights reserved.
 //
 
-public final class CollectionViewDeleteInsert<T>: CustomStringConvertible {
+/// A type that allows you to implement your own diff algorithm.
+public class CollectionViewDeleteInsertBase<T>: CustomStringConvertible {
 
     let item: T
     let index: Int
@@ -25,6 +26,12 @@ public final class CollectionViewDeleteInsert<T>: CustomStringConvertible {
     public var description: String {
         return "\(index)"
     }
+}
+
+public final class CollectionViewInsert<T>: CollectionViewDeleteInsertBase<T> {
+}
+
+public final class CollectionViewDelete<T>: CollectionViewDeleteInsertBase<T> {
 }
 
 public final class CollectionViewUpdate<T>: Hashable, CustomStringConvertible {
@@ -91,20 +98,20 @@ public final class CollectionViewMove<T>: CustomStringConvertible, Equatable {
     }
 
     public static func == (lhs: CollectionViewMove<T>, rhs: CollectionViewMove<T>) -> Bool {
-        return lhs.from == rhs.from
-            && lhs.to == rhs.to
+        return lhs.from == rhs.from &&
+                lhs.to == rhs.to
     }
 }
 
 public final class CollectionViewChange<T>: CustomStringConvertible {
 
-    let insert: CollectionViewDeleteInsert<T>?
-    let delete: CollectionViewDeleteInsert<T>?
+    let insert: CollectionViewInsert<T>?
+    let delete: CollectionViewDelete<T>?
     let update: CollectionViewUpdate<T>?
     let move: CollectionViewMove<T>?
 
-    public init(insert: CollectionViewDeleteInsert<T>? = nil,
-                delete: CollectionViewDeleteInsert<T>? = nil,
+    public init(insert: CollectionViewInsert<T>? = nil,
+                delete: CollectionViewDelete<T>? = nil,
                 update: CollectionViewUpdate<T>? = nil,
                 move: CollectionViewMove<T>? = nil) {
         self.insert = insert
@@ -133,8 +140,8 @@ public final class CollectionViewChange<T>: CustomStringConvertible {
 
 final class CollectionViewChanges<T>: CustomStringConvertible {
 
-    let inserts: [CollectionViewDeleteInsert<T>]
-    let deletes: [CollectionViewDeleteInsert<T>]
+    let inserts: [CollectionViewInsert<T>]
+    let deletes: [CollectionViewDelete<T>]
     let updates: [CollectionViewUpdate<T>]
     let moves: [CollectionViewMove<T>]
 
@@ -151,8 +158,8 @@ final class CollectionViewChanges<T>: CustomStringConvertible {
     let hasMoves: Bool
 
     init(changes: [CollectionViewChange<DiffItemWrapper>]) {
-        var inserts: [CollectionViewDeleteInsert<T>] = []
-        var deletes: [CollectionViewDeleteInsert<T>] = []
+        var inserts: [CollectionViewInsert<T>] = []
+        var deletes: [CollectionViewDelete<T>] = []
         var updates: [CollectionViewUpdate<T>] = []
         var moves: [CollectionViewMove<T>] = []
 
@@ -166,13 +173,13 @@ final class CollectionViewChanges<T>: CustomStringConvertible {
         for change in changes {
             if let insert = change.insert,
                 let item = insert.item.item as? T {
-                inserts.append(CollectionViewDeleteInsert(item: item, index: insert.index))
+                inserts.append(CollectionViewInsert(item: item, index: insert.index))
                 insertedIndexes.append(insert.index)
                 insertedItems.append(item)
             }
             else if let delete = change.delete,
                 let item = delete.item.item as? T {
-                deletes.append(CollectionViewDeleteInsert(item: item, index: delete.index))
+                deletes.append(CollectionViewDelete(item: item, index: delete.index))
                 deletedIndexes.append(delete.index)
             }
             else if let update = change.update,
