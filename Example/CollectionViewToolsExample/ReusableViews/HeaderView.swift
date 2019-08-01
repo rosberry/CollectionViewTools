@@ -22,7 +22,7 @@ final class HeaderView: UICollectionReusableView {
     
     private(set) lazy var label: UILabel = {
         let label = UILabel()
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.font = .systemFont(ofSize: 16)
         return label
     }()
@@ -82,8 +82,8 @@ final class HeaderView: UICollectionReusableView {
         foldButton.frame.origin.x = removeButton.frame.minX - foldButton.frame.width - inset
         foldButton.center.y = 0.5 * bounds.height
         
-        label.frame.origin = CGPoint(x: inset, y: 0)
-        label.frame.size = CGSize(width: foldButton.frame.minX - 2 * inset, height: bounds.height)
+        label.frame.origin = CGPoint(x: 2 * inset, y: 0)
+        label.frame.size = CGSize(width: foldButton.frame.minX - 3 * inset, height: bounds.height)
     }
     
     // MARK: - Actions
