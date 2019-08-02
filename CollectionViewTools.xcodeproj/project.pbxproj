@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		012BBBFD22CDCA6600209984 /* CellItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012BBBFC22CDCA6600209984 /* CellItemFactory.swift */; };
+		01929DAC22F190B8004D5605 /* CellItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01929DAB22F190B7004D5605 /* CellItemFactory.swift */; };
 		0A37632F1F6251A600A80613 /* CollectionViewTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3763251F6251A600A80613 /* CollectionViewTools.framework */; };
 		0A3763341F6251A600A80613 /* CollectionViewToolsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763331F6251A600A80613 /* CollectionViewToolsTests.swift */; };
 		0A3763671F62545A00A80613 /* ClosureWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763521F62545A00A80613 /* ClosureWrapper.swift */; };
@@ -38,7 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		012BBBFC22CDCA6600209984 /* CellItemFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellItemFactory.swift; sourceTree = "<group>"; };
+		01929DAB22F190B7004D5605 /* CellItemFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellItemFactory.swift; sourceTree = "<group>"; };
 		06B2AE0E21F6FFE8004A9CBB /* CollectionViewTools.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = CollectionViewTools.podspec; sourceTree = "<group>"; };
 		0A3763251F6251A600A80613 /* CollectionViewTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CollectionViewTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A37632E1F6251A600A80613 /* CollectionViewToolsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CollectionViewToolsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -191,8 +191,8 @@
 		629A633A0A14B7B8D623A113 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				01929DAB22F190B7004D5605 /* CellItemFactory.swift */,
 				629A64DA578C05AC298ECFFD /* Print.swift */,
-				012BBBFC22CDCA6600209984 /* CellItemFactory.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -314,12 +314,12 @@
 			files = (
 				0A37636B1F62545A00A80613 /* CollectionViewManager+UICollectionViewDataSourcePrefetching.swift in Sources */,
 				0A3763741F62545A00A80613 /* CollectionViewReusableViewItem.swift in Sources */,
-				012BBBFD22CDCA6600209984 /* CellItemFactory.swift in Sources */,
 				0A37636F1F62545A00A80613 /* UICollectionView+Registration.swift in Sources */,
 				0A37636A1F62545A00A80613 /* CollectionViewManager+UICollectionViewDataSource.swift in Sources */,
 				0A37636D1F62545A00A80613 /* CollectionViewManager+UICollectionViewDelegateFlowLayout.swift in Sources */,
 				0A3763681F62545A00A80613 /* CollectionViewManager.swift in Sources */,
 				0A37636C1F62545A00A80613 /* CollectionViewManager+UICollectionViewDelegate.swift in Sources */,
+				01929DAC22F190B8004D5605 /* CellItemFactory.swift in Sources */,
 				0A3763721F62545A00A80613 /* CollectionViewCellItemDataSourcePrefetching.swift in Sources */,
 				0A3763731F62545A00A80613 /* CollectionViewCellItem.swift in Sources */,
 				0A3763711F62545A00A80613 /* GeneralCollectionViewSectionItem.swift in Sources */,

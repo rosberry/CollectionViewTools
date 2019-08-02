@@ -35,52 +35,6 @@ class MainViewController: UIViewController {
     
     lazy var mainCollectionViewManager: CollectionViewManager = .init(collectionView: mainCollectionView)
     lazy var actionsCollectionViewManager: CollectionViewManager = .init(collectionView: actionsCollectionView)
-
-    lazy var imageCellItemFactory: CellItemFactory<UIImage, ImageCollectionViewCell> = {
-        let factory = CellItemFactory<UIImage, ImageCollectionViewCell>()
-        factory.initializationHandler = { [weak factory] image in
-            return [factory?.makeUniversalCellItem(for: image)]
-        }
-        factory.cellItemConfigurationHandler = { image, cellItem in
-            cellItem.itemDidSelectHandler = { [weak self] _ in
-                let detailViewController = DetailViewController()
-                detailViewController.image = image
-                self?.navigationController?.pushViewController(detailViewController, animated: true)
-            }
-        }
-        factory.cellConfigurationHandler = { image, cell, cellItem in
-            cell.imageView.image = image
-            cell.removeActionHandler = { [weak self, weak cellItem] in
-                self?.remove(cellItem)
-            }
-        }
-        factory.sizeConfigurationHandler = { image, collectionView, sectionItem in
-            var shift = sectionItem.insets.left / 2 + sectionItem.insets.right / 2
-            shift += shift / 2
-            let ratio = image.size.width / image.size.height
-            let width = (collectionView.bounds.width) / 2 - shift
-            return .init(width: width, height: width / ratio)
-        }
-        return factory
-    }()
-    
-    lazy var textCellFactory: CellItemFactory<String, TextCollectionViewCell> = {
-       let factory = CellItemFactory<String, TextCollectionViewCell>()
-        factory.cellConfigurationHandler = { text, cell, _ in
-            cell.titleLabel.text = text
-        }
-        factory.sizeConfigurationHandler = { _, collectionView, _ in
-            return CGSize(width: collectionView.bounds.width, height: 52)
-        }
-        return factory
-    }()
-    
-    lazy var mixedCellsFactory: ComplexCellItemFactory = {
-        let factory = ComplexCellItemFactory()
-        factory.add(imageCellItemFactory)
-        factory.add(textCellFactory)
-        return factory
-    }()
     
     // MARK: Subviews
     
@@ -173,9 +127,10 @@ class MainViewController: UIViewController {
     // MARK: Actions cell items
     
     func makeActionsSectionItem() -> CollectionViewSectionItem {
-        let sectionItem = ExampleSectionItem()
-        sectionItem.cellItems = [
+        return makeActionsSectionItem(cellItems: [
             makeResetActionCellItem(),
+            // Factory example
+            makeFactoryExampleActionCellItem(),
             // Insert cells
             makePrependCellItemsActionCellItem(),
             makeAppendCellItemsActionCellItem(),
@@ -191,14 +146,8 @@ class MainViewController: UIViewController {
             // Replace cells
             makeReplaceCellItemsActionCellItem(),
             // Replace sections
-            makeReplaceSectionItemsActionCellItem(),
-            // Display mixed data
-            makeMixedDataItemsActionCellItem()
-        ]
-        sectionItem.insets = .init(top: 0, left: 8, bottom: 0, right: 8)
-        sectionItem.minimumInteritemSpacing = 8
-        sectionItem.minimumLineSpacing = 8
-        return sectionItem
+            makeReplaceSectionItemsActionCellItem()
+        ])
     }
     
     func makeResetActionCellItem() -> CollectionViewCellItem {
@@ -444,18 +393,15 @@ class MainViewController: UIViewController {
         }
     }
     
-    // MARK: Display mixed data
+    // MARK: - Factory example
     
-    func makeMixedDataItemsActionCellItem() -> CollectionViewCellItem {
-        return makeActionCellItem(title: "Mixed data") { [weak self] in
+    func makeFactoryExampleActionCellItem() -> CollectionViewCellItem {
+        return makeActionCellItem(title: "Factory example") { [weak self] in
             guard let `self` = self else {
                 return
             }
-            let sectionItem = ExampleSectionItem()
-            sectionItem.cellItems = self.mixedCellsFactory.makeCellItems(for: self.mixedData)
-            sectionItem.insets = .init(top: 0, left: 12, bottom: 12, right: 12)
-            sectionItem.minimumLineSpacing = 8
-            self.mainCollectionViewManager.sectionItems = [sectionItem]
+            let viewController = FactoryExampleViewController()
+            self.navigationController?.pushViewController(viewController, animated: true)
         }
     }
     
@@ -467,5 +413,16 @@ class MainViewController: UIViewController {
             action()
         }
         return cellItem
+    }
+}
+
+extension UIViewController {
+    func makeActionsSectionItem(cellItems: [CollectionViewCellItem]) -> CollectionViewSectionItem {
+        let sectionItem = ExampleSectionItem()
+        sectionItem.cellItems = cellItems
+        sectionItem.insets = .init(top: 0, left: 8, bottom: 0, right: 8)
+        sectionItem.minimumInteritemSpacing = 8
+        sectionItem.minimumLineSpacing = 8
+        return sectionItem
     }
 }
