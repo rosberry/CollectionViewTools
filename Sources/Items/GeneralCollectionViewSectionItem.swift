@@ -6,6 +6,7 @@
 
 import UIKit.UICollectionView
 
+/// Base section item that conforms `CollectionViewSectionItem` protocol.
 open class GeneralCollectionViewSectionItem: CollectionViewSectionItem {
     
     open var cellItems: [CollectionViewCellItem]

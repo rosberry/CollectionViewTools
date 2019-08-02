@@ -4,6 +4,7 @@
 
 import DeepDiff
 
+/// Adaptor that allows you to use DeepDiff with CollectionViewTools.
 public final class CollectionViewDeepDiff: CollectionViewDiff {
 
     public init() {
@@ -33,7 +34,7 @@ public final class CollectionViewDeepDiff: CollectionViewDiff {
     }
 }
 
-public final class DeepDiffDiffableItemWrapper<T: DiffItem>: DiffAware {
+final class DeepDiffDiffableItemWrapper<T: DiffItem>: DiffAware {
 
     public typealias DiffId = String
 

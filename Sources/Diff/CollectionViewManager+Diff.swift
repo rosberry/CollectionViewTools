@@ -9,7 +9,7 @@ extension CollectionViewManager {
 
     public typealias DiffCompletion = (Bool) -> Void
 
-    /// Read only array of `CollectionViewDiffSectionItem` objects.
+    /// Array of `CollectionViewDiffSectionItem` objects mapped from `sectionItems` array
     var diffSectionItems: [CollectionViewDiffSectionItem] {
         return sectionItems.compactMap { sectionItem in
             sectionItem as? CollectionViewDiffSectionItem
@@ -63,6 +63,8 @@ extension CollectionViewManager {
         }
     }
 
+    // MARK: - Private
+    
     private func updateWithoutAnimation(sectionItems: [CollectionViewDiffSectionItem], shouldReload: Bool) {
         _sectionItems = sectionItems
         registerSectionItems()
@@ -119,8 +121,6 @@ extension CollectionViewManager {
         itemsWereUpdated = true
         complete()
     }
-
-    // MARK: - Items
 
     private func deleteInsertMoveSectionItems(for diffResult: CollectionViewDiffResult, completion: DiffCompletion?) {
         guard diffResult.sectionChanges.hasDeletes ||
@@ -226,12 +226,8 @@ extension CollectionViewManager {
                 var sectionUpdatedIndexes: [Int] = []
                 var sectionUpdatedItems: [CollectionViewDiffSectionItem] = []
                 for update in diffResult.sectionUpdates {
-                    guard let oldSectionItem = update.oldItem as? GeneralCollectionViewDiffSectionItem,
-                        let newSectionItem = update.newItem as? GeneralCollectionViewDiffSectionItem else {
-                            continue
-                    }
-                    let areInsetsAndSpacingsEqual = newSectionItem.areInsetsAndSpacingsEqual(to: oldSectionItem)
-                    let areReusableViewsEqual = newSectionItem.areReusableViewsEqual(to: oldSectionItem)
+                    let areInsetsAndSpacingsEqual = update.newItem.areInsetsAndSpacingsEqual(to: update.oldItem)
+                    let areReusableViewsEqual = update.newItem.areReusableViewsEqual(to: update.oldItem)
                     guard !areInsetsAndSpacingsEqual || !areReusableViewsEqual else {
                         continue
                     }

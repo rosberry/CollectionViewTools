@@ -4,16 +4,20 @@
 
 import Foundation
 
-public typealias CollectionViewDiffSectionItem = CollectionViewSectionItem & DiffItem
+/// `CollectionViewDiffSectionItem` is a composition of `CollectionViewSectionItem` and `DiffSectionItem`.
+/// Use it to create new section items or just conform `DiffSectionItem` protocol in your existing section items.
+public typealias CollectionViewDiffSectionItem = CollectionViewSectionItem & DiffSectionItem
 
 extension CollectionViewSectionItem {
 
+    /// Array of `CollectionViewDiffCellItem` objects mapped from `cellItems` array
     var diffCellItems: [CollectionViewDiffCellItem] {
         return cellItems.compactMap { cellItem in
             cellItem as? CollectionViewDiffCellItem
         }
     }
     
+    /// Array of `CollectionViewDiffReusableViewItem` objects mapped from `reusableViewItems` array
     var diffReusableViewItems: [CollectionViewDiffReusableViewItem] {
         return reusableViewItems.compactMap { cellItem in
             cellItem as? CollectionViewDiffReusableViewItem
@@ -21,25 +25,10 @@ extension CollectionViewSectionItem {
     }
 }
 
-open class GeneralCollectionViewDiffSectionItem: CollectionViewDiffSectionItem, Equatable, CustomStringConvertible {
+/// Section item that inherits from `GeneralCollectionViewSectionItem` and conforms `DiffSectionItem` protocol.
+open class GeneralCollectionViewDiffSectionItem: GeneralCollectionViewSectionItem, DiffSectionItem {
 
     public var diffIdentifier: String = ""
-
-    public var cellItems: [CollectionViewCellItem]
-    public var reusableViewItems: [CollectionViewReusableViewItem]
-
-    public var minimumLineSpacing: CGFloat = 0
-    public var minimumInteritemSpacing: CGFloat = 0
-    public var insets: UIEdgeInsets = .zero
-
-    public init(cellItems: [CollectionViewCellItem] = [], reusableViewItems: [CollectionViewReusableViewItem] = []) {
-        self.cellItems = cellItems
-        self.reusableViewItems = reusableViewItems
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(diffIdentifier)
-    }
 
     open func isEqual(to item: DiffItem) -> Bool {
         guard let item = item as? GeneralCollectionViewDiffSectionItem else {
@@ -86,11 +75,17 @@ open class GeneralCollectionViewDiffSectionItem: CollectionViewDiffSectionItem, 
             lhs.isEqual(to: rhs)
         }
     }
+}
+
+extension GeneralCollectionViewDiffSectionItem: Equatable {
 
     public static func == (lhs: GeneralCollectionViewDiffSectionItem, rhs: GeneralCollectionViewDiffSectionItem) -> Bool {
         return lhs.isEqual(to: rhs)
     }
+}
 
+extension GeneralCollectionViewDiffSectionItem: CustomStringConvertible {
+    
     public var description: String {
         return "\n\n sectionItem id = \(diffIdentifier) \ncellItems =\n\(cellItems)"
     }

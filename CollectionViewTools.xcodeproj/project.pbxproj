@@ -210,14 +210,14 @@
 			isa = PBXGroup;
 			children = (
 				0E0F409A222D4F0600B88DF3 /* CollectionViewManager+Diff.swift */,
-				0E0F409B222D4F0600B88DF3 /* CollectionViewDiff.swift */,
-				0E0F4099222D4F0600B88DF3 /* CollectionViewDiffResult.swift */,
-				0E4B31D0229C02B800CE0B13 /* CollectionViewChanges.swift */,
+				0E0F4098222D4F0600B88DF3 /* DiffItem.swift */,
 				0E21E22C22C4E1E2004364FA /* CollectionViewDiffSectionItem.swift */,
 				0E21E22A22C4E1A2004364FA /* CollectionViewDiffCellItem.swift */,
 				1078655022E1DE6C0075C74A /* CollectionViewDiffReusableViewItem.swift */,
-				0E0F4098222D4F0600B88DF3 /* DiffItem.swift */,
-				1028238222E9A92A0061C54F /* CollectionViewDeepDiff.swift */,
+				0E0F409B222D4F0600B88DF3 /* CollectionViewDiff.swift */,
+				0E4B31D0229C02B800CE0B13 /* CollectionViewChanges.swift */,
+				0E0F4099222D4F0600B88DF3 /* CollectionViewDiffResult.swift */,
+				104F1AF222F4359E00A0287D /* DeepDiff */,
 			);
 			path = Diff;
 			sourceTree = "<group>";
@@ -227,6 +227,14 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		104F1AF222F4359E00A0287D /* DeepDiff */ = {
+			isa = PBXGroup;
+			children = (
+				1028238222E9A92A0061C54F /* CollectionViewDeepDiff.swift */,
+			);
+			path = DeepDiff;
 			sourceTree = "<group>";
 		};
 		629A633A0A14B7B8D623A113 /* Helpers */ = {
