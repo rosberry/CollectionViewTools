@@ -17,6 +17,8 @@
 		629A6B0205FC8F49878C89C1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A6D6C61B4795949B30938 /* MainViewController.swift */; };
 		629A6E35B86008DC359DB40B /* TextCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A6D49B5E8DB9CAACD07CE /* TextCellItem.swift */; };
 		629A6F552D5D656B36F4F52C /* TextCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A60E846B05B88D62C7880 /* TextCollectionViewCell.swift */; };
+		855613B422B77FC900F59CD1 /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855613B322B77FC900F59CD1 /* ReusableView.swift */; };
+		855613B622B7803800F59CD1 /* ReusableViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855613B522B7803800F59CD1 /* ReusableViewItem.swift */; };
 		FED796BA20EF6B3B0044B82F /* CollectionViewTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE6E86B31FB961B20027A8FE /* CollectionViewTools.framework */; };
 		FED796BB20EF6B3B0044B82F /* CollectionViewTools.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FE6E86B31FB961B20027A8FE /* CollectionViewTools.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -48,6 +50,8 @@
 		629A688DD33578289A57B452 /* ExampleSectionItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleSectionItem.swift; sourceTree = "<group>"; };
 		629A6D49B5E8DB9CAACD07CE /* TextCellItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextCellItem.swift; sourceTree = "<group>"; };
 		629A6D6C61B4795949B30938 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		855613B322B77FC900F59CD1 /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
+		855613B522B7803800F59CD1 /* ReusableViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableViewItem.swift; sourceTree = "<group>"; };
 		FE6E86B31FB961B20027A8FE /* CollectionViewTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CollectionViewTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -85,6 +89,7 @@
 			children = (
 				0A3763821F62556300A80613 /* AppDelegate.swift */,
 				0ACA6FCD1F6275D200782C1E /* DetailViewController.swift */,
+				855613B222B77F9100F59CD1 /* ReusableViews */,
 				0ACA6FC71F626AED00782C1E /* CellItems */,
 				0ACA6FCA1F626D1700782C1E /* Cells */,
 				0A3763891F62556300A80613 /* Assets.xcassets */,
@@ -130,6 +135,15 @@
 			path = SectionItems;
 			sourceTree = "<group>";
 		};
+		855613B222B77F9100F59CD1 /* ReusableViews */ = {
+			isa = PBXGroup;
+			children = (
+				855613B322B77FC900F59CD1 /* ReusableView.swift */,
+				855613B522B7803800F59CD1 /* ReusableViewItem.swift */,
+			);
+			path = ReusableViews;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -164,7 +178,7 @@
 					0A37637E1F62556300A80613 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = GPVA8JVMU3;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -174,6 +188,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -204,11 +219,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				855613B422B77FC900F59CD1 /* ReusableView.swift in Sources */,
 				0ACA6FC91F626AF900782C1E /* ImageCellItem.swift in Sources */,
 				0ACA6FCE1F6275D200782C1E /* DetailViewController.swift in Sources */,
 				0ACA6FCC1F626D2E00782C1E /* ImageCollectionViewCell.swift in Sources */,
 				0A3763831F62556300A80613 /* AppDelegate.swift in Sources */,
 				629A6E35B86008DC359DB40B /* TextCellItem.swift in Sources */,
+				855613B622B7803800F59CD1 /* ReusableViewItem.swift in Sources */,
 				629A6F552D5D656B36F4F52C /* TextCollectionViewCell.swift in Sources */,
 				629A6B0205FC8F49878C89C1 /* MainViewController.swift in Sources */,
 				629A63FBA018222A355686F6 /* ExampleSectionItem.swift in Sources */,
@@ -348,7 +365,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewToolsExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -362,7 +379,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewToolsExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

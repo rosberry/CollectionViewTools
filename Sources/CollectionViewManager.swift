@@ -10,6 +10,7 @@ open class CollectionViewManager: NSObject {
     
     public typealias SectionItem = CollectionViewSectionItem
     public typealias CellItem = CollectionViewCellItem
+    public typealias ReusableViewItem = CollectionViewReusableViewItem
     public typealias Completion = (Bool) -> Void
     
     /// `UICollectionView` object for managing
@@ -125,6 +126,23 @@ open class CollectionViewManager: NSObject {
 
         return sectionItem.cellItems[indexPath.row]
     }
+
+    /// Returns the reusable view item at the specified index path.
+    ///
+    /// - Parameter indexPath: The index path locating the item in the collection view.
+    /// - Returns: A reusable view item associated with reusable view of the collection, or nil if the view item
+    /// wasn't added to manager or indexPath is out of range.
+    open func reusableViewItem(for indexPath: IndexPath, kind: String) -> CollectionViewReusableViewItem? {
+        guard let sectionItem = sectionItem(for: indexPath),
+            sectionItem.reusableViewItems.count > indexPath.row else {
+            return nil
+        }
+        let reusableViewItem = sectionItem.reusableViewItems[indexPath.row]
+        guard reusableViewItem.type.kind == kind else {
+            return nil
+        }
+        return reusableViewItem
+    }
     
     /// Returns the section item at the specified index path.
     ///
@@ -182,7 +200,7 @@ open class CollectionViewManager: NSObject {
         }
         for index in 0..<sectionItem.reusableViewItems.count {
             let reusableViewItem = sectionItem.reusableViewItems[index]
-            reusableViewItem.register(for: collectionView)
+            register(reusableViewItem)
         }
     }
     
@@ -191,7 +209,15 @@ open class CollectionViewManager: NSObject {
     /// - Parameter cellItem: The cell item which need to be registered
     open func register(_ cellItem: CellItem) {
         cellItem.collectionView = collectionView
-        collectionView.register(by: cellItem.reuseType)
+        collectionView.registerCell(with: cellItem.reuseType)
+    }
+
+    /// Use this function to force suplemented views registration process if you override add/replace/reload methods
+    ///
+    /// - Parameter viewItem: The view item which need to be registered
+    open func register(_ reusableViewItem: ReusableViewItem) {
+        reusableViewItem.collectionView = collectionView
+        collectionView.registerView(with: reusableViewItem.reuseType, kind: reusableViewItem.type.kind)
     }
     
     // MARK: - Index paths
@@ -500,7 +526,7 @@ open class CollectionViewManager: NSObject {
     ///   - completion: A closure that either specifies any additional actions which should be performed after removing.
     open func remove(_ sectionItems: [CollectionViewSectionItem], completion: Completion? = nil) {
         let indexes = sectionItems.compactMap { sectionItem in
-            return _sectionItems.index { element in
+            return _sectionItems.firstIndex { element in
                 element === sectionItem
             }
         }

@@ -26,10 +26,16 @@ extension CollectionViewManager: UICollectionViewDataSource {
     open func collectionView(_ collectionView: UICollectionView,
                              viewForSupplementaryElementOfKind kind: String,
                              at indexPath: IndexPath) -> UICollectionReusableView {
-        //TODO: Add same `configure` logic as with cell items
-        let reusableViewItem = sectionItem(for: indexPath)?.reusableViewItems.filter { $0.type.kind == kind }.first
-        let view = reusableViewItem?.view(for: collectionView, at: indexPath)
-        return view ?? UICollectionReusableView()
+        guard let reusableViewItem = self.reusableViewItem(for: indexPath, kind: kind) else {
+            return UICollectionReusableView()
+        }
+        let kind = reusableViewItem.type.kind
+        let identifier = reusableViewItem.reuseType.identifier
+        let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                   withReuseIdentifier: identifier,
+                                                                   for: indexPath)
+        reusableViewItem.configure(view)
+        return view
     }
     
     open func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
