@@ -28,7 +28,7 @@ extension CollectionViewManager {
                      animated: Bool,
                      completion: DiffCompletion? = nil) {
         update(with: sectionItems,
-               diff: CollectionViewDeepDiff(),
+               diffAdaptor: CollectionViewDeepDiffAdaptor(),
                ignoreCellItemsChanges: ignoreCellItemsChanges,
                animated: animated,
                completion: completion)
@@ -37,12 +37,12 @@ extension CollectionViewManager {
     /// Use this function if you need to set new diff section items.
     /// - Parameters:
     ///   - sectionItems: Array of `CollectionViewDiffSectionItem` objects.
-    ///   - diff: Use this parameter to implement your own diff algorithm
+    ///   - diffAdaptor: Use `diffAdaptor` to implement your own diff algorithm
     ///   - ignoreCellItemsChanges: If this value is `true` animation of cell insertions/deletions/updates is replaced by section update animation.
     ///   - animated: Animates all sections and cells insertions/deletions/updates. If this value is `false` diff algorithm is disabled and section items just replace old section items.
     ///   - completion: Will be called when all updates finish.
     open func update(with sectionItems: [CollectionViewDiffSectionItem],
-                     diff: CollectionViewDiff,
+                     diffAdaptor: CollectionViewDiffAdaptor,
                      ignoreCellItemsChanges: Bool = false,
                      animated: Bool,
                      completion: DiffCompletion? = nil) {
@@ -52,7 +52,7 @@ extension CollectionViewManager {
                 return
             }
             updateCollectionView(with: sectionItems,
-                                 diffResult: .diffResult(for: sectionItems, in: self, diff: diff),
+                                 diffResult: .diffResult(for: sectionItems, in: self, diff: diffAdaptor),
                                  ignoreCellItemsChanges: ignoreCellItemsChanges,
                                  animated: animated,
                                  completion: completion)
@@ -64,11 +64,60 @@ extension CollectionViewManager {
     }
 
     // MARK: - Private
+
+    private func logBadItems(for sectionItems: [CollectionViewDiffSectionItem]) {
+        var badSectionItems: [CollectionViewSectionItem] = []
+        var badCellItems: [CollectionViewCellItem] = []
+        var badReusableViewItems: [CollectionViewReusableViewItem] = []
+
+        for sectionItem in sectionItems where sectionItem.diffIdentifier.isEmpty {
+            badSectionItems.append(sectionItem)
+            for cellItem in sectionItem.cellItems {
+                guard let diffCellItem = cellItem as? CollectionViewDiffCellItem else {
+                    badCellItems.append(cellItem)
+                    continue
+                }
+                if diffCellItem.diffIdentifier.isEmpty {
+                    badCellItems.append(diffCellItem)
+                }
+            }
+            for viewItem in sectionItem.reusableViewItems {
+                guard let diffViewItem = viewItem as? CollectionViewDiffReusableViewItem else {
+                    badReusableViewItems.append(viewItem)
+                    continue
+                }
+                if diffViewItem.diffIdentifier.isEmpty {
+                    badReusableViewItems.append(diffViewItem)
+                }
+            }
+        }
+        if badSectionItems.isEmpty,
+           badCellItems.isEmpty,
+           badReusableViewItems.isEmpty {
+            return
+        }
+
+        print("⚠️ CollectionViewTools Warning: Following section items and cellItems have empty diffIdentifier's")
+        for sectionItem in badSectionItems {
+            if let index = sectionItem.index {
+                print("section item at index = \(index) with type \(type(of: sectionItem))")
+            }
+        }
+        for viewItem in badReusableViewItems {
+            print("reusable view item in section at index = (\(indexPath.section), \(indexPath.item)) with type \(type(of: viewItem))")
+        }
+        for cellItem in badCellItems {
+            if let indexPath = cellItem.indexPath {
+                print("cell item with indexpath = (\(indexPath.section), \(indexPath.item)) with type \(type(of: cellItem))")
+            }
+        }
+    }
     
     private func updateWithoutAnimation(sectionItems: [CollectionViewDiffSectionItem], shouldReload: Bool) {
         _sectionItems = sectionItems
         registerSectionItems()
         recalculateIndexes()
+        logBadItems(for: sectionItems)
         if shouldReload {
             collectionView.reloadData()
         }
@@ -117,6 +166,8 @@ extension CollectionViewManager {
 
         registerSectionItems()
         recalculateIndexes()
+
+        logBadItems(for: sectionItems)
 
         itemsWereUpdated = true
         complete()

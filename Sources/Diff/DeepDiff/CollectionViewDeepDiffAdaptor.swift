@@ -5,7 +5,7 @@
 import DeepDiff
 
 /// Adaptor that allows you to use DeepDiff with CollectionViewTools.
-public final class CollectionViewDeepDiff: CollectionViewDiff {
+public final class CollectionViewDeepDiffAdaptor: CollectionViewDiffAdaptor {
 
     public init() {
     }
@@ -72,4 +72,3 @@ extension DeepDiff.Change: CustomStringConvertible {
         return strings.isEmpty ? "no changes" : strings.joined(separator: " ")
     }
 }
-

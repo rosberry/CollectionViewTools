@@ -29,7 +29,7 @@
 		0EB8E64C229BF9370000B921 /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1EDA58228934D50087253A /* ColorCollectionViewCell.swift */; };
 		0EB8E64D229BF9370000B921 /* Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4CB58D2296739E002A3C59 /* Object.swift */; };
 		0EB8E64E229BF9370000B921 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A6D6C61B4795949B30938 /* MainViewController.swift */; };
-		0EB8E64F229BF9370000B921 /* CollectionViewIGListKitDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E506C0E228EBC3600E16640 /* CollectionViewIGListKitDiff.swift */; };
+		0EB8E64F229BF9370000B921 /* CollectionViewIGListKitDiffAdaptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E506C0E228EBC3600E16640 /* CollectionViewIGListKitDiffAdaptor.swift */; };
 		0EB8E650229BF9370000B921 /* DiffViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1EDA5A228946DF0087253A /* DiffViewController.swift */; };
 		0EB8E651229BF9370000B921 /* ExampleSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A688DD33578289A57B452 /* ExampleSectionItem.swift */; };
 		0EB8E657229BF9370000B921 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A37638B1F62556400A80613 /* LaunchScreen.storyboard */; };
@@ -88,7 +88,7 @@
 		0E4CB58F229673A9002A3C59 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		0E506C05228EBA4400E16640 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = SOURCE_ROOT; };
 		0E506C06228EBA4500E16640 /* Cartfile.resolved */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.resolved; sourceTree = SOURCE_ROOT; };
-		0E506C0E228EBC3600E16640 /* CollectionViewIGListKitDiff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewIGListKitDiff.swift; sourceTree = "<group>"; };
+		0E506C0E228EBC3600E16640 /* CollectionViewIGListKitDiffAdaptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewIGListKitDiffAdaptor.swift; sourceTree = "<group>"; };
 		0EB8E65F229BF9370000B921 /* CollectionViewToolsDiffExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionViewToolsDiffExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EB8E661229BFA710000B921 /* DiffInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DiffInfo.plist; sourceTree = "<group>"; };
 		1028238E22E9B0950061C54F /* IGListKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IGListKit.framework; path = Carthage/Build/iOS/IGListKit.framework; sourceTree = "<group>"; };
@@ -195,7 +195,7 @@
 			children = (
 				0E1EDA5A228946DF0087253A /* DiffViewController.swift */,
 				0E4CB58A2296736B002A3C59 /* Models */,
-				0E506C0D228EBC3600E16640 /* CollectionViewDiffs */,
+				0E506C0D228EBC3600E16640 /* DiffAdaptors */,
 			);
 			path = Diff;
 			sourceTree = "<group>";
@@ -210,12 +210,12 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		0E506C0D228EBC3600E16640 /* CollectionViewDiffs */ = {
+		0E506C0D228EBC3600E16640 /* DiffAdaptors */ = {
 			isa = PBXGroup;
 			children = (
-				0E506C0E228EBC3600E16640 /* CollectionViewIGListKitDiff.swift */,
+				0E506C0E228EBC3600E16640 /* CollectionViewIGListKitDiffAdaptor.swift */,
 			);
-			path = CollectionViewDiffs;
+			path = DiffAdaptors;
 			sourceTree = "<group>";
 		};
 		0EB8E663229BFBDB0000B921 /* Main */ = {
@@ -438,7 +438,7 @@
 				0EB8E64C229BF9370000B921 /* ColorCollectionViewCell.swift in Sources */,
 				0EB8E64D229BF9370000B921 /* Object.swift in Sources */,
 				0EB8E64E229BF9370000B921 /* MainViewController.swift in Sources */,
-				0EB8E64F229BF9370000B921 /* CollectionViewIGListKitDiff.swift in Sources */,
+				0EB8E64F229BF9370000B921 /* CollectionViewIGListKitDiffAdaptor.swift in Sources */,
 				0EB8E650229BF9370000B921 /* DiffViewController.swift in Sources */,
 				0EB8E651229BF9370000B921 /* ExampleSectionItem.swift in Sources */,
 			);

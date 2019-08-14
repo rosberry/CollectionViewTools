@@ -87,11 +87,82 @@ class ExampleCollectionViewCellItem: CollectionViewCellItem {
 }
 ```
 
+## Diffs
+
+CollectionViewTools support "diffs". It means that `CollectionViewManager` can calculate difference between old and new section items and animate collection view sections and cells accordingly. 
+
+To work with diffs all cell items must conform `DiffItem` protocol: 
+
+```swift
+public protocol DiffItem {
+    var diffIdentifier: String { get }
+    func isEqual(to item: DiffItem) -> Bool
+}
+```
+
+where `diffIdentifier` is used to identify each item (note that it must be unique(!!!), otherwise diff algorithm can work incorrectly) and
+`isEqual` is used to compare items with same `diffIdentifier`.
+ 
+
+#### Cell item implementation
+```swift
+class ExampleCollectionViewCellItem: CollectionViewCellItem, DiffItem {
+
+	// implementation...    
+        
+    // MARK: - DiffItem
+    
+    var diffIdentifier: String = ""
+
+    func isEqual(to item: DiffItem) -> Bool {
+        guard let item = item as? ExampleCollectionViewCellItem else {
+            return false
+        }
+        return title == item.title
+    }
+}
+```
+
+For section items you can use `GeneralCollectionViewDiffSectionItem` or create your own section items that conforms `DiffSectionItem` protocol.
+
+####Creating section
+```
+struct Object {
+    let id: String
+    let title: String
+}
+
+let objects = [Object(id: 1, title: "Item 1"),
+               Object(id: 2, title: "Item 2"), 
+               Object(id: 3, title: "Item 3")]
+               
+var cellItems = objects.map { object -> ExampleCollectionViewCellItem in
+    let cellItem = ExampleCollectionViewCellItem(title: object.title)
+    cellItem.diffIdentifier = object.id
+    return cellItem
+}
+
+let sectionItem = GeneralCollectionViewDiffSectionItem(cellItems: cellItems)
+sectionItem.diffIdentifier = "main" 
+
+let manager = CollectionViewManager(collectionView: collectionView)
+manager.update(with: [sectionItem], animated: true)
+```
+
+####Diff adaptors
+`CollectionViewManager` uses [DeepDiff](https://github.com/onmyway133/DeepDiff) under the hood to calculate difference between items. But if you want to use other diff libraries (for example [IGListKit](https://github.com/Instagram/IGListKit), [Dwifft](https://github.com/jflinter/Dwifft), etc.) or your own diff algorithm you can create adaptor that conforms `CollectionViewDiffAdaptor` protocol.
+
+```
+let adaptor = CollectionViewIGListKitDiffAdaptor()
+manager.update(with: [sectionItem], diffAdaptor: adaptor, animated: true)
+```
+
 ## Authors
 
 * Anton Kovalev, anton.kovalev@rosberry.com
 * Dmitry Frishbuter, dmitry.frishbuter@rosberry.com
 * Artem Novichkov, artem.novichkov@rosberry.com
+* Evgeny Mikhaylov, evgeny.mikhaylov@rosberry.com
 
 ## About
 

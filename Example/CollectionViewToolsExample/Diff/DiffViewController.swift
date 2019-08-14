@@ -10,7 +10,7 @@ import CollectionViewTools
 
 final class DiffViewController: UIViewController {
 
-    typealias Diff = (name: String, value: CollectionViewDiff)
+    typealias Diff = (name: String, value: CollectionViewDiffAdaptor)
 
     private lazy var groups: [Group] = []
     private let groupsCacheKey: String = "groups"
@@ -20,8 +20,8 @@ final class DiffViewController: UIViewController {
 
     // MARK: Subviews
 
-    private lazy var mainCollectionViewDiffs: [Diff] = [("DeepDiff", CollectionViewDeepDiff()),
-                                                         ("IGListKit", CollectionViewIGListKitDiff())]
+    private lazy var mainCollectionViewDiffs: [Diff] = [("DeepDiff", CollectionViewDeepDiffAdaptor()),
+                                                         ("IGListKit", CollectionViewIGListKitDiffAdaptor())]
     private lazy var mainCollectionViewDiff: Diff = mainCollectionViewDiffs[0]
     private lazy var mainCollectionViewManager: CollectionViewManager = .init(collectionView: mainCollectionView)
     private lazy var actionsCollectionViewManager: CollectionViewManager = .init(collectionView: actionsCollectionView)
@@ -241,12 +241,9 @@ final class DiffViewController: UIViewController {
     // MARK: - Main Collection
 
     private func updateMainCollection(animated: Bool, cache: Bool = true) {
-        let oldSectionItems = mainCollectionViewManager.sectionItems
-        let newSectionItems = makeMainSectionItems(groups: groups)
-//        print("<<< OLD ITEMS = \(oldSectionItems)")
-//        print("<<< NEW ITEMS = \(newSectionItems)")
-        mainCollectionViewManager.update(with: newSectionItems,
-                                         diff: mainCollectionViewDiff.value,
+        let sectionItems = makeMainSectionItems(groups: groups)
+        mainCollectionViewManager.update(with: sectionItems,
+                                         diffAdaptor: mainCollectionViewDiff.value,
                                          ignoreCellItemsChanges: false,
                                          animated: animated,
                                          completion: { [weak self] _ in

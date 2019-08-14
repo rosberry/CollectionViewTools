@@ -3,7 +3,7 @@
 //
 
 /// A type that allows you to implement your own diff algorithm.
-public protocol CollectionViewDiff {
+public protocol CollectionViewDiffAdaptor {
 
     /// This function returns array of CollectionViewChange.
     ///

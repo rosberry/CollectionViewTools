@@ -52,7 +52,7 @@ final class CollectionViewDiffResult {
 
     static func diffResult(for sectionItems: [CollectionViewDiffSectionItem],
                            in manager: CollectionViewManager,
-                           diff: CollectionViewDiff,
+                           diff: CollectionViewDiffAdaptor,
                            async: Bool = false) -> CollectionViewDiffResult? {
         let sectionDiffs = diff.changes(old: wrappers(for: manager.diffSectionItems),
                                         new: wrappers(for: sectionItems))

@@ -31,15 +31,15 @@ public class CollectionViewDeleteInsertBase<T>: CustomStringConvertible {
     }
 }
 
-/// Use this object to describe insertion when you create your own `CollectionViewDiff`.
+/// Use this object to describe insertion when you create your own `CollectionViewDiffAdaptor`.
 public final class CollectionViewInsert<T>: CollectionViewDeleteInsertBase<T> {
 }
 
-/// Use this object to describe deletion when you create your own `CollectionViewDiff`.
+/// Use this object to describe deletion when you create your own `CollectionViewDiffAdaptor`.
 public final class CollectionViewDelete<T>: CollectionViewDeleteInsertBase<T> {
 }
 
-/// Use this object to describe update when you create your own `CollectionViewDiff`.
+/// Use this object to describe update when you create your own `CollectionViewDiffAdaptor`.
 public final class CollectionViewUpdate<T>: Hashable, CustomStringConvertible {
 
     /// Item before update.
@@ -81,7 +81,7 @@ public final class CollectionViewUpdate<T>: Hashable, CustomStringConvertible {
     }
 }
 
-/// Use this object to describe move when you create your own `CollectionViewDiff`.
+/// Use this object to describe move when you create your own `CollectionViewDiffAdaptor`.
 public final class CollectionViewMove<T>: CustomStringConvertible, Equatable {
 
     /// Moving item.

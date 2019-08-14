@@ -5,7 +5,7 @@
 import IGListKit
 import CollectionViewTools
 
-final class CollectionViewIGListKitDiff: CollectionViewDiff {
+final class CollectionViewIGListKitDiffAdaptor: CollectionViewDiffAdaptor {
 
     func changes<T: DiffItem>(old: [T], new: [T]) -> [CollectionViewChange<T>] {
         let oldWrappers = old.map { item in
