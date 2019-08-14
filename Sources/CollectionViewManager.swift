@@ -263,11 +263,17 @@ open class CollectionViewManager: NSObject {
             let sectionItem = _sectionItems[section]
             sectionItem.collectionView = collectionView
             sectionItem.index = section
-            
-            for row in 0..<sectionItem.cellItems.count {
-                let cellItem = sectionItem.cellItems[row]
+
+            for itemIndex in 0..<sectionItem.reusableViewItems.count {
+                let viewItem = sectionItem.reusableViewItems[itemIndex]
+                viewItem.collectionView = collectionView
+                viewItem.indexPath = IndexPath(item: 0, section: section)
+                viewItem.sectionItem = sectionItem
+            }
+            for itemIndex in 0..<sectionItem.cellItems.count {
+                let cellItem = sectionItem.cellItems[itemIndex]
                 cellItem.collectionView = collectionView
-                cellItem.indexPath = IndexPath(row: row, section: section)
+                cellItem.indexPath = IndexPath(item: itemIndex, section: section)
                 cellItem.sectionItem = sectionItem
             }
         }
