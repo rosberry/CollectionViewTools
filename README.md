@@ -9,6 +9,14 @@
 
 Effective framework, similar to [TableViewTools](https://github.com/rosberry/TableViewTools) for making your UICollectionView usage simple and comfortable. It allows you to move UICollectionView configuration and interaction logic to separated objects and simply register, add and remove cells from the collection view.
 
+---
+
+<p align="center">
+	<img src="cvt_example.gif" width="300" height="517">
+</p>
+	
+---
+
 ## Features
 
 - Separate layer that synchronizes data with the cell appearance
