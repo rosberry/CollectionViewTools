@@ -125,10 +125,10 @@ class ExampleCollectionViewCellItem: CollectionViewCellItem, DiffItem {
 
 For section items you can use `GeneralCollectionViewDiffSectionItem` or create your own section items that conforms `DiffSectionItem` protocol.
 
-####Creating section
+#### Creating section
 ```
 struct Object {
-    let id: String
+    let id: UInt
     let title: String
 }
 
@@ -138,7 +138,7 @@ let objects = [Object(id: 1, title: "Item 1"),
                
 var cellItems = objects.map { object -> ExampleCollectionViewCellItem in
     let cellItem = ExampleCollectionViewCellItem(title: object.title)
-    cellItem.diffIdentifier = object.id
+    cellItem.diffIdentifier = "\(object.id)"
     return cellItem
 }
 
@@ -149,8 +149,8 @@ let manager = CollectionViewManager(collectionView: collectionView)
 manager.update(with: [sectionItem], animated: true)
 ```
 
-####Diff adaptors
-`CollectionViewManager` uses [DeepDiff](https://github.com/onmyway133/DeepDiff) under the hood to calculate difference between items. But if you want to use other diff libraries (for example [IGListKit](https://github.com/Instagram/IGListKit), [Dwifft](https://github.com/jflinter/Dwifft), etc.) or your own diff algorithm you can create adaptor that conforms `CollectionViewDiffAdaptor` protocol.
+#### Diff adaptors
+`CollectionViewManager` uses [DeepDiff](https://github.com/onmyway133/DeepDiff) to calculate difference between items. But if you want to use other diff libraries (for example [IGListKit](https://github.com/Instagram/IGListKit), [Dwifft](https://github.com/jflinter/Dwifft), etc.) or your own diff algorithm you can create adaptor that conforms `CollectionViewDiffAdaptor` protocol.
 
 ```
 let adaptor = CollectionViewIGListKitDiffAdaptor()
