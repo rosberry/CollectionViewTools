@@ -14,7 +14,7 @@ public protocol CollectionViewCellItem: CollectionViewConfigureCellItem,
                                         CollectionViewSizeCellItem,
                                         CollectionViewGeneralCellItem,
                                         CollectionViewCellItemDataSource,
-                                        CollectionViewSiblingCellItem {
+                                        CollectionViewSiblingItem {
     
 }
 
@@ -48,14 +48,14 @@ public extension CollectionViewConfigureCellItem {
 
 // MARK: - CollectionViewSiblingCellItem
 
-public protocol CollectionViewSiblingCellItem: AnyObject {
+public protocol CollectionViewSiblingItem: AnyObject {
     var collectionView: UICollectionView? { get set }
     var indexPath: IndexPath? { get set }
     var sectionItem: CollectionViewSectionItem? { get set }
 }
 
-extension CollectionViewSiblingCellItem {
-    public var collectionView: UICollectionView? {
+extension CollectionViewSiblingItem {
+    public weak var collectionView: UICollectionView? {
         get {
             if let object = objc_getAssociatedObject(self, &AssociatedKeys.collectionView) as? UICollectionView {
                 return object

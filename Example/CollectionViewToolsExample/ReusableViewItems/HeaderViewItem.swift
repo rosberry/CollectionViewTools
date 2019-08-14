@@ -7,10 +7,12 @@
 import CollectionViewTools
 
 final class HeaderViewItem: CollectionViewDiffReusableViewItem {
-    var type: ReusableViewType = .header
-    
+
     typealias View = HeaderView
-    
+
+    var type: ReusableViewType = .header
+    var reuseType: ReuseType = .class(View.self)
+
     var foldHandler: (() -> Void)?
     var removeHandler: (() -> Void)?
 
@@ -25,38 +27,29 @@ final class HeaderViewItem: CollectionViewDiffReusableViewItem {
         self.backgroundColor = backgroundColor
         self.isFolded = isFolded
     }
-    
+
+    func configure(_ view: UICollectionReusableView) {
+        guard let view = view as? View else {
+            return
+        }
+        view.contentView.backgroundColor = backgroundColor
+        view.label.text = title
+        let foldButtonTitle = isFolded ? "Unfold" : "Fold"
+        view.foldButton.setTitle(foldButtonTitle, for: .normal)
+        view.removeHandler = { [weak self] in
+            self?.removeHandler?()
+        }
+        view.foldHandler = { [weak self] in
+            self?.foldHandler?()
+        }
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
+    }
+
     func size(for collectionView: UICollectionView, with layout: UICollectionViewLayout) -> CGSize {
         return CGSize(width: collectionView.bounds.width, height: 44)
     }
-    
-    func view(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: type.kind,
-                                                                         withReuseIdentifier: NSStringFromClass(View.self),
-                                                                         for: indexPath) as? View else {
-                                                                            return HeaderView()
-        }
-        headerView.contentView.backgroundColor = backgroundColor
-        headerView.label.text = title
-        let foldButtonTitle = isFolded ? "Unfold" : "Fold"
-        headerView.foldButton.setTitle(foldButtonTitle, for: .normal)
-        headerView.removeHandler = { [weak self] in
-            self?.removeHandler?()
-        }
-        headerView.foldHandler = { [weak self] in
-            self?.foldHandler?()
-        }
-        headerView.setNeedsLayout()
-        headerView.layoutIfNeeded()
-        return headerView
-    }
-    
-    func register(for collectionView: UICollectionView) {
-        collectionView.register(View.self,
-                                forSupplementaryViewOfKind: type.kind,
-                                withReuseIdentifier: NSStringFromClass(View.self))
-    }
-    
+
     func isEqual(to item: DiffItem) -> Bool {
         guard let item = item as? HeaderViewItem else {
             return false
