@@ -106,7 +106,9 @@ extension CollectionViewManager {
             }
         }
         for viewItem in badReusableViewItems {
-            print("\(type(of: viewItem))")
+            if let index = viewItem.sectionItem?.index {
+                print("\(type(of: viewItem)) in section at index \(index)")
+            }
         }
         for cellItem in badCellItems {
             if let indexPath = cellItem.indexPath {
@@ -119,7 +121,11 @@ extension CollectionViewManager {
         _sectionItems = sectionItems
         registerSectionItems()
         recalculateIndexes()
+
+        #if DEBUG
         logBadItems(for: sectionItems)
+        #endif
+
         if shouldReload {
             collectionView.reloadData()
         }
@@ -168,8 +174,9 @@ extension CollectionViewManager {
 
         registerSectionItems()
         recalculateIndexes()
-
+        #if DEBUG
         logBadItems(for: sectionItems)
+        #endif
 
         itemsWereUpdated = true
         complete()
