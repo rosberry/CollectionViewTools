@@ -23,9 +23,6 @@ final class Group: Codable, Equatable, CustomStringConvertible {
 
     static func == (lhs: Group, rhs: Group) -> Bool {
         return lhs.id == rhs.id
-            && lhs.objects == rhs.objects
-            && lhs.color == rhs.color
-            && lhs.title == rhs.title
     }
 
     var description: String {

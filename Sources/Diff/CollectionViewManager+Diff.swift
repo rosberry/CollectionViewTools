@@ -70,8 +70,10 @@ extension CollectionViewManager {
         var badCellItems: [CollectionViewCellItem] = []
         var badReusableViewItems: [CollectionViewReusableViewItem] = []
 
-        for sectionItem in sectionItems where sectionItem.diffIdentifier.isEmpty {
-            badSectionItems.append(sectionItem)
+        for sectionItem in sectionItems {
+            if sectionItem.diffIdentifier.isEmpty {
+                badSectionItems.append(sectionItem)
+            }
             for cellItem in sectionItem.cellItems {
                 guard let diffCellItem = cellItem as? CollectionViewDiffCellItem else {
                     badCellItems.append(cellItem)
@@ -97,18 +99,18 @@ extension CollectionViewManager {
             return
         }
 
-        print("⚠️ CollectionViewTools Warning: Following section items and cellItems have empty diffIdentifier's")
+        print("⚠️ CollectionViewTools Warning!!! Following items have empty diffIdentifier:")
         for sectionItem in badSectionItems {
             if let index = sectionItem.index {
-                print("section item at index = \(index) with type \(type(of: sectionItem))")
+                print("\(type(of: sectionItem)) at index \(index)")
             }
         }
         for viewItem in badReusableViewItems {
-            print("reusable view item in section at index = (\(indexPath.section), \(indexPath.item)) with type \(type(of: viewItem))")
+            print("\(type(of: viewItem))")
         }
         for cellItem in badCellItems {
             if let indexPath = cellItem.indexPath {
-                print("cell item with indexpath = (\(indexPath.section), \(indexPath.item)) with type \(type(of: cellItem))")
+                print("\(type(of: cellItem)) at indexpath (\(indexPath.section), \(indexPath.item))")
             }
         }
     }

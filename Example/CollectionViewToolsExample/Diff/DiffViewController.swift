@@ -105,6 +105,12 @@ final class DiffViewController: UIViewController {
         return object
     }
 
+    func group(forId groupId: Int) -> Group? {
+        return groups.first { group -> Bool in
+            group.id == groupId
+        }
+    }
+
     private func resetGroupsAndObjects() {
         let colors: [Color] = [.red, .green, .orange, .purple, .blue]
         lastGroupId = 1
@@ -149,10 +155,12 @@ final class DiffViewController: UIViewController {
 
     private func shuffleGroupObjects(for groups: [Group], withUpdates: Bool) {
         for group in groups {
-            group.objects.shuffle()
-            if withUpdates {
-                for object in group.objects {
-                    object.title = updatedTitle(object.title)
+            if let group = self.group(forId: group.id) {
+                group.objects.shuffle()
+                if withUpdates {
+                    for object in group.objects {
+                        object.title = updatedTitle(object.title)
+                    }
                 }
             }
         }
@@ -193,7 +201,8 @@ final class DiffViewController: UIViewController {
     }
 
     private func delete(_ object: Object, from group: Group) {
-        if let index = group.objects.firstIndex(of: object) {
+        if let group = self.group(forId: group.id),
+           let index = group.objects.firstIndex(of: object) {
             group.objects.remove(at: index)
         }
     }
@@ -208,6 +217,9 @@ final class DiffViewController: UIViewController {
     }
 
     private func insertObject(in group: Group, after object: Object?) {
+        guard let group = self.group(forId: group.id) else {
+            return
+        }
         var index = 0
         if let object = object,
             let idx = group.objects.firstIndex(of: object) {
@@ -218,10 +230,13 @@ final class DiffViewController: UIViewController {
     }
 
     private func addObject(in group: Group) {
+        guard let group = self.group(forId: group.id) else {
+            return
+        }
         insertObject(in: group, after: group.objects.last)
     }
 
-    private func cache(_ groups: [Group]) {
+    private func cacheGroups() {
         let data = try? JSONEncoder().encode(groups)
         UserDefaults.standard.set(data, forKey: groupsCacheKey)
     }
@@ -247,8 +262,8 @@ final class DiffViewController: UIViewController {
                                          ignoreCellItemsChanges: false,
                                          animated: animated,
                                          completion: { [weak self] _ in
-                                            if cache, let self = self {
-                                                self.cache(self.groups)
+                                            if cache {
+                                                self?.cacheGroups()
                                             }
 
         })
@@ -308,10 +323,12 @@ final class DiffViewController: UIViewController {
         let headerItem = HeaderViewItem(title: group.title,
                                         backgroundColor: group.color.uiColor,
                                         isFolded: group.isFolded)
-        headerItem.diffIdentifier = "group_header_\(group.id)"
+//        headerItem.diffIdentifier = "group_header_\(group.id)"
         headerItem.foldHandler = { [weak self] in
-            group.isFolded.toggle()
-            self?.updateMainCollection(animated: true, cache: false)
+            if let group = self?.group(forId: group.id) {
+                group.isFolded.toggle()
+                self?.updateMainCollection(animated: true, cache: false)
+            }
         }
         headerItem.removeHandler = { [weak self] in
             self?.delete(group)
