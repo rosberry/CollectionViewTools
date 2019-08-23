@@ -7,7 +7,7 @@
 import UIKit
 import CollectionViewTools
 
-class FactoryExampleViewController: UIViewController {
+final class FactoryExampleViewController: UIViewController {
     
     struct ImageData {
         let image: UIImage
@@ -33,21 +33,26 @@ class FactoryExampleViewController: UIViewController {
     private lazy var unfoldedItemsFactory: CellItemFactory = {
         let factory = AssociatedCellItemFactory<Any, TextCollectionViewCell>()
         let sizeCell = TextCollectionViewCell()
-        factory.cellConfigurationHandler = { data, cell, cellItem in
-            let text: String
+        
+        func description(data: Any) -> String {
             if let data = data as? ImageData {
-                text = data.description
+                return data.description
             }
             else if let data = data as? TextData {
-                text = data.description
+                return data.description
             }
             else {
-                text = ""
+                return ""
             }
-            cell.titleLabel.text = text
         }
+        
+        factory.cellConfigurationHandler = { data, cell, cellItem in
+            cell.titleLabel.text = description(data: data)
+        }
+
         factory.sizeConfigurationHandler = { data, collectionView, sectionItem in
             let width = collectionView.bounds.width
+            sizeCell.titleLabel.text = description(data: data)
             let height = sizeCell.sizeThatFits(CGSize(width: width, height: .greatestFiniteMagnitude)).height
             return CGSize(width: width, height: height + 48)
         }
@@ -135,7 +140,7 @@ class FactoryExampleViewController: UIViewController {
     }
     
     private func makeGeneralSectionItem() -> CollectionViewSectionItem {
-        let cellItems = cellItemFactory.makeCellItems(for: data)
+        let cellItems = cellItemFactory.makeCellItems(array: data)
         return GeneralCollectionViewSectionItem(cellItems: cellItems)
     }
     
@@ -154,11 +159,11 @@ class FactoryExampleViewController: UIViewController {
             return CGSize(width: collectionView.bounds.width, height: 16)
         }
         factory.initializationHandler = { [weak factory, weak self] index, data in
-            guard let self = self, let factory = factory  else {
+            guard let self = self, let factory = factory else {
                 return []
             }
-            let mainCellItem = factory.makeUniversalCellItem(for: data, at: index)
-            if let descriptionItem = self.unfoldedItemsFactory.makeCellItems(for: data, at: index).first {
+            let mainCellItem = factory.makeUniversalCellItem(object: data, index: index)
+            if let descriptionItem = self.unfoldedItemsFactory.makeCellItems(object: data, index: index).first {
                 mainCellItem.itemDidSelectHandler = { _ in
                     if let position = self.unfoldedIndices.index(of: index) {
                         self.unfoldedIndices.remove(at: position)
@@ -177,9 +182,5 @@ class FactoryExampleViewController: UIViewController {
         }
         
         return factory
-    }
-    
-    private func makeDivider() {
-        
     }
 }

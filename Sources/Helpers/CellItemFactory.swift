@@ -1,5 +1,5 @@
 //
-//  CollectionViewCellConfigurator.swift
+//  CellItemFactory.swift
 //
 //  Copyright © 2019 Rosberry. All rights reserved.
 //
@@ -46,14 +46,14 @@ public protocol CellItemFactory {
     ///
     /// - Parameters:
     ///    - array: an array of objects to create cell items for them
-    func makeCellItems(for array: [Any]) -> [CollectionViewCellItem]
+    func makeCellItems(array: [Any]) -> [CollectionViewCellItem]
     
     /// Returns a cell items for associated object
     ///
     /// - Parameters:
     ///    - object: an object associated with cell item
     ///    - index: the position of the object in the array
-    func makeCellItems(for object: Any, at index: Int) -> [CollectionViewCellItem]
+    func makeCellItems(object: Any, index: Int) -> [CollectionViewCellItem]
     
     /// Joins different cell item factories
     ///
@@ -107,10 +107,10 @@ public class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
     ///
     /// - Parameters:
     ///    - array: an array of objects to create cell items for them
-    public func makeCellItems(for array: [U]) -> [CollectionViewCellItem] {
+    public func makeCellItems(array: [U]) -> [CollectionViewCellItem] {
         var cellItems = [CollectionViewCellItem]()
         array.enumerated().forEach { index, object in
-            cellItems.append(contentsOf: makeCellItems(for: object, at: index))
+            cellItems.append(contentsOf: makeCellItems(object: object, index: index))
         }
         return cellItems
     }
@@ -118,9 +118,9 @@ public class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
     /// Returns an instance of `UniversalCollectionViewCellItem` and associates provided handlers with them
     ///
     /// - Parameters:
-    ///    - U: an object to create a cell item for it
-    ///    - Int: the index of the object in the array
-    public func makeUniversalCellItem(for object: U, at index: Int) -> CollectionViewCellItem {
+    ///    - object: an object to create a cell item for it
+    ///    - index: the index of the object in the array
+    public func makeUniversalCellItem(object: U, index: Int) -> CollectionViewCellItem {
         let cellItem = UniversalCollectionViewCellItem<T>()
         cellItem.configurationHandler = { [weak self] cell in
             guard let self = self else {
@@ -159,14 +159,14 @@ public class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
 }
 
 extension AssociatedCellItemFactory: CellItemFactory {
-    public func makeCellItems(for array: [Any]) -> [CollectionViewCellItem] {
+    public func makeCellItems(array: [Any]) -> [CollectionViewCellItem] {
         if let array = array as? [U] {
-            return makeCellItems(for: array)
+            return makeCellItems(array: array)
         }
         return []
     }
     
-    public func makeCellItems(for object: Any, at index: Int) -> [CollectionViewCellItem] {
+    public func makeCellItems(object: Any, index: Int) -> [CollectionViewCellItem] {
         if let object = object as? U {
             if let initializationHandler = self.initializationHandler {
                 var cellItems = [CollectionViewCellItem]()
@@ -178,7 +178,7 @@ extension AssociatedCellItemFactory: CellItemFactory {
                 return cellItems
             }
             else {
-                return [makeUniversalCellItem(for: object, at: index)]
+                return [makeUniversalCellItem(object: object, index: index)]
             }
         }
         return []
@@ -203,19 +203,19 @@ public class ComplexCellItemFactory: CellItemFactory {
     public init() {
     }
 
-    public func makeCellItems(for array: [Any]) -> [CollectionViewCellItem] {
+    public func makeCellItems(array: [Any]) -> [CollectionViewCellItem] {
         var cellItems = [CollectionViewCellItem]()
         array.enumerated().forEach { index, object in
             if let factory = factories[String(describing: type(of: object))] {
-                cellItems.append(contentsOf: factory.makeCellItems(for: object, at: index))
+                cellItems.append(contentsOf: factory.makeCellItems(object: object, index: index))
             }
         }
         return cellItems
     }
     
-    public func makeCellItems(for object: Any, at index: Int) -> [CollectionViewCellItem] {
+    public func makeCellItems(object: Any, index: Int) -> [CollectionViewCellItem] {
         if let factory = factories[String(describing: type(of: object))] {
-            return factory.makeCellItems(for: object, at: index)
+            return factory.makeCellItems(object: object, index: index)
         }
         return []
     }
