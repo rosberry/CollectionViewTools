@@ -88,7 +88,7 @@ extension CollectionViewSiblingItem {
     }
 
     /// Returns a cell from collection view that corresponds to cellItem's indexPath
-    public weak var cell: UICollectionViewCell? {
+    public var cell: UICollectionViewCell? {
         if let indexPath = self.indexPath {
             return collectionView?.cellForItem(at: indexPath)
         }
