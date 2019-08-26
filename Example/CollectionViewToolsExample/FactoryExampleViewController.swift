@@ -97,6 +97,7 @@ final class FactoryExampleViewController: UIViewController {
 
     private lazy var mainCollectionViewManager: CollectionViewManager = .init(collectionView: mainCollectionView)
     private var unfoldedIndices = [Int]()
+    private lazy var spaceItem = UniversalCollectionViewCellItem<DividerCell>()
     
     // MARK: Subviews
     
@@ -113,7 +114,6 @@ final class FactoryExampleViewController: UIViewController {
         super.viewDidLoad()
         
         navigationItem.title = "Feeds"
-        edgesForExtendedLayout = []
         view.addSubview(mainCollectionView)
         view.backgroundColor = .white
         resetMainCollection()
@@ -121,15 +121,11 @@ final class FactoryExampleViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        var bottomInset: CGFloat = 0
-        if #available(iOS 11.0, *) {
-            bottomInset = view.safeAreaInsets.bottom
-        }
         mainCollectionView.frame = .init(x: 0,
                                          y: 0,
                                          width: view.bounds.width,
-                                         height: view.bounds.height - bottomInset)
+                                         height: view.bounds.height)
+        mainCollectionView.contentInset.bottom = bottomLayoutGuide.length
     }
     
     // MARK: - Private
@@ -146,13 +142,8 @@ final class FactoryExampleViewController: UIViewController {
         return GeneralCollectionViewSectionItem(cellItems: cellItems)
     }
     
-    private func makeActionsSectionItem() -> CollectionViewSectionItem {
-        return makeActionsSectionItem(cellItems: [])
-    }
-    
     private func makeFactory<U: Any, T: UICollectionViewCell>() -> AssociatedCellItemFactory<U, T> {
         let factory = AssociatedCellItemFactory<U, T>()
-        let spaceItem = UniversalCollectionViewCellItem<DividerCell>()
         spaceItem.configurationHandler = { cell in
             cell.dividerView.backgroundColor = .gray
             cell.dividerInsets = .init(top: 0, left: 0, bottom: 8, right: 0)
@@ -164,26 +155,32 @@ final class FactoryExampleViewController: UIViewController {
             guard let self = self, let factory = factory else {
                 return []
             }
-            let mainCellItem = factory.makeUniversalCellItem(object: data, index: index)
-            if let descriptionItem = self.unfoldedItemsFactory.makeCellItems(object: data, index: index).first {
-                mainCellItem.itemDidSelectHandler = { _ in
-                    if let position = self.unfoldedIndices.index(of: index) {
-                        self.unfoldedIndices.remove(at: position)
-                        self.mainCollectionViewManager.remove([descriptionItem])
-                    }
-                    else {
-                        self.unfoldedIndices.append(index)
-                        if let sectionItem = mainCellItem.sectionItem,
-                            let startIndex = mainCellItem.indexPath?.row {
-                            self.mainCollectionViewManager.insert([descriptionItem], to: sectionItem, at: [startIndex + 1])
-                        }
-                    }
-                }
-            }
-            return [mainCellItem, spaceItem]
+            return self.initializeCellItems(with: data, at: index, using: factory)
         }
         
         return factory
+    }
+    
+    private func initializeCellItems<U: Any, T: UICollectionViewCell>(with data: U,
+                                                                      at index: Int,
+                                                                      using factory: AssociatedCellItemFactory<U, T>) ->[CollectionViewCellItem?] {
+        let mainCellItem = factory.makeUniversalCellItem(object: data, index: index)
+        if let descriptionItem = self.unfoldedItemsFactory.makeCellItems(object: data, index: index).first {
+            mainCellItem.itemDidSelectHandler = { _ in
+                if let position = self.unfoldedIndices.index(of: index) {
+                    self.unfoldedIndices.remove(at: position)
+                    self.mainCollectionViewManager.remove([descriptionItem])
+                }
+                else {
+                    self.unfoldedIndices.append(index)
+                    if let sectionItem = mainCellItem.sectionItem,
+                        let startIndex = mainCellItem.indexPath?.row {
+                        self.mainCollectionViewManager.insert([descriptionItem], to: sectionItem, at: [startIndex + 1])
+                    }
+                }
+            }
+        }
+        return [mainCellItem, spaceItem]
     }
 
     private func remove(_ cellItem: CollectionViewCellItem?) {

@@ -21,13 +21,6 @@ class MainViewController: UIViewController {
         }
         return images
     }
-    var mixedData: [Any] {
-        var result = [Any]()
-        (0..<images.count).forEach { index in
-            result.append(contentsOf: [images[index], "Title \(index)"])
-        }
-        return result
-    }
     
     var shuffledImages: [UIImage] {
         return initialImages.shuffled()
