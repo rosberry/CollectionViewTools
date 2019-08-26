@@ -79,6 +79,9 @@ final class FactoryExampleViewController: UIViewController {
             
             factory.cellConfigurationHandler = { data, cell, cellItem in
                 cell.imageView.image = data.image
+                cell.removeActionHandler = { [weak self] in
+                    self?.remove(cellItem)
+                }
             }
             
             factory.sizeConfigurationHandler = { data, collectionView, sectionItem in
@@ -113,7 +116,6 @@ final class FactoryExampleViewController: UIViewController {
         edgesForExtendedLayout = []
         view.addSubview(mainCollectionView)
         view.backgroundColor = .white
-        
         resetMainCollection()
     }
     
@@ -182,5 +184,27 @@ final class FactoryExampleViewController: UIViewController {
         }
         
         return factory
+    }
+
+    private func remove(_ cellItem: CollectionViewCellItem?) {
+        guard let cellItem = cellItem else {
+            return
+        }
+        mainCollectionViewManager.remove([cellItem])
+        guard let indexPath = cellItem.indexPath else {
+            mainCollectionViewManager.remove([cellItem])
+            return
+        }
+        let secton = mainCollectionViewManager.sectionItems[indexPath.section]
+        let dividerIndex = indexPath.row + 1
+        guard secton.cellItems.count > dividerIndex else {
+            mainCollectionViewManager.remove([cellItem])
+            return
+        }
+        guard let separatorCellItem = secton.cellItems[dividerIndex] as?  UniversalCollectionViewCellItem<DividerCell> else {
+            mainCollectionViewManager.remove([cellItem])
+            return
+        }
+        mainCollectionViewManager.remove([cellItem, separatorCellItem])
     }
 }
