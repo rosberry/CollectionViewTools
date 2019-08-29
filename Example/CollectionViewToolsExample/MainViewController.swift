@@ -138,7 +138,9 @@ class MainViewController: UIViewController {
             // Replace cells
             makeReplaceCellItemsActionCellItem(),
             // Replace sections
-            makeReplaceSectionItemsActionCellItem()
+            makeReplaceSectionItemsActionCellItem(),
+            // Change images
+            makeChangeImagesActionCellItem()
         ]
         sectionItem.insets = .init(top: 0, left: 8, bottom: 0, right: 8)
         sectionItem.minimumInteritemSpacing = 8
@@ -156,7 +158,7 @@ class MainViewController: UIViewController {
     
     func makePrependCellItemsActionCellItem() -> CollectionViewCellItem {
         return makeActionCellItem(title: "Prepend cells") { [weak self] in
-            guard let `self` = self else {
+            guard let self = self else {
                 return
             }
             guard let sectionItem = self.mainCollectionViewManager.sectionItems.first else {
@@ -174,7 +176,7 @@ class MainViewController: UIViewController {
     
     func makeAppendCellItemsActionCellItem() -> CollectionViewCellItem {
         return makeActionCellItem(title: "Append cells") { [weak self] in
-            guard let `self` = self else {
+            guard let self = self else {
                 return
             }
             guard let sectionItem = self.mainCollectionViewManager.sectionItems.first else {
@@ -193,7 +195,7 @@ class MainViewController: UIViewController {
     
     func makeInsertCellItemsInTheMiddleActionCellItem() -> CollectionViewCellItem {
         return makeActionCellItem(title: "Insert cells in the middle") { [weak self] in
-            guard let `self` = self else {
+            guard let self = self else {
                 return
             }
             guard let sectionItem = self.mainCollectionViewManager.sectionItems.first else {
@@ -213,7 +215,7 @@ class MainViewController: UIViewController {
     
     func makeAppendSectionItemActionCellItem() -> CollectionViewCellItem {
         return makeActionCellItem(title: "Append section") { [weak self] in
-            guard let `self` = self else {
+            guard let self = self else {
                 return
             }
             
@@ -236,7 +238,7 @@ class MainViewController: UIViewController {
     
     func makePrependSectionItemActionCellItem() -> CollectionViewCellItem {
         return makeActionCellItem(title: "Prepend section") { [weak self] in
-            guard let `self` = self else {
+            guard let self = self else {
                 return
             }
             
@@ -259,7 +261,7 @@ class MainViewController: UIViewController {
     
     func makeInsertSectionItemInTheMiddleActionCellItem() -> CollectionViewCellItem {
         return makeActionCellItem(title: "Insert section in the middle") { [weak self] in
-            guard let `self` = self else {
+            guard let self = self else {
                 return
             }
             
@@ -283,7 +285,7 @@ class MainViewController: UIViewController {
     
     func makeRemoveRandomCellActionCellItem() -> CollectionViewCellItem {
         return makeActionCellItem(title: "Remove random cell") { [weak self] in
-            guard let `self` = self else {
+            guard let self = self else {
                 return
             }
             
@@ -320,7 +322,7 @@ class MainViewController: UIViewController {
     
     func makeRemoveRandomSectionActionCellItem() -> CollectionViewCellItem {
         return makeActionCellItem(title: "Remove random section") { [weak self] in
-            guard let `self` = self else {
+            guard let self = self else {
                 return
             }
             
@@ -351,7 +353,7 @@ class MainViewController: UIViewController {
     
     func makeReplaceCellItemsActionCellItem() -> CollectionViewCellItem {
         return makeActionCellItem(title: "Replace cells") { [weak self] in
-            guard let `self` = self else {
+            guard let self = self else {
                 return
             }
             guard let sectionItem = self.mainCollectionViewManager.sectionItems.first else {
@@ -375,7 +377,7 @@ class MainViewController: UIViewController {
     
     func makeReplaceSectionItemsActionCellItem() -> CollectionViewCellItem {
         return makeActionCellItem(title: "Replace sections") { [weak self] in
-            guard let `self` = self else {
+            guard let self = self else {
                 return
             }
             
@@ -386,6 +388,25 @@ class MainViewController: UIViewController {
             
             let replaceIndexes = Array(0..<self.mainCollectionViewManager.sectionItems.count)
             self.mainCollectionViewManager.replace(sectionItemsAt: replaceIndexes, with: sectionItems)
+        }
+    }
+    
+    // MARK: Change images
+    
+    func makeChangeImagesActionCellItem() -> CollectionViewCellItem {
+        return makeActionCellItem(title: "Change images") { [weak self] in
+            guard let self = self, self.images.isEmpty == false else {
+                return
+            }
+            
+            self.mainCollectionViewManager.sectionItems.forEach { sectionItem in
+                sectionItem.cellItems.forEach { cellItem in
+                    guard let cell = cellItem.cell as? ImageCollectionViewCell else {
+                        return
+                    }
+                    cell.imageView.image = self.images[Int.random(in: 0..<self.images.count)]
+                }
+            }
         }
     }
     
