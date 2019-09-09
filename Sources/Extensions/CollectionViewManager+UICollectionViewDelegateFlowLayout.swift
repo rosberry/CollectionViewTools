@@ -7,35 +7,41 @@
 import UIKit.UICollectionView
 
 extension CollectionViewManager: UICollectionViewDelegateFlowLayout {
-    
+
     open func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              sizeForItemAt indexPath: IndexPath) -> CGSize {
-        guard let cellItem = cellItem(for: indexPath),
-              let sectionItem = cellItem.sectionItem else {
+        if let dataSource = dataSource {
+            return dataSource.itemDataSource(at: indexPath.section)?.sizeForCell(at: indexPath.row, in: collectionView) ?? .zero
+        }
+
+        guard let cellItem = cellItem(for: indexPath) else {
             return .zero
         }
-        return cellItem.size(in: collectionView, sectionItem: sectionItem)
+        return cellItem.size()
     }
-    
+
     open func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              insetForSectionAt section: Int) -> UIEdgeInsets {
-        return _sectionItems[section].insets
+        let sectionItem = dataSource?.sectionItem(at: section) ?? _sectionItems[section]
+        return sectionItem.insets
     }
-    
+
     open func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return _sectionItems[section].minimumLineSpacing
+        let sectionItem = dataSource?.sectionItem(at: section) ?? _sectionItems[section]
+        return sectionItem.minimumLineSpacing
     }
-    
+
     open func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return _sectionItems[section].minimumInteritemSpacing
+        let sectionItem = dataSource?.sectionItem(at: section) ?? _sectionItems[section]
+        return sectionItem.minimumInteritemSpacing
     }
-    
+
     open func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -47,7 +53,7 @@ extension CollectionViewManager: UICollectionViewDelegateFlowLayout {
         }
         return item.size(for: collectionView, with: collectionViewLayout)
     }
-    
+
     open func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              referenceSizeForFooterInSection section: Int) -> CGSize {

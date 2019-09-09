@@ -9,18 +9,18 @@ import UIKit.UICollectionView
 public enum ReusableViewType {
     case header
     case footer
-    
+
     public var kind: String {
         switch self {
-            case .header:
-                return UICollectionView.elementKindSectionHeader
-            case .footer:
-                return UICollectionView.elementKindSectionFooter
+        case .header:
+            return UICollectionView.elementKindSectionHeader
+        case .footer:
+            return UICollectionView.elementKindSectionFooter
         }
     }
 }
 
-public protocol CollectionViewReusableViewItem: CollectionViewSiblingItem {
+public protocol CollectionViewReusableViewItem: CollectionViewSiblingCellItem {
     
     var type: ReusableViewType { get set }
     

@@ -399,7 +399,7 @@ class MainViewController: UIViewController {
     
     func makeActionCellItem(title: String, action: @escaping (() -> Void)) -> CollectionViewCellItem {
         let cellItem = TextCellItem(text: title, backgroundColor: .white, roundCorners: true)
-        cellItem.itemDidSelectHandler = { _ in
+        cellItem.itemDidSelectHandler = {
             action()
         }
         return cellItem

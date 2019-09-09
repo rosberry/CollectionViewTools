@@ -10,10 +10,10 @@ import ObjectiveC.runtime
 public protocol CollectionViewSectionItem: CollectionViewSiblingSectionItem {
     var cellItems: [CollectionViewCellItem] { get set }
     var reusableViewItems: [CollectionViewReusableViewItem] { get set }
-    
-    var minimumLineSpacing: CGFloat { get set }
-    var minimumInteritemSpacing: CGFloat { get set }
-    var insets: UIEdgeInsets { get set }
+
+    var minimumLineSpacing: CGFloat { get }
+    var minimumInteritemSpacing: CGFloat { get }
+    var insets: UIEdgeInsets { get }
 }
 
 // MARK: - CollectionViewSiblingSectionItem
@@ -29,20 +29,18 @@ extension CollectionViewSiblingSectionItem {
             if let object = objc_getAssociatedObject(self, &AssociatedKeys.collectionView) as? UICollectionView {
                 return object
             }
-            printContextWarning("We found out that collectionView property for \(self) is nil")
             return nil
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.collectionView, newValue, .OBJC_ASSOCIATION_ASSIGN)
         }
     }
-    
+
     public var index: Int? {
         get {
             if let object = objc_getAssociatedObject(self, &AssociatedKeys.index) as? Int {
                 return object
             }
-            printContextWarning("We found out that index property for \(self) is nil")
             return nil
         }
         set {

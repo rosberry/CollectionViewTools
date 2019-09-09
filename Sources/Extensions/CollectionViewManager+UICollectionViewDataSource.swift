@@ -7,11 +7,15 @@
 import UIKit.UICollectionView
 
 extension CollectionViewManager: UICollectionViewDataSource {
-    
+
     open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if let dataSource = dataSource {
+            return dataSource.itemDataSource(at: section)?.itemCount ?? 0
+        }
+
         return _sectionItems[section].cellItems.count
     }
-    
+
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellItem = self.cellItem(for: indexPath)!
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellItem.reuseType.identifier, for: indexPath)
@@ -19,11 +23,15 @@ extension CollectionViewManager: UICollectionViewDataSource {
         cellItem.configure(cell, animated: false)
         return cell
     }
-    
+
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
+        if let dataSource = dataSource {
+            return dataSource.sectionCount
+        }
+
         return _sectionItems.count
     }
-    
+
     open func collectionView(_ collectionView: UICollectionView,
                              viewForSupplementaryElementOfKind kind: String,
                              at indexPath: IndexPath) -> UICollectionReusableView {
@@ -38,11 +46,11 @@ extension CollectionViewManager: UICollectionViewDataSource {
         reusableViewItem.configure(view)
         return view
     }
-    
+
     open func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
-        return cellItem(for: indexPath)?.canMove(at: indexPath) ?? false
+        return cellItem(for: indexPath)?.canMove() ?? false
     }
-    
+
     open func collectionView(_ collectionView: UICollectionView,
                              moveItemAt sourceIndexPath: IndexPath,
                              to destinationIndexPath: IndexPath) {

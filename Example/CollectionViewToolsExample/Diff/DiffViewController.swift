@@ -344,7 +344,7 @@ final class DiffViewController: UIViewController {
                                     roundCorners: false,
                                     contentRelatedWidth: false)
         cellItem.diffIdentifier = "group_plus_\(group.id)"
-        cellItem.itemDidSelectHandler = { [weak self] _ in
+        cellItem.itemDidSelectHandler = { [weak self] in
             self?.insertGroup(after: group)
             self?.updateMainCollection(animated: true, cache: false)
         }
@@ -354,7 +354,7 @@ final class DiffViewController: UIViewController {
     private func makeObjectCellItem(object: Object, group: Group) -> ColorCellItem {
         let cellItem = ColorCellItem(color: object.color.uiColor, title: "\(object.title)")
         cellItem.diffIdentifier = "object_item_\(object.id)"
-        cellItem.itemDidSelectHandler = { [weak self] _ in
+        cellItem.itemDidSelectHandler = { [weak self] in
             self?.delete(object, from: group)
             self?.updateMainCollection(animated: true, cache: false)
         }
@@ -364,7 +364,7 @@ final class DiffViewController: UIViewController {
     func makeMainActionCellItem(title: String, action: @escaping (() -> Void)) -> TextCellItem {
         let cellItem = TextCellItem(text: title, backgroundColor: UIColor.black.withAlphaComponent(0.2), roundCorners: true)
         cellItem.diffIdentifier = "action_\(title)"
-        cellItem.itemDidSelectHandler = { _ in
+        cellItem.itemDidSelectHandler = {
             action()
         }
         return cellItem
@@ -473,7 +473,7 @@ final class DiffViewController: UIViewController {
                             action: @escaping (() -> Void)) -> TextCellItem {
         let cellItem = TextCellItem(text: title, backgroundColor: backgroundColor, roundCorners: true)
         cellItem.diffIdentifier = "action_\(title)"
-        cellItem.itemDidSelectHandler = { _ in
+        cellItem.itemDidSelectHandler = {
             action()
         }
         return cellItem

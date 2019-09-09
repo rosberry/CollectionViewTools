@@ -7,7 +7,7 @@
 import UIKit.UICollectionView
 
 extension CollectionViewManager: UICollectionViewDataSourcePrefetching {
-    
+
     open func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         indexPaths.forEach { indexPath in
             if let cellItem = cellItem(for: indexPath) {
@@ -15,7 +15,7 @@ extension CollectionViewManager: UICollectionViewDataSourcePrefetching {
             }
         }
     }
-    
+
     open func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
         indexPaths.forEach { indexPath in
             if let cellItem = cellItem(for: indexPath) {

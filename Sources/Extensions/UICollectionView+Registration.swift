@@ -39,6 +39,11 @@ public extension UICollectionView {
         }
     }
 
+    func dequeueReusableSupplementaryView<T: UICollectionReusableView>(with type: ReusableViewType, at indexPath: IndexPath) -> T {
+        // swiftlint:disable:next force_cast
+        return dequeueReusableSupplementaryView(ofKind: type.kind, withReuseIdentifier: "\(T.self)", for: indexPath) as! T
+    }
+
     func registerView(with type: ReuseType, kind: String) {
         switch type {
         case let .nib(nib, identifier):

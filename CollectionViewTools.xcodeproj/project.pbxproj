@@ -32,6 +32,10 @@
 		0E4B31D1229C02B800CE0B13 /* CollectionViewChanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4B31D0229C02B800CE0B13 /* CollectionViewChanges.swift */; };
 		1028238622E9AA680061C54F /* CollectionViewDeepDiffAdaptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028238222E9A92A0061C54F /* CollectionViewDeepDiffAdaptor.swift */; };
 		1078655122E1DE6C0075C74A /* CollectionViewDiffReusableViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1078655022E1DE6C0075C74A /* CollectionViewDiffReusableViewItem.swift */; };
+		13F1E978232660420007F0C3 /* DeepDiff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13F1E977232660410007F0C3 /* DeepDiff.framework */; };
+		13F1E97E232661BB0007F0C3 /* GeneralCollectionViewItemDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F1E97B232661BB0007F0C3 /* GeneralCollectionViewItemDataSource.swift */; };
+		13F1E97F232661BB0007F0C3 /* GeneralCollectionViewSectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F1E97C232661BB0007F0C3 /* GeneralCollectionViewSectionDataSource.swift */; };
+		13F1E980232661BB0007F0C3 /* CollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F1E97D232661BB0007F0C3 /* CollectionViewDataSource.swift */; };
 		629A6091BFB23B9D95D9BF56 /* Print.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A64DA578C05AC298ECFFD /* Print.swift */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +79,10 @@
 		0E4B31D0229C02B800CE0B13 /* CollectionViewChanges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewChanges.swift; sourceTree = "<group>"; };
 		1028238222E9A92A0061C54F /* CollectionViewDeepDiffAdaptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDeepDiffAdaptor.swift; sourceTree = "<group>"; };
 		1078655022E1DE6C0075C74A /* CollectionViewDiffReusableViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewDiffReusableViewItem.swift; sourceTree = "<group>"; };
+		13F1E977232660410007F0C3 /* DeepDiff.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeepDiff.framework; path = Carthage/Build/iOS/DeepDiff.framework; sourceTree = "<group>"; };
+		13F1E97B232661BB0007F0C3 /* GeneralCollectionViewItemDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralCollectionViewItemDataSource.swift; sourceTree = "<group>"; };
+		13F1E97C232661BB0007F0C3 /* GeneralCollectionViewSectionDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralCollectionViewSectionDataSource.swift; sourceTree = "<group>"; };
+		13F1E97D232661BB0007F0C3 /* CollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSource.swift; sourceTree = "<group>"; };
 		629A64DA578C05AC298ECFFD /* Print.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Print.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -83,6 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13F1E978232660420007F0C3 /* DeepDiff.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,6 +147,7 @@
 				0A37635D1F62545A00A80613 /* Items */,
 				0A37635F1F62545A00A80613 /* Protocols */,
 				629A633A0A14B7B8D623A113 /* Helpers */,
+				13F1E97A232661BB0007F0C3 /* DataSource */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -225,6 +235,7 @@
 		1028238722E9AB290061C54F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				13F1E977232660410007F0C3 /* DeepDiff.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -235,6 +246,17 @@
 				1028238222E9A92A0061C54F /* CollectionViewDeepDiffAdaptor.swift */,
 			);
 			path = DeepDiff;
+			sourceTree = "<group>";
+		};
+		13F1E97A232661BB0007F0C3 /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				13F1E97B232661BB0007F0C3 /* GeneralCollectionViewItemDataSource.swift */,
+				13F1E97C232661BB0007F0C3 /* GeneralCollectionViewSectionDataSource.swift */,
+				13F1E97D232661BB0007F0C3 /* CollectionViewDataSource.swift */,
+			);
+			name = DataSource;
+			path = Helpers/DataSource;
 			sourceTree = "<group>";
 		};
 		629A633A0A14B7B8D623A113 /* Helpers */ = {
@@ -267,6 +289,7 @@
 				0A3763211F6251A600A80613 /* Frameworks */,
 				0A3763221F6251A600A80613 /* Headers */,
 				0A3763231F6251A600A80613 /* Resources */,
+				13F1E979232660550007F0C3 /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -356,6 +379,29 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		13F1E979232660550007F0C3 /* Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/DeepDiff.framework",
+			);
+			name = Carthage;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/DeepDiff.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0A3763201F6251A600A80613 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -370,6 +416,7 @@
 				0A3763681F62545A00A80613 /* CollectionViewManager.swift in Sources */,
 				1028238622E9AA680061C54F /* CollectionViewDeepDiffAdaptor.swift in Sources */,
 				0E0F40A0222D4F0600B88DF3 /* CollectionViewManager+Diff.swift in Sources */,
+				13F1E97F232661BB0007F0C3 /* GeneralCollectionViewSectionDataSource.swift in Sources */,
 				0A37636C1F62545A00A80613 /* CollectionViewManager+UICollectionViewDelegate.swift in Sources */,
 				0E0F409F222D4F0600B88DF3 /* CollectionViewDiffResult.swift in Sources */,
 				0E4B31D1229C02B800CE0B13 /* CollectionViewChanges.swift in Sources */,
@@ -380,6 +427,8 @@
 				0E0F409E222D4F0600B88DF3 /* DiffItem.swift in Sources */,
 				1078655122E1DE6C0075C74A /* CollectionViewDiffReusableViewItem.swift in Sources */,
 				0A37636E1F62545A00A80613 /* CollectionViewManager+UIScrollViewDelegate.swift in Sources */,
+				13F1E97E232661BB0007F0C3 /* GeneralCollectionViewItemDataSource.swift in Sources */,
+				13F1E980232661BB0007F0C3 /* CollectionViewDataSource.swift in Sources */,
 				0E21E22D22C4E1E2004364FA /* CollectionViewDiffSectionItem.swift in Sources */,
 				0A3763751F62545A00A80613 /* CollectionViewSectionItem.swift in Sources */,
 				629A6091BFB23B9D95D9BF56 /* Print.swift in Sources */,
