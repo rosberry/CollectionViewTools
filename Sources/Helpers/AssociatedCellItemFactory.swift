@@ -108,13 +108,9 @@ extension AssociatedCellItemFactory: CellItemFactory {
     public func makeCellItems(object: Any, index: Int) -> [CollectionViewCellItem] {
         if let object = object as? U {
             if let initializationHandler = self.initializationHandler {
-                var cellItems = [CollectionViewCellItem]()
-                initializationHandler(index, object).forEach { cellItem in
-                    if let cellItem = cellItem {
-                        cellItems.append(cellItem)
-                    }
+                return initializationHandler(index, object).compactMap { cellItem in
+                    cellItem
                 }
-                return cellItems
             }
             else {
                 return [makeUniversalCellItem(object: object, index: index)]
@@ -123,10 +119,10 @@ extension AssociatedCellItemFactory: CellItemFactory {
         return []
     }
     
-    public func join(_ factory: CellItemFactory) -> CellItemFactory {
+    public func join(factory: CellItemFactory) -> CellItemFactory {
         let complexFactory = ComplexCellItemFactory()
-        complexFactory.join(self)
-        complexFactory.join(factory)
+        complexFactory.join(factory: self)
+        complexFactory.join(factory: factory)
         return complexFactory
     }
     

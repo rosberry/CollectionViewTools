@@ -26,7 +26,7 @@ public protocol CellItemFactory {
     /// - Parameters:
     ///    - factory: a second cell item factory the associated type of which should be united
     @discardableResult
-    func join(_ factory: CellItemFactory) -> CellItemFactory
+    func join(factory: CellItemFactory) -> CellItemFactory
     
     /// Defines a unique identifier associated with a specific type of factory
     var hashKey: String? { get }

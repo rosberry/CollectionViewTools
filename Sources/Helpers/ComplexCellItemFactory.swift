@@ -31,7 +31,7 @@ public class ComplexCellItemFactory: CellItemFactory {
     }
     
     @discardableResult
-    public func join(_ factory: CellItemFactory) -> CellItemFactory {
+    public func join(factory: CellItemFactory) -> CellItemFactory {
         if let factory = factory as? ComplexCellItemFactory {
             factory.factories.forEach { (key, value) in
                 factories[key] = value
@@ -47,7 +47,7 @@ public class ComplexCellItemFactory: CellItemFactory {
     ///
     /// - Parameters:
     ///     - factory: a factory that should be removed
-    public func unjoin(_ factory: CellItemFactory) {
+    public func unjoin(factory: CellItemFactory) {
         if let key = factory.hashKey {
             factories.removeValue(forKey: key)
         }
