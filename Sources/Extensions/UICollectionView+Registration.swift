@@ -9,7 +9,7 @@ import UIKit.UICollectionView
 public enum ReuseType {
     case storyboardIdentifier(String)
     case nib(UINib, identifier: String)
-    case `class`(UICollectionViewCell.Type)
+    case `class`(UICollectionReusableView.Type)
     
     public var identifier: String {
         switch self {
@@ -25,7 +25,7 @@ public enum ReuseType {
 
 public extension UICollectionView {
     
-    func register(by type: ReuseType) {
+    func registerCell(with type: ReuseType) {
         switch type {
             case let .nib(nib, identifier):
                 register(nib, forCellWithReuseIdentifier: identifier)
@@ -35,9 +35,15 @@ public extension UICollectionView {
                 break
         }
     }
-    
-    func dequeueReusableSupplementaryView<T: UICollectionReusableView>(with type: ReusableViewType, at indexPath: IndexPath) -> T {
-        // swiftlint:disable:next force_cast
-        return dequeueReusableSupplementaryView(ofKind: type.kind, withReuseIdentifier: "\(T.self)", for: indexPath) as! T
+
+    func registerView(with type: ReuseType, kind: String) {
+        switch type {
+        case let .nib(nib, identifier):
+            register(nib, forSupplementaryViewOfKind: kind, withReuseIdentifier: identifier)
+        case let .class(`class`):
+            register(`class`, forSupplementaryViewOfKind: kind, withReuseIdentifier: type.identifier)
+        default:
+            break
+        }
     }
 }
