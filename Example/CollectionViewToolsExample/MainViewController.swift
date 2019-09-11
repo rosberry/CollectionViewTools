@@ -120,7 +120,7 @@ class MainViewController: UIViewController {
     // MARK: Actions cell items
 
     func makeActionsSectionItem() -> CollectionViewSectionItem {
-        return makeActionsSectionItem(cellItems: [
+        let sectionItem = makeActionsSectionItem(cellItems: [
             makeResetActionCellItem(),
             // Factory example
             makeFactoryExampleActionCellItem(),
@@ -142,7 +142,7 @@ class MainViewController: UIViewController {
             makeReplaceSectionItemsActionCellItem(),
             // Change images
             makeChangeImagesActionCellItem()
-        ]
+        ])
         sectionItem.insets = .init(top: 0, left: 8, bottom: 0, right: 8)
         sectionItem.minimumInteritemSpacing = 8
         sectionItem.minimumLineSpacing = 8
