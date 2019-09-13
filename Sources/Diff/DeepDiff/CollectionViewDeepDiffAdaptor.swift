@@ -12,10 +12,10 @@ public final class CollectionViewDeepDiffAdaptor: CollectionViewDiffAdaptor {
     
     public func changes<T: DiffItem>(old: [T], new: [T]) -> [CollectionViewChange<T>] {
         let oldWrappers = old.map { item in
-            DeepDiffDiffableItemWrapper(item: item)
+            DeepDiffItemWrapper(item: item)
         }
         let newWrappers = new.map { item in
-            DeepDiffDiffableItemWrapper(item: item)
+            DeepDiffItemWrapper(item: item)
         }
         let results = DeepDiff.diff(old: oldWrappers, new: newWrappers)
         let changes = results.map { result in
@@ -34,7 +34,7 @@ public final class CollectionViewDeepDiffAdaptor: CollectionViewDiffAdaptor {
     }
 }
 
-final class DeepDiffDiffableItemWrapper<T: DiffItem>: DiffAware {
+final class DeepDiffItemWrapper<T: DiffItem>: DiffAware {
 
     public typealias DiffId = String
 
@@ -48,7 +48,7 @@ final class DeepDiffDiffableItemWrapper<T: DiffItem>: DiffAware {
         return item.diffIdentifier
     }
 
-    public static func compareContent(_ a: DeepDiffDiffableItemWrapper, _ b: DeepDiffDiffableItemWrapper) -> Bool {
+    public static func compareContent(_ a: DeepDiffItemWrapper, _ b: DeepDiffItemWrapper) -> Bool {
         return a.item.isEqual(to: b.item)
     }
 }

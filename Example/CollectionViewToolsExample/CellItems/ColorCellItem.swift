@@ -35,7 +35,7 @@ final class ColorCellItem: CollectionViewDiffCellItem, CustomStringConvertible {
         return .init(width: width, height: width)
     }
 
-    // MARK: - CollectionViewDiffableItem
+    // MARK: - DiffItem
 
     var diffIdentifier: String = ""
 

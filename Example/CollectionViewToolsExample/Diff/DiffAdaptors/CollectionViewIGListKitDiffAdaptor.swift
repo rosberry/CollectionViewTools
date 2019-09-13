@@ -9,10 +9,10 @@ final class CollectionViewIGListKitDiffAdaptor: CollectionViewDiffAdaptor {
 
     func changes<T: DiffItem>(old: [T], new: [T]) -> [CollectionViewChange<T>] {
         let oldWrappers = old.map { item in
-            IGListKitDiffableItemWrapper(item: item)
+            IGListKitDiffItemWrapper(item: item)
         }
         let newWrappers = new.map { item in
-            IGListKitDiffableItemWrapper(item: item)
+            IGListKitDiffItemWrapper(item: item)
         }
         let result = ListDiff(oldArray: oldWrappers, newArray: newWrappers, option: .equality)
         let inserts = result.inserts.map { index in
@@ -47,7 +47,7 @@ final class CollectionViewIGListKitDiffAdaptor: CollectionViewDiffAdaptor {
     }
 }
 
-public final class IGListKitDiffableItemWrapper<T: DiffItem>: ListDiffable {
+public final class IGListKitDiffItemWrapper<T: DiffItem>: ListDiffable {
 
     let item: T
 
@@ -60,7 +60,7 @@ public final class IGListKitDiffableItemWrapper<T: DiffItem>: ListDiffable {
     }
 
     public func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
-        guard let wrapper = object as? IGListKitDiffableItemWrapper<T> else {
+        guard let wrapper = object as? IGListKitDiffItemWrapper<T> else {
             return false
         }
         return item.isEqual(to: wrapper.item)

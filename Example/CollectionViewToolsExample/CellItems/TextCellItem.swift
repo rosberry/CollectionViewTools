@@ -56,7 +56,7 @@ final class TextCellItem: CollectionViewDiffCellItem, CustomStringConvertible {
         }
     }
 
-    // MARK: - CollectionViewDiffableItem
+    // MARK: - DiffItem
 
     var diffIdentifier: String = ""
 
