@@ -35,6 +35,7 @@
 		1028238F22E9B0950061C54F /* IGListKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1028238E22E9B0950061C54F /* IGListKit.framework */; };
 		1078655822E1EADB0075C74A /* HeaderViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1078655322E1E5C60075C74A /* HeaderViewItem.swift */; };
 		1078655922E1EADF0075C74A /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1078655622E1E7060075C74A /* HeaderView.swift */; };
+		10A34924232B7EED0064FB8C /* DeepDiff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10A34923232B7EED0064FB8C /* DeepDiff.framework */; };
 		10FF9F5B23040139003B7169 /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855613B322B77FC900F59CD1 /* ReusableView.swift */; };
 		10FF9F5C2304013E003B7169 /* ReusableViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855613B522B7803800F59CD1 /* ReusableViewItem.swift */; };
 		10FF9F5E23040224003B7169 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FF9F5D23040224003B7169 /* DetailViewController.swift */; };
@@ -93,6 +94,7 @@
 		1028238E22E9B0950061C54F /* IGListKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IGListKit.framework; path = Carthage/Build/iOS/IGListKit.framework; sourceTree = "<group>"; };
 		1078655322E1E5C60075C74A /* HeaderViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderViewItem.swift; sourceTree = "<group>"; };
 		1078655622E1E7060075C74A /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		10A34923232B7EED0064FB8C /* DeepDiff.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeepDiff.framework; path = ../Carthage/Build/iOS/DeepDiff.framework; sourceTree = "<group>"; };
 		10FF9F5D23040224003B7169 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		629A60E846B05B88D62C7880 /* TextCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextCollectionViewCell.swift; sourceTree = "<group>"; };
 		629A688DD33578289A57B452 /* ExampleSectionItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleSectionItem.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				10A34924232B7EED0064FB8C /* DeepDiff.framework in Frameworks */,
 				1028238F22E9B0950061C54F /* IGListKit.framework in Frameworks */,
 				0E5676E222C5DEC0008A88EA /* CollectionViewTools.framework in Frameworks */,
 			);
@@ -166,6 +169,7 @@
 		0ACA6FC41F62659500782C1E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				10A34923232B7EED0064FB8C /* DeepDiff.framework */,
 				1028238E22E9B0950061C54F /* IGListKit.framework */,
 				FE6E86B31FB961B20027A8FE /* CollectionViewTools.framework */,
 			);
