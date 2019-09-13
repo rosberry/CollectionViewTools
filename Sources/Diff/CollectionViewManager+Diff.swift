@@ -122,9 +122,7 @@ extension CollectionViewManager {
         registerSectionItems()
         recalculateIndexes()
 
-        #if DEBUG
         logBadItems(for: sectionItems)
-        #endif
 
         if shouldReload {
             collectionView.reloadData()
@@ -174,9 +172,8 @@ extension CollectionViewManager {
 
         registerSectionItems()
         recalculateIndexes()
-        #if DEBUG
+
         logBadItems(for: sectionItems)
-        #endif
 
         itemsWereUpdated = true
         complete()
