@@ -32,7 +32,6 @@
 		0E4B31D1229C02B800CE0B13 /* CollectionViewChanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4B31D0229C02B800CE0B13 /* CollectionViewChanges.swift */; };
 		1028238622E9AA680061C54F /* CollectionViewDeepDiffAdaptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028238222E9A92A0061C54F /* CollectionViewDeepDiffAdaptor.swift */; };
 		1078655122E1DE6C0075C74A /* CollectionViewDiffReusableViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1078655022E1DE6C0075C74A /* CollectionViewDiffReusableViewItem.swift */; };
-		13F1E978232660420007F0C3 /* DeepDiff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13F1E977232660410007F0C3 /* DeepDiff.framework */; };
 		13F1E97E232661BB0007F0C3 /* GeneralCollectionViewItemDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F1E97B232661BB0007F0C3 /* GeneralCollectionViewItemDataSource.swift */; };
 		13F1E97F232661BB0007F0C3 /* GeneralCollectionViewSectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F1E97C232661BB0007F0C3 /* GeneralCollectionViewSectionDataSource.swift */; };
 		13F1E980232661BB0007F0C3 /* CollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F1E97D232661BB0007F0C3 /* CollectionViewDataSource.swift */; };
@@ -79,7 +78,6 @@
 		0E4B31D0229C02B800CE0B13 /* CollectionViewChanges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewChanges.swift; sourceTree = "<group>"; };
 		1028238222E9A92A0061C54F /* CollectionViewDeepDiffAdaptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDeepDiffAdaptor.swift; sourceTree = "<group>"; };
 		1078655022E1DE6C0075C74A /* CollectionViewDiffReusableViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewDiffReusableViewItem.swift; sourceTree = "<group>"; };
-		13F1E977232660410007F0C3 /* DeepDiff.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeepDiff.framework; path = Carthage/Build/iOS/DeepDiff.framework; sourceTree = "<group>"; };
 		13F1E97B232661BB0007F0C3 /* GeneralCollectionViewItemDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralCollectionViewItemDataSource.swift; sourceTree = "<group>"; };
 		13F1E97C232661BB0007F0C3 /* GeneralCollectionViewSectionDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralCollectionViewSectionDataSource.swift; sourceTree = "<group>"; };
 		13F1E97D232661BB0007F0C3 /* CollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSource.swift; sourceTree = "<group>"; };
@@ -91,7 +89,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13F1E978232660420007F0C3 /* DeepDiff.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,7 +110,6 @@
 				0A3763501F62545A00A80613 /* Sources */,
 				0A3763321F6251A600A80613 /* CollectionViewToolsTests */,
 				0A3763261F6251A600A80613 /* Products */,
-				1028238722E9AB290061C54F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -230,14 +226,6 @@
 				104F1AF222F4359E00A0287D /* DeepDiff */,
 			);
 			path = Diff;
-			sourceTree = "<group>";
-		};
-		1028238722E9AB290061C54F /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				13F1E977232660410007F0C3 /* DeepDiff.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		104F1AF222F4359E00A0287D /* DeepDiff */ = {
