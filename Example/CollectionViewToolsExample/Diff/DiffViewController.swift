@@ -323,7 +323,7 @@ final class DiffViewController: UIViewController {
         let headerItem = HeaderViewItem(title: group.title,
                                         backgroundColor: group.color.uiColor,
                                         isFolded: group.isFolded)
-//        headerItem.diffIdentifier = "group_header_\(group.id)"
+        headerItem.diffIdentifier = "group_header_\(group.id)"
         headerItem.foldHandler = { [weak self] in
             if let group = self?.group(forId: group.id) {
                 group.isFolded.toggle()
