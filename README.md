@@ -115,8 +115,6 @@ where `diffIdentifier` is used to identify each item (note that it must be uniqu
 #### Cell item implementation
 ```swift
 class ExampleCollectionViewCellItem: CollectionViewCellItem, DiffItem {
-
-	// implementation...    
         
     // MARK: - DiffItem
     
@@ -128,6 +126,8 @@ class ExampleCollectionViewCellItem: CollectionViewCellItem, DiffItem {
         }
         return title == item.title
     }
+
+    // implementation...
 }
 ```
 
