@@ -38,8 +38,6 @@ public class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
     ///    - CollectionViewCellItem: the cell item that performs a cell configuration
     public var cellConfigurationHandler: ((U, T, CollectionViewCellItem) -> Void)?
     
-    private var subfactories = [String: Any]()
-    
     public init() {
     }
     
@@ -49,9 +47,12 @@ public class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
     /// - Parameters:
     ///    - array: an array of objects to create cell items for them
     public func makeCellItems(array: [U]) -> [CollectionViewCellItem] {
-        return array.enumerated().flatMap { index, object in
-            makeCellItems(object: object, index: index)
+        var cellItems = [CollectionViewCellItem]()
+        for index in 0..<array.count {
+            let object = array[index]
+            cellItems.append(contentsOf: makeCellItems(object: object, index: index))
         }
+        return cellItems
     }
     
     /// Returns an instance of `UniversalCollectionViewCellItem` and associates provided handlers with them
@@ -119,10 +120,10 @@ extension AssociatedCellItemFactory: CellItemFactory {
         return []
     }
     
-    public func join(factory: CellItemFactory) -> CellItemFactory {
+    public func factory(byJoining factory: CellItemFactory) -> CellItemFactory {
         let complexFactory = ComplexCellItemFactory()
-        complexFactory.join(factory: self)
-        complexFactory.join(factory: factory)
+        complexFactory.factory(byJoining: self)
+        complexFactory.factory(byJoining: factory)
         return complexFactory
     }
     

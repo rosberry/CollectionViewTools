@@ -92,7 +92,7 @@ final class FactoryExampleViewController: UIViewController {
             
             return factory
         }()
-        return textCellItemFactory.join(factory: imageCellItemFactory)
+        return textCellItemFactory.factory(byJoining: imageCellItemFactory)
     }()
 
     private lazy var mainCollectionViewManager: CollectionViewManager = .init(collectionView: mainCollectionView)

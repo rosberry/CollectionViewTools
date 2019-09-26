@@ -31,7 +31,7 @@ public class ComplexCellItemFactory: CellItemFactory {
     }
     
     @discardableResult
-    public func join(factory: CellItemFactory) -> CellItemFactory {
+    public func factory(byJoining factory: CellItemFactory) -> CellItemFactory {
         if let factory = factory as? ComplexCellItemFactory {
             factory.factories.forEach { (key, value) in
                 factories[key] = value
