@@ -121,10 +121,7 @@ final class FactoryExampleViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        mainCollectionView.frame = .init(x: 0,
-                                         y: 0,
-                                         width: view.bounds.width,
-                                         height: view.bounds.height)
+        mainCollectionView.frame = view.bounds
         mainCollectionView.contentInset.bottom = bottomLayoutGuide.length
     }
     
@@ -165,9 +162,9 @@ final class FactoryExampleViewController: UIViewController {
                                                                       at index: Int,
                                                                       using factory: AssociatedCellItemFactory<U, T>) ->[CollectionViewCellItem?] {
         let mainCellItem = factory.makeUniversalCellItem(object: data, index: index)
-        if let descriptionItem = self.unfoldedItemsFactory.makeCellItems(object: data, index: index).first {
+        if let descriptionItem = unfoldedItemsFactory.makeCellItems(object: data, index: index).first {
             mainCellItem.itemDidSelectHandler = { _ in
-                if let position = self.unfoldedIndices.index(of: index) {
+                if let position = self.unfoldedIndices.firstIndex(of: index) {
                     self.unfoldedIndices.remove(at: position)
                     self.mainCollectionViewManager.remove([descriptionItem])
                 }
