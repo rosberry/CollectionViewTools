@@ -18,17 +18,21 @@ public final class CollectionViewDeepDiffAdaptor: CollectionViewDiffAdaptor {
             DeepDiffItemWrapper(item: item)
         }
         let results = DeepDiff.diff(old: oldWrappers, new: newWrappers)
-        let changes = results.map { result in
-            CollectionViewChange(insert: CollectionViewInsert(item: result.insert?.item.item,
-                                                              index: result.insert?.index),
-                                 delete: CollectionViewDelete(item: result.delete?.item.item,
-                                                              index: result.delete?.index),
-                                 update: CollectionViewUpdate(oldItem: result.replace?.oldItem.item,
-                                                              newItem: result.replace?.newItem.item,
-                                                              index: result.replace?.index),
-                                 move: CollectionViewMove(item: result.move?.item.item,
-                                                          from: result.move?.fromIndex,
-                                                          to: result.move?.toIndex))
+        let changes = results.map { result -> CollectionViewChange<T> in
+            let change = CollectionViewChange<T>()
+            if let insert = result.insert {
+                change.insert = .init(item: insert.item.item, index: insert.index)
+            }
+            if let delete = result.delete {
+                change.delete = .init(item: delete.item.item, index: delete.index)
+            }
+            if let replace = result.replace {
+                change.update = .init(oldItem: replace.oldItem.item, newItem: replace.newItem.item, index: replace.index)
+            }
+            if let move = result.move {
+                change.move = .init(item: move.item.item, from: move.fromIndex, to: move.toIndex)
+            }
+            return change
         }
         return changes
     }

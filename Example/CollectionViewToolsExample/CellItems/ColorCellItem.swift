@@ -7,7 +7,7 @@
 import CollectionViewTools
 import Foundation
 
-final class ColorCellItem: CollectionViewDiffCellItem, CustomStringConvertible {
+final class ColorCellItem: CollectionViewDiffCellItem {
 
     typealias Cell = ColorCollectionViewCell
     private(set) var reuseType: ReuseType = .class(Cell.self)
@@ -45,12 +45,5 @@ final class ColorCellItem: CollectionViewDiffCellItem, CustomStringConvertible {
         }
         return color == item.color
             && title == item.title
-    }
-
-    // MARK: - CustomStringConvertible
-
-    var description: String {
-        let colorString = "\(color)".replacingOccurrences(of: "UIExtendedSRGBColorSpace ", with: "")
-        return "\n cellItem id = \(diffIdentifier), color = \(colorString), title = \(title)"
     }
 }

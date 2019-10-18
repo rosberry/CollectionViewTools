@@ -4,7 +4,7 @@
 
 import CollectionViewTools
 
-final class TextCellItem: CollectionViewDiffCellItem, CustomStringConvertible {
+final class TextCellItem: CollectionViewDiffCellItem {
     
     private typealias Cell = TextCollectionViewCell
 
@@ -69,12 +69,5 @@ final class TextCellItem: CollectionViewDiffCellItem, CustomStringConvertible {
             && font == item.font
             && roundCorners == item.roundCorners
             && contentRelatedWidth == item.contentRelatedWidth
-    }
-
-    // MARK: - CustomStringConvertible
-
-    var description: String {
-        let colorString = "\(backgroundColor)".replacingOccurrences(of: "UIExtendedSRGBColorSpace ", with: "")
-        return "\n cellItem id = \(diffIdentifier), color = \(colorString), text = \(text)"
     }
 }
