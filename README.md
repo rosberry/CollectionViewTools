@@ -108,8 +108,8 @@ public protocol DiffItem {
 }
 ```
 
-where `diffIdentifier` is used to identify each item (note that it must be unique(!!!), otherwise diff algorithm can work incorrectly) and
-`isEqual` is used to compare items with same `diffIdentifier`.
+`diffIdentifier` is used to identify items to find out which items should be inserted, deleted or moved (note that it must be unique(!!!), otherwise diff algorithm can work incorrectly).
+`isEqual` is used to compare items with same `diffIdentifier` to find out which items should be updated.
  
 
 #### Cell item implementation

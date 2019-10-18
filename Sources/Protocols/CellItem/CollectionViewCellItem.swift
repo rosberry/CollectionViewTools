@@ -33,8 +33,21 @@ public protocol CollectionViewSizeCellItem: AnyObject {
 // MARK: - CollectionViewConfigureCellItem
 
 public protocol CollectionViewConfigureCellItem: AnyObject {
+
+    /// Use this property to disable default animation of UICollectionView when cell items replaced using `replace` function of `CollectionViewManager`.
     var isReplacementAnimationEnabled: Bool { get }
+
+    /// Use this function to configure cell.
+    ///
+    /// - Parameters:
+    ///   - cell: Configurable cell
     func configure(_ cell: UICollectionViewCell)
+
+    /// Use this function instead of `configure(_ cell: UICollectionViewCell)` when `isReplacementAnimationEnabled` is false.
+    ///
+    /// - Parameters:
+    ///   - cell: Configurable cell
+    ///   - animated: A Boolean value determines whether replacement perfroms with animation or not
     func configure(_ cell: UICollectionViewCell, animated: Bool)
 }
 

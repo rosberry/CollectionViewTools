@@ -45,6 +45,9 @@ open class CollectionViewManager: NSObject {
             update(newValue, shouldReloadData: true, completion: nil)
         }
     }
+
+    /// Use this property to enable warnings logging
+    public var isLoggingEnabled: Bool = false
     
     // MARK: Life cycle
     
@@ -438,7 +441,7 @@ open class CollectionViewManager: NSObject {
                     let indexPath = IndexPath(row: index, section: section)
                     cellItem.indexPath = indexPath
                     if !cellItem.isReplacementAnimationEnabled,
-                        let cell = collectionView?.cellForItem(at: indexPath) {
+                       let cell = collectionView?.cellForItem(at: indexPath) {
                         cellItem.configure(cell)
                         cellItem.configure(cell, animated: configureAnimated)
                     }

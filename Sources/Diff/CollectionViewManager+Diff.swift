@@ -66,6 +66,10 @@ extension CollectionViewManager {
     // MARK: - Private
 
     private func logBadItems(for sectionItems: [CollectionViewDiffSectionItem]) {
+        guard isLoggingEnabled else {
+            return
+        }
+
         var badSectionItems: [CollectionViewSectionItem] = []
         var badCellItems: [CollectionViewCellItem] = []
         var badReusableViewItems: [CollectionViewReusableViewItem] = []
