@@ -12,16 +12,12 @@ final class TextCollectionViewCell: UICollectionViewCell {
         }
     }
 
-    // MARK: Subviews
-    
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         return label
     }()
-    
-    // MARK: Life cycle
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

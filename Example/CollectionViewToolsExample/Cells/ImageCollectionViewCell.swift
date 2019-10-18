@@ -9,9 +9,7 @@ import UIKit
 final class ImageCollectionViewCell: UICollectionViewCell {
     
     var removeActionHandler: (() -> Void)?
-    
-    // MARK: Subviews
-    
+
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -45,9 +43,7 @@ final class ImageCollectionViewCell: UICollectionViewCell {
         let side = contentView.bounds.width / 8
         removeButton.frame = .init(x: contentView.bounds.width - side, y: 0, width: side, height: side)
     }
-    
-    // MARK: Actions
-    
+        
     @objc private func removeButtonPressed() {
         removeActionHandler?()
     }

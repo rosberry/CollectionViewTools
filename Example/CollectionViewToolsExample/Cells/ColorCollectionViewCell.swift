@@ -14,8 +14,6 @@ final class ColorCollectionViewCell: UICollectionViewCell {
         }
     }
 
-    // MARK: Subviews
-
     private(set) lazy var label: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
