@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01929DAE22F19233004D5605 /* FactoryExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01929DAD22F19233004D5605 /* FactoryExampleViewController.swift */; };
+		01C2CC1622F4377C00873DC0 /* DividerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C2CC1522F4377C00873DC0 /* DividerCell.swift */; };
 		0A3763831F62556300A80613 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763821F62556300A80613 /* AppDelegate.swift */; };
 		0A37638A1F62556300A80613 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A3763891F62556300A80613 /* Assets.xcassets */; };
 		0A37638D1F62556400A80613 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A37638B1F62556400A80613 /* LaunchScreen.storyboard */; };
@@ -38,6 +40,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		01929DAD22F19233004D5605 /* FactoryExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactoryExampleViewController.swift; sourceTree = "<group>"; };
+		01C2CC1522F4377C00873DC0 /* DividerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerCell.swift; sourceTree = "<group>"; };
 		0A37637F1F62556300A80613 /* CollectionViewToolsExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionViewToolsExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3763821F62556300A80613 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0A3763891F62556300A80613 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -96,6 +100,7 @@
 				0A37638B1F62556400A80613 /* LaunchScreen.storyboard */,
 				0A37638E1F62556400A80613 /* Info.plist */,
 				629A6D6C61B4795949B30938 /* MainViewController.swift */,
+				01929DAD22F19233004D5605 /* FactoryExampleViewController.swift */,
 				629A6B7B0DC722197E2D2AC9 /* SectionItems */,
 			);
 			path = CollectionViewToolsExample;
@@ -123,6 +128,7 @@
 			children = (
 				0ACA6FCB1F626D2E00782C1E /* ImageCollectionViewCell.swift */,
 				629A60E846B05B88D62C7880 /* TextCollectionViewCell.swift */,
+				01C2CC1522F4377C00873DC0 /* DividerCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -221,6 +227,8 @@
 			files = (
 				855613B422B77FC900F59CD1 /* ReusableView.swift in Sources */,
 				0ACA6FC91F626AF900782C1E /* ImageCellItem.swift in Sources */,
+				01C2CC1622F4377C00873DC0 /* DividerCell.swift in Sources */,
+				01929DAE22F19233004D5605 /* FactoryExampleViewController.swift in Sources */,
 				0ACA6FCE1F6275D200782C1E /* DetailViewController.swift in Sources */,
 				0ACA6FCC1F626D2E00782C1E /* ImageCollectionViewCell.swift in Sources */,
 				0A3763831F62556300A80613 /* AppDelegate.swift in Sources */,
