@@ -7,19 +7,23 @@
 import UIKit
 import CollectionViewTools
 
+protocol HasDescriptionProtocol {
+    var description: String { get }
+}
+
 final class FactoryExampleViewController: UIViewController {
     
-    struct ImageData {
+    struct ImageData: HasDescriptionProtocol {
         let image: UIImage
         let description: String
     }
     
-    struct TextData {
+    struct TextData: HasDescriptionProtocol {
         let text: String
         let description: String
     }
     
-    var data: [Any] = [ImageData(image: #imageLiteral(resourceName: "nightlife-1"), description: "First image description"),
+    var data: [HasDescriptionProtocol] = [ImageData(image: #imageLiteral(resourceName: "nightlife-1"), description: "First image description"),
                        ImageData(image: #imageLiteral(resourceName: "nightlife-2"), description: "Second image description"),
                        TextData(text: "Fist topic", description: "First topic description"),
                        ImageData(image: #imageLiteral(resourceName: "nightlife-3"), description: "Third image description"),
@@ -31,28 +35,16 @@ final class FactoryExampleViewController: UIViewController {
                        TextData(text: "Fifth topic", description: "Fifth topic description")]
     
     private lazy var unfoldedItemsFactory: CellItemFactory = {
-        let factory = AssociatedCellItemFactory<Any, TextCollectionViewCell>()
+        let factory = AssociatedCellItemFactory<HasDescriptionProtocol, TextCollectionViewCell>()
         let sizeCell = TextCollectionViewCell()
         
-        func description(data: Any) -> String {
-            if let data = data as? ImageData {
-                return data.description
-            }
-            else if let data = data as? TextData {
-                return data.description
-            }
-            else {
-                return ""
-            }
-        }
-        
         factory.cellConfigurationHandler = { data, cell, cellItem in
-            cell.titleLabel.text = description(data: data)
+            cell.titleLabel.text = data.description
         }
 
         factory.sizeConfigurationHandler = { data, collectionView, sectionItem in
             let width = collectionView.bounds.width
-            sizeCell.titleLabel.text = description(data: data)
+            sizeCell.titleLabel.text = data.description
             let height = sizeCell.sizeThatFits(CGSize(width: width, height: .greatestFiniteMagnitude)).height
             return CGSize(width: width, height: height + 48)
         }
@@ -202,3 +194,4 @@ final class FactoryExampleViewController: UIViewController {
         mainCollectionViewManager.remove([cellItem, separatorCellItem])
     }
 }
+

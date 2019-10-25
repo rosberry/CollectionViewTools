@@ -131,4 +131,3 @@ extension AssociatedCellItemFactory: CellItemFactory {
         return String(describing: U.self)
     }
 }
-
