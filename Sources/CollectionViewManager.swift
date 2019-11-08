@@ -442,8 +442,9 @@ open class CollectionViewManager: NSObject {
                     cellItem.indexPath = indexPath
                     if !cellItem.isReplacementAnimationEnabled,
                        let cell = collectionView?.cellForItem(at: indexPath) {
+                        cellItem.context.shouldConfigureAnimated = true
                         cellItem.configure(cell)
-                        cellItem.configure(cell, animated: configureAnimated)
+                        cellItem.context.shouldConfigureAnimated = false
                     }
                     else {                        
                         indexPaths.append(indexPath)
@@ -745,8 +746,9 @@ open class CollectionViewManager: NSObject {
             for cellItem in sectionItem.cellItems {
                 if let indexPath = cellItem.indexPath,
                     let cell = collectionView.cellForItem(at: indexPath) {
+                    cellItem.context.shouldConfigureAnimated = true
                     cellItem.configure(cell)
-                    cellItem.configure(cell, animated: animated)
+                    cellItem.context.shouldConfigureAnimated = false
                 }
             }
         }
