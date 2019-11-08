@@ -33,7 +33,28 @@ public protocol CollectionViewSizeCellItem: AnyObject {
 // MARK: - CollectionViewConfigureCellItem
 
 public protocol CollectionViewConfigureCellItem: AnyObject {
+
+    /// Use this property to disable default animation of UICollectionView when cell items replaced using `replace` function of `CollectionViewManager`.
+    var isReplacementAnimationEnabled: Bool { get }
+
+    /// Use this function to configure cell.
+    ///
+    /// - Parameters:
+    ///   - cell: Configurable cell
     func configure(_ cell: UICollectionViewCell)
+}
+
+public extension CollectionViewConfigureCellItem {
+    var isReplacementAnimationEnabled: Bool {
+        return true
+    }
+}
+
+final class CollectionViewCellItemContext {
+    weak var collectionView: UICollectionView?
+    weak var sectionItem: CollectionViewSectionItem?
+    var indexPath: IndexPath?
+    var shouldConfigureAnimated: Bool = false
 }
 
 // MARK: - CollectionViewSiblingCellItem
@@ -43,47 +64,58 @@ public protocol CollectionViewSiblingItem: AnyObject {
     var indexPath: IndexPath? { get set }
     var sectionItem: CollectionViewSectionItem? { get set }
     var cell: UICollectionViewCell? { get }
+    var shouldConfigureAnimated: Bool { get }
 }
 
 extension CollectionViewSiblingItem {
+
+    var context: CollectionViewCellItemContext {
+        if let object = objc_getAssociatedObject(self, &AssociatedKeys.cellItemContext) as? CollectionViewCellItemContext {
+            return object
+        }
+        let context = CollectionViewCellItemContext()
+        objc_setAssociatedObject(self, &AssociatedKeys.cellItemContext, context, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        return context
+    }
+
     public weak var collectionView: UICollectionView? {
         get {
-            if let object = objc_getAssociatedObject(self, &AssociatedKeys.collectionView) as? UICollectionView {
-                return object
+            if let collectionView = context.collectionView {
+                return collectionView
             }
             printContextWarning("We found out that collectionView property for \(self) is nil")
             return nil
         }
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.collectionView, newValue, .OBJC_ASSOCIATION_ASSIGN)
+            context.collectionView = newValue
         }
     }
 
     /// An indexPath associated with the cellItem
     public var indexPath: IndexPath? {
         get {
-            if let object = objc_getAssociatedObject(self, &AssociatedKeys.indexPath) as? IndexPath {
-                return object
+            if let indexPath = context.indexPath {
+                return indexPath
             }
             printContextWarning("We found out that indexPath property for \(self) is nil")
             return nil
         }
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.indexPath, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            context.indexPath = newValue
         }
     }
 
     /// A sectionItem in what the cellItem placed
     public weak var sectionItem: CollectionViewSectionItem? {
         get {
-            if let object = objc_getAssociatedObject(self, &AssociatedKeys.sectionItem) as? CollectionViewSectionItem {
-                return object
+            if let sectionItem = context.sectionItem {
+                return sectionItem
             }
             printContextWarning("We found out that sectionItem property for \(self) is nil")
             return nil
         }
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.sectionItem, newValue, .OBJC_ASSOCIATION_ASSIGN)
+            context.sectionItem = newValue
         }
     }
 
@@ -93,6 +125,11 @@ extension CollectionViewSiblingItem {
             return collectionView?.cellForItem(at: indexPath)
         }
         return nil
+    }
+
+    /// Use this property to detect if cell should be configured with animation (for example you can use it for nested collection).
+    public var shouldConfigureAnimated: Bool {
+        return context.shouldConfigureAnimated
     }
 }
 
@@ -156,10 +193,7 @@ private enum AssociatedKeys {
     static var didEndDisplayingCellHandler = "rsb_didEndDisplayingCellHandler"
     static var didEndDisplayingViewHandler = "rsb_didEndDisplayingViewHandler"
     static var canMoveHandler = "rsb_canMoveHandler"
-
-    static var collectionView = "rsb_collectionView"
-    static var indexPath = "rsb_indexPath"
-    static var sectionItem = "rsb_sectionItem"
+    static var cellItemContext = "rsb_cellItemContext"
 }
 
 public extension CollectionViewGeneralCellItem {

@@ -10,7 +10,8 @@ public enum ReuseType {
     case storyboardIdentifier(String)
     case nib(UINib, identifier: String)
     case `class`(UICollectionReusableView.Type)
-    
+    case classWithIdentifier(UICollectionReusableView.Type, identifier: String)
+
     public var identifier: String {
         switch self {
             case let .storyboardIdentifier(identifier):
@@ -19,6 +20,8 @@ public enum ReuseType {
                 return identifier
             case let .class(`class`):
                 return NSStringFromClass(`class`)
+            case let .classWithIdentifier(_, identifier):
+                return identifier
         }
     }
 }
@@ -29,7 +32,7 @@ public extension UICollectionView {
         switch type {
             case let .nib(nib, identifier):
                 register(nib, forCellWithReuseIdentifier: identifier)
-            case let .class(`class`):
+            case let .class(`class`), let .classWithIdentifier(`class`, _):
                 register(`class`, forCellWithReuseIdentifier: type.identifier)
             default:
                 break

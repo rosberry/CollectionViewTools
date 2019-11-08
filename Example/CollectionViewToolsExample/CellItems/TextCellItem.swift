@@ -4,34 +4,70 @@
 
 import CollectionViewTools
 
-final class TextCellItem: CollectionViewCellItem {
+final class TextCellItem: CollectionViewDiffCellItem {
     
     private typealias Cell = TextCollectionViewCell
+
+    private static let sizeCell: Cell = .init()
+
     private(set) var reuseType: ReuseType = .class(Cell.self)
-    private let text: String
-    
-    init(text: String) {
+
+    let text: String
+    let backgroundColor: UIColor
+    let font: UIFont
+    let roundCorners: Bool
+    let contentRelatedWidth: Bool
+
+    init(text: String,
+         backgroundColor: UIColor = .white,
+         font: UIFont = .systemFont(ofSize: 12),
+         roundCorners: Bool = false,
+         contentRelatedWidth: Bool = true) {
         self.text = text
+        self.backgroundColor = backgroundColor
+        self.font = font
+        self.roundCorners = roundCorners
+        self.contentRelatedWidth = contentRelatedWidth
     }
-    
-    deinit {
-        print("\(self) deinit")
-    }
-    
+
     func configure(_ cell: UICollectionViewCell) {
         guard let cell = cell as? Cell else {
             return
         }
+        cell.contentView.backgroundColor = backgroundColor
+        cell.contentView.layer.cornerRadius = roundCorners ? 4 : 0
+        cell.titleLabel.font = font
         cell.titleLabel.text = text
     }
-    
-    private static let sizeCell: Cell = .init()
+
     func size(in collectionView: UICollectionView, sectionItem: CollectionViewSectionItem) -> CGSize {
         let cell: Cell = type(of: self).sizeCell
         configure(cell)
-        let cellSize = cell.sizeThatFits(.init(width: collectionView.bounds.size.width,
-                                               height: .greatestFiniteMagnitude))
-        return .init(width: cellSize.width + 2 * 12,
-                     height: (collectionView.bounds.height) / 1.4)
+        let cellSize = cell.sizeThatFits(.init(width: collectionView.bounds.size.width, height: .greatestFiniteMagnitude))
+        let contentInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        let height = cellSize.height + contentInsets.top + contentInsets.bottom
+        if contentRelatedWidth {
+            return .init(width: cellSize.width + contentInsets.left + contentInsets.right, height: height)
+        }
+        else {
+            let sectionInsets = sectionItem.insets
+            return .init(width: collectionView.bounds.width - sectionInsets.left - sectionInsets.right,
+                         height: height)
+        }
+    }
+
+    // MARK: - DiffItem
+
+    var diffIdentifier: String = ""
+
+    func isEqual(to item: DiffItem) -> Bool {
+        guard let item = item as? TextCellItem else {
+            return false
+        }
+        return text == item.text
+            && backgroundColor == item.backgroundColor
+            && font == item.font
+            && roundCorners == item.roundCorners
+            && contentRelatedWidth == item.contentRelatedWidth
     }
 }

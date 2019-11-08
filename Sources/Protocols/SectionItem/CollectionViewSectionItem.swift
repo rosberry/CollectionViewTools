@@ -8,7 +8,7 @@ import UIKit.UICollectionView
 import ObjectiveC.runtime
 
 public protocol CollectionViewSectionItem: CollectionViewSiblingSectionItem {
-    var cellItems: [CollectionViewManager.CellItem] { get set }
+    var cellItems: [CollectionViewCellItem] { get set }
     var reusableViewItems: [CollectionViewReusableViewItem] { get set }
     
     var minimumLineSpacing: CGFloat { get set }
@@ -24,7 +24,7 @@ public protocol CollectionViewSiblingSectionItem: AnyObject {
 }
 
 extension CollectionViewSiblingSectionItem {
-    public weak var collectionView: UICollectionView? {
+    public var collectionView: UICollectionView? {
         get {
             if let object = objc_getAssociatedObject(self, &AssociatedKeys.collectionView) as? UICollectionView {
                 return object
