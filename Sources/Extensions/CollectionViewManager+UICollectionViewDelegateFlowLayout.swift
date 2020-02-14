@@ -15,7 +15,15 @@ extension CollectionViewManager: UICollectionViewDelegateFlowLayout {
               let sectionItem = cellItem.sectionItem else {
             return .zero
         }
-        return cellItem.size(in: collectionView, sectionItem: sectionItem)
+        let size: CGSize
+        if let cachedSize = cellItem.cachedSize {
+            size = cachedSize
+        }
+        else {
+            size = cellItem.size(in: collectionView, sectionItem: sectionItem)
+            cellItem.cachedSize = size
+        }
+        return size
     }
     
     open func collectionView(_ collectionView: UICollectionView,
