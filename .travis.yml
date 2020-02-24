@@ -4,6 +4,7 @@ osx_image: xcode10.2
 before_install:
   - brew update
   - brew outdated xctool || brew upgrade xctool
+  - brew install carthage
 
 env:
   global:
@@ -12,10 +13,9 @@ env:
     - IOS_SDK=iphonesimulator
 
   matrix:
-    - DESTINATION="OS=10.1,name=iPhone 7 Plus"
-    - DESTINATION="OS=11.0.1,name=iPhone X"
-    - DESTINATION="OS=12.0,name=iPhone XS Max"
+    - DESTINATION="OS=13.0,name=iPhone 11"
 
 script:
   - set -o pipefail
+  - carthage bootstrap --platform iOS
   - xcodebuild -project "$PROJECT" -scheme "$IOS_FRAMEWORK_SCHEME" -sdk "$IOS_SDK" -destination "$DESTINATION" build test | xcpretty -c --test --color
