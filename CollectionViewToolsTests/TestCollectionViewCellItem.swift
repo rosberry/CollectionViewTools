@@ -9,7 +9,6 @@
 final class TestCollectionViewCellItem: CollectionViewCellItem {
 
     let reuseType: ReuseType = .class(TestCollectionViewCell.self)
-    let height: CGFloat = 80
 
     var text: String
     let selectedText: String
