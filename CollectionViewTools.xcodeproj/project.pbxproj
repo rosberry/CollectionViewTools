@@ -7,12 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0143C23023F6672B00592288 /* TestCollectionVIewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143C22F23F6672B00592288 /* TestCollectionVIewCell.swift */; };
+		0143C23223F667B200592288 /* TestCollectionViewCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143C23123F667B200592288 /* TestCollectionViewCellItem.swift */; };
 		015A8AA7231394B7002600FF /* UniversalCollectionViewCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A8AA6231394B7002600FF /* UniversalCollectionViewCellItem.swift */; };
 		015A8AA9231394FC002600FF /* AssociatedCellItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A8AA8231394FC002600FF /* AssociatedCellItemFactory.swift */; };
 		015A8AAB23139525002600FF /* ComplexCellItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A8AAA23139525002600FF /* ComplexCellItemFactory.swift */; };
+		017ABDB323F6853D00A5AE34 /* TestReusableViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017ABDB223F6853D00A5AE34 /* TestReusableViewItem.swift */; };
+		017ABDB523F6856700A5AE34 /* TestReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017ABDB423F6856700A5AE34 /* TestReusableView.swift */; };
 		01929DAC22F190B8004D5605 /* CellItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01929DAB22F190B7004D5605 /* CellItemFactory.swift */; };
+		01F2086323F67657009B069E /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F2086223F67657009B069E /* TestViewController.swift */; };
 		0A37632F1F6251A600A80613 /* CollectionViewTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3763251F6251A600A80613 /* CollectionViewTools.framework */; };
-		0A3763341F6251A600A80613 /* CollectionViewToolsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763331F6251A600A80613 /* CollectionViewToolsTests.swift */; };
+		0A3763341F6251A600A80613 /* CollectionViewManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763331F6251A600A80613 /* CollectionViewManagerTests.swift */; };
 		0A3763671F62545A00A80613 /* ClosureWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763521F62545A00A80613 /* ClosureWrapper.swift */; };
 		0A3763681F62545A00A80613 /* CollectionViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763531F62545A00A80613 /* CollectionViewManager.swift */; };
 		0A3763691F62545A00A80613 /* CollectionViewTools.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A3763541F62545A00A80613 /* CollectionViewTools.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -50,14 +55,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0143C22F23F6672B00592288 /* TestCollectionVIewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCollectionVIewCell.swift; sourceTree = "<group>"; };
+		0143C23123F667B200592288 /* TestCollectionViewCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCollectionViewCellItem.swift; sourceTree = "<group>"; };
 		015A8AA6231394B7002600FF /* UniversalCollectionViewCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalCollectionViewCellItem.swift; sourceTree = "<group>"; };
 		015A8AA8231394FC002600FF /* AssociatedCellItemFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssociatedCellItemFactory.swift; sourceTree = "<group>"; };
 		015A8AAA23139525002600FF /* ComplexCellItemFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexCellItemFactory.swift; sourceTree = "<group>"; };
+		017ABDB223F6853D00A5AE34 /* TestReusableViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestReusableViewItem.swift; sourceTree = "<group>"; };
+		017ABDB423F6856700A5AE34 /* TestReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestReusableView.swift; sourceTree = "<group>"; };
 		01929DAB22F190B7004D5605 /* CellItemFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellItemFactory.swift; sourceTree = "<group>"; };
+		01F2086223F67657009B069E /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		06B2AE0E21F6FFE8004A9CBB /* CollectionViewTools.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = CollectionViewTools.podspec; sourceTree = "<group>"; };
 		0A3763251F6251A600A80613 /* CollectionViewTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CollectionViewTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A37632E1F6251A600A80613 /* CollectionViewToolsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CollectionViewToolsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0A3763331F6251A600A80613 /* CollectionViewToolsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewToolsTests.swift; sourceTree = "<group>"; };
+		0A3763331F6251A600A80613 /* CollectionViewManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewManagerTests.swift; sourceTree = "<group>"; };
 		0A3763351F6251A600A80613 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A3763521F62545A00A80613 /* ClosureWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClosureWrapper.swift; sourceTree = "<group>"; };
 		0A3763531F62545A00A80613 /* CollectionViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewManager.swift; sourceTree = "<group>"; };
@@ -129,8 +139,13 @@
 		0A3763321F6251A600A80613 /* CollectionViewToolsTests */ = {
 			isa = PBXGroup;
 			children = (
-				0A3763331F6251A600A80613 /* CollectionViewToolsTests.swift */,
 				0A3763351F6251A600A80613 /* Info.plist */,
+				0A3763331F6251A600A80613 /* CollectionViewManagerTests.swift */,
+				0143C22F23F6672B00592288 /* TestCollectionVIewCell.swift */,
+				0143C23123F667B200592288 /* TestCollectionViewCellItem.swift */,
+				01F2086223F67657009B069E /* TestViewController.swift */,
+				017ABDB223F6853D00A5AE34 /* TestReusableViewItem.swift */,
+				017ABDB423F6856700A5AE34 /* TestReusableView.swift */,
 			);
 			path = CollectionViewToolsTests;
 			sourceTree = "<group>";
@@ -290,6 +305,7 @@
 				0A37632A1F6251A600A80613 /* Sources */,
 				0A37632B1F6251A600A80613 /* Frameworks */,
 				0A37632C1F6251A600A80613 /* Resources */,
+				0143C23323F6735A00592288 /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -362,6 +378,30 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0143C23323F6735A00592288 /* Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/DeepDiff.framework",
+			);
+			name = Carthage;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/DeepDiff.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0A3763201F6251A600A80613 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -401,7 +441,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A3763341F6251A600A80613 /* CollectionViewToolsTests.swift in Sources */,
+				01F2086323F67657009B069E /* TestViewController.swift in Sources */,
+				0143C23023F6672B00592288 /* TestCollectionVIewCell.swift in Sources */,
+				017ABDB523F6856700A5AE34 /* TestReusableView.swift in Sources */,
+				0143C23223F667B200592288 /* TestCollectionViewCellItem.swift in Sources */,
+				017ABDB323F6853D00A5AE34 /* TestReusableViewItem.swift in Sources */,
+				0A3763341F6251A600A80613 /* CollectionViewManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -588,6 +633,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = GPVA8JVMU3;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				INFOPLIST_FILE = CollectionViewToolsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewToolsTests;
@@ -601,6 +647,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = GPVA8JVMU3;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				INFOPLIST_FILE = CollectionViewToolsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewToolsTests;
