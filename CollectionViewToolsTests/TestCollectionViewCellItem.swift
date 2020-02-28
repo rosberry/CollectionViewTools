@@ -40,10 +40,7 @@ final class TestCollectionViewCellItem: CollectionViewCellItem {
         }
 
         itemDidUnhighlightHandler = itemDidDeselectHandler
-
-        itemCanMoveResolver = { _ in
-            return true
-        }
+        itemCanMoveResolver = nil
     }
 
 

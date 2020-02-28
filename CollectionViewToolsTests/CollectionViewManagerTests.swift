@@ -66,16 +66,40 @@ class CollectionViewToolsTests: XCTestCase {
         let selectedStrings = ["one", "two", "three"]
         let indexPath = IndexPath(item: 0, section: 0)
         // When
-        let cellItems = zip(strings, selectedStrings).map { string, selectedString in
-            TestCollectionViewCellItem(text: string, selectedText: selectedString)
+        let cellItems = zip(strings, selectedStrings).map { string, selectedString -> TestCollectionViewCellItem in
+            let cellItem = TestCollectionViewCellItem(text: string, selectedText: selectedString)
+            cellItem.itemShouldSelectResolver = { _ in
+                return false
+            }
+            cellItem.itemShouldDeselectResolver = { _ in
+               return false
+            }
+            return cellItem
         }
         viewController.manager.sectionItems = [GeneralCollectionViewSectionItem(cellItems: cellItems)]
         wait(for: [expectation], timeout: 10)
         let cell = viewController.collectionView.cellForItem(at: indexPath) as? TestCollectionViewCell
         //Then
 
+        XCTAssertFalse(viewController.manager.collectionView(viewController.collectionView, shouldSelectItemAt: indexPath),
+                      "Cell should not be selectible")
+        XCTAssertFalse(viewController.manager.collectionView(viewController.collectionView, shouldDeselectItemAt: indexPath),
+                      "Cell should not be deselectible")
+
+        cellItems.forEach { cellItem in
+            cellItem.itemShouldSelectResolver = { _ in
+                return true
+            }
+            cellItem.itemShouldDeselectResolver = { _ in
+                return true
+            }
+        }
+
         XCTAssertTrue(viewController.manager.collectionView(viewController.collectionView, shouldSelectItemAt: indexPath),
                       "Cell should be selectible")
+        XCTAssertTrue(viewController.manager.collectionView(viewController.collectionView, shouldDeselectItemAt: indexPath),
+                      "Cell should be deselectible")
+
         XCTAssertTrue(viewController.manager.collectionView(viewController.collectionView, shouldSelectItemAt: IndexPath(item: 0, section: 1)),
                                     "Cell should not be selectible")
         viewController.manager.collectionView(viewController.collectionView, didSelectItemAt: indexPath)
@@ -94,15 +118,26 @@ class CollectionViewToolsTests: XCTestCase {
         let highlightedStrings = ["one", "two", "three"]
         let indexPath = IndexPath(item: 0, section: 0)
         // When
-        let cellItems = zip(strings, highlightedStrings).map { string, highlightedString in
-            TestCollectionViewCellItem(text: string, highlightedText: highlightedString)
+        let cellItems = zip(strings, highlightedStrings).map { string, highlightedString -> TestCollectionViewCellItem in
+            let cellItem = TestCollectionViewCellItem(text: string, highlightedText: highlightedString)
+            cellItem.itemShouldHighlightResolver = { _ in
+                return false
+            }
+            return cellItem
         }
         viewController.manager.sectionItems = [GeneralCollectionViewSectionItem(cellItems: cellItems)]
         wait(for: [expectation], timeout: 10)
         let cell = viewController.collectionView.cellForItem(at: indexPath) as? TestCollectionViewCell
         //Then
+        XCTAssertFalse(viewController.manager.collectionView(viewController.collectionView, shouldHighlightItemAt: indexPath),
+                      "Cell should not be highlightable")
+        cellItems.forEach { cellItem in
+            cellItem.itemShouldHighlightResolver = { _ in
+                return true
+            }
+        }
         XCTAssertTrue(viewController.manager.collectionView(viewController.collectionView, shouldHighlightItemAt: indexPath),
-                      "Cell should be highlightable")
+        "Cell should be highlightable")
         XCTAssertFalse(viewController.manager.collectionView(viewController.collectionView, shouldHighlightItemAt: IndexPath(item: 0, section: 1)),
                     "Cell should not be highlightable")
         viewController.manager.collectionView(viewController.collectionView, didHighlightItemAt: indexPath)
@@ -126,7 +161,7 @@ class CollectionViewToolsTests: XCTestCase {
         wait(for: [expectation], timeout: 10)
         viewController.manager.sectionItems = []
         //Then
-        XCTAssertEqual(viewController.collectionView.visibleCells.count, 0, "All cell should be removed")
+        XCTAssertEqual(viewController.collectionView.visibleCells.count, 0)
         let view = viewController.collectionView.visibleSupplementaryViews(ofKind: kind).first as? TestReusableView
         XCTAssertNil(view, "View should be removed")
     }
@@ -144,7 +179,13 @@ class CollectionViewToolsTests: XCTestCase {
         viewController.manager.sectionItems = [sectionItem]
         //Then
         wait(for: [expectation], timeout: 10)
-        XCTAssertTrue(viewController.manager.collectionView(viewController.collectionView, canMoveItemAt: indexPath), "Cell should be movable")
+        XCTAssertFalse(viewController.manager.collectionView(viewController.collectionView, canMoveItemAt: indexPath))
+        cellItems.forEach { cellItem in
+            cellItem.itemCanMoveResolver = { _ in
+                return true
+            }
+        }
+        XCTAssertTrue(viewController.manager.collectionView(viewController.collectionView, canMoveItemAt: indexPath))
         viewController.manager.move(cellItemAt: 0, to: 1, in: sectionItem)
         let cell = viewController.collectionView.cellForItem(at: indexPath1) as? TestCollectionViewCell
         XCTAssertEqual(cell?.text, strings[0], "Cell text should be '\(strings[0])'")
@@ -459,7 +500,6 @@ class CollectionViewToolsTests: XCTestCase {
         let cellItem2 = TestCollectionViewCellItem(text: "2")
         let cellItem3 = TestCollectionViewCellItem(text: "3")
         let cellItem4 = TestCollectionViewCellItem(text: "4")
-        let cellItem5 = TestCollectionViewCellItem(text: "5")
 
         let sectionItem1 = GeneralCollectionViewSectionItem(cellItems: [cellItem1, cellItem2])
         let sectionItem2 = GeneralCollectionViewSectionItem(cellItems: [cellItem3, cellItem4])
@@ -498,6 +538,70 @@ class CollectionViewToolsTests: XCTestCase {
             sectionExpectation2.fulfill()
         }
         XCTAssertEqual(viewController.collectionView.numberOfSections, 0)
+    }
+
+    func testGetters() {
+        // Given
+        let cellItem = TestCollectionViewCellItem(text: "")
+        XCTAssertNil(cellItem.sectionItem)
+        XCTAssertNil(cellItem.indexPath)
+        let sectionItem = GeneralCollectionViewSectionItem(cellItems: [cellItem])
+        XCTAssertNil(sectionItem.collectionView)
+        XCTAssertNil(cellItem.collectionView)
+        XCTAssertNil(cellItem.cell)
+        // When
+        viewController.manager.sectionItems = [sectionItem]
+        // Then
+        wait(for: [expectation], timeout: 10)
+        XCTAssertEqual(viewController.collectionView, sectionItem.collectionView)
+        XCTAssertEqual(viewController.collectionView, cellItem.collectionView)
+        XCTAssertEqual(cellItem.indexPath, IndexPath(item: 0, section: 0))
+        XCTAssertNotNil(cellItem.sectionItem)
+        XCTAssertNotNil(cellItem.cell)
+    }
+
+    func testSetters() {
+        let viewItem = TestReusableViewItem(title: "")
+        let cellItem = TestCollectionViewCellItem(text: "")
+        let willDisplayCellHandler = cellItem.itemWillDisplayCellHandler
+        let willDisplayViewHandler = cellItem.itemWillDisplayViewHandler
+        let endDisplayingCellHandler = cellItem.itemDidEndDisplayingCellHandler
+        let endDisplayingViewHandler = cellItem.itemDidEndDisplayingViewHandler
+        let cellExpectation = XCTestExpectation(description: "Display cell expectation")
+        let viewExpectation = XCTestExpectation(description: "Display view expectation")
+        let cellExpectation2 = XCTestExpectation(description: "End displaying cell expectation")
+        let viewExpectation2 = XCTestExpectation(description: "End displaying view expectation")
+        // When
+        cellItem.itemWillDisplayViewHandler = {
+            willDisplayViewHandler?($0, $1, $2, $3)
+            viewExpectation.fulfill()
+        }
+        cellItem.itemWillDisplayCellHandler = {
+            willDisplayCellHandler?($0, $1)
+            cellExpectation.fulfill()
+        }
+        cellItem.itemDidEndDisplayingViewHandler = {
+            endDisplayingViewHandler?($0, $1, $2, $3)
+            viewExpectation2.fulfill()
+        }
+        cellItem.itemDidEndDisplayingCellHandler = {
+            endDisplayingCellHandler?($0, $1)
+            cellExpectation2.fulfill()
+        }
+        let sectionItem = GeneralCollectionViewSectionItem(cellItems: [cellItem], reusableViewItems: [viewItem])
+        viewController.manager.sectionItems = [sectionItem]
+        // Then
+        wait(for: [expectation, cellExpectation, viewExpectation], timeout: 10)
+        let expectation2 = XCTestExpectation(description: "Cells reloading")
+        viewController.manager.reloadCellItems([cellItem]) { _ in
+            expectation2.fulfill()
+        }
+        wait(for: [cellExpectation2, expectation2], timeout: 10)
+        let expectation3 = XCTestExpectation(description: "Cells removing")
+        viewController.manager.replace(sectionItemsAt: [0], with: [GeneralCollectionViewSectionItem(cellItems: [cellItem])]) { _ in
+            expectation3.fulfill()
+        }
+        wait(for: [viewExpectation2, expectation3], timeout: 10)
     }
 
     // MARK: - Private
