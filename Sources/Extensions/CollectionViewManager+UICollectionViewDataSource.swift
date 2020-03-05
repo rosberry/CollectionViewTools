@@ -16,7 +16,6 @@ extension CollectionViewManager: UICollectionViewDataSource {
         let cellItem = self.cellItem(for: indexPath)!
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellItem.reuseType.identifier, for: indexPath)
         cellItem.configure(cell)
-        cellItem.cachedSize = nil
         return cell
     }
     

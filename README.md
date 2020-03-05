@@ -95,6 +95,19 @@ class ExampleCollectionViewCellItem: CollectionViewCellItem {
 }
 ```
 
+#### Using cached size
+
+You can use cached size for optimisation. To do that you should return `cachedSize` value in `size` method. Keep in mind cached size will be set once and never be invalidated automatically so if you need to update cell size you should invalidate `cachedSize` by yourself.
+
+```swift
+    func invalidateCachedSize() {
+        cachedSize = nil
+    }
+    func size() -> CGSize {
+        return cachedSize ?? CGSize(width: 100, height: 40)
+    }
+```
+
 ## Diffs
 
 CollectionViewTools support "diffs". It means that `CollectionViewManager` can calculate difference between old and new section items and animate collection view sections and cells accordingly. 
