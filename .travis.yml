@@ -4,6 +4,7 @@ osx_image: xcode11
 before_install:
   - brew update
   - brew outdated xctool || brew upgrade xctool
+  - brew outdated carthage || brew upgrade carthage
 
 env:
   global:
@@ -16,4 +17,5 @@ env:
 
 script:
   - set -o pipefail
+  - carthage bootstrap --platform iOS
   - xcodebuild -project "$PROJECT" -scheme "$IOS_FRAMEWORK_SCHEME" -sdk "$IOS_SDK" -destination "$DESTINATION" build test | xcpretty -c --test --color
