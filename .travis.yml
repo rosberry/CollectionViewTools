@@ -1,5 +1,5 @@
 language: swift
-osx_image: xcode10.2
+osx_image: xcode11
 
 before_install:
   - brew update
@@ -12,9 +12,7 @@ env:
     - IOS_SDK=iphonesimulator
 
   matrix:
-    - DESTINATION="OS=10.1,name=iPhone 7 Plus"
-    - DESTINATION="OS=11.0.1,name=iPhone X"
-    - DESTINATION="OS=12.0,name=iPhone XS Max"
+    - DESTINATION="OS=13.0,name=iPhone 11"
 
 script:
   - set -o pipefail
