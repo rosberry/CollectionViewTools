@@ -187,6 +187,24 @@ class CollectionViewToolsTests: CollectionViewTests {
         XCTAssertEqual(cellItem3.indexPath, IndexPath(row: 1, section: 0))
     }
 
+    func testMoveItems() {
+        // Given
+        let indexPath1 = IndexPath(row: 0, section: 0)
+        let indexPath2 = IndexPath(row: 1, section: 0)
+        let cellItem1 = TestCollectionViewCellItem(text: "1")
+        let cellItem2 = TestCollectionViewCellItem(text: "2")
+
+        // When
+        viewController.manager.sectionItems = [GeneralCollectionViewSectionItem(cellItems: [cellItem1, cellItem2])]
+        // Then
+        wait(for: [expectation], timeout: 10)
+        var cell = testCell(indexPath: indexPath1)
+        XCTAssertEqual(cell?.text, cellItem1.text)
+        viewController.collectionView.moveItem(at: indexPath1, to: indexPath2)
+        cell = testCell(indexPath: indexPath1)
+        XCTAssertEqual(cell?.text, cellItem2.text)
+    }
+
     func testZoom() {
         //Given
         let delegate = TestScrollDelegate()
