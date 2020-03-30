@@ -27,13 +27,13 @@ public protocol CollectionViewReuseCellItem: AnyObject {
 // MARK: - CollectionViewSizeCellItem
 
 public protocol CollectionViewSizeCellItem: AnyObject {
+    var cachedSize: CGSize? { get set }
     func size(in collectionView: UICollectionView, sectionItem: CollectionViewSectionItem) -> CGSize
 }
 
 // MARK: - CollectionViewConfigureCellItem
 
 public protocol CollectionViewConfigureCellItem: AnyObject {
-
     /// Use this property to disable default animation of UICollectionView when cell items replaced using `replace` function of `CollectionViewManager`.
     var isReplacementAnimationEnabled: Bool { get }
 
@@ -65,6 +65,17 @@ public protocol CollectionViewSiblingItem: AnyObject {
     var sectionItem: CollectionViewSectionItem? { get set }
     var cell: UICollectionViewCell? { get }
     var shouldConfigureAnimated: Bool { get }
+}
+
+extension CollectionViewSizeCellItem {
+    public var cachedSize: CGSize? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.cellItemSize) as? CGSize
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.cellItemSize, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
 }
 
 extension CollectionViewSiblingItem {
@@ -194,6 +205,7 @@ private enum AssociatedKeys {
     static var didEndDisplayingViewHandler = "rsb_didEndDisplayingViewHandler"
     static var canMoveHandler = "rsb_canMoveHandler"
     static var cellItemContext = "rsb_cellItemContext"
+    static var cellItemSize = "rsb_cellItemSize"
 }
 
 public extension CollectionViewGeneralCellItem {
