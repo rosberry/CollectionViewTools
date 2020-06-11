@@ -6,11 +6,11 @@
 
 import UIKit
 
-public final class UniversalCollectionViewCellItem<T: UICollectionViewCell>: CollectionViewCellItem {
+public final class UniversalCollectionViewCellItem<T: UICollectionViewCell>: CollectionViewCellItem, DiffItem {
     
     public let reuseType = ReuseType.class(T.self)
-    
     public var context = [String: Any]()
+    public lazy var diffIdentifier: String = .init(describing: self)
     
     /// Set this handler to configure the cell
     ///
@@ -37,5 +37,9 @@ public final class UniversalCollectionViewCellItem<T: UICollectionViewCell>: Col
     
     public func size(in collectionView: UICollectionView, sectionItem: CollectionViewSectionItem) -> CGSize {
         return sizeConfigurationHandler?(collectionView, sectionItem) ?? .zero
+    }
+
+    public func isEqual(to item: DiffItem) -> Bool {
+        diffIdentifier == item.diffIdentifier
     }
 }

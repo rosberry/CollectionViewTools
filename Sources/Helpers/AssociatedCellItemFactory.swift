@@ -28,7 +28,7 @@ public class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
     /// - Parameters:
     ///    - Any: the object associated with a cell item
     ///    - CollectionViewCellItem: a cell item that should be cofigured
-    public var cellItemConfigurationHandler: ((Int, U, CollectionViewCellItem) -> Void)?
+    public var cellItemConfigurationHandler: ((Int, U, UniversalCollectionViewCellItem<T>) -> Void)?
     
     /// Set this handler to configure the cell
     ///
@@ -36,7 +36,7 @@ public class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
     ///    - Any: the object associated with a cell item
     ///    - UICollectionViewCell: the cell that should be configured
     ///    - CollectionViewCellItem: the cell item that performs a cell configuration
-    public var cellConfigurationHandler: ((U, T, CollectionViewCellItem) -> Void)?
+    public var cellConfigurationHandler: ((U, T, UniversalCollectionViewCellItem<T>) -> Void)?
     
     public init() {
     }
