@@ -60,7 +60,7 @@ public class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
     /// - Parameters:
     ///    - object: an object to create a cell item for it
     ///    - index: the index of the object in the array
-    public func makeUniversalCellItem(object: U, index: Int) -> CollectionViewCellItem {
+    public func makeUniversalCellItem(object: U, index: Int) -> UniversalCollectionViewCellItem<T> {
         let cellItem = UniversalCollectionViewCellItem<T>()
         cellItem.configurationHandler = { [weak self] cell in
             guard let self = self else {

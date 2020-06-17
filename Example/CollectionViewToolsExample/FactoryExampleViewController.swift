@@ -35,63 +35,80 @@ final class FactoryExampleViewController: UIViewController {
                        TextData(text: "Foursh topic", description: "Foursh topic description"),
                        ImageData(image: #imageLiteral(resourceName: "nightlife-5"), description: "Fifth image description"),
                        TextData(text: "Fifth topic", description: "Fifth topic description")]
-    
-    private lazy var unfoldedItemsFactory: CellItemFactory = {
-        let factory = AssociatedCellItemFactory<HasDescriptionProtocol, TextCollectionViewCell>()
-        let sizeCell = TextCollectionViewCell()
-        
-        factory.cellConfigurationHandler = { data, cell, cellItem in
-            cell.titleLabel.text = data.description
-        }
 
+
+    private lazy var mainCollectionViewManager: CollectionViewManager = .init(collectionView: mainCollectionView)
+
+    private lazy var imageCellItemFactory: CellItemFactory = {
+        let factory: AssociatedCellItemFactory<ImageData, ImageCollectionViewCell> = makeFactory(id: "image")
+        factory.cellConfigurationHandler = { data, cell, cellItem in
+            cell.imageView.image = data.image
+            cell.removeActionHandler = {
+                self.data.removeAll { selectedData in
+                    selectedData.description == data.description
+                }
+                self.resetMainCollection()
+            }
+        }
         factory.sizeConfigurationHandler = { data, collectionView, sectionItem in
             let width = collectionView.bounds.width
-            sizeCell.titleLabel.text = data.description
-            let height = sizeCell.sizeThatFits(CGSize(width: width, height: .greatestFiniteMagnitude)).height
-            return CGSize(width: width, height: height + 48)
+            let aspectRatio = data.image.size.width / data.image.size.height
+            return CGSize(width: width, height: width / aspectRatio)
         }
         return factory
     }()
-    
-    private lazy var cellItemFactory: CellItemFactory = {
-        let textCellItemFactory: CellItemFactory = {
-            let factory: AssociatedCellItemFactory<TextData, TextCollectionViewCell> = makeFactory()
-            
-            factory.cellConfigurationHandler = { data, cell, cellItem in
-                cell.titleLabel.text = data.text
-            }
-            
-            factory.sizeConfigurationHandler = { data, collectionView, sectionItem in
-                return CGSize(width: collectionView.bounds.width, height: 60)
-            }
-            
-            return factory
-        }()
-        
-        let imageCellItemFactory: CellItemFactory = {
-            let factory: AssociatedCellItemFactory<ImageData, ImageCollectionViewCell> = makeFactory()
-            
-            factory.cellConfigurationHandler = { data, cell, cellItem in
-                cell.imageView.image = data.image
-                cell.removeActionHandler = { [weak self] in
-                    self?.remove(cellItem)
-                }
-            }
-            
-            factory.sizeConfigurationHandler = { data, collectionView, sectionItem in
-                let width = collectionView.bounds.width
-                let aspectRatio = data.image.size.width / data.image.size.height
-                return CGSize(width: width, height: width / aspectRatio)
-            }
-            
-            return factory
-        }()
-        return textCellItemFactory.factory(byJoining: imageCellItemFactory)
+
+    private lazy var textCellItemFactory: CellItemFactory = {
+        let factory: AssociatedCellItemFactory<TextData, TextCollectionViewCell> = makeFactory(id: "text")
+        factory.cellConfigurationHandler = { data, cell, cellItem in
+            cell.titleLabel.text = data.text
+        }
+        factory.sizeConfigurationHandler = { data, collectionView, sectionItem in
+            CGSize(width: collectionView.bounds.width, height: 60)
+        }
+        return factory
     }()
 
-    private lazy var mainCollectionViewManager: CollectionViewManager = .init(collectionView: mainCollectionView)
-    private var unfoldedIndices = [Int]()
-    private lazy var spaceItem = UniversalCollectionViewCellItem<DividerCell>()
+    private lazy var descriptionCellItemFactory: CellItemFactory = {
+        let factory = AssociatedCellItemFactory<HasDescriptionProtocol, TextCollectionViewCell>()
+        factory.cellItemConfigurationHandler = { index, data, cellItem in
+            cellItem.diffIdentifier = "description:\(data.description)"
+            cellItem.itemDidSelectHandler = { _ in
+                if let index = self.indexInUnfolded(of: data) {
+                    self.unfoldedData.remove(at: index)
+                }
+                self.resetMainCollection()
+            }
+        }
+        factory.cellConfigurationHandler = { data, cell, cellItem in
+            cell.titleLabel.text = data.description
+        }
+        factory.sizeConfigurationHandler = { data, collectionView, sectionItem in
+            CGSize(width: collectionView.bounds.width, height: 60)
+        }
+        return factory
+    }()
+
+    private lazy var separatorCellItemFactory: CellItemFactory = {
+        let factory = AssociatedCellItemFactory<HasDescriptionProtocol, DividerCell>()
+        factory.cellItemConfigurationHandler = { index, data, cellItem in
+            cellItem.diffIdentifier = "separator:\(data.description)"
+        }
+        factory.cellConfigurationHandler = { _, cell, _ in
+            cell.dividerView.backgroundColor = .lightGray
+            cell.dividerInsets = .init(top: 9, left: 0, bottom: 0, right: 0)
+        }
+        factory.sizeConfigurationHandler = { data, collectionView, sectionItem in
+            CGSize(width: collectionView.bounds.width, height: 20)
+        }
+        return factory
+    }()
+
+    private lazy var cellItemFactory: CellItemFactory = {
+        imageCellItemFactory.factory(byJoining: textCellItemFactory)
+    }()
+
+    private var unfoldedData: [HasDescriptionProtocol] = []
     
     // MARK: Subviews
     
@@ -122,78 +139,50 @@ final class FactoryExampleViewController: UIViewController {
     // MARK: - Private
     
     private func resetMainCollection() {
-        mainCollectionViewManager.update([makeGeneralSectionItem()], shouldReloadData: true) {
-            print("Reload complete")
+        let sectionItems = [makeGeneralSectionItem()]
+        if mainCollectionViewManager.sectionItems.isEmpty {
+            mainCollectionViewManager.sectionItems = sectionItems
         }
-        mainCollectionView.contentOffset = .zero
-    }
-    
-    private func makeGeneralSectionItem() -> CollectionViewSectionItem {
-        let cellItems = cellItemFactory.makeCellItems(array: data)
-        return GeneralCollectionViewSectionItem(cellItems: cellItems)
-    }
-    
-    private func makeFactory<U: Any, T: UICollectionViewCell>() -> AssociatedCellItemFactory<U, T> {
-        let factory = AssociatedCellItemFactory<U, T>()
-        spaceItem.configurationHandler = { cell in
-            cell.dividerView.backgroundColor = .gray
-            cell.dividerInsets = .init(top: 0, left: 0, bottom: 8, right: 0)
+        else {
+            mainCollectionViewManager.update(with: sectionItems, animated: true)
         }
-        spaceItem.sizeConfigurationHandler = { collectionView, _ in
-            return CGSize(width: collectionView.bounds.width, height: 16)
-        }
-        factory.initializationHandler = { [weak factory, weak self] index, data in
-            guard let self = self, let factory = factory else {
-                return []
-            }
-            return self.initializeCellItems(with: data, at: index, using: factory)
-        }
-        
-        return factory
-    }
-    
-    private func initializeCellItems<U: Any, T: UICollectionViewCell>(with data: U,
-                                                                      at index: Int,
-                                                                      using factory: AssociatedCellItemFactory<U, T>) ->[CollectionViewCellItem?] {
-        let mainCellItem = factory.makeUniversalCellItem(object: data, index: index)
-        if let descriptionItem = unfoldedItemsFactory.makeCellItems(object: data, index: index).first {
-            mainCellItem.itemDidSelectHandler = { _ in
-                if let position = self.unfoldedIndices.firstIndex(of: index) {
-                    self.unfoldedIndices.remove(at: position)
-                    self.mainCollectionViewManager.remove([descriptionItem])
-                }
-                else {
-                    self.unfoldedIndices.append(index)
-                    if let sectionItem = mainCellItem.sectionItem,
-                        let startIndex = mainCellItem.indexPath?.row {
-                        self.mainCollectionViewManager.insert([descriptionItem], to: sectionItem, at: [startIndex + 1])
-                    }
-                }
-            }
-        }
-        return [mainCellItem, spaceItem]
     }
 
-    private func remove(_ cellItem: CollectionViewCellItem?) {
-        guard let cellItem = cellItem else {
-            return
+    private func indexInUnfolded(of data: HasDescriptionProtocol) -> Int? {
+        unfoldedData.firstIndex { unfoldedData in
+            unfoldedData.description == data.description
         }
-        mainCollectionViewManager.remove([cellItem])
-        guard let indexPath = cellItem.indexPath else {
-            mainCollectionViewManager.remove([cellItem])
-            return
+    }
+    
+    private func makeGeneralSectionItem() -> CollectionViewDiffSectionItem {
+        let cellItems = cellItemFactory.makeCellItems(array: data)
+        return GeneralCollectionViewDiffSectionItem(cellItems: cellItems)
+    }
+
+    private func makeFactory<U: HasDescriptionProtocol, T: UICollectionViewCell>(id: String) -> AssociatedCellItemFactory<U, T> {
+        let factory = AssociatedCellItemFactory<U, T>()
+        factory.cellItemConfigurationHandler = { index, data, cellItem in
+            cellItem.itemDidSelectHandler = { _ in
+                if let index = self.indexInUnfolded(of: data) {
+                    self.unfoldedData.remove(at: index)
+                }
+                else {
+                    self.unfoldedData.append(data)
+                }
+                self.resetMainCollection()
+            }
         }
-        let secton = mainCollectionViewManager.sectionItems[indexPath.section]
-        let dividerIndex = indexPath.row + 1
-        guard secton.cellItems.count > dividerIndex else {
-            mainCollectionViewManager.remove([cellItem])
-            return
+        factory.initializationHandler = { index, data in
+            let cellItem = factory.makeUniversalCellItem(object: data, index: index)
+            cellItem.diffIdentifier = "\(id):\(data.description)"
+            let separatorCellItem = self.separatorCellItemFactory.makeCellItems(array: [data])[0]
+            guard self.indexInUnfolded(of: data) != nil else {
+                return [cellItem, separatorCellItem]
+            }
+            let descriptionCellItem = self.descriptionCellItemFactory.makeCellItems(array: [data])[0]
+            return [cellItem, descriptionCellItem, separatorCellItem]
         }
-        guard let separatorCellItem = secton.cellItems[dividerIndex] as?  UniversalCollectionViewCellItem<DividerCell> else {
-            mainCollectionViewManager.remove([cellItem])
-            return
-        }
-        mainCollectionViewManager.remove([cellItem, separatorCellItem])
+        return factory
     }
 }
 
