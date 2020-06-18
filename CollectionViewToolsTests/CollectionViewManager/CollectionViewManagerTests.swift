@@ -113,7 +113,7 @@ class CollectionViewToolsTests: CollectionViewTests {
         XCTAssertTrue(shouldScroll == true)
         XCTAssertFalse(delegate.didScrollToTopTriggered)
         viewController.manager.scroll(to: cellItems.first!, at: .top, animated: false)
-        XCTAssertEqual(viewController.collectionView.contentOffset.y, -44)
+        XCTAssertLessThanOrEqual(viewController.collectionView.contentOffset.y, 0)
         viewController.collectionView.delegate?.scrollViewDidScrollToTop?(collectionView)
         XCTAssertTrue(delegate.didScrollToTopTriggered)
     }
