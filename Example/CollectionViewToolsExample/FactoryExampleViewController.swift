@@ -7,8 +7,6 @@
 import UIKit
 import CollectionViewTools
 
-private var diffIdentifierAssociationKey = "diff_identifier"
-
 protocol HasDescriptionProtocol {
     var description: String { get }
 }
