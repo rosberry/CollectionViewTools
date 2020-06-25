@@ -25,11 +25,10 @@ public final class UniversalCollectionViewCellItem<T: UICollectionViewCell>: Col
     ///    - CollectionViewSectionItem: a section item in the section of which the cell should be placed
     public var sizeConfigurationHandler: ((UICollectionView, CollectionViewSectionItem) -> CGSize)?
 
-    /// Set this handler to compare objects
+    /// Set this handler to compare cellItems
     ///
     /// - Parameters:
-    ///    - Any?: first cellItem that should be compared
-    ///    - Any?: second cellItem that should be compared
+    ///    - `UniversalCollectionViewCellItem<T>`: cellItem that should be compared with `self`
     public var isEqualHandler: ((UniversalCollectionViewCellItem<T>) -> Bool)?
     
     public func configure(_ cell: UICollectionViewCell) {

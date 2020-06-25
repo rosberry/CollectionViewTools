@@ -38,6 +38,11 @@ public class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
     ///    - CollectionViewCellItem: the cell item that performs a cell configuration
     public var cellConfigurationHandler: ((U, T, UniversalCollectionViewCellItem<T>) -> Void)?
 
+    /// Set this handler to compare cellItems
+    ///
+    /// - Parameters:
+    ///    - `UniversalCollectionViewCellItem<T>`: first cellItem that should be compared
+    ///    - `UniversalCollectionViewCellItem<T>`: second cellItem that should be compared
     public var isEqualHandler: ((UniversalCollectionViewCellItem<T>, UniversalCollectionViewCellItem<T>) -> Bool)?
     
     public init() {
