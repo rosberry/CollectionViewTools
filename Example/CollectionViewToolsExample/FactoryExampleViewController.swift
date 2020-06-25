@@ -7,20 +7,33 @@
 import UIKit
 import CollectionViewTools
 
-protocol HasDescriptionProtocol {
+protocol HasDescriptionProtocol: class {
     var description: String { get }
+    var isExpanded: Bool { get set }
 }
 
 final class FactoryExampleViewController: UIViewController {
     
-    struct ImageData: HasDescriptionProtocol {
+    class ImageData: HasDescriptionProtocol {
         let image: UIImage
         let description: String
+        var isExpanded: Bool = false
+
+        init(image: UIImage, description: String) {
+            self.image = image
+            self.description = description
+        }
     }
     
-    struct TextData: HasDescriptionProtocol {
+    class TextData: HasDescriptionProtocol {
         let text: String
         let description: String
+        var isExpanded: Bool = false
+
+        init(text: String, description: String) {
+            self.text = text
+            self.description = description
+        }
     }
     
     var data: [HasDescriptionProtocol] = [ImageData(image: #imageLiteral(resourceName: "nightlife-1"), description: "First image description"),
@@ -39,6 +52,7 @@ final class FactoryExampleViewController: UIViewController {
 
     private lazy var imageCellItemFactory: CellItemFactory = {
         let factory: AssociatedCellItemFactory<ImageData, ImageCollectionViewCell> = makeFactory(id: "image")
+        let cellConfigurationHandler = factory.cellConfigurationHandler
         factory.cellConfigurationHandler = { data, cell, cellItem in
             cell.imageView.image = data.image
             cell.removeActionHandler = {
@@ -47,6 +61,7 @@ final class FactoryExampleViewController: UIViewController {
                 }
                 self.resetMainCollection()
             }
+            cellConfigurationHandler?(data, cell, cellItem)
         }
         factory.sizeConfigurationHandler = { data, collectionView, sectionItem in
             let width = collectionView.bounds.width
@@ -58,8 +73,10 @@ final class FactoryExampleViewController: UIViewController {
 
     private lazy var textCellItemFactory: CellItemFactory = {
         let factory: AssociatedCellItemFactory<TextData, TextCollectionViewCell> = makeFactory(id: "text")
+        let cellConfigurationHandler = factory.cellConfigurationHandler
         factory.cellConfigurationHandler = { data, cell, cellItem in
             cell.titleLabel.text = data.text
+            cellConfigurationHandler?(data, cell, cellItem)
         }
         factory.sizeConfigurationHandler = { data, collectionView, sectionItem in
             CGSize(width: collectionView.bounds.width, height: 60)
@@ -72,9 +89,7 @@ final class FactoryExampleViewController: UIViewController {
         factory.cellItemConfigurationHandler = { index, data, cellItem in
             cellItem.diffIdentifier = "description:\(data.description)"
             cellItem.itemDidSelectHandler = { _ in
-                if let index = self.indexInUnfolded(of: data) {
-                    self.unfoldedData.remove(at: index)
-                }
+                data.isExpanded.toggle()
                 self.resetMainCollection()
             }
         }
@@ -105,8 +120,6 @@ final class FactoryExampleViewController: UIViewController {
     private lazy var cellItemFactory: CellItemFactory = {
         imageCellItemFactory.factory(byJoining: textCellItemFactory)
     }()
-
-    private var unfoldedData: [HasDescriptionProtocol] = []
     
     // MARK: Subviews
     
@@ -145,12 +158,6 @@ final class FactoryExampleViewController: UIViewController {
             mainCollectionViewManager.update(with: sectionItems, animated: true)
         }
     }
-
-    private func indexInUnfolded(of data: HasDescriptionProtocol) -> Int? {
-        unfoldedData.firstIndex { unfoldedData in
-            unfoldedData.description == data.description
-        }
-    }
     
     private func makeGeneralSectionItem() -> CollectionViewDiffSectionItem {
         let cellItems = cellItemFactory.makeCellItems(array: data)
@@ -160,25 +167,34 @@ final class FactoryExampleViewController: UIViewController {
     private func makeFactory<U: HasDescriptionProtocol, T: UICollectionViewCell>(id: String) -> AssociatedCellItemFactory<U, T> {
         let factory = AssociatedCellItemFactory<U, T>()
         factory.cellItemConfigurationHandler = { index, data, cellItem in
+            cellItem.context["isExpanded"] = data.isExpanded
             cellItem.itemDidSelectHandler = { _ in
-                if let index = self.indexInUnfolded(of: data) {
-                    self.unfoldedData.remove(at: index)
-                }
-                else {
-                    self.unfoldedData.append(data)
-                }
+                data.isExpanded.toggle()
                 self.resetMainCollection()
             }
         }
         factory.initializationHandler = { index, data in
             let cellItem = factory.makeUniversalCellItem(object: data, index: index)
-            cellItem.diffIdentifier = "\(id):\(data.description)"
+            cellItem.context["isExpanded"] = data.isExpanded
+            cellItem.diffIdentifier = "\(id)\(data.description)"
             let separatorCellItem = self.separatorCellItemFactory.makeCellItems(array: [data])[0]
-            guard self.indexInUnfolded(of: data) != nil else {
+            guard data.isExpanded else {
                 return [cellItem, separatorCellItem]
             }
             let descriptionCellItem = self.descriptionCellItemFactory.makeCellItems(array: [data])[0]
             return [cellItem, descriptionCellItem, separatorCellItem]
+        }
+        factory.isEqualHandler = { lhs, rhs in
+            (lhs.context["isExpanded"] as? Bool) == (rhs.context["isExpanded"] as? Bool)
+        }
+        factory.cellConfigurationHandler = { data, cell, cellItem in
+            if data.isExpanded {
+                cell.layer.borderWidth = 2
+                cell.layer.borderColor = UIColor.green.cgColor
+            }
+            else {
+                cell.layer.borderWidth = 0
+            }
         }
         return factory
     }

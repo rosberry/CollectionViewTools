@@ -37,6 +37,8 @@ public class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
     ///    - UICollectionViewCell: the cell that should be configured
     ///    - CollectionViewCellItem: the cell item that performs a cell configuration
     public var cellConfigurationHandler: ((U, T, UniversalCollectionViewCellItem<T>) -> Void)?
+
+    public var isEqualHandler: ((UniversalCollectionViewCellItem<T>, UniversalCollectionViewCellItem<T>) -> Bool)?
     
     public init() {
     }
@@ -79,6 +81,12 @@ public class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
                 fatalError("sizeConfigurationHandler property for the CellItemFactory should be assigned before")
             }
             return sizeConfigurationHandler(object, collectionView, sectionItem)
+        }
+        cellItem.isEqualHandler = { [weak self] otherCellItem in
+            guard let handler = self?.isEqualHandler else {
+                return true
+            }
+            return handler(cellItem, otherCellItem)
         }
         cellItemConfigurationHandler?(index, object, cellItem)
         return cellItem
