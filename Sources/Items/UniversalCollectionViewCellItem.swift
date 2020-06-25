@@ -6,7 +6,7 @@
 
 import UIKit
 
-public final class UniversalCollectionViewCellItem<T: UICollectionViewCell>: CollectionViewCellItem, DiffItem {
+public final class UniversalCollectionViewCellItem<T: UICollectionViewCell>: CollectionViewDiffCellItem {
 
     public let reuseType = ReuseType.class(T.self)
     public var context = [String: Any]()
