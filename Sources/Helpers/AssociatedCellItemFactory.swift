@@ -28,7 +28,7 @@ public class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
     /// - Parameters:
     ///    - Any: the object associated with a cell item
     ///    - CollectionViewCellItem: a cell item that should be cofigured
-    public var cellItemConfigurationHandler: ((Int, U, CollectionViewCellItem) -> Void)?
+    public var cellItemConfigurationHandler: ((Int, U, UniversalCollectionViewCellItem<T>) -> Void)?
     
     /// Set this handler to configure the cell
     ///
@@ -36,7 +36,14 @@ public class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
     ///    - Any: the object associated with a cell item
     ///    - UICollectionViewCell: the cell that should be configured
     ///    - CollectionViewCellItem: the cell item that performs a cell configuration
-    public var cellConfigurationHandler: ((U, T, CollectionViewCellItem) -> Void)?
+    public var cellConfigurationHandler: ((U, T, UniversalCollectionViewCellItem<T>) -> Void)?
+
+    /// Set this handler to compare cellItems
+    ///
+    /// - Parameters:
+    ///    - `UniversalCollectionViewCellItem<T>`: first cellItem that should be compared
+    ///    - `UniversalCollectionViewCellItem<T>`: second cellItem that should be compared
+    public var isEqualHandler: ((UniversalCollectionViewCellItem<T>, UniversalCollectionViewCellItem<T>) -> Bool)?
     
     public init() {
     }
@@ -60,7 +67,7 @@ public class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
     /// - Parameters:
     ///    - object: an object to create a cell item for it
     ///    - index: the index of the object in the array
-    public func makeUniversalCellItem(object: U, index: Int) -> CollectionViewCellItem {
+    public func makeUniversalCellItem(object: U, index: Int) -> UniversalCollectionViewCellItem<T> {
         let cellItem = UniversalCollectionViewCellItem<T>()
         cellItem.configurationHandler = { [weak self] cell in
             guard let self = self else {
@@ -79,6 +86,12 @@ public class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
                 fatalError("sizeConfigurationHandler property for the CellItemFactory should be assigned before")
             }
             return sizeConfigurationHandler(object, collectionView, sectionItem)
+        }
+        cellItem.isEqualHandler = { [weak self] otherCellItem in
+            guard let handler = self?.isEqualHandler else {
+                return true
+            }
+            return handler(cellItem, otherCellItem)
         }
         cellItemConfigurationHandler?(index, object, cellItem)
         return cellItem
