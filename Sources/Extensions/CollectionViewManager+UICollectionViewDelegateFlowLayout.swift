@@ -25,25 +25,25 @@ extension CollectionViewManager: UICollectionViewDelegateFlowLayout {
     open func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              insetForSectionAt section: Int) -> UIEdgeInsets {
-        return _sectionItems[section].insets
+        return sectionItems[section].insets
     }
     
     open func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return _sectionItems[section].minimumLineSpacing
+        return sectionItems[section].minimumLineSpacing
     }
     
     open func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return _sectionItems[section].minimumInteritemSpacing
+        return sectionItems[section].minimumInteritemSpacing
     }
     
     open func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              referenceSizeForHeaderInSection section: Int) -> CGSize {
-        let optionalItem = _sectionItems[section].reusableViewItems.first { reusableViewItem in
+        let optionalItem = sectionItems[section].reusableViewItems.first { reusableViewItem in
             reusableViewItem.type == .header
         }
         guard let item = optionalItem else {
@@ -55,7 +55,7 @@ extension CollectionViewManager: UICollectionViewDelegateFlowLayout {
     open func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              referenceSizeForFooterInSection section: Int) -> CGSize {
-        let optionalItem = _sectionItems[section].reusableViewItems.first { reusableViewItem in
+        let optionalItem = sectionItems[section].reusableViewItems.first { reusableViewItem in
             reusableViewItem.type == .footer
         }
         guard let item = optionalItem else {

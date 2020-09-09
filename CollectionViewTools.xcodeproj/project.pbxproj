@@ -19,7 +19,11 @@
 		017ABDB523F6856700A5AE34 /* TestReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017ABDB423F6856700A5AE34 /* TestReusableView.swift */; };
 		017B9F0C2409129800C765BD /* TestAsyncCollectionViewCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B9F0B2409129800C765BD /* TestAsyncCollectionViewCellItem.swift */; };
 		01929DAC22F190B8004D5605 /* CellItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01929DAB22F190B7004D5605 /* CellItemFactory.swift */; };
+		01984999250883B400D217B4 /* BaseCollectionViewSectionItemsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01984998250883B400D217B4 /* BaseCollectionViewSectionItemsProvider.swift */; };
+		019849BB2508E6C800D217B4 /* Collection+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019849BA2508E6C800D217B4 /* Collection+Safe.swift */; };
 		01F2086323F67657009B069E /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F2086223F67657009B069E /* TestViewController.swift */; };
+		01F41E3F25062B4D00612B33 /* CollectionViewSectionItemsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F41E3E25062B4D00612B33 /* CollectionViewSectionItemsProvider.swift */; };
+		01F41E452507359500612B33 /* LazyCollectionViewSectionItemsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F41E442507359500612B33 /* LazyCollectionViewSectionItemsProvider.swift */; };
 		0A37632F1F6251A600A80613 /* CollectionViewTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3763251F6251A600A80613 /* CollectionViewTools.framework */; };
 		0A3763341F6251A600A80613 /* CollectionViewManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763331F6251A600A80613 /* CollectionViewManagerTests.swift */; };
 		0A3763671F62545A00A80613 /* ClosureWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763521F62545A00A80613 /* ClosureWrapper.swift */; };
@@ -71,7 +75,11 @@
 		017ABDB423F6856700A5AE34 /* TestReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestReusableView.swift; sourceTree = "<group>"; };
 		017B9F0B2409129800C765BD /* TestAsyncCollectionViewCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAsyncCollectionViewCellItem.swift; sourceTree = "<group>"; };
 		01929DAB22F190B7004D5605 /* CellItemFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellItemFactory.swift; sourceTree = "<group>"; };
+		01984998250883B400D217B4 /* BaseCollectionViewSectionItemsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewSectionItemsProvider.swift; sourceTree = "<group>"; };
+		019849BA2508E6C800D217B4 /* Collection+Safe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Safe.swift"; sourceTree = "<group>"; };
 		01F2086223F67657009B069E /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		01F41E3E25062B4D00612B33 /* CollectionViewSectionItemsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewSectionItemsProvider.swift; sourceTree = "<group>"; };
+		01F41E442507359500612B33 /* LazyCollectionViewSectionItemsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyCollectionViewSectionItemsProvider.swift; sourceTree = "<group>"; };
 		06B2AE0E21F6FFE8004A9CBB /* CollectionViewTools.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = CollectionViewTools.podspec; sourceTree = "<group>"; };
 		0A3763251F6251A600A80613 /* CollectionViewTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CollectionViewTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A37632E1F6251A600A80613 /* CollectionViewToolsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CollectionViewToolsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -132,6 +140,16 @@
 				0145B98E2408F68400F85782 /* ItemsTests.swift */,
 			);
 			path = CollectionViewManager;
+			sourceTree = "<group>";
+		};
+		01F41E3D25062B3300612B33 /* SectionItemsProvider */ = {
+			isa = PBXGroup;
+			children = (
+				01F41E3E25062B4D00612B33 /* CollectionViewSectionItemsProvider.swift */,
+				01F41E442507359500612B33 /* LazyCollectionViewSectionItemsProvider.swift */,
+				01984998250883B400D217B4 /* BaseCollectionViewSectionItemsProvider.swift */,
+			);
+			path = SectionItemsProvider;
 			sourceTree = "<group>";
 		};
 		0A37631B1F6251A600A80613 = {
@@ -203,6 +221,7 @@
 				0A3763591F62545A00A80613 /* CollectionViewManager+UICollectionViewDelegateFlowLayout.swift */,
 				0A37635A1F62545A00A80613 /* CollectionViewManager+UIScrollViewDelegate.swift */,
 				0A37635B1F62545A00A80613 /* UICollectionView+Registration.swift */,
+				019849BA2508E6C800D217B4 /* Collection+Safe.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -219,6 +238,7 @@
 		0A37635F1F62545A00A80613 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				01F41E3D25062B3300612B33 /* SectionItemsProvider */,
 				0A3763601F62545A00A80613 /* CellItem */,
 				0A3763631F62545A00A80613 /* ReuseViewItem */,
 				0A3763651F62545A00A80613 /* SectionItem */,
@@ -429,6 +449,7 @@
 			files = (
 				015A8AA9231394FC002600FF /* AssociatedCellItemFactory.swift in Sources */,
 				0A37636B1F62545A00A80613 /* CollectionViewManager+UICollectionViewDataSourcePrefetching.swift in Sources */,
+				01984999250883B400D217B4 /* BaseCollectionViewSectionItemsProvider.swift in Sources */,
 				0A3763741F62545A00A80613 /* CollectionViewReusableViewItem.swift in Sources */,
 				0E0F40A1222D4F0600B88DF3 /* CollectionViewDiffAdaptor.swift in Sources */,
 				0A37636F1F62545A00A80613 /* UICollectionView+Registration.swift in Sources */,
@@ -438,11 +459,14 @@
 				0A3763681F62545A00A80613 /* CollectionViewManager.swift in Sources */,
 				1028238622E9AA680061C54F /* CollectionViewDeepDiffAdaptor.swift in Sources */,
 				0E0F40A0222D4F0600B88DF3 /* CollectionViewManager+Diff.swift in Sources */,
+				01F41E3F25062B4D00612B33 /* CollectionViewSectionItemsProvider.swift in Sources */,
 				0A37636C1F62545A00A80613 /* CollectionViewManager+UICollectionViewDelegate.swift in Sources */,
 				01929DAC22F190B8004D5605 /* CellItemFactory.swift in Sources */,
 				0E0F409F222D4F0600B88DF3 /* CollectionViewDiffResult.swift in Sources */,
 				0E4B31D1229C02B800CE0B13 /* CollectionViewChanges.swift in Sources */,
+				01F41E452507359500612B33 /* LazyCollectionViewSectionItemsProvider.swift in Sources */,
 				0A3763721F62545A00A80613 /* CollectionViewCellItemDataSourcePrefetching.swift in Sources */,
+				019849BB2508E6C800D217B4 /* Collection+Safe.swift in Sources */,
 				0A3763731F62545A00A80613 /* CollectionViewCellItem.swift in Sources */,
 				0A3763711F62545A00A80613 /* GeneralCollectionViewSectionItem.swift in Sources */,
 				0A3763671F62545A00A80613 /* ClosureWrapper.swift in Sources */,

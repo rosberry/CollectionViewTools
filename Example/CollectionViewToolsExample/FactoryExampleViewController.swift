@@ -118,7 +118,15 @@ final class FactoryExampleViewController: UIViewController {
     }()
 
     private lazy var cellItemFactory: CellItemFactory = {
-        imageCellItemFactory.factory(byJoining: textCellItemFactory)
+        let factory = AssociatedCellItemFactory<Int, TextCollectionViewCell>()
+        factory.sizeConfigurationHandler = { data, collectionView, sectionItem in
+            CGSize(width: collectionView.bounds.width, height: 50)
+        }
+        factory.cellConfigurationHandler = { number, cell, cellItem in
+            cell.titleLabel.text = "\(number)"
+        }
+        return factory
+        //imageCellItemFactory.factory(byJoining: textCellItemFactory)
     }()
     
     // MARK: Subviews
@@ -160,7 +168,7 @@ final class FactoryExampleViewController: UIViewController {
     }
     
     private func makeGeneralSectionItem() -> CollectionViewDiffSectionItem {
-        let cellItems = cellItemFactory.makeCellItems(array: data)
+        let cellItems = cellItemFactory.makeCellItems(array: Array(0...1000))
         return GeneralCollectionViewDiffSectionItem(cellItems: cellItems)
     }
 

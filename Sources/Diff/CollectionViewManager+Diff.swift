@@ -122,7 +122,7 @@ extension CollectionViewManager {
     }
     
     private func updateWithoutAnimation(sectionItems: [CollectionViewDiffSectionItem], shouldReload: Bool) {
-        _sectionItems = sectionItems
+        sectionItemsProvider.sectionItems = sectionItems
         registerSectionItems()
         recalculateIndexes()
 

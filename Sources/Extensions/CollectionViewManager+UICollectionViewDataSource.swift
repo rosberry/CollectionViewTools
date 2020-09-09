@@ -9,7 +9,7 @@ import UIKit.UICollectionView
 extension CollectionViewManager: UICollectionViewDataSource {
     
     open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return _sectionItems[section].cellItems.count
+        sectionItemsProvider.numberOfItems(inSection: section)
     }
     
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -20,7 +20,7 @@ extension CollectionViewManager: UICollectionViewDataSource {
     }
     
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return _sectionItems.count
+        return sectionItemsProvider.numberOfSections
     }
     
     open func collectionView(_ collectionView: UICollectionView,
