@@ -22,6 +22,13 @@ public class ComplexCellItemFactory: CellItemFactory {
         }
         return cellItems
     }
+
+    public func makeCellItem(object: Any, index: Int) -> CollectionViewCellItem? {
+        if let factory = factories[String(describing: type(of: object))] {
+            return factory.makeCellItem(object: object, index: index)
+        }
+        return nil
+    }
     
     public func makeCellItems(object: Any, index: Int) -> [CollectionViewCellItem] {
         if let factory = factories[String(describing: type(of: object))] {
@@ -60,5 +67,11 @@ public class ComplexCellItemFactory: CellItemFactory {
     
     public var hashKey: String? {
         return nil
+    }
+
+    public func fetchReuseTypes() -> [ReuseType] {
+        factories.values.flatMap { factory in
+            factory.fetchReuseTypes()
+        }
     }
 }

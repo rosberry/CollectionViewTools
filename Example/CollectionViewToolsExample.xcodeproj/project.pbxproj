@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		01929DAE22F19233004D5605 /* FactoryExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01929DAD22F19233004D5605 /* FactoryExampleViewController.swift */; };
+		015A4D0825147C0F000D6A97 /* LazySectionItemsExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A4D0725147C0F000D6A97 /* LazySectionItemsExampleViewController.swift */; };
+		015A4D0A25147DA2000D6A97 /* FactoryExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A4D0925147DA2000D6A97 /* FactoryExampleViewController.swift */; };
 		01C2CC1622F4377C00873DC0 /* DividerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C2CC1522F4377C00873DC0 /* DividerCell.swift */; };
 		0A3763831F62556300A80613 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763821F62556300A80613 /* AppDelegate.swift */; };
 		0A37638A1F62556300A80613 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A3763891F62556300A80613 /* Assets.xcassets */; };
@@ -75,7 +76,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		01929DAD22F19233004D5605 /* FactoryExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactoryExampleViewController.swift; sourceTree = "<group>"; };
+		015A4D0725147C0F000D6A97 /* LazySectionItemsExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazySectionItemsExampleViewController.swift; sourceTree = "<group>"; };
+		015A4D0925147DA2000D6A97 /* FactoryExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FactoryExampleViewController.swift; sourceTree = "<group>"; };
 		01C2CC1522F4377C00873DC0 /* DividerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerCell.swift; sourceTree = "<group>"; };
 		0A37637F1F62556300A80613 /* CollectionViewToolsExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionViewToolsExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3763821F62556300A80613 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -164,7 +166,6 @@
 				0A37638B1F62556400A80613 /* LaunchScreen.storyboard */,
 				0A37638E1F62556400A80613 /* Info.plist */,
 				629A6D6C61B4795949B30938 /* MainViewController.swift */,
-				01929DAD22F19233004D5605 /* FactoryExampleViewController.swift */,
 				629A6B7B0DC722197E2D2AC9 /* SectionItems */,
 				0EB8E661229BFA710000B921 /* DiffInfo.plist */,
 				0E506C05228EBA4400E16640 /* Cartfile */,
@@ -235,8 +236,10 @@
 		0EB8E663229BFBDB0000B921 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				015A4D0925147DA2000D6A97 /* FactoryExampleViewController.swift */,
 				10E7BC7223756EE5009095ED /* MainViewController.swift */,
 				10FF9F5D23040224003B7169 /* DetailViewController.swift */,
+				015A4D0725147C0F000D6A97 /* LazySectionItemsExampleViewController.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -423,10 +426,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				015A4D0A25147DA2000D6A97 /* FactoryExampleViewController.swift in Sources */,
 				0ACA6FC91F626AF900782C1E /* ImageCellItem.swift in Sources */,
 				10E7BC7323756EE5009095ED /* MainViewController.swift in Sources */,
 				01C2CC1622F4377C00873DC0 /* DividerCell.swift in Sources */,
-				01929DAE22F19233004D5605 /* FactoryExampleViewController.swift in Sources */,
 				0ACA6FCC1F626D2E00782C1E /* ImageCollectionViewCell.swift in Sources */,
 				0A3763831F62556300A80613 /* AppDelegate.swift in Sources */,
 				629A6E35B86008DC359DB40B /* TextCellItem.swift in Sources */,
@@ -434,6 +437,7 @@
 				629A6F552D5D656B36F4F52C /* TextCollectionViewCell.swift in Sources */,
 				0E1EDA59228934D50087253A /* ColorCollectionViewCell.swift in Sources */,
 				10FF9F5E23040224003B7169 /* DetailViewController.swift in Sources */,
+				015A4D0825147C0F000D6A97 /* LazySectionItemsExampleViewController.swift in Sources */,
 				629A63FBA018222A355686F6 /* ExampleSectionItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -12,7 +12,6 @@ open class CollectionViewManager: NSObject {
     public typealias CellItem = CollectionViewCellItem
     public typealias ReusableViewItem = CollectionViewReusableViewItem
     public typealias Completion = (Bool) -> Void
-    internal typealias BaseSectionItemsProvider = BaseCollectionViewSectionItemsProvider
     
     /// `UICollectionView` object for managing
     public unowned let collectionView: UICollectionView
@@ -34,7 +33,11 @@ open class CollectionViewManager: NSObject {
                                    _ destinationIndexPath: IndexPath) -> Void)?
 
     /// Use this property instead of `sectionItems` internally to avoid every time reload during update operations.
-    internal lazy var sectionItemsProvider: CollectionViewSectionItemsProvider = BaseSectionItemsProvider()
+    public var sectionItemsProvider: SectionItemsProvider {
+        didSet {
+            registerSectionItems()
+        }
+    }
     
     /// Provider of `CollectionViewSectionItem` objects, which respond for configuration of specified section in collection view.
     /// Setting this property leads collection view to reload data. If you don't need this behaviour use update methods instead.
@@ -54,6 +57,7 @@ open class CollectionViewManager: NSObject {
     
     public init(collectionView: UICollectionView) {
         self.collectionView = collectionView
+        self.sectionItemsProvider = ArraySectionItemsProvider()
         super.init()
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
@@ -161,8 +165,8 @@ open class CollectionViewManager: NSObject {
             return nil
         }
         let sectionItem = sectionItemsProvider[indexPath.section]
-        sectionItem.collectionView = collectionView
-        sectionItem.index = indexPath.section
+        sectionItem?.collectionView = collectionView
+        sectionItem?.index = indexPath.section
         return sectionItemsProvider[indexPath.section]
     }
     
@@ -180,6 +184,7 @@ open class CollectionViewManager: NSObject {
             UIView.animate(withDuration: 0, animations: {
                 self.sectionItemsProvider.sectionItems = sectionItems
                 self.registerSectionItems()
+                self.recalculateIndexes()
                 UIView.performWithoutAnimation {
                     self.collectionView.reloadData()
                 }
@@ -190,6 +195,7 @@ open class CollectionViewManager: NSObject {
         else {
             sectionItemsProvider.sectionItems = sectionItems
             registerSectionItems()
+            recalculateIndexes()
         }
     }
 
@@ -243,7 +249,9 @@ open class CollectionViewManager: NSObject {
     /// for section items and cell items during custom update operations.
     open func recalculateIndexPaths() {
         for index in 0..<sectionItemsProvider.numberOfSections {
-            let sectionItem = sectionItemsProvider[index]
+            guard let sectionItem = sectionItemsProvider[index] else {
+                return
+            }
             sectionItem.index = index
             recalculateIndexPaths(in: sectionItem)
         }
@@ -269,7 +277,9 @@ open class CollectionViewManager: NSObject {
     /// items and inner cell items during custom update operations.
     open func recalculateIndexes() {
         for section in 0..<sectionItemsProvider.numberOfSections {
-            let sectionItem = sectionItemsProvider[section]
+            guard let sectionItem = sectionItemsProvider[section] else {
+                continue
+            }
             sectionItem.collectionView = collectionView
             sectionItem.index = section
 
@@ -621,9 +631,7 @@ open class CollectionViewManager: NSObject {
                    performUpdates: Bool = true,
                    completion: Completion? = nil) {
         func move(in collectionView: UICollectionView?) {
-            let keySectionItem = sectionItem ?? sectionItems[index]
-            sectionItems.remove(at: index)
-            sectionItems.insert(keySectionItem, at: newIndex)
+            
             recalculateIndexes()
             collectionView?.moveSection(index, toSection: newIndex)
         }

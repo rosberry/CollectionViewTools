@@ -118,15 +118,7 @@ final class FactoryExampleViewController: UIViewController {
     }()
 
     private lazy var cellItemFactory: CellItemFactory = {
-        let factory = AssociatedCellItemFactory<Int, TextCollectionViewCell>()
-        factory.sizeConfigurationHandler = { data, collectionView, sectionItem in
-            CGSize(width: collectionView.bounds.width, height: 50)
-        }
-        factory.cellConfigurationHandler = { number, cell, cellItem in
-            cell.titleLabel.text = "\(number)"
-        }
-        return factory
-        //imageCellItemFactory.factory(byJoining: textCellItemFactory)
+        imageCellItemFactory.factory(byJoining: textCellItemFactory)
     }()
     
     // MARK: Subviews

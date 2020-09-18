@@ -6,7 +6,7 @@
 
 import UIKit
 
-public class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
+open class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
 
     /// Set this handler to retrieve a specific set of cell items for the associated object
     ///
@@ -47,7 +47,6 @@ public class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
     
     public init() {
     }
-    
     
     /// Returns an array of cell items
     ///
@@ -112,6 +111,11 @@ public class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
 }
 
 extension AssociatedCellItemFactory: CellItemFactory {
+
+    public func fetchReuseTypes() -> [ReuseType] {
+        [.class(T.self)]
+    }
+
     public func makeCellItems(array: [Any]) -> [CollectionViewCellItem] {
         if let array = array as? [U] {
             return makeCellItems(array: array)
@@ -131,6 +135,13 @@ extension AssociatedCellItemFactory: CellItemFactory {
             }
         }
         return []
+    }
+
+    public func makeCellItem(object: Any, index: Int) -> CollectionViewCellItem? {
+        guard let object = object as? U else {
+            return nil
+        }
+        return makeUniversalCellItem(object: object, index: index)
     }
     
     public func factory(byJoining factory: CellItemFactory) -> CellItemFactory {

@@ -263,4 +263,73 @@ class CollectionViewToolsTests: CollectionViewTests {
         XCTAssertTrue(delegate.didDeceleratingTriggered)
         XCTAssertTrue(delegate.endAnimationTriggered)
     }
+
+    func testLazyFactoryProvider() {
+        // Given
+        let numbers = [Array(0..<3),Array(0..<5),Array(0..<2)]
+        let indexPath = IndexPath(item: 0, section: 0)
+
+        viewController.manager.sectionItemsProvider = LazyAssociatedFactorySectionItemsProvider<Int, TestCollectionViewCell>(
+            sectionItemsNumberHandler: {
+                numbers.count
+            },
+            cellItemsNumberHandler: { section in
+                numbers[section].count
+            },
+            makeSectionItemHandler: { index in
+                GeneralCollectionViewDiffSectionItem()
+            },
+            cellConfigurationHandler: { number, cell, cellItem in
+                cell.text = "\(number)"
+            },
+            sizeHandler: { _, collectionView in
+                .init(width: collectionView.bounds.width, height: 80)
+            },
+            objectHandler: { indexPath in
+                numbers[indexPath.section][indexPath.row]
+            }
+        )
+
+        // When
+        wait(for: [expectation], timeout: 10)
+
+        //Then
+        for cell in viewController.collectionView.visibleCells {
+            XCTAssertTrue(cell is TestCollectionViewCell, "Cell should be an instance of `TestCollectionViewCell`")
+        }
+        let cell = viewController.collectionView.cellForItem(at: indexPath) as? TestCollectionViewCell
+        XCTAssertEqual(cell?.text, String(numbers[0][0]), "Cell text should be equal '\(numbers[indexPath.row])'")
+    }
+
+    func testLazySectionItems() {
+        // Given
+        let numbers = Array(0...1000)
+        let indexPath = IndexPath(item: 1000, section: 0)
+        let delegate = TestScrollDelegate()
+
+        viewController.manager.sectionItemsProvider = LazyAssociatedFactorySectionItemsProvider<Int, TestCollectionViewCell>(
+            cellItemsNumberHandler: { section in
+                numbers.count
+            },
+            makeSectionItemHandler: { index in
+                LazyCollectionViewSectionItem()
+            },
+            cellConfigurationHandler: { number, cell, cellItem in
+                cell.text = "\(number)"
+            },
+            sizeHandler: { _, collectionView in
+                .init(width: collectionView.bounds.width, height: 80)
+            },
+            objectHandler: { indexPath in
+                numbers[indexPath.row]
+            }
+        )
+
+        // When
+        viewController.manager.scrollDelegate = delegate
+        //Then
+        wait(for: [expectation], timeout: 10)
+        viewController.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: false)
+        XCTAssertGreaterThan(viewController.collectionView.contentOffset.y, viewController.view.bounds.height)
+    }
 }

@@ -4,7 +4,7 @@
 //  Copyright © 2020 Rosberry. All rights reserved.
 //
 
-open class BaseCollectionViewSectionItemsProvider: CollectionViewSectionItemsProvider {
+open class BaseSectionItemsProvider: SectionItemsProvider {
     
     public var sectionItems: Array<CollectionViewSectionItem> = []
 
@@ -46,6 +46,18 @@ open class BaseCollectionViewSectionItemsProvider: CollectionViewSectionItemsPro
                 cellItem.reuseType
             }
         }
+    }
+
+    public func sizeForCellItem(at indexPath: IndexPath, in collectionView: UICollectionView) -> CGSize {
+        guard let cellItem = self[indexPath],
+            let sectionItem = cellItem.sectionItem else {
+            return .zero
+        }
+        let size = cellItem.size(in: collectionView, sectionItem: sectionItem)
+        if cellItem.cachedSize == nil {
+            cellItem.cachedSize = size
+        }
+        return size
     }
 
     public func insert(_ sectionItem: CollectionViewSectionItem, at index: Int) {
