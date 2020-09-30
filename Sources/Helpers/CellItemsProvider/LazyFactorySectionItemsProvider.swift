@@ -7,88 +7,65 @@
 import UIKit
 
 open class LazyFactorySectionItemsProvider: LazySectionItemsProvider {
-    init(factory: CellItemFactory,
-         sectionItemsNumberHandler: @escaping () -> Int = {
-            1
-         },
-         cellItemsNumberHandler: @escaping (Int) -> Int,
-         sizeHandler: @escaping (IndexPath, UICollectionView) -> CGSize,
-         makeSectionItemHandler: @escaping (Int) -> CollectionViewSectionItem?,
-         objectHandler: @escaping (IndexPath) -> Any) {
-        super.init(reuseTypes: factory.fetchReuseTypes(),
+    public init(factory: CellItemFactory,
+                reuseTypes: [ReuseType] = [],
+                sectionItemsNumberHandler: @escaping () -> Int = {
+                    1
+                },
+                cellItemsNumberHandler: @escaping (Int) -> Int,
+                sizeHandler: @escaping (IndexPath, UICollectionView) -> CGSize,
+                makeSectionItemHandler: @escaping (Int) -> CollectionViewSectionItem? = { _ in
+                    GeneralCollectionViewDiffSectionItem()
+                },
+                objectHandler: @escaping (IndexPath) -> Any?) {
+
+        var reuseTypes = reuseTypes
+        reuseTypes.append(contentsOf: factory.fetchReuseTypes())
+    
+        super.init(reuseTypes: reuseTypes,
                    sectionItemsNumberHandler: sectionItemsNumberHandler,
                    cellItemsNumberHandler: cellItemsNumberHandler,
                    sizeHandler: sizeHandler,
                    makeSectionItemHandler: makeSectionItemHandler,
                    makeCellItemHandler: { indexPath in
-            factory.makeCellItem(object: objectHandler(indexPath), index: indexPath.row)
-        })
-    }
-
-    init(factory: CellItemFactory,
-         reusableViewItems: [CollectionViewReusableViewItem] = [],
-         cellItemsNumberHandler: @escaping (Int) -> Int,
-         sizeHandler: @escaping (IndexPath, UICollectionView) -> CGSize,
-         objectHandler: @escaping (IndexPath) -> Any) {
-        super.init(reuseTypes: factory.fetchReuseTypes(),
-                   sectionItemsNumberHandler: {
-            1
-        },
-                   cellItemsNumberHandler: cellItemsNumberHandler,
-                   sizeHandler: sizeHandler,
-                   makeSectionItemHandler: { _ in
-            GeneralCollectionViewDiffSectionItem(cellItems: [],
-            reusableViewItems: reusableViewItems)
-        },
-                   makeCellItemHandler: { indexPath in
-            factory.makeCellItem(object: objectHandler(indexPath), index: indexPath.row)
-        })
+                       guard let object = objectHandler(indexPath) else {
+                           return nil
+                       }
+                       let cellItem = factory.makeCellItem(object: object, index: indexPath.row)
+                       return cellItem
+                   })
     }
 }
 
-open class LazyAssociatedFactorySectionItemsProvider<U, T: UICollectionViewCell>: LazySectionItemsProvider {
-    init(reuseTypes: [ReuseType] = [],
-         sectionItemsNumberHandler: @escaping () -> Int = {
-            1
-        },
-         cellItemsNumberHandler: @escaping (Int) -> Int,
-         makeSectionItemHandler: @escaping (Int) -> CollectionViewSectionItem?,
-         cellConfigurationHandler: ((U, T, UniversalCollectionViewCellItem<T>) -> Void)?,
-         sizeHandler: @escaping (IndexPath, UICollectionView) -> CGSize,
-         objectHandler: @escaping (IndexPath) -> Any) {
+open class LazyAssociatedFactorySectionItemsProvider<U: Equatable, T: UICollectionViewCell>: LazySectionItemsProvider {
+    public init(reuseTypes: [ReuseType] = [],
+                sectionItemsNumberHandler: @escaping () -> Int = {
+                    1
+                },
+                cellItemsNumberHandler: @escaping (Int) -> Int,
+                makeSectionItemHandler: @escaping (Int) -> CollectionViewSectionItem? = { _ in
+                    GeneralCollectionViewDiffSectionItem()
+                },
+                cellConfigurationHandler: ((U, T, UniversalCollectionViewCellItem<U, T>) -> Void)?,
+                sizeHandler: @escaping (IndexPath, UICollectionView) -> CGSize,
+                objectHandler: @escaping (IndexPath) -> Any?) {
+
         let factory = AssociatedCellItemFactory<U, T>()
         factory.cellConfigurationHandler = cellConfigurationHandler
+
+        var reuseTypes = reuseTypes
+        reuseTypes.append(contentsOf: factory.fetchReuseTypes())
+
         super.init(reuseTypes: reuseTypes,
                    sectionItemsNumberHandler: sectionItemsNumberHandler,
                    cellItemsNumberHandler: cellItemsNumberHandler,
                    sizeHandler: sizeHandler,
                    makeSectionItemHandler: makeSectionItemHandler,
                    makeCellItemHandler: { indexPath in
-            factory.makeCellItem(object: objectHandler(indexPath), index: indexPath.row)
-        })
-        self.reuseTypes.append(contentsOf: factory.fetchReuseTypes())
-    }
-
-    init(reuseTypes: [ReuseType] = [],
-         reusableViewItems: [CollectionViewReusableViewItem] = [],
-         cellItemsNumberHandler: @escaping (Int) -> Int,
-         cellConfigurationHandler: ((U, T, UniversalCollectionViewCellItem<T>) -> Void)?,
-         sizeHandler: @escaping (IndexPath, UICollectionView) -> CGSize,
-         objectHandler: @escaping (IndexPath) -> Any) {
-        let factory = AssociatedCellItemFactory<U, T>()
-        factory.cellConfigurationHandler = cellConfigurationHandler
-        super.init(reuseTypes: reuseTypes,
-                   sectionItemsNumberHandler: {
-                       1
-                   },
-                   cellItemsNumberHandler: cellItemsNumberHandler,
-                   sizeHandler: sizeHandler,
-                   makeSectionItemHandler: { _ in
-            GeneralCollectionViewDiffSectionItem(cellItems: [], reusableViewItems: reusableViewItems)
-        },
-                   makeCellItemHandler: { indexPath in
-            factory.makeCellItem(object: objectHandler(indexPath), index: indexPath.row)
-        })
-        self.reuseTypes.append(contentsOf: factory.fetchReuseTypes())
+                       guard let object = objectHandler(indexPath) else {
+                           return nil
+                       }
+                       return factory.makeCellItem(object: object, index: indexPath.row)
+                    })
     }
 }

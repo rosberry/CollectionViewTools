@@ -6,7 +6,7 @@
 
 import UIKit
 
-open class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
+open class AssociatedCellItemFactory<U: Equatable, T: UICollectionViewCell> {
 
     /// Set this handler to retrieve a specific set of cell items for the associated object
     ///
@@ -28,7 +28,7 @@ open class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
     /// - Parameters:
     ///    - Any: the object associated with a cell item
     ///    - CollectionViewCellItem: a cell item that should be cofigured
-    public var cellItemConfigurationHandler: ((Int, U, UniversalCollectionViewCellItem<T>) -> Void)?
+    public var cellItemConfigurationHandler: ((Int, U, UniversalCollectionViewCellItem<U, T>) -> Void)?
     
     /// Set this handler to configure the cell
     ///
@@ -36,14 +36,16 @@ open class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
     ///    - Any: the object associated with a cell item
     ///    - UICollectionViewCell: the cell that should be configured
     ///    - CollectionViewCellItem: the cell item that performs a cell configuration
-    public var cellConfigurationHandler: ((U, T, UniversalCollectionViewCellItem<T>) -> Void)?
+    public var cellConfigurationHandler: ((U, T, UniversalCollectionViewCellItem<U, T>) -> Void)?
 
     /// Set this handler to compare cellItems
     ///
     /// - Parameters:
     ///    - `UniversalCollectionViewCellItem<T>`: first cellItem that should be compared
     ///    - `UniversalCollectionViewCellItem<T>`: second cellItem that should be compared
-    public var isEqualHandler: ((UniversalCollectionViewCellItem<T>, UniversalCollectionViewCellItem<T>) -> Bool)?
+    public var isEqualHandler: ((UniversalCollectionViewCellItem<U, T>, UniversalCollectionViewCellItem<U, T>) -> Bool) = { lhs, rhs in
+        lhs.object == rhs.object
+    }
     
     public init() {
     }
@@ -66,8 +68,9 @@ open class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
     /// - Parameters:
     ///    - object: an object to create a cell item for it
     ///    - index: the index of the object in the array
-    public func makeUniversalCellItem(object: U, index: Int) -> UniversalCollectionViewCellItem<T> {
-        let cellItem = UniversalCollectionViewCellItem<T>()
+    public func makeUniversalCellItem(object: U, index: Int) -> UniversalCollectionViewCellItem<U, T> {
+        let cellItem = UniversalCollectionViewCellItem<U, T>()
+        cellItem.object = object
         cellItem.configurationHandler = { [weak self] cell in
             guard let self = self else {
                 return
@@ -103,7 +106,7 @@ open class AssociatedCellItemFactory<U, T: UICollectionViewCell> {
     ///    - size: a cell size configuration handler
     public func makeCellItem(configure configurationHandler: @escaping (T) -> Void,
                              size sizeConfigurationHandler: @escaping (UICollectionView, CollectionViewSectionItem) -> CGSize) -> CollectionViewCellItem {
-        let cellItem = UniversalCollectionViewCellItem<T>()
+        let cellItem = UniversalCollectionViewCellItem<U, T>()
         cellItem.configurationHandler = configurationHandler
         cellItem.sizeConfigurationHandler = sizeConfigurationHandler
         return cellItem

@@ -52,9 +52,10 @@ open class LazySectionItemsProvider: DictionarySectionItemsProvider {
             guard let sectionItem = self[indexPath.section] else {
                 return nil
             }
-            if let cellItem = sectionItem.diffCellItems[safe: indexPath.row] {
+            if let cellItem = sectionItem.cellItems[safe: indexPath.row] {
                 return cellItem
             }
+            print(indexPath)
             guard let cellItem = makeCellItemHandler(indexPath) else {
                 sectionItem.cellItems.remove(at: indexPath.row)
                 return nil

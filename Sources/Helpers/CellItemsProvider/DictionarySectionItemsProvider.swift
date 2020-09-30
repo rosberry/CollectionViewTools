@@ -58,7 +58,7 @@ open class DictionarySectionItemsProvider: SectionItemsProvider {
 
     public subscript(indexPath: IndexPath) -> CollectionViewCellItem? {
         get {
-            guard let sectionItem = sectionItemsDictionary[indexPath.section],
+            guard let sectionItem = self[indexPath.section],
                 indexPath.row < sectionItem.cellItems.count else {
                 return nil
             }
@@ -68,7 +68,7 @@ open class DictionarySectionItemsProvider: SectionItemsProvider {
         }
         set {
             if let cellItem = newValue {
-                guard let sectionItem = sectionItemsDictionary[indexPath.section] else {
+                guard let sectionItem = self[indexPath.section] else {
                     return
                 }
                 cellItem.sectionItem = sectionItem
@@ -93,39 +93,41 @@ open class DictionarySectionItemsProvider: SectionItemsProvider {
     }
 
     public func insert(_ sectionItem: CollectionViewSectionItem, at index: Int) {
-        for key in sectionItemsDictionary.keys.sorted().reversed() where key >= index {
-            sectionItems[key + 1] = sectionItems[key]
+        for key in sectionItemsDictionary.keys.sorted(by: >) where key >= index {
+            self[key + 1] = sectionItems[key]
         }
-        sectionItems[index] = sectionItem
+        self[index] = sectionItem
     }
 
     public func insert(contentsOf collection: [CollectionViewSectionItem], at index: Int) {
-        for key in sectionItemsDictionary.keys.sorted().reversed() where key >= index + collection.count {
-            sectionItems[key + collection.count] = sectionItems[key]
+        for key in sectionItemsDictionary.keys.sorted(by: >) where key >= index + collection.count {
+            self[key + collection.count] = self[key]
         }
         collection.enumerated().forEach { offset, sectionItem in
-            sectionItems[offset + index] = sectionItem
+            self[offset + index] = sectionItem
         }
     }
 
     public func remove(at index: Int) {
         for key in sectionItemsDictionary.keys.sorted() where key >= index {
-            sectionItems[key] = sectionItems[key + 1]
+            self[key] = self[key + 1]
         }
     }
 
     public func remove(at indexPath: IndexPath) {
-        sectionItemsDictionary[indexPath.section]?.cellItems.remove(at: indexPath.row)
+        self[indexPath.section]?.cellItems.remove(at: indexPath.row)
     }
 
     public func forEachCellItem(actionHandler: (Int, CollectionViewCellItem) -> Void) {
         sectionItemsDictionary.values.forEach { sectionItem in
-            sectionItem.cellItems.enumerated().forEach(actionHandler)
+            for i in 0..<sectionItem.cellItems.count {
+                actionHandler(i, sectionItem.cellItems[i])
+            }
         }
     }
 
     public func numberOfItems(inSection section: Int) -> Int {
-        return sectionItemsDictionary[section]?.cellItems.count ?? 0
+        return self[section]?.cellItems.count ?? 0
     }
 
     public func firstIndex(of sectionItem: CollectionViewSectionItem) -> Int? {
@@ -137,12 +139,12 @@ open class DictionarySectionItemsProvider: SectionItemsProvider {
     public func move(sectionItem: CollectionViewSectionItem?, at index: Int, to destinationIndex: Int) {
         let keySectionItem = sectionItem ?? sectionItems[index]
         sectionItemsDictionary.removeValue(forKey: index)
-        sectionItems[destinationIndex] = keySectionItem
+        self[destinationIndex] = keySectionItem
     }
 
     public func move(cellItemAt indexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let sourceSectionItem = sectionItemsDictionary[indexPath.section]
-        let destinationIndexPathSectionItem = sectionItemsDictionary[destinationIndexPath.section]
+        let sourceSectionItem = self[indexPath.section]
+        let destinationIndexPathSectionItem = self[destinationIndexPath.section]
         if let cellItem = sourceSectionItem?.cellItems.remove(at: indexPath.row) {
             destinationIndexPathSectionItem?.cellItems.insert(cellItem, at: destinationIndexPath.row)
         }

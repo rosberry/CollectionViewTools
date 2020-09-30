@@ -6,10 +6,10 @@
 
 import UIKit
 
-public final class UniversalCollectionViewCellItem<T: UICollectionViewCell>: CollectionViewDiffCellItem {
+public final class UniversalCollectionViewCellItem<U: Equatable, T: UICollectionViewCell>: CollectionViewDiffCellItem {
 
     public let reuseType = ReuseType.class(T.self)
-    public var context = [String: Any]()
+    public var object: U?
     public lazy var diffIdentifier: String = .init(describing: self)
     
     /// Set this handler to configure the cell
@@ -29,7 +29,7 @@ public final class UniversalCollectionViewCellItem<T: UICollectionViewCell>: Col
     ///
     /// - Parameters:
     ///    - `UniversalCollectionViewCellItem<T>`: cellItem that should be compared with `self`
-    public var isEqualHandler: ((UniversalCollectionViewCellItem<T>) -> Bool)?
+    public var isEqualHandler: ((UniversalCollectionViewCellItem<U, T>) -> Bool)?
     
     public func configure(_ cell: UICollectionViewCell) {
         guard let cell = cell as? T else {
@@ -43,7 +43,7 @@ public final class UniversalCollectionViewCellItem<T: UICollectionViewCell>: Col
     }
 
     public func isEqual(to item: DiffItem) -> Bool {
-        guard let cellItem = item as? UniversalCollectionViewCellItem<T> else {
+        guard let cellItem = item as? UniversalCollectionViewCellItem<U, T> else {
             return false
         }
         return isEqualHandler?(cellItem) ?? true

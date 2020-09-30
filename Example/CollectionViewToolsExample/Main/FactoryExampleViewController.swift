@@ -14,19 +14,17 @@ protocol HasDescriptionProtocol: class {
 
 final class FactoryExampleViewController: UIViewController {
     
-    class ImageData: HasDescriptionProtocol {
-        let image: UIImage
-        let description: String
+    final class ImageViewModel {
+        let imageContent: ImageContent
         var isExpanded: Bool = false
 
-        init(image: UIImage, description: String) {
-            self.image = image
-            self.description = description
+        init(imageContent: ImageContent) {
+            self.imageContent = imageContent
         }
     }
     
-    class TextData: HasDescriptionProtocol {
-        let text: String
+    class TextViewModel {
+        let textContent: TextContent
         let description: String
         var isExpanded: Bool = false
 

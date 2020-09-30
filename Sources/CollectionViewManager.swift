@@ -746,16 +746,14 @@ open class CollectionViewManager: NSObject {
     
     /// Use this method to perform register all section items.
     func registerSectionItems() {
-        let sectionItems = sectionItemsProvider.sectionItems
-        let reuseTypes = sectionItemsProvider.reuseTypes
-
-        reuseTypes.forEach { reuseType in
-            collectionView.registerCell(with: reuseType)
-        }
-        sectionItems.forEach { sectionItem in
-            sectionItem.reusableViewItems.forEach { viewItem in
+        for index in 0..<sectionItemsProvider.numberOfSections {
+            sectionItemsProvider[index]?.reusableViewItems.forEach { viewItem in
                 register(viewItem)
             }
+        }
+
+        sectionItemsProvider.reuseTypes.forEach { reuseType in
+            collectionView.registerCell(with: reuseType)
         }
     }
 
