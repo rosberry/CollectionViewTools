@@ -11,6 +11,10 @@ public final class UniversalCollectionViewCellItem<T: UICollectionViewCell>: Col
     public let reuseType = ReuseType.class(T.self)
     public var context = [String: Any]()
     public lazy var diffIdentifier: String = .init(describing: self)
+
+    public init() {
+        
+    }
     
     /// Set this handler to configure the cell
     ///
