@@ -8,7 +8,7 @@ import UIKit
 
 public final class UniversalCollectionViewCellItem<U: GenericDiffItem, T: UICollectionViewCell>: CollectionViewDiffCellItem {
 
-    public lazy var reuseType = ReuseType.class(T.self)
+    public lazy var reuseType = ReuseType.classWithIdentifier(T.self, identifier: diffIdentifier)
     public lazy var diffIdentifier: String = "\(String(describing: type(of: self))){\(object.diffIdentifier)}"
     public let object: U
 
