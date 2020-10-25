@@ -11,6 +11,20 @@ public protocol DiffItem {
     func isEqual(to item: DiffItem) -> Bool
 }
 
+public protocol GenericDiffItem: DiffItem {
+    associatedtype ConcreteDiffItem: GenericDiffItem
+    func isEqual(to item: ConcreteDiffItem) -> Bool
+}
+
+extension GenericDiffItem {
+    public func isEqual(to item: DiffItem) -> Bool {
+        guard let item = item as? ConcreteDiffItem else {
+            return false
+        }
+        return isEqual(to: item)
+    }
+}
+
 /// Your section items must conform `DiffSectionItem` protocol to work with diffing.
 /// areInsetsAndSpacingsEqual: Compares section item insets and spacings.
 /// areReusableViewsEqual: Compares section item reusable view items.
