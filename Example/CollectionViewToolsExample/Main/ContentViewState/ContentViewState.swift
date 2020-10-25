@@ -17,7 +17,7 @@ class ContentViewState {
 
 extension ContentViewState: GenericDiffItem {
     var diffIdentifier: String {
-        "\(content.id)/\(content.description)"
+        "\(content.id)"
     }
 
     func isEqual(to item: ContentViewState) -> Bool {
