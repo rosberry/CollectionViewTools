@@ -29,6 +29,13 @@ public class ComplexCellItemFactory: CellItemFactory {
         }
         return []
     }
+
+    public func makeCellItem(object: Any) -> CollectionViewCellItem? {
+        if let factory = factories[String(describing: type(of: object))] {
+            return factory.makeCellItem(object: object)
+        }
+        return nil
+    }
     
     @discardableResult
     public func factory(byJoining factory: CellItemFactory) -> CellItemFactory {
