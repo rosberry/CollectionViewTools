@@ -11,7 +11,7 @@ final class DividerCellItem: CollectionViewDiffCellItem {
     typealias Cell = DividerCell
 
     let reuseType: ReuseType = .class(Cell.self)
-    var diffIdentifier: String = String(describing: Cell.self)
+    let diffIdentifier: String = String(describing: Cell.self)
 
     func isEqual(to item: DiffItem) -> Bool {
         false
