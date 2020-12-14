@@ -37,7 +37,7 @@ open class LazyFactorySectionItemsProvider: LazySectionItemsProvider {
     }
 }
 
-open class LazyAssociatedFactorySectionItemsProvider<U: Equatable, T: UICollectionViewCell>: LazySectionItemsProvider {
+open class LazyAssociatedFactorySectionItemsProvider<U: GenericDiffItem, T: UICollectionViewCell>: LazySectionItemsProvider {
     public init(reuseTypes: [ReuseType] = [],
                 sectionItemsNumberHandler: @escaping () -> Int = {
                     1
@@ -46,7 +46,7 @@ open class LazyAssociatedFactorySectionItemsProvider<U: Equatable, T: UICollecti
                 makeSectionItemHandler: @escaping (Int) -> CollectionViewSectionItem? = { _ in
                     GeneralCollectionViewDiffSectionItem()
                 },
-                cellConfigurationHandler: ((U, T, UniversalCollectionViewCellItem<U, T>) -> Void)?,
+                cellConfigurationHandler: ((T, UniversalCollectionViewCellItem<U, T>) -> Void)?,
                 sizeHandler: @escaping (IndexPath, UICollectionView) -> CGSize,
                 objectHandler: @escaping (IndexPath) -> Any?) {
 
