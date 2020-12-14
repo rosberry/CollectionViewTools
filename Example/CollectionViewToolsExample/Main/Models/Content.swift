@@ -13,9 +13,3 @@ class Content {
         self.description = description
     }
 }
-
-extension Content: Equatable {
-    static func == (lhs: Content, rhs: Content) -> Bool {
-        lhs.id == rhs.id
-    }
-}

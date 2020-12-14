@@ -7,6 +7,7 @@
 import UIKit.UIImage
 
 final class ImageContent: Content {
+
     let image: UIImage
 
     init(id: Int, image: UIImage, description: String) {

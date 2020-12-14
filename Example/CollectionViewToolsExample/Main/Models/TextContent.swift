@@ -5,10 +5,11 @@
 //
 
 final class TextContent: Content {
-    let title: String
 
-    init(id: Int, title: String, description: String) {
-        self.title = title
+    let text: String
+
+    init(id: Int, text: String, description: String) {
+        self.text = text
         super.init(id: id, description: description)
     }
 }

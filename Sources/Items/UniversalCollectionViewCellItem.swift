@@ -6,18 +6,22 @@
 
 import UIKit
 
-public final class UniversalCollectionViewCellItem<U: Equatable, T: UICollectionViewCell>: CollectionViewDiffCellItem {
+public final class UniversalCollectionViewCellItem<U: GenericDiffItem, T: UICollectionViewCell>: CollectionViewDiffCellItem {
 
-    public let reuseType = ReuseType.class(T.self)
-    public var object: U?
-    public lazy var diffIdentifier: String = .init(describing: self)
-    
+    public lazy var reuseType = ReuseType.classWithIdentifier(T.self, identifier: diffIdentifier)
+    public lazy var diffIdentifier: String = "\(String(describing: type(of: self))){\(object.diffIdentifier)}"
+    public let object: U
+
+    init(object: U) {
+        self.object = object
+    }
+
     /// Set this handler to configure the cell
     ///
     /// - Parameters:
     ///    - UICollectionViewCell: collection view cell that should be configured
     public var configurationHandler: ((T) -> Void)?
-    
+
     /// Set this handler to configure the size of cell
     ///
     /// - Parameters:
@@ -25,19 +29,13 @@ public final class UniversalCollectionViewCellItem<U: Equatable, T: UICollection
     ///    - CollectionViewSectionItem: a section item in the section of which the cell should be placed
     public var sizeConfigurationHandler: ((UICollectionView, CollectionViewSectionItem) -> CGSize)?
 
-    /// Set this handler to compare cellItems
-    ///
-    /// - Parameters:
-    ///    - `UniversalCollectionViewCellItem<T>`: cellItem that should be compared with `self`
-    public var isEqualHandler: ((UniversalCollectionViewCellItem<U, T>) -> Bool)?
-    
     public func configure(_ cell: UICollectionViewCell) {
         guard let cell = cell as? T else {
             return
         }
         configurationHandler?(cell)
     }
-    
+
     public func size(in collectionView: UICollectionView, sectionItem: CollectionViewSectionItem) -> CGSize {
         return sizeConfigurationHandler?(collectionView, sectionItem) ?? .zero
     }
@@ -46,6 +44,6 @@ public final class UniversalCollectionViewCellItem<U: Equatable, T: UICollection
         guard let cellItem = item as? UniversalCollectionViewCellItem<U, T> else {
             return false
         }
-        return isEqualHandler?(cellItem) ?? true
+        return object.isEqual(to: cellItem)
     }
 }
