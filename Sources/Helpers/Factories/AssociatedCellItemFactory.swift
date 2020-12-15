@@ -11,7 +11,7 @@ public class AssociatedCellItemFactory<U: GenericDiffItem, T: UICollectionViewCe
     /// Set this handler to retrieve a specific set of cell items for the associated object
     ///
     /// - Parameters:
-    ///    - Int: the index path of an object in the provided array
+    ///    - Int: the index of an object in the provided array
     ///    - Any: the object associated with a cell item
     public var initializationHandler: ((Int, U) -> [CollectionViewCellItem?])?
 
@@ -26,14 +26,13 @@ public class AssociatedCellItemFactory<U: GenericDiffItem, T: UICollectionViewCe
     /// Set this handler to configure the cell item
     ///
     /// - Parameters:
-    ///    - Any: the object associated with a cell item
+    ///    - Int: the index of an object in the provided array
     ///    - CollectionViewCellItem: a cell item that should be cofigured
     public var cellItemConfigurationHandler: ((Int, UniversalCollectionViewCellItem<U, T>) -> Void)?
 
     /// Set this handler to configure the cell
     ///
     /// - Parameters:
-    ///    - Any: the object associated with a cell item
     ///    - UICollectionViewCell: the cell that should be configured
     ///    - CollectionViewCellItem: the cell item that performs a cell configuration
     public var cellConfigurationHandler: ((T, UniversalCollectionViewCellItem<U, T>) -> Void)?
@@ -68,6 +67,7 @@ public class AssociatedCellItemFactory<U: GenericDiffItem, T: UICollectionViewCe
     /// Returns an instance of `UniversalCollectionViewCellItem` and associates provided handlers with them
     ///
     /// - Parameters:
+    ///    - object: an object to create a cell item for it 
     ///    - configure: a cell configuration handler
     ///    - size: a cell size configuration handler
     public func makeCellItem(object: U,

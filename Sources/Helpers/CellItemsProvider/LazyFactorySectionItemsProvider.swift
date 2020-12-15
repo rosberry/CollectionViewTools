@@ -7,6 +7,16 @@
 import UIKit
 
 open class LazyFactorySectionItemsProvider: LazySectionItemsProvider {
+
+    /// `LazyFactorySectionItemsProvider` initializer
+    ///
+    /// - Parameters:
+    ///    - factory: the instance of `CellItemFactory` to generate cell items
+    ///    - sectionItemsNumberHandler: block that returns number of sections, returns 1 by default
+    ///    - cellItemsNumberHandler: block that returns number of items in section
+    ///    - sizeHandler: block that returns size of cell at index path
+    ///    - makeSectionItemHandler: block that returns section item to lazy load cell items in it, `GeneralCollectionViewDiffSectionItem` by default
+    ///    - objectHandler: block that returns object at index path to associate it with cell item
     public init(factory: CellItemFactory,
                 sectionItemsNumberHandler: @escaping () -> Int = {
                     1
@@ -33,6 +43,15 @@ open class LazyFactorySectionItemsProvider: LazySectionItemsProvider {
 }
 
 open class LazyAssociatedFactorySectionItemsProvider<U: GenericDiffItem, T: UICollectionViewCell>: LazySectionItemsProvider {
+    /// `LazyFactorySectionItemsProvider` initializer
+    ///
+    /// - Parameters:
+    ///    - sectionItemsNumberHandler: block that returns number of sections, returns 1 by default
+    ///    - cellItemsNumberHandler: block that returns number of items in section
+    ///    - makeSectionItemHandler: block that returns section item to lazy load cell items in it, `GeneralCollectionViewDiffSectionItem` by default
+    ///    - cellConfigurationHandler: block to configure cell according it cell item
+    ///    - sizeHandler: block that returns size of cell at index path
+    ///    - objectHandler: block that returns object at index path to associate it with cell item
     public init(sectionItemsNumberHandler: @escaping () -> Int = {
                     1
                 },
