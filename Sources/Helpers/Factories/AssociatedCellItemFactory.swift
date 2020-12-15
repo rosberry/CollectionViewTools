@@ -109,10 +109,6 @@ public class AssociatedCellItemFactory<U: GenericDiffItem, T: UICollectionViewCe
 
 extension AssociatedCellItemFactory: CellItemFactory {
 
-    public func fetchReuseTypes() -> [ReuseType] {
-        [.class(T.self)]
-    }
-
     public func makeCellItem(object: Any) -> CollectionViewCellItem? {
         guard let object = object as? U else {
             return nil

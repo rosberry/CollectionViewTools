@@ -18,8 +18,7 @@ open class LazySectionItemsProvider: DictionarySectionItemsProvider {
         sectionItemsNumberHandler() == 0
     }
 
-    init(reuseTypes: [ReuseType],
-         sectionItemsNumberHandler: @escaping () -> Int,
+    init(sectionItemsNumberHandler: @escaping () -> Int,
          cellItemsNumberHandler: @escaping (Int) -> Int,
          sizeHandler: @escaping (IndexPath, UICollectionView) -> CGSize,
          makeSectionItemHandler: @escaping (Int) -> CollectionViewSectionItem?,
@@ -30,7 +29,6 @@ open class LazySectionItemsProvider: DictionarySectionItemsProvider {
         self.sectionItemsNumberHandler = sectionItemsNumberHandler
         self.makeSectionItemHandler = makeSectionItemHandler
         super.init()
-        self.reuseTypes.append(contentsOf: reuseTypes)
     }
 
     public override subscript(index: Int) -> CollectionViewSectionItem? {
@@ -55,7 +53,6 @@ open class LazySectionItemsProvider: DictionarySectionItemsProvider {
             if let cellItem = sectionItem.cellItems[safe: indexPath.row] {
                 return cellItem
             }
-            print(indexPath)
             guard let cellItem = makeCellItemHandler(indexPath) else {
                 sectionItem.cellItems.remove(at: indexPath.row)
                 return nil

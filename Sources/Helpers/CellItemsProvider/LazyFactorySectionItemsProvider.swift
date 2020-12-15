@@ -8,7 +8,6 @@ import UIKit
 
 open class LazyFactorySectionItemsProvider: LazySectionItemsProvider {
     public init(factory: CellItemFactory,
-                reuseTypes: [ReuseType] = [],
                 sectionItemsNumberHandler: @escaping () -> Int = {
                     1
                 },
@@ -18,12 +17,8 @@ open class LazyFactorySectionItemsProvider: LazySectionItemsProvider {
                     GeneralCollectionViewDiffSectionItem()
                 },
                 objectHandler: @escaping (IndexPath) -> Any?) {
-
-        var reuseTypes = reuseTypes
-        reuseTypes.append(contentsOf: factory.fetchReuseTypes())
     
-        super.init(reuseTypes: reuseTypes,
-                   sectionItemsNumberHandler: sectionItemsNumberHandler,
+        super.init(sectionItemsNumberHandler: sectionItemsNumberHandler,
                    cellItemsNumberHandler: cellItemsNumberHandler,
                    sizeHandler: sizeHandler,
                    makeSectionItemHandler: makeSectionItemHandler,
@@ -38,8 +33,7 @@ open class LazyFactorySectionItemsProvider: LazySectionItemsProvider {
 }
 
 open class LazyAssociatedFactorySectionItemsProvider<U: GenericDiffItem, T: UICollectionViewCell>: LazySectionItemsProvider {
-    public init(reuseTypes: [ReuseType] = [],
-                sectionItemsNumberHandler: @escaping () -> Int = {
+    public init(sectionItemsNumberHandler: @escaping () -> Int = {
                     1
                 },
                 cellItemsNumberHandler: @escaping (Int) -> Int,
@@ -53,11 +47,7 @@ open class LazyAssociatedFactorySectionItemsProvider<U: GenericDiffItem, T: UICo
         let factory = AssociatedCellItemFactory<U, T>()
         factory.cellConfigurationHandler = cellConfigurationHandler
 
-        var reuseTypes = reuseTypes
-        reuseTypes.append(contentsOf: factory.fetchReuseTypes())
-
-        super.init(reuseTypes: reuseTypes,
-                   sectionItemsNumberHandler: sectionItemsNumberHandler,
+        super.init(sectionItemsNumberHandler: sectionItemsNumberHandler,
                    cellItemsNumberHandler: cellItemsNumberHandler,
                    sizeHandler: sizeHandler,
                    makeSectionItemHandler: makeSectionItemHandler,

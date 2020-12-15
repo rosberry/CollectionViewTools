@@ -128,13 +128,15 @@ open class CollectionViewManager: NSObject {
     /// - Returns: A cell item associated with cell of the collection, or nil if the cell item
     /// wasn't added to manager or indexPath is out of range.
     open func cellItem(for indexPath: IndexPath) -> CellItem? {
-        guard let sectionItem = sectionItem(for: indexPath) else {
+        guard let sectionItem = sectionItem(for: indexPath),
+            let cellItem = sectionItemsProvider[indexPath] else {
             return nil
         }
-        let cellItem = sectionItemsProvider[indexPath]
-        cellItem?.sectionItem = sectionItem
-        cellItem?.indexPath = indexPath
-        cellItem?.collectionView = collectionView
+
+        cellItem.sectionItem = sectionItem
+        cellItem.indexPath = indexPath
+        cellItem.collectionView = collectionView
+        sectionItemsProvider.registerIfNeeded(cellItem: cellItem)
         return cellItem
     }
 
@@ -751,10 +753,7 @@ open class CollectionViewManager: NSObject {
                 register(viewItem)
             }
         }
-
-        sectionItemsProvider.reuseTypes.forEach { reuseType in
-            collectionView.registerCell(with: reuseType)
-        }
+        sectionItemsProvider.registerKnownReuseTypes(in: collectionView)
     }
 
     func configureCellItems(animated: Bool = false) {

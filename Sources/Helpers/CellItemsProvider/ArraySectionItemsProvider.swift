@@ -12,16 +12,6 @@ open class ArraySectionItemsProvider: SectionItemsProvider {
         sectionItems.count
     }
 
-    public var reuseTypes: [ReuseType] {
-        get {
-            sectionItems.flatMap { sectionItem in
-                sectionItem.cellItems.map { cellItem in
-                    cellItem.reuseType
-                }
-            }
-        }
-    }
-
     public var isEmpty: Bool {
         sectionItems.isEmpty
     }
@@ -110,5 +100,22 @@ open class ArraySectionItemsProvider: SectionItemsProvider {
         sectionItems.forEach { sectionItem in
             sectionItem.cellItems.enumerated().forEach(actionHandler)
         }
+    }
+
+    public func registerIfNeeded(cellItem: CollectionViewCellItem) {
+        // To avoid performance decreasing for common using
+        // this function does not do anything
+    }
+
+    public func registerKnownReuseTypes(in collectionView: UICollectionView) {
+        sectionItems.forEach { sectionItem in
+            sectionItem.cellItems.forEach { cellItem in
+                collectionView.registerCell(with: cellItem.reuseType)
+            }
+        }
+    }
+
+    public func removedCellItem(at indexPath: IndexPath) -> CollectionViewCellItem? {
+        self[indexPath]
     }
 }

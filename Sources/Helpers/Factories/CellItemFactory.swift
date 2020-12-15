@@ -15,12 +15,6 @@ public protocol CellItemFactory {
     ///    - object: an object to create a cell item for it
     ///    - index: the index of the object in the array
     func makeCellItem(object: Any, index: Int) -> CollectionViewCellItem?
-
-    /// Returns an array of reuse types based on factory type
-    ///
-    /// - Parameters:
-    ///    - array: an array of objects to create cell items for them
-    func fetchReuseTypes() -> [ReuseType]
     
     /// Returns an array of cell items
     ///

@@ -75,10 +75,4 @@ public class ComplexCellItemFactory: CellItemFactory {
     public var hashKey: String? {
         return nil
     }
-
-    public func fetchReuseTypes() -> [ReuseType] {
-        factories.values.flatMap { factory in
-            factory.fetchReuseTypes()
-        }
-    }
 }

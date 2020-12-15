@@ -129,7 +129,7 @@ class MainViewController: UIViewController {
         let sectionItem = makeActionsSectionItem(cellItems: [
             makeResetActionCellItem(),
             // Factory example
-            //makeFactoryExampleActionCellItem(),
+            makeFactoryExampleActionCellItem(),
             // Lazy items example
             makeLazySectionItemsExampleActionCellItem(),
             // Insert cells
@@ -421,15 +421,15 @@ class MainViewController: UIViewController {
 
     // MARK: - Factory example
 
-//    func makeFactoryExampleActionCellItem() -> CollectionViewCellItem {
-//        return makeActionCellItem(title: "Factory example") { [weak self] in
-//            guard let `self` = self else {
-//                return
-//            }
-//            let viewController = FactoryExampleViewController()
-//            self.navigationController?.pushViewController(viewController, animated: true)
-//        }
-//    }
+    func makeFactoryExampleActionCellItem() -> CollectionViewCellItem {
+        return makeActionCellItem(title: "Factory example") { [weak self] in
+            guard let `self` = self else {
+                return
+            }
+            let viewController = FactoryExampleViewController()
+            self.navigationController?.pushViewController(viewController, animated: true)
+        }
+    }
 
     // MARK: - Lazy section items axample
 

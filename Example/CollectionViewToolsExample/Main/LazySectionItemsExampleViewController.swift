@@ -9,60 +9,54 @@ import CollectionViewTools
 
 final class LazySectionItemsExampleViewController: UIViewController {
 
-    struct Events {
-        let month: String
-        let array: [Int]
-    }
-
-    var data: [Events] = [.init(month: "May, 2020", array: Array(1..<100)),
-                          .init(month: "June, 2020", array: Array(100..<200)),
-                          .init(month: "July, 2020", array: Array(200..<300)),
-                          .init(month: "August, 2020", array: Array(300..<400))]
-
-    // MARK: Subviews
-
-    lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        collectionView.backgroundColor = .clear
-        collectionView.alwaysBounceVertical = true
-
-        return collectionView
+    private lazy var mainCollectionViewManager: CollectionViewManager = .init(collectionView: mainCollectionView)
+    private lazy var factory: ContentViewSectionItemsFactory = {
+        let factory = ContentViewSectionItemsFactory()
+        factory.output = self
+        return factory
     }()
-
-
-    private lazy var collectionViewManager: CollectionViewManager = .init(collectionView: collectionView)
-
-    private lazy var sectionItemsProvider: SectionItemsProvider = {
+    private lazy var contentProvider: ContentProvider = .init()
+    private(set) lazy var sectionItemsProvider: SectionItemsProvider = {
         LazyFactorySectionItemsProvider(
-            factory: cellItemsFactory,
-            sectionItemsNumberHandler: { [weak self] in
-                self?.data.count ?? 0
-            },
+            factory: factory.cellItemFactory,
             cellItemsNumberHandler: { [weak self] index in
-                self?.data[index].array.count ?? 0
+                (self?.contentProvider.contents.count ?? 0) * 2
             },
-            sizeHandler: { _, collectionView in
-                .init(width: collectionView.bounds.width, height: 80)
-            },
-            makeSectionItemHandler: { index in
-                LazyCollectionViewSectionItem(reusableViewItems: [
-                    HeaderViewItem(title: "Section \(index)",
-                                   backgroundColor: UIColor.black.withAlphaComponent(0.5),
-                                   isFolded: false)
-                ])
+            sizeHandler: { [weak self] indexPath, collectionView in
+                guard let self = self else {
+                    return .zero
+                }
+                guard indexPath.row % 2 == 0 else {
+                    return .init(width: collectionView.bounds.width, height: 1)
+                }
+                let content = self.contentProvider.contents[indexPath.row / 2]
+                if let image = (content as? ImageContent)?.image {
+                    let width = collectionView.bounds.width
+                    let aspectRatio = image.size.width / image.size.height
+                    return .init(width: width, height: width / aspectRatio)
+                }
+                return .init(width: collectionView.bounds.width, height: 80)
             },
             objectHandler: { [weak self] indexPath in
-                self?.data[indexPath.section].array[indexPath.row]
+                guard let self = self else {
+                    return nil
+                }
+                guard indexPath.row % 2 == 0 else {
+                    return DividerState()
+                }
+                let content = self.contentProvider.contents[indexPath.row / 2]
+                return self.factory.makeContentViewSate(content)
             }
         )
     }()
 
-    private lazy var cellItemsFactory: CellItemFactory = {
-        let factory = AssociatedCellItemFactory<Int, TextCollectionViewCell>()
-        factory.cellConfigurationHandler = { number, cell, cellItem in
-            cell.titleLabel.text = "\(number)"
-        }
-        return factory
+    // MARK: Subviews
+
+    lazy var mainCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        collectionView.backgroundColor = .clear
+        collectionView.alwaysBounceVertical = true
+        return collectionView
     }()
 
     // MARK: Lifecycle
@@ -70,16 +64,44 @@ final class LazySectionItemsExampleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.title = "Library"
-        view.addSubview(collectionView)
+        navigationItem.title = "Feeds"
+        view.addSubview(mainCollectionView)
         view.backgroundColor = .white
-        collectionViewManager.sectionItemsProvider = sectionItemsProvider
+        mainCollectionViewManager.sectionItemsProvider = sectionItemsProvider
+        resetMainCollection()
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        collectionView.frame = view.bounds
-        collectionView.contentInset.bottom = bottomLayoutGuide.length
+        mainCollectionView.frame = view.bounds
+        mainCollectionView.contentInset.bottom = bottomLayoutGuide.length
+    }
+
+    // MARK: - Private
+
+    private func resetMainCollection() {
+        mainCollectionView.reloadData()
     }
 }
 
+extension LazySectionItemsExampleViewController: ContentViewCellItemFactoryOutput {
+    func removeContentViewState(_ state: ContentViewState) {
+        let removingIndex = contentProvider.contents.firstIndex { content in
+            content.id == state.content.id
+        }
+        guard let index = removingIndex,
+              let cellItem = sectionItemsProvider[.init(row: index * 2, section: 0)] else {
+            return
+        }
+        var cellItems = [cellItem]
+        if let dividerCellItem = sectionItemsProvider[.init(row: index * 2 + 1, section: 0)] {
+            cellItems.append(dividerCellItem)
+        }
+        contentProvider.contents.remove(at: index)
+        mainCollectionViewManager.remove(cellItems)
+    }
+
+    func reloadCollectionView() {
+        resetMainCollection()
+    }
+}

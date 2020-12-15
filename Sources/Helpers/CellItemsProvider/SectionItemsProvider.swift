@@ -7,11 +7,11 @@
 public protocol SectionItemsProvider {
 
     var numberOfSections: Int { get }
-    var reuseTypes: [ReuseType] { get }
     var sectionItems: [CollectionViewSectionItem] { get set}
     var isEmpty: Bool { get }
     subscript(index: Int) -> CollectionViewSectionItem? { get set }
     subscript(indexPath: IndexPath) -> CollectionViewCellItem? { get set }
+    func removedCellItem(at indexPath: IndexPath) -> CollectionViewCellItem?
     func numberOfItems(inSection: Int) -> Int
     func sizeForCellItem(at indexPath: IndexPath, in collectionView: UICollectionView) -> CGSize
 
@@ -23,4 +23,6 @@ public protocol SectionItemsProvider {
     func move(cellItemAt indexPath: IndexPath, to destinationIndexPath: IndexPath)
     func firstIndex(of: CollectionViewSectionItem) -> Int?
     func forEachCellItem(actionHandler: (Int, CollectionViewCellItem) -> Void)
+    func registerIfNeeded(cellItem: CollectionViewCellItem)
+    func registerKnownReuseTypes(in collectionView: UICollectionView)
 }

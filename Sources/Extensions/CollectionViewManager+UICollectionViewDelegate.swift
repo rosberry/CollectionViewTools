@@ -43,7 +43,8 @@ extension CollectionViewManager: UICollectionViewDelegate {
     open func collectionView(_ collectionView: UICollectionView,
                              didEndDisplaying cell: UICollectionViewCell,
                              forItemAt indexPath: IndexPath) {
-        cellItem(for: indexPath)?.didEndDisplaying(cell: cell, at: indexPath)
+        let cellItem = sectionItemsProvider.removedCellItem(at: indexPath)
+        cellItem?.didEndDisplaying(cell: cell, at: indexPath)
     }
     
     open func collectionView(_ collectionView: UICollectionView,

@@ -7,6 +7,7 @@
 open class DictionarySectionItemsProvider: SectionItemsProvider {
     
     var sectionItemsDictionary: [Int: CollectionViewSectionItem] = [:]
+    var removedCellItems: [IndexPath: CollectionViewCellItem] = [:]
 
     public var numberOfSections: Int {
         sectionItemsDictionary.count
@@ -21,25 +22,6 @@ open class DictionarySectionItemsProvider: SectionItemsProvider {
             newValue.enumerated().forEach { key, value in
                 sectionItemsDictionary[key] = value
             }
-        }
-    }
-
-    private var cachedReuseTypes: [ReuseType]?
-
-    public var reuseTypes: [ReuseType] {
-        get {
-            if let reuseTypes = cachedReuseTypes {
-                return reuseTypes
-            }
-            cachedReuseTypes = sectionItemsDictionary.values.flatMap { sectionItem in
-                sectionItem.cellItems.map { cellItem in
-                    cellItem.reuseType
-                }
-            }
-            return cachedReuseTypes ?? []
-        }
-        set {
-            cachedReuseTypes = newValue
         }
     }
 
@@ -115,7 +97,8 @@ open class DictionarySectionItemsProvider: SectionItemsProvider {
     }
 
     public func remove(at indexPath: IndexPath) {
-        self[indexPath.section]?.cellItems.remove(at: indexPath.row)
+        let cellItem = self[indexPath.section]?.cellItems.remove(at: indexPath.row)
+        removedCellItems[indexPath] = cellItem
     }
 
     public func forEachCellItem(actionHandler: (Int, CollectionViewCellItem) -> Void) {
@@ -148,5 +131,20 @@ open class DictionarySectionItemsProvider: SectionItemsProvider {
         if let cellItem = sourceSectionItem?.cellItems.remove(at: indexPath.row) {
             destinationIndexPathSectionItem?.cellItems.insert(cellItem, at: destinationIndexPath.row)
         }
+    }
+
+    public func registerKnownReuseTypes(in collectionView: UICollectionView) {
+        // For lazy access we could not register some reuse types before
+        // cellItem will be instantiated
+    }
+
+    public func registerIfNeeded(cellItem: CollectionViewCellItem) {
+        // TODO: If it will lead to performance decreasing then use dictionary to check
+        // registered identifiers and just remove this comment in other case
+        cellItem.collectionView?.registerCell(with: cellItem.reuseType)
+    }
+
+    public func removedCellItem(at indexPath: IndexPath) -> CollectionViewCellItem? {
+        removedCellItems[indexPath] ?? self[indexPath]
     }
 }
