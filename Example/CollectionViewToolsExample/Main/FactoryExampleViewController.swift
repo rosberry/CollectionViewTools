@@ -10,14 +10,14 @@ import CollectionViewTools
 final class FactoryExampleViewController: UIViewController {
 
     private lazy var mainCollectionViewManager: CollectionViewManager = .init(collectionView: mainCollectionView)
-    private lazy var sectionItemsFactory: ContentViewSectionItemsFactory = {
+    private lazy var factory: ContentViewSectionItemsFactory = {
         let factory = ContentViewSectionItemsFactory()
         factory.output = self
         return factory
     }()
     private lazy var contentProvider: ContentProvider = .init()
     private lazy var contentViewStates: [ContentViewState] = {
-        contentProvider.contents.compactMap(sectionItemsFactory.makeContentViewSate)
+        contentProvider.contents.compactMap(factory.makeContentViewSate)
     }()
 
     // MARK: Subviews
@@ -49,7 +49,7 @@ final class FactoryExampleViewController: UIViewController {
     // MARK: - Private
 
     private func resetMainCollection() {
-        let sectionItems = sectionItemsFactory.makeSectionItems(contentViewStates: contentViewStates)
+        let sectionItems = factory.makeSectionItems(contentViewStates: contentViewStates)
         if mainCollectionViewManager.sectionItems.isEmpty {
             mainCollectionViewManager.sectionItems = sectionItems
         }

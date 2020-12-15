@@ -36,7 +36,7 @@ open class LazyFactorySectionItemsProvider: LazySectionItemsProvider {
                        guard let object = objectHandler(indexPath) else {
                            return nil
                        }
-                       let cellItem = factory.makeCellItem(object: object, index: indexPath.row)
+                       let cellItem = factory.makeCellItem(object: object)
                        return cellItem
                    })
     }
@@ -74,7 +74,7 @@ open class LazyAssociatedFactorySectionItemsProvider<U: GenericDiffItem, T: UICo
                        guard let object = objectHandler(indexPath) else {
                            return nil
                        }
-                       return factory.makeCellItem(object: object, index: indexPath.row)
+                       return factory.makeCellItem(object: object)
                     })
     }
 }

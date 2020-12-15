@@ -15,7 +15,7 @@ public class AssociatedCellItemFactory<Object: GenericDiffItem, Cell: UICollecti
     /// - Parameters:
     ///    - Int: the index of an object in the provided array
     ///    - U: the object associated with a cell item
-    public var initializationHandler: ((Int, Object) -> [CollectionViewCellItem?])?
+    public var initializationHandler: ((Object) -> [CollectionViewCellItem?])?
 
     /// Set this handler to configure the size of cell
     ///
@@ -30,7 +30,7 @@ public class AssociatedCellItemFactory<Object: GenericDiffItem, Cell: UICollecti
     /// - Parameters:
     ///    - Int: the index of an object in the provided array
     ///    - CollectionViewCellItem: a cell item that should be cofigured
-    public var cellItemConfigurationHandler: ((Int, CellItem) -> Void)?
+    public var cellItemConfigurationHandler: ((CellItem) -> Void)?
 
     /// Set this handler to configure the cell
     ///
@@ -50,20 +50,9 @@ public class AssociatedCellItemFactory<Object: GenericDiffItem, Cell: UICollecti
         var cellItems = [CollectionViewCellItem]()
         for index in 0..<objects.count {
             let object = objects[index]
-            cellItems.append(contentsOf: makeCellItems(object: object, index: index))
+            cellItems.append(contentsOf: makeCellItems(object: object))
         }
         return cellItems
-    }
-
-    /// Returns an instance of `UniversalCollectionViewCellItem` and associates provided handlers with them
-    ///
-    /// - Parameters:
-    ///    - object: an object to create a cell item for it
-    ///    - index: the index of the object in the array
-    public func makeUniversalCellItem(object: Object, index: Int) -> CellItem {
-        let cellItem = makeUniversalCellItem(object: object)
-        cellItemConfigurationHandler?(index, cellItem)
-        return cellItem
     }
 
     /// Returns an instance of `UniversalCollectionViewCellItem` and associates provided handlers with them
@@ -105,6 +94,7 @@ public class AssociatedCellItemFactory<Object: GenericDiffItem, Cell: UICollecti
             }
             return sizeConfigurationHandler(cellItem?.object ?? object, collectionView, sectionItem)
         }
+        cellItemConfigurationHandler?(cellItem)
         return cellItem
     }
 }
@@ -125,25 +115,18 @@ extension AssociatedCellItemFactory: CellItemFactory {
         return []
     }
 
-    public func makeCellItems(object: Any, index: Int) -> [CollectionViewCellItem] {
+    public func makeCellItems(object: Any) -> [CollectionViewCellItem] {
         if let object = object as? Object {
             if let initializationHandler = self.initializationHandler {
-                return initializationHandler(index, object).compactMap { cellItem in
+                return initializationHandler(object).compactMap { cellItem in
                     cellItem
                 }
             }
             else {
-                return [makeUniversalCellItem(object: object, index: index)]
+                return [makeUniversalCellItem(object: object)]
             }
         }
         return []
-    }
-
-    public func makeCellItem(object: Any, index: Int) -> CollectionViewCellItem? {
-        guard let object = object as? Object else {
-            return nil
-        }
-        return makeUniversalCellItem(object: object, index: index)
     }
 
     public func factory(byJoining factory: CellItemFactory) -> CellItemFactory {

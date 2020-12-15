@@ -74,7 +74,7 @@ final class ContentViewSectionItemsFactory {
        // MARK: - Description
        private(set) lazy var descriptionCellItemFactory: CellItemFactory = {
            let factory = AssociatedCellItemFactory<ContentViewState, TextCollectionViewCell>()
-           factory.cellItemConfigurationHandler = { index, cellItem in
+           factory.cellItemConfigurationHandler = { cellItem in
                cellItem.itemDidSelectHandler = { [weak self] _ in
                    cellItem.object.isExpanded.toggle()
                    self?.updateEventTriggered()
@@ -106,15 +106,15 @@ final class ContentViewSectionItemsFactory {
        private func makeFactory<U: ContentViewState, T: UICollectionViewCell>(id: String) -> AssociatedCellItemFactory<U, T> {
            let factory = AssociatedCellItemFactory<U, T>()
 
-           factory.cellItemConfigurationHandler = { index, cellItem in
+           factory.cellItemConfigurationHandler = { cellItem in
                cellItem.itemDidSelectHandler = { [weak self] _ in
                    cellItem.object.isExpanded.toggle()
                    self?.updateEventTriggered()
                }
            }
 
-           factory.initializationHandler = { index, data in
-               let cellItem = factory.makeUniversalCellItem(object: data, index: index)
+           factory.initializationHandler = { data in
+               let cellItem = factory.makeUniversalCellItem(object: data)
                let separatorCellItem = DividerCellItem()
                guard data.isExpanded else {
                    return [cellItem, separatorCellItem]
