@@ -279,8 +279,8 @@ class CollectionViewToolsTests: CollectionViewTests {
             makeSectionItemHandler: { index in
                 GeneralCollectionViewDiffSectionItem()
             },
-            cellConfigurationHandler: { number, cell, cellItem in
-                cell.text = "\(number)"
+            cellConfigurationHandler: { cell, cellItem in
+                cell.text = "\(cellItem.object)"
             },
             sizeHandler: { _, collectionView in
                 .init(width: collectionView.bounds.width, height: 80)
@@ -314,8 +314,8 @@ class CollectionViewToolsTests: CollectionViewTests {
             makeSectionItemHandler: { index in
                 LazyCollectionViewSectionItem()
             },
-            cellConfigurationHandler: { number, cell, cellItem in
-                cell.text = "\(number)"
+            cellConfigurationHandler: { cell, cellItem in
+                cell.text = "\(cellItem.object)"
             },
             sizeHandler: { _, collectionView in
                 .init(width: collectionView.bounds.width, height: 80)
@@ -331,5 +331,15 @@ class CollectionViewToolsTests: CollectionViewTests {
         wait(for: [expectation], timeout: 10)
         viewController.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: false)
         XCTAssertGreaterThan(viewController.collectionView.contentOffset.y, viewController.view.bounds.height)
+    }
+}
+
+extension Int: GenericDiffItem {
+    public var diffIdentifier: String {
+        "\(self)"
+    }
+
+    public func isEqual(to item: Int) -> Bool {
+        return self == item
     }
 }
