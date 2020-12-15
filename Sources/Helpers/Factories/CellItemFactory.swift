@@ -19,8 +19,8 @@ public protocol CellItemFactory {
     /// Returns an array of cell items
     ///
     /// - Parameters:
-    ///    - array: an array of objects to create cell items for them
-    func makeCellItems(array: [Any]) -> [CollectionViewCellItem]
+    ///    - objects: an array of objects to create cell items for them
+    func makeCellItems(objects: [Any]) -> [CollectionViewCellItem]
     
     /// Returns a cell items for associated object
     ///

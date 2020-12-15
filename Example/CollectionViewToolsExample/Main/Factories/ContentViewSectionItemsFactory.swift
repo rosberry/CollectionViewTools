@@ -119,7 +119,7 @@ final class ContentViewSectionItemsFactory {
                guard data.isExpanded else {
                    return [cellItem, separatorCellItem]
                }
-               let descriptionCellItem = self.descriptionCellItemFactory.makeCellItems(array: [data])[0]
+               let descriptionCellItem = self.descriptionCellItemFactory.makeCellItems(objects: [data])[0]
                return [cellItem, descriptionCellItem, separatorCellItem]
            }
 
@@ -138,7 +138,7 @@ final class ContentViewSectionItemsFactory {
     // MARK: - Factory methods
 
     func makeSectionItems(contentViewStates: [ContentViewState]) -> [CollectionViewDiffSectionItem] {
-        let cellItems = cellItemFactory.makeCellItems(array: contentViewStates)
+        let cellItems = cellItemFactory.makeCellItems(objects: contentViewStates)
         let sectionItem = GeneralCollectionViewDiffSectionItem(cellItems: cellItems)
         sectionItem.diffIdentifier = "Contents"
         return [sectionItem]
