@@ -17,6 +17,10 @@
 		015A8AA7231394B7002600FF /* UniversalCollectionViewCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A8AA6231394B7002600FF /* UniversalCollectionViewCellItem.swift */; };
 		015A8AA9231394FC002600FF /* AssociatedCellItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A8AA8231394FC002600FF /* AssociatedCellItemFactory.swift */; };
 		015A8AAB23139525002600FF /* ComplexCellItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A8AAA23139525002600FF /* ComplexCellItemFactory.swift */; };
+		0176C9D1258A0541006CA94C /* CollectionViewViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0176C9D0258A0541006CA94C /* CollectionViewViewCell.swift */; };
+		0176C9D3258A0630006CA94C /* ViewCellItemsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0176C9D2258A0630006CA94C /* ViewCellItemsFactory.swift */; };
+		0176C9D5258A0E85006CA94C /* SizeTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0176C9D4258A0E85006CA94C /* SizeTypes.swift */; };
+		0176C9D7258A101B006CA94C /* CollectionViewViewCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0176C9D6258A101B006CA94C /* CollectionViewViewCellItem.swift */; };
 		017ABDB323F6853D00A5AE34 /* TestReusableViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017ABDB223F6853D00A5AE34 /* TestReusableViewItem.swift */; };
 		017ABDB523F6856700A5AE34 /* TestReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017ABDB423F6856700A5AE34 /* TestReusableView.swift */; };
 		017B9F0C2409129800C765BD /* TestAsyncCollectionViewCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B9F0B2409129800C765BD /* TestAsyncCollectionViewCellItem.swift */; };
@@ -76,6 +80,10 @@
 		015A8AA6231394B7002600FF /* UniversalCollectionViewCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalCollectionViewCellItem.swift; sourceTree = "<group>"; };
 		015A8AA8231394FC002600FF /* AssociatedCellItemFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssociatedCellItemFactory.swift; sourceTree = "<group>"; };
 		015A8AAA23139525002600FF /* ComplexCellItemFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexCellItemFactory.swift; sourceTree = "<group>"; };
+		0176C9D0258A0541006CA94C /* CollectionViewViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewViewCell.swift; sourceTree = "<group>"; };
+		0176C9D2258A0630006CA94C /* ViewCellItemsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCellItemsFactory.swift; sourceTree = "<group>"; };
+		0176C9D4258A0E85006CA94C /* SizeTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeTypes.swift; sourceTree = "<group>"; };
+		0176C9D6258A101B006CA94C /* CollectionViewViewCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewViewCellItem.swift; sourceTree = "<group>"; };
 		017ABDB223F6853D00A5AE34 /* TestReusableViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestReusableViewItem.swift; sourceTree = "<group>"; };
 		017ABDB423F6856700A5AE34 /* TestReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestReusableView.swift; sourceTree = "<group>"; };
 		017B9F0B2409129800C765BD /* TestAsyncCollectionViewCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAsyncCollectionViewCellItem.swift; sourceTree = "<group>"; };
@@ -148,12 +156,23 @@
 			path = CollectionViewManager;
 			sourceTree = "<group>";
 		};
+		0176C9CF258A0509006CA94C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0176C9D0258A0541006CA94C /* CollectionViewViewCell.swift */,
+				0176C9D6258A101B006CA94C /* CollectionViewViewCellItem.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		01984A1D250B24DF00D217B4 /* Factories */ = {
 			isa = PBXGroup;
 			children = (
 				015A8AA8231394FC002600FF /* AssociatedCellItemFactory.swift */,
 				01929DAB22F190B7004D5605 /* CellItemFactory.swift */,
 				015A8AAA23139525002600FF /* ComplexCellItemFactory.swift */,
+				0176C9D2258A0630006CA94C /* ViewCellItemsFactory.swift */,
+				0176C9D4258A0E85006CA94C /* SizeTypes.swift */,
 			);
 			path = Factories;
 			sourceTree = "<group>";
@@ -219,6 +238,7 @@
 				0A37635D1F62545A00A80613 /* Items */,
 				0A37635F1F62545A00A80613 /* Protocols */,
 				629A633A0A14B7B8D623A113 /* Helpers */,
+				0176C9CF258A0509006CA94C /* Views */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -464,15 +484,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0176C9D1258A0541006CA94C /* CollectionViewViewCell.swift in Sources */,
 				015A8AA9231394FC002600FF /* AssociatedCellItemFactory.swift in Sources */,
 				0A37636B1F62545A00A80613 /* CollectionViewManager+UICollectionViewDataSourcePrefetching.swift in Sources */,
 				01984999250883B400D217B4 /* DictionarySectionItemsProvider.swift in Sources */,
+				0176C9D3258A0630006CA94C /* ViewCellItemsFactory.swift in Sources */,
 				0A3763741F62545A00A80613 /* CollectionViewReusableViewItem.swift in Sources */,
 				0E0F40A1222D4F0600B88DF3 /* CollectionViewDiffAdaptor.swift in Sources */,
 				0A37636F1F62545A00A80613 /* UICollectionView+Registration.swift in Sources */,
 				015A8AAB23139525002600FF /* ComplexCellItemFactory.swift in Sources */,
 				0A37636A1F62545A00A80613 /* CollectionViewManager+UICollectionViewDataSource.swift in Sources */,
 				0A37636D1F62545A00A80613 /* CollectionViewManager+UICollectionViewDelegateFlowLayout.swift in Sources */,
+				0176C9D7258A101B006CA94C /* CollectionViewViewCellItem.swift in Sources */,
 				0A3763681F62545A00A80613 /* CollectionViewManager.swift in Sources */,
 				1028238622E9AA680061C54F /* CollectionViewDeepDiffAdaptor.swift in Sources */,
 				0E0F40A0222D4F0600B88DF3 /* CollectionViewManager+Diff.swift in Sources */,
@@ -492,6 +515,7 @@
 				015A4D0425146FDE000D6A97 /* ArraySectionItemsProvider.swift in Sources */,
 				0A37636E1F62545A00A80613 /* CollectionViewManager+UIScrollViewDelegate.swift in Sources */,
 				019849BD2508EA6700D217B4 /* LazyFactorySectionItemsProvider.swift in Sources */,
+				0176C9D5258A0E85006CA94C /* SizeTypes.swift in Sources */,
 				0E21E22D22C4E1E2004364FA /* CollectionViewDiffSectionItem.swift in Sources */,
 				0A3763751F62545A00A80613 /* CollectionViewSectionItem.swift in Sources */,
 				629A6091BFB23B9D95D9BF56 /* Print.swift in Sources */,
