@@ -44,7 +44,6 @@ final class ContentViewSectionItemsFactory {
            factory.cellConfigurationHandler = { cell, cellItem in
                cell.titleLabel.text = cellItem.object.textContent.text
                cellConfigurationHandler?(cell, cellItem)
-               return
            }
            factory.sizeConfigurationHandler = { data, collectionView, sectionItem in
                CGSize(width: collectionView.bounds.width, height: 60)
@@ -89,10 +88,7 @@ final class ContentViewSectionItemsFactory {
            return factory
        }()
 
-       func makeContentViewSate(_ content: Content?) -> ContentViewState? {
-           guard let content = content else {
-               return nil
-           }
+       func makeContentViewState(_ content: Content?) -> ContentViewState? {
            if let imageContent = content as? ImageContent {
                return ImageViewState(imageContent: imageContent)
            }

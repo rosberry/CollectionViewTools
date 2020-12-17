@@ -54,7 +54,11 @@ open class ArraySectionItemsProvider: SectionItemsProvider {
               let cellItem = sectionItem.cellItems[safe: indexPath.row] else {
                 return .zero
         }
-        return cellItem.size(in: collectionView, sectionItem: sectionItem)
+        let size = cellItem.size(in: collectionView, sectionItem: sectionItem)
+        if cellItem.cachedSize == nil {
+            cellItem.cachedSize = size
+        }
+        return size
     }
 
     public func insert(_ sectionItem: CollectionViewSectionItem, at index: Int) {

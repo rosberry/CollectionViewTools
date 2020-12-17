@@ -17,7 +17,7 @@ final class FactoryExampleViewController: UIViewController {
     }()
     private lazy var contentProvider: ContentProvider = .init()
     private lazy var contentViewStates: [ContentViewState] = {
-        contentProvider.contents.compactMap(sectionItemsFactory.makeContentViewSate)
+        contentProvider.contents.compactMap(sectionItemsFactory.makeContentViewState)
     }()
 
     // MARK: Subviews

@@ -45,7 +45,7 @@ final class LazySectionItemsExampleViewController: UIViewController {
                     return DividerState()
                 }
                 let content = self.contentProvider.contents[indexPath.row / 2]
-                return self.factory.makeContentViewSate(content)
+                return self.factory.makeContentViewState(content)
             }
         )
     }()
