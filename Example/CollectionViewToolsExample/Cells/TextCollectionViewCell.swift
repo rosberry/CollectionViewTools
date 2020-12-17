@@ -8,32 +8,38 @@ final class TextCollectionViewCell: UICollectionViewCell {
 
     override var isHighlighted: Bool {
         didSet {
-            contentView.alpha = isHighlighted ? 0.7 : 1.0
+            textContentView.isHighlighted = isHighlighted
         }
     }
 
-    lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        return label
-    }()
+    lazy var textContentView: TextContentView = .init()
+
+    var titleLabel: UILabel {
+        textContentView.titleLabel
+    }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(titleLabel)
+        setup()
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        titleLabel.frame = contentView.bounds
+        textContentView.frame = contentView.bounds
     }
     
     override func sizeThatFits(_ size: CGSize) -> CGSize {
-        return titleLabel.sizeThatFits(.init(width: CGFloat.greatestFiniteMagnitude,
-                                             height: .greatestFiniteMagnitude))
+        return textContentView.sizeThatFits(.init(width: CGFloat.greatestFiniteMagnitude,
+                                                  height: .greatestFiniteMagnitude))
+    }
+
+    // MARK: - Private
+
+    private func setup() {
+        addSubview(textContentView)
     }
 }

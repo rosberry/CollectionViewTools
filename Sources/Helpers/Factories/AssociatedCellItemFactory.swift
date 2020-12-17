@@ -74,8 +74,8 @@ public class AssociatedCellItemFactory<Object: GenericDiffItem, Cell: UICollecti
     ///
     /// - Parameters:
     ///    - object: an object to create a cell item for it
-    public func makeUniversalCellItem(object: Object) -> CellItem {
-        let cellItem = CellItem(object: object)
+    public func makeUniversalCellItem<ConcreteCellItem: CellItem>(object: Object) -> ConcreteCellItem {
+        let cellItem = ConcreteCellItem(object: object)
         cellItem.configurationHandler = { [weak self] cell in
             guard let self = self else {
                 return
@@ -85,15 +85,12 @@ public class AssociatedCellItemFactory<Object: GenericDiffItem, Cell: UICollecti
             }
             configurationHandler(cell, cellItem)
         }
-        cellItem.sizeConfigurationHandler = { [weak self, weak cellItem] (collectionView, sectionItem) -> CGSize in
-            guard let self = self else {
-                return .zero
+        if let sizeConfigurationHandler = self.sizeConfigurationHandler {
+            cellItem.sizeConfigurationHandler = { [weak cellItem] (collectionView, sectionItem) -> CGSize in
+                return sizeConfigurationHandler(cellItem?.object ?? object, collectionView, sectionItem)
             }
-            guard let sizeConfigurationHandler = self.sizeConfigurationHandler else {
-                fatalError("sizeConfigurationHandler property for the CellItemFactory should be assigned before")
-            }
-            return sizeConfigurationHandler(cellItem?.object ?? object, collectionView, sectionItem)
         }
+
         cellItemConfigurationHandler?(cellItem)
         return cellItem
     }

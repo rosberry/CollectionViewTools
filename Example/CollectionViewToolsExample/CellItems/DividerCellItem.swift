@@ -21,7 +21,7 @@ final class DividerCellItem: CollectionViewDiffCellItem {
         guard let cell = cell as? Cell else {
             return
         }
-        cell.dividerView.backgroundColor = .lightGray
+        cell.dividerView.dividerView.backgroundColor = .lightGray
         cell.dividerInsets = .init(top: 9, left: 0, bottom: 0, right: 0)
     }
 

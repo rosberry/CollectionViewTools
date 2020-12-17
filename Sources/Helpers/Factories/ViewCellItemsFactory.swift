@@ -14,11 +14,7 @@ open class ViewCellItemsFactory<Object: GenericDiffItem, View: UIView> {
     ///
     /// - Parameters:
     ///    - Object: the object associated with a cell item
-    public var initializationHandler: ((Object) -> [CollectionViewCellItem?])? {
-        didSet {
-            factory.initializationHandler = initializationHandler
-        }
-    }
+    public var initializationHandler: ((Object) -> [CollectionViewCellItem?])?
 
     /// Set this handler to configure the cell item
     ///
@@ -37,6 +33,12 @@ open class ViewCellItemsFactory<Object: GenericDiffItem, View: UIView> {
             factory.sizeConfigurationHandler = sizeConfigurationHandler
         }
     }
+
+    /// Set this handler to provide size types for cellItem
+    ///
+    /// - Parameters:
+    ///    - Object: the object associated with a cell item
+    public var sizeTypesConfigurationHandler: ((Object) -> SizeTypes)?
 
     /// Set this handler to provide specific an instance of `View`
     ///
@@ -72,30 +74,39 @@ open class ViewCellItemsFactory<Object: GenericDiffItem, View: UIView> {
             guard let cellItem = cellItem as? CellItem else {
                 return
             }
+            cellItem.sizeTypes = self?.sizeTypesConfigurationHandler?(cellItem.object)
             cellItem.sizeCell = self?.sizeCell
             self?.cellItemConfigurationHandler?(cellItem)
         }
-        factory.cellConfigurationHandler = { cell, cellItem in
-            guard let viewConfigurationHandler = self.viewConfigurationHandler else {
-                fatalError("configurationHandler property for the CellItemFactory should be assigned before")
-            }
-            guard let cellItem = cellItem as? CellItem else {
+        factory.cellConfigurationHandler = { [weak self] cell, cellItem in
+            guard let self = self,
+                  let cellItem = cellItem as? CellItem else {
                 return
             }
             if let view = cell.view {
-                viewConfigurationHandler(view, cellItem)
+                self.viewConfigurationHandler?(view, cellItem)
             }
             else {
                 let view = self.viewInitializer?(cellItem) ?? View()
                 self.viewInitialConfigurationHandler?(view, cellItem)
                 cell.view = view
-                viewConfigurationHandler(view, cellItem)
+                self.viewConfigurationHandler?(view, cellItem)
             }
+        }
+        factory.initializationHandler = { [weak self] object in
+            if let cellItem = self?.makeUniversalCellItem(object: object) {
+                return [cellItem]
+            }
+            return []
         }
         return factory
     }()
 
     public lazy var hashKey: String? = .init(describing: Object.self)
+
+    public init() {
+        
+    }
 
     public func makeCellItems(objects: [Object]) -> [CollectionViewCellItem] {
         factory.makeCellItems(objects: objects)
@@ -103,5 +114,47 @@ open class ViewCellItemsFactory<Object: GenericDiffItem, View: UIView> {
 
     public func makeDiffCellItems(objects: [Object]) -> [CollectionViewDiffCellItem] {
         (makeCellItems(objects: objects) as? [CollectionViewDiffCellItem]) ?? []
+    }
+
+    public func makeUniversalCellItem(object: Object) -> CellItem {
+        factory.makeUniversalCellItem(object: object)
+    }
+}
+
+extension ViewCellItemsFactory: CellItemFactory {
+
+    public func makeCellItem(object: Any) -> CollectionViewCellItem? {
+        guard let object = object as? Object else {
+            return nil
+        }
+        return makeUniversalCellItem(object: object)
+    }
+
+    public func makeCellItems(objects: [Any]) -> [CollectionViewCellItem] {
+        if let objects = objects as? [Object] {
+            return makeCellItems(objects: objects)
+        }
+        return []
+    }
+
+    public func makeCellItems(object: Any) -> [CollectionViewCellItem] {
+        if let object = object as? Object {
+            if let initializationHandler = self.initializationHandler {
+                return initializationHandler(object).compactMap { cellItem in
+                    cellItem
+                }
+            }
+            else {
+                return [makeUniversalCellItem(object: object)]
+            }
+        }
+        return []
+    }
+
+    public func factory(byJoining factory: CellItemFactory) -> CellItemFactory {
+        let complexFactory = ComplexCellItemFactory()
+        complexFactory.factory(byJoining: self)
+        complexFactory.factory(byJoining: factory)
+        return complexFactory
     }
 }

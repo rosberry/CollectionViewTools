@@ -12,6 +12,9 @@
 		015F03FE258775D00033F11C /* HeaderViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1078655322E1E5C60075C74A /* HeaderViewItem.swift */; };
 		015F040125877EC00033F11C /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1078655622E1E7060075C74A /* HeaderView.swift */; };
 		015F040325887C000033F11C /* DividerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015F040225887C000033F11C /* DividerState.swift */; };
+		0180E950258A170B0061788E /* ImageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0180E94F258A170B0061788E /* ImageContentView.swift */; };
+		0180E952258A19250061788E /* TextContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0180E951258A19250061788E /* TextContentView.swift */; };
+		0180E954258A1F7A0061788E /* DividerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0180E953258A1F7A0061788E /* DividerView.swift */; };
 		0186E537252493980032B88D /* FactoryExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01929DAD22F19233004D5605 /* FactoryExampleViewController.swift */; };
 		0186E53A252496E80032B88D /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186E539252496E80032B88D /* Content.swift */; };
 		0186E53C252497500032B88D /* ImageContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186E53B252497500032B88D /* ImageContent.swift */; };
@@ -91,6 +94,9 @@
 		0142A91D25249F3400A1CBC0 /* ContentViewSectionItemsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewSectionItemsFactory.swift; sourceTree = "<group>"; };
 		015F03FA258772A50033F11C /* LazySectionItemsExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazySectionItemsExampleViewController.swift; sourceTree = "<group>"; };
 		015F040225887C000033F11C /* DividerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerState.swift; sourceTree = "<group>"; };
+		0180E94F258A170B0061788E /* ImageContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageContentView.swift; sourceTree = "<group>"; };
+		0180E951258A19250061788E /* TextContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextContentView.swift; sourceTree = "<group>"; };
+		0180E953258A1F7A0061788E /* DividerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerView.swift; sourceTree = "<group>"; };
 		0186E539252496E80032B88D /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
 		0186E53B252497500032B88D /* ImageContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageContent.swift; sourceTree = "<group>"; };
 		0186E53D252497EC0032B88D /* TextContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextContent.swift; sourceTree = "<group>"; };
@@ -164,6 +170,16 @@
 			path = Factories;
 			sourceTree = "<group>";
 		};
+		0180E94E258A16E90061788E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0180E94F258A170B0061788E /* ImageContentView.swift */,
+				0180E951258A19250061788E /* TextContentView.swift */,
+				0180E953258A1F7A0061788E /* DividerView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		0186E538252496D50032B88D /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -219,6 +235,7 @@
 				0E4CB5892296733A002A3C59 /* Diff */,
 				0ACA6FC71F626AED00782C1E /* CellItems */,
 				0ACA6FCA1F626D1700782C1E /* Cells */,
+				0180E94E258A16E90061788E /* Views */,
 				1078655222E1E26D0075C74A /* ReusableViewItems */,
 				1078655522E1E6BD0075C74A /* ReusableViews */,
 				0A3763891F62556300A80613 /* Assets.xcassets */,
@@ -492,7 +509,10 @@
 			files = (
 				0186E53E252497EC0032B88D /* TextContent.swift in Sources */,
 				0ACA6FC91F626AF900782C1E /* ImageCellItem.swift in Sources */,
+				0180E954258A1F7A0061788E /* DividerView.swift in Sources */,
+				0180E950258A170B0061788E /* ImageContentView.swift in Sources */,
 				10E7BC7323756EE5009095ED /* MainViewController.swift in Sources */,
+				0180E952258A19250061788E /* TextContentView.swift in Sources */,
 				01C2CC1622F4377C00873DC0 /* DividerCell.swift in Sources */,
 				0186E541252498500032B88D /* ContentViewState.swift in Sources */,
 				0186E5452524997D0032B88D /* TextViewState.swift in Sources */,

@@ -12,7 +12,7 @@ public class UniversalCollectionViewCellItem<U: GenericDiffItem, T: UICollection
     public lazy var diffIdentifier: String = "\(String(describing: type(of: self))){\(object.diffIdentifier)}"
     public let object: U
 
-    init(object: U) {
+    required init(object: U) {
         self.object = object
     }
 

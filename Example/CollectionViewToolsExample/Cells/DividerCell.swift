@@ -8,24 +8,36 @@ import UIKit
 
 final class DividerCell: UICollectionViewCell {
     
-    private(set) lazy var dividerView: UIView = .init()
-    var dividerInsets: UIEdgeInsets = .zero
-    var dividerHeight: CGFloat = 1
+    private(set) lazy var dividerView: DividerView = .init()
+    var dividerInsets: UIEdgeInsets = .zero {
+        didSet {
+            dividerView.dividerInsets = dividerInsets
+        }
+    }
+    var dividerHeight: CGFloat = 1 {
+        didSet {
+            dividerView.dividerHeight = dividerHeight
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(dividerView)
+        setup()
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
+        setup()
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        dividerView.frame = CGRect(x: dividerInsets.left,
-                                   y: dividerInsets.top == 0 ? bounds.height - dividerInsets.bottom - dividerHeight : dividerInsets.top,
-                                   width: bounds.width - dividerInsets.left - dividerInsets.right, height: dividerHeight)
+        dividerView.frame = bounds
     }
-    
+
+    // MARK: - Private
+
+    private func setup() {
+        addSubview(dividerView)
+    }
 }
