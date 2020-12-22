@@ -178,12 +178,57 @@ let adaptor = CollectionViewIGListKitDiffAdaptor()
 manager.update(with: [sectionItem], diffAdaptor: adaptor, animated: true)
 ```
 
+#### Factories
+
+Instead of cell item declaration you can declare a factory that will create generic cell items. It allows you skip extra code to cast cells and cell items to required type. Moreover, it already implements `diffIdentifier` and `isEqual` method based on associated object type.
+
+```swift
+let factory = AssociatedCellItemFactory<Object, Cell>() // Object: GenericDiffItem, Cell: UICollectionViewCell
+
+factory.cellItemConfigurationHandler = { index, cellItem in
+    cellItem.itemDidSelectHandler = { _ in
+        // Handle cell selection
+    }
+}
+
+factory.initializationHandler = { index, object in // Optional handler.
+    let cellItem = factory.makeUniversalCellItem(object: object, index: index) // Here you can customize cell items set associated with single object,
+    return [cellItem] // such as dividers, desriptions and other
+}
+
+factory.cellConfigurationHandler = { cell, cellItem in
+    // Update cell using cellItem.object
+}
+```
+
+Then just pass array of objects to `factory.makeCellItems`:
+
+```swift
+let cellItems = factory.makeCellItems(array: object)
+```
+
+Do not forget that object should implement `GenericDiffItem`:
+
+```swift
+extension Object: GenericDiffItem {
+    var diffIdentifier: String {
+        // return content based diff identifier to separate different data models.
+    }
+
+    func isEqual(to item: ContentViewState) -> Bool {
+        // `self` and `item` corresponds to the same data model.
+        // You should check here if model has some updates.
+    }
+}
+```
+
 ## Authors
 
 * Anton Kovalev, anton.kovalev@rosberry.com
 * Dmitry Frishbuter, dmitry.frishbuter@rosberry.com
 * Artem Novichkov, artem.novichkov@rosberry.com
 * Evgeny Mikhaylov, evgeny.mikhaylov@rosberry.com
+* Nikolay Tyunin, nikolay.tyunin@rosberry.com
 
 ## About
 

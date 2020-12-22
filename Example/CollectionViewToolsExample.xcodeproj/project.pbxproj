@@ -122,7 +122,6 @@
 		629A60E846B05B88D62C7880 /* TextCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextCollectionViewCell.swift; sourceTree = "<group>"; };
 		629A688DD33578289A57B452 /* ExampleSectionItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleSectionItem.swift; sourceTree = "<group>"; };
 		629A6D49B5E8DB9CAACD07CE /* TextCellItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextCellItem.swift; sourceTree = "<group>"; };
-		629A6D6C61B4795949B30938 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		855613B322B77FC900F59CD1 /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
 		855613B522B7803800F59CD1 /* ReusableViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableViewItem.swift; sourceTree = "<group>"; };
 		FE6E86B31FB961B20027A8FE /* CollectionViewTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CollectionViewTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -217,7 +216,6 @@
 				0A3763891F62556300A80613 /* Assets.xcassets */,
 				0A37638B1F62556400A80613 /* LaunchScreen.storyboard */,
 				0A37638E1F62556400A80613 /* Info.plist */,
-				629A6D6C61B4795949B30938 /* MainViewController.swift */,
 				629A6B7B0DC722197E2D2AC9 /* SectionItems */,
 				0EB8E661229BFA710000B921 /* DiffInfo.plist */,
 				0E506C05228EBA4400E16640 /* Cartfile */,
