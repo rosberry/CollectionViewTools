@@ -100,7 +100,7 @@ open class LazyAssociatedFactoryTypeSectionItemsProvider<Object: Equatable, View
                        return cellItem
                    })
         self.sizeHandler = { indexPath, collection in
-            guard let sectionItem = self[indexPath.row],
+            guard let sectionItem = self[indexPath.section],
                   let cellItem = self[indexPath] as? TypeCollectionViewCellItem<Object, View> else {
                 return .zero
             }
