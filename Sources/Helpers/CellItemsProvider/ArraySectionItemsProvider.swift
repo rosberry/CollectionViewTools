@@ -6,7 +6,7 @@
 
 open class ArraySectionItemsProvider: SectionItemsProvider {
 
-    public var sectionItems: [CollectionViewSectionItem] = []
+    public var sectionItems: [CollectionViewSectionItem]
 
     public var numberOfSections: Int {
         sectionItems.count
@@ -14,6 +14,10 @@ open class ArraySectionItemsProvider: SectionItemsProvider {
 
     public var isEmpty: Bool {
         sectionItems.isEmpty
+    }
+
+    public init(sectionItems: [CollectionViewSectionItem] = []) {
+        self.sectionItems = sectionItems
     }
 
     public subscript(index: Int) -> CollectionViewSectionItem? {
