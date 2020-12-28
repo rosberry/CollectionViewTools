@@ -27,7 +27,7 @@ open class LazyFactorySectionItemsProvider: LazySectionItemsProvider {
                     GeneralCollectionViewDiffSectionItem()
                 },
                 objectHandler: @escaping (IndexPath) -> Any?) {
-    
+
         super.init(sectionItemsNumberHandler: sectionItemsNumberHandler,
                    cellItemsNumberHandler: cellItemsNumberHandler,
                    sizeHandler: sizeHandler,
@@ -53,8 +53,8 @@ open class LazyAssociatedFactorySectionItemsProvider<U: GenericDiffItem, T: UICo
     ///    - sizeHandler: block that returns size of cell at index path
     ///    - objectHandler: block that returns object at index path to associate it with cell item
     public init(sectionItemsNumberHandler: @escaping () -> Int = {
-                    1
-                },
+        1
+    },
                 cellItemsNumberHandler: @escaping (Int) -> Int,
                 makeSectionItemHandler: @escaping (Int) -> CollectionViewSectionItem? = { _ in
                     GeneralCollectionViewDiffSectionItem()
@@ -75,6 +75,37 @@ open class LazyAssociatedFactorySectionItemsProvider<U: GenericDiffItem, T: UICo
                            return nil
                        }
                        return factory.makeCellItem(object: object, index: indexPath.row)
-                    })
+                   })
+    }
+}
+
+open class LazyAssociatedFactoryTypeSectionItemsProvider<Object: Equatable, View: UICollectionViewCell>: LazySectionItemsProvider {
+    public init(factory: TypeCellItemFactory<Object, View>,
+                sectionItemsNumberHandler: @autoclosure @escaping () -> Int = 1,
+                cellItemsNumberHandler: @escaping (Int) -> Int,
+                makeSectionItemHandler: @escaping (Int) -> CollectionViewSectionItem? = { _ in
+                    GeneralCollectionViewDiffSectionItem()
+                },
+                objectHandler: @escaping (IndexPath) -> Any?) {
+
+        super.init(sectionItemsNumberHandler: sectionItemsNumberHandler,
+                   cellItemsNumberHandler: cellItemsNumberHandler,
+                   sizeHandler: { _, _ in .zero },
+                   makeSectionItemHandler: makeSectionItemHandler,
+                   makeCellItemHandler: { indexPath in
+                       guard let object = objectHandler(indexPath) else {
+                           return nil
+                       }
+                       let cellItem = factory.makeCellItem(object: object, index: indexPath.row)
+                       return cellItem
+                   })
+        self.sizeHandler = { indexPath, collection in
+            guard let sectionItem = self[indexPath.row],
+                  let cellItem = self[indexPath] as? TypeCollectionViewCellItem<Object, View> else {
+                return .zero
+            }
+            return factory.sizeConfigurationHandler?(cellItem.object, collection, sectionItem) ?? .zero
+
+        }
     }
 }
