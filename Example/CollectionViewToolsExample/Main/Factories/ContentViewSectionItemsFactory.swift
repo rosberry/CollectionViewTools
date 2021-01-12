@@ -19,7 +19,7 @@ final class ContentViewSectionItemsFactory {
     // MARK: - Factories
 
     // MARK: - ImageContent
-    private(set) lazy var imageCellItemFactory: CellItemFactory = {
+    private(set) lazy var imageCellItemFactory: ViewCellItemsFactory<ImageViewState, ImageContentView> = {
        let factory: ViewCellItemsFactory<ImageViewState, ImageContentView> = makeFactory(id: "image")
        let viewConfigurationHandler = factory.viewConfigurationHandler
        factory.viewConfigurationHandler = { view, cellItem in
@@ -36,7 +36,7 @@ final class ContentViewSectionItemsFactory {
     }()
 
     // MARK: - TextContent
-    private(set) lazy var textCellItemFactory: CellItemFactory = {
+    private(set) lazy var textCellItemFactory: ViewCellItemsFactory<TextViewState, TextContentView> = {
         let factory: ViewCellItemsFactory<TextViewState, TextContentView> = makeFactory(id: "text")
         let viewConfigurationHandler = factory.viewConfigurationHandler
         factory.viewConfigurationHandler = { view, cellItem in
@@ -52,7 +52,7 @@ final class ContentViewSectionItemsFactory {
 
     // MARK: - Divider
 
-    private(set) lazy var dividerCellItemFactory: CellItemFactory = {
+    private(set) lazy var dividerCellItemFactory: ViewCellItemsFactory<DividerState, DividerView> = {
         let factory: ViewCellItemsFactory<DividerState, DividerView> = .init()
         factory.viewConfigurationHandler = { view, _ in
            view.dividerHeight = 1
@@ -65,7 +65,7 @@ final class ContentViewSectionItemsFactory {
     }()
 
     // MARK: - Content
-    private(set) lazy var cellItemFactory: CellItemFactory = {
+    private(set) lazy var cellItemFactory: ComplexCellItemsFactory = {
        imageCellItemFactory.factory(byJoining: textCellItemFactory)
                            .factory(byJoining: dividerCellItemFactory)
     }()
@@ -114,7 +114,7 @@ final class ContentViewSectionItemsFactory {
         }
 
         factory.initializationHandler = { data in
-            let cellItem = factory.makeCellItem(object: data)
+            let cellItem = factory.makeUniversalCellItem(object: data)
             let separatorCellItem = DividerCellItem()
             guard data.isExpanded else {
                 return [cellItem, separatorCellItem]

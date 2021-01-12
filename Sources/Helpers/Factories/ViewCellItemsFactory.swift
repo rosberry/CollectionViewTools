@@ -8,7 +8,7 @@ open class ViewCellItemsFactory<Object: GenericDiffItem, View: UIView> {
 
     public typealias Cell = CollectionViewViewCell<View>
     public typealias CellItem = CollectionViewViewCellItem<Object, View>
-    typealias AssociatedFactory = AssociatedCellItemFactory<Object, Cell>
+    typealias Factory = CellItemsFactory<Object, Cell>
 
     /// Set this handler to retrieve a specific set of cell items for the associated object
     ///
@@ -68,8 +68,8 @@ open class ViewCellItemsFactory<Object: GenericDiffItem, View: UIView> {
         return cell
     }()
 
-    private lazy var factory: AssociatedFactory = {
-        let factory = AssociatedFactory()
+    private(set) lazy var factory: Factory = {
+        let factory = Factory()
         factory.cellItemConfigurationHandler = { [weak self] cellItem in
             guard let cellItem = cellItem as? CellItem else {
                 return
@@ -94,6 +94,9 @@ open class ViewCellItemsFactory<Object: GenericDiffItem, View: UIView> {
             }
         }
         factory.initializationHandler = { [weak self] object in
+            if let initializationHandler = self?.initializationHandler {
+                return initializationHandler(object)
+            }
             if let cellItem = self?.makeUniversalCellItem(object: object) {
                 return [cellItem]
             }
@@ -101,8 +104,6 @@ open class ViewCellItemsFactory<Object: GenericDiffItem, View: UIView> {
         }
         return factory
     }()
-
-    public lazy var hashKey: String? = .init(describing: Object.self)
 
     public init() {
         
@@ -119,42 +120,28 @@ open class ViewCellItemsFactory<Object: GenericDiffItem, View: UIView> {
     public func makeUniversalCellItem(object: Object) -> CellItem {
         factory.makeUniversalCellItem(object: object)
     }
-}
 
-extension ViewCellItemsFactory: CellItemFactory {
-
-    public func makeCellItem(object: Any) -> CollectionViewCellItem? {
-        guard let object = object as? Object else {
-            return nil
-        }
-        return makeUniversalCellItem(object: object)
+    /// Joins different cell item factories
+    ///
+    /// - Parameters:
+    ///    - factory: a second cell item factory the associated type of which should be united
+    public func factory<Object: GenericDiffItem, Cell: UICollectionViewCell>(byJoining factory: CellItemsFactory<Object, Cell>) -> ComplexCellItemsFactory {
+        ComplexCellItemsFactory().factory(byJoining: factory).factory(byJoining: factory)
     }
 
-    public func makeCellItems(objects: [Any]) -> [CollectionViewCellItem] {
-        if let objects = objects as? [Object] {
-            return makeCellItems(objects: objects)
-        }
-        return []
+    /// Joins different cell item factories
+    ///
+    /// - Parameters:
+    ///    - factory: a second cell item factory the associated type of which should be united
+    public func factory<Object: GenericDiffItem, View: UIView>(byJoining factory: ViewCellItemsFactory<Object, View>) -> ComplexCellItemsFactory {
+        ComplexCellItemsFactory().factory(byJoining: self.factory).factory(byJoining: factory.factory)
     }
 
-    public func makeCellItems(object: Any) -> [CollectionViewCellItem] {
-        if let object = object as? Object {
-            if let initializationHandler = self.initializationHandler {
-                return initializationHandler(object).compactMap { cellItem in
-                    cellItem
-                }
-            }
-            else {
-                return [makeUniversalCellItem(object: object)]
-            }
-        }
-        return []
-    }
-
-    public func factory(byJoining factory: CellItemFactory) -> CellItemFactory {
-        let complexFactory = ComplexCellItemFactory()
-        complexFactory.factory(byJoining: self)
-        complexFactory.factory(byJoining: factory)
-        return complexFactory
+    /// Joins different cell item factories
+    ///
+    /// - Parameters:
+    ///    - factory: a second cell item factory the associated type of which should be united
+    public func factory(byJoining factory: ComplexCellItemsFactory) -> ComplexCellItemsFactory {
+        ComplexCellItemsFactory().factory(byJoining: factory).factory(byJoining: factory)
     }
 }
