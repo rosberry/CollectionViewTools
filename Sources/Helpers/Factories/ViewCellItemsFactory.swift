@@ -109,10 +109,18 @@ open class ViewCellItemsFactory<Object: CanBeDiff, View: UIView> {
         
     }
 
+    /// Returns an array of cell items
+    ///
+    /// - Parameters:
+    ///    - objects: an array of objects to create cell items for them
     public func makeCellItems(objects: [Object]) -> [CollectionViewCellItem] {
         factory.makeCellItems(objects: objects)
     }
 
+    /// Returns a cell items for associated object
+    ///
+    /// - Parameters:
+    ///    - object: an object associated with cell item
     public func makeCellItems(object: Object) -> [CollectionViewCellItem] {
         if let initializationHandler = self.initializationHandler {
             return initializationHandler(object).compactMap { cellItem in
@@ -124,6 +132,10 @@ open class ViewCellItemsFactory<Object: CanBeDiff, View: UIView> {
         }
     }
 
+    /// Returns an instance of `UniversalCollectionViewCellItem` and associates provided handlers with them
+    ///
+    /// - Parameters:
+    ///    - object: an object to create a cell item for it
     public func makeCellItem(object: Object) -> CellItem {
         factory.makeCellItem(object: object)
     }

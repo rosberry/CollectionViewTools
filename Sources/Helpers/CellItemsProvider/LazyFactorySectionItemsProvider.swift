@@ -14,7 +14,6 @@ open class LazyComplexFactorySectionItemsProvider: LazySectionItemsProvider {
     ///    - sectionItemsNumberHandler: block that returns number of sections, returns 1 by default
     ///    - cellItemsNumberHandler: block that returns number of items in section
     ///    - makeSectionItemHandler: block that returns section item to lazy load cell items in it, `GeneralCollectionViewDiffSectionItem` by default
-    ///    - cellConfigurationHandler: block to configure cell according it cell item
     ///    - sizeHandler: block that returns size of cell at index path
     ///    - objectHandler: block that returns object at index path to associate it with cell item
     public init(factory: ComplexCellItemsFactory,
@@ -53,7 +52,7 @@ open class LazyFactorySectionItemsProvider<Object: CanBeDiff, Cell: UICollection
     ///    - cellConfigurationHandler: block to configure cell according it cell item
     ///    - sizeHandler: block that returns size of cell at index path
     ///    - objectHandler: block that returns object at index path to associate it with cell item
-    public init(sectionItemsNumberHandler: @escaping () -> Int = {
+    public convenience init(sectionItemsNumberHandler: @escaping () -> Int = {
                     1
                 },
                 cellItemsNumberHandler: @escaping (Int) -> Int,
@@ -66,6 +65,36 @@ open class LazyFactorySectionItemsProvider<Object: CanBeDiff, Cell: UICollection
 
         let factory = CellItemsFactory<Object, Cell>()
         factory.cellConfigurationHandler = cellConfigurationHandler
+
+        self.init(
+            factory: factory,
+            sectionItemsNumberHandler: sectionItemsNumberHandler,
+            cellItemsNumberHandler: cellItemsNumberHandler,
+            makeSectionItemHandler: makeSectionItemHandler,
+            sizeHandler: sizeHandler,
+            objectHandler: objectHandler
+        )
+    }
+
+    /// `LazyFactorySectionItemsProvider` initializer
+    ///
+    /// - Parameters:
+    ///    - factory: cell items factory to generate cells
+    ///    - sectionItemsNumberHandler: block that returns number of sections, returns 1 by default
+    ///    - cellItemsNumberHandler: block that returns number of items in section
+    ///    - makeSectionItemHandler: block that returns section item to lazy load cell items in it, `GeneralCollectionViewDiffSectionItem` by default
+    ///    - sizeHandler: block that returns size of cell at index path
+    ///    - objectHandler: block that returns object at index path to associate it with cell item
+    public init(factory: CellItemsFactory<Object, Cell>,
+                sectionItemsNumberHandler: @escaping () -> Int = {
+                    1
+                },
+                cellItemsNumberHandler: @escaping (Int) -> Int,
+                makeSectionItemHandler: @escaping (Int) -> CollectionViewSectionItem? = { _ in
+                    GeneralCollectionViewDiffSectionItem()
+                },
+                sizeHandler: @escaping (IndexPath, UICollectionView) -> CGSize,
+                objectHandler: @escaping (IndexPath) -> Object?) {
 
         super.init(
             sectionItemsNumberHandler: sectionItemsNumberHandler,
