@@ -15,12 +15,12 @@ class ContentViewState {
     }
 }
 
-extension ContentViewState: GenericDiffItem {
-    var diffIdentifier: String {
+extension ContentViewState: CanBeDiff {
+    var debugDescription: String {
         "\(content.id)"
     }
 
-    func isEqual(to item: ContentViewState) -> Bool {
-        isExpanded == item.isExpanded
+    static func == (lhs: ContentViewState, rhs: ContentViewState) -> Bool {
+        lhs.isExpanded == rhs.isExpanded
     }
 }

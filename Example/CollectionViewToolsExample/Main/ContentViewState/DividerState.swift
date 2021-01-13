@@ -5,16 +5,19 @@
 
 import CollectionViewTools
 
-final class DividerState {
+final class DividerState: CanBeDiff {
 
-}
+    var id: Int
 
-extension DividerState: GenericDiffItem {
-    var diffIdentifier: String {
-        "divider"
+    init(id: Int) {
+        self.id = id
     }
 
-    func isEqual(to item: DividerState) -> Bool {
+    var debugDescription: String {
+        "\(id)"
+    }
+
+    static func == (lhs: DividerState, rhs: DividerState) -> Bool {
         true
     }
 }

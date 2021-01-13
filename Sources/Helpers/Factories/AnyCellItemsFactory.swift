@@ -8,7 +8,7 @@ protocol AnyCellItemsFactory {
     func makeCellItem(object: Any) -> CollectionViewCellItem?
 }
 
-final class AnyAssociatedCellItemsFactory<Object: GenericDiffItem, Cell: UICollectionViewCell>: AnyCellItemsFactory {
+final class AnyAssociatedCellItemsFactory<Object: CanBeDiff, Cell: UICollectionViewCell>: AnyCellItemsFactory {
     private let factory: CellItemsFactory<Object, Cell>
     init(_ factory: CellItemsFactory<Object, Cell>) {
         self.factory = factory

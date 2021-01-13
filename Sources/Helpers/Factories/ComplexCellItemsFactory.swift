@@ -54,7 +54,7 @@ public class ComplexCellItemsFactory {
     /// - Parameters:
     ///    - factory: a second cell item factory the associated type of which should be united
     @discardableResult
-    public func factory<Object: GenericDiffItem, Cell: UICollectionViewCell>(byJoining factory: CellItemsFactory<Object, Cell>) -> ComplexCellItemsFactory {
+    public func factory<Object: CanBeDiff, Cell: UICollectionViewCell>(byJoining factory: CellItemsFactory<Object, Cell>) -> ComplexCellItemsFactory {
         let factory = AnyAssociatedCellItemsFactory(factory)
         if let key = factory.hashKey {
             factories[key] = factory
@@ -67,7 +67,7 @@ public class ComplexCellItemsFactory {
     /// - Parameters:
     ///    - factory: a second cell item factory the associated type of which should be united
     @discardableResult
-    public func factory<Object: GenericDiffItem, View: UIView>(byJoining factory: ViewCellItemsFactory<Object, View>) -> ComplexCellItemsFactory {
+    public func factory<Object: CanBeDiff, View: UIView>(byJoining factory: ViewCellItemsFactory<Object, View>) -> ComplexCellItemsFactory {
         let factory = AnyAssociatedCellItemsFactory(factory.factory)
         if let key = factory.hashKey {
             factories[key] = factory
@@ -92,7 +92,7 @@ public class ComplexCellItemsFactory {
     ///
     /// - Parameters:
     ///     - factory: a factory that should be removed
-    public func unjoin<Object: GenericDiffItem, Cell: UICollectionViewCell>(factory: CellItemsFactory<Object, Cell>) {
+    public func unjoin<Object: CanBeDiff, Cell: UICollectionViewCell>(factory: CellItemsFactory<Object, Cell>) {
         factories.removeValue(forKey: String(describing: Object.self))
     }
 

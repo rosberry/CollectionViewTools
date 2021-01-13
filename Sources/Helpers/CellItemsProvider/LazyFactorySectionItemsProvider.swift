@@ -43,7 +43,7 @@ open class LazyComplexFactorySectionItemsProvider: LazySectionItemsProvider {
     }
 }
 
-open class LazyFactorySectionItemsProvider<Object: GenericDiffItem, Cell: UICollectionViewCell>: LazySectionItemsProvider {
+open class LazyFactorySectionItemsProvider<Object: CanBeDiff, Cell: UICollectionViewCell>: LazySectionItemsProvider {
     /// `LazyFactorySectionItemsProvider` initializer
     ///
     /// - Parameters:

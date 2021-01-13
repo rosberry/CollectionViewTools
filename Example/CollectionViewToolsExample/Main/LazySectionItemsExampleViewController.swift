@@ -41,10 +41,10 @@ final class LazySectionItemsExampleViewController: UIViewController {
                 guard let self = self else {
                     return nil
                 }
-                guard indexPath.row % 2 == 0 else {
-                    return DividerState()
-                }
                 let content = self.contentProvider.contents[indexPath.row / 2]
+                guard indexPath.row % 2 == 0 else {
+                    return DividerState(id: content.id)
+                }
                 return self.factory.makeContentViewSate(content)
             }
         )

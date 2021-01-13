@@ -55,8 +55,9 @@ final class ContentViewSectionItemsFactory {
     private(set) lazy var dividerCellItemFactory: ViewCellItemsFactory<DividerState, DividerView> = {
         let factory: ViewCellItemsFactory<DividerState, DividerView> = .init()
         factory.viewConfigurationHandler = { view, _ in
-           view.dividerHeight = 1
-           view.dividerView.backgroundColor = .gray
+            view.dividerHeight = 1
+            view.dividerView.backgroundColor = .lightGray
+            view.dividerInsets = .init(top: 9, left: 0, bottom: 0, right: 0)
         }
         factory.sizeTypesConfigurationHandler = { _ in
             .init(width: .fill, height: .fixed(20))
@@ -67,7 +68,6 @@ final class ContentViewSectionItemsFactory {
     // MARK: - Content
     private(set) lazy var cellItemFactory: ComplexCellItemsFactory = {
        imageCellItemFactory.factory(byJoining: textCellItemFactory)
-                           .factory(byJoining: dividerCellItemFactory)
     }()
 
     // MARK: - Description
@@ -81,6 +81,7 @@ final class ContentViewSectionItemsFactory {
         }
         factory.viewConfigurationHandler = { view, cellItem in
             view.titleLabel.text = cellItem.object.content.description
+            view.layer.borderWidth = 0
         }
         factory.sizeTypesConfigurationHandler = { _ in
             .init(width: .fill, height: .contentRelated)
@@ -103,8 +104,8 @@ final class ContentViewSectionItemsFactory {
     }
 
     // MARK: - Private
-    private func makeFactory<U: ContentViewState, V: UIView>(id: String) -> ViewCellItemsFactory<U, V> {
-        let factory = ViewCellItemsFactory<U, V>()
+    private func makeFactory<Object: ContentViewState, View: UIView>(id: String) -> ViewCellItemsFactory<Object, View> {
+        let factory = ViewCellItemsFactory<Object, View>()
 
         factory.cellItemConfigurationHandler = { cellItem in
            cellItem.itemDidSelectHandler = { [weak self] _ in
@@ -115,7 +116,7 @@ final class ContentViewSectionItemsFactory {
 
         factory.initializationHandler = { data in
             let cellItem = factory.makeUniversalCellItem(object: data)
-            let separatorCellItem = DividerCellItem()
+            let separatorCellItem = self.dividerCellItemFactory.makeUniversalCellItem(object: .init(id: data.content.id))
             guard data.isExpanded else {
                 return [cellItem, separatorCellItem]
             }
@@ -130,6 +131,7 @@ final class ContentViewSectionItemsFactory {
             }
             else {
                 view.layer.borderWidth = 0
+                view.layer.borderColor = UIColor.clear.cgColor
             }
         }
         return factory

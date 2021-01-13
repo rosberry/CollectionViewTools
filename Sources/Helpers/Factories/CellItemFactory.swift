@@ -6,7 +6,7 @@
 
 import UIKit
 
-public class CellItemsFactory<Object: GenericDiffItem, Cell: UICollectionViewCell> {
+public class CellItemsFactory<Object: CanBeDiff, Cell: UICollectionViewCell> {
 
     public typealias CellItem = UniversalCollectionViewCellItem<Object, Cell>
 
@@ -109,7 +109,7 @@ public class CellItemsFactory<Object: GenericDiffItem, Cell: UICollectionViewCel
     ///
     /// - Parameters:
     ///    - factory: a second cell item factory the associated type of which should be united
-    public func factory<Object: GenericDiffItem, Cell: UICollectionViewCell>(byJoining factory: CellItemsFactory<Object, Cell>) -> ComplexCellItemsFactory {
+    public func factory<Object: CanBeDiff, Cell: UICollectionViewCell>(byJoining factory: CellItemsFactory<Object, Cell>) -> ComplexCellItemsFactory {
         ComplexCellItemsFactory().factory(byJoining: self).factory(byJoining: factory)
     }
 
@@ -118,7 +118,7 @@ public class CellItemsFactory<Object: GenericDiffItem, Cell: UICollectionViewCel
     /// - Parameters:
     ///    - factory: a second cell item factory the associated type of which should be united
     @discardableResult
-    public func factory<Object: GenericDiffItem, View: UIView>(byJoining factory: ViewCellItemsFactory<Object, View>) -> ComplexCellItemsFactory {
+    public func factory<Object: CanBeDiff, View: UIView>(byJoining factory: ViewCellItemsFactory<Object, View>) -> ComplexCellItemsFactory {
         ComplexCellItemsFactory().factory(byJoining: self).factory(byJoining: factory.factory)
     }
 
