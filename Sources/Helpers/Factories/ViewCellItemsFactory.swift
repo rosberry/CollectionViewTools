@@ -97,8 +97,8 @@ open class ViewCellItemsFactory<Object: CanBeDiff, View: UIView> {
             if let initializationHandler = self?.initializationHandler {
                 return initializationHandler(object)
             }
-            if let cellItem = self?.makeUniversalCellItem(object: object) {
-                return [cellItem]
+            if let cellItems = self?.makeCellItems(object: object) {
+                return cellItems
             }
             return []
         }
@@ -113,12 +113,19 @@ open class ViewCellItemsFactory<Object: CanBeDiff, View: UIView> {
         factory.makeCellItems(objects: objects)
     }
 
-    public func makeDiffCellItems(objects: [Object]) -> [CollectionViewDiffCellItem] {
-        (makeCellItems(objects: objects) as? [CollectionViewDiffCellItem]) ?? []
+    public func makeCellItems(object: Object) -> [CollectionViewCellItem] {
+        if let initializationHandler = self.initializationHandler {
+            return initializationHandler(object).compactMap { cellItem in
+                cellItem
+            }
+        }
+        else {
+            return [makeCellItem(object: object)]
+        }
     }
 
-    public func makeUniversalCellItem(object: Object) -> CellItem {
-        factory.makeUniversalCellItem(object: object)
+    public func makeCellItem(object: Object) -> CellItem {
+        factory.makeCellItem(object: object)
     }
 
     /// Joins different cell item factories
@@ -126,7 +133,7 @@ open class ViewCellItemsFactory<Object: CanBeDiff, View: UIView> {
     /// - Parameters:
     ///    - factory: a second cell item factory the associated type of which should be united
     public func factory<Object: CanBeDiff, Cell: UICollectionViewCell>(byJoining factory: CellItemsFactory<Object, Cell>) -> ComplexCellItemsFactory {
-        ComplexCellItemsFactory().factory(byJoining: factory).factory(byJoining: factory)
+        self.factory.factory(byJoining: factory)
     }
 
     /// Joins different cell item factories
@@ -134,7 +141,7 @@ open class ViewCellItemsFactory<Object: CanBeDiff, View: UIView> {
     /// - Parameters:
     ///    - factory: a second cell item factory the associated type of which should be united
     public func factory<Object: CanBeDiff, View: UIView>(byJoining factory: ViewCellItemsFactory<Object, View>) -> ComplexCellItemsFactory {
-        ComplexCellItemsFactory().factory(byJoining: self.factory).factory(byJoining: factory.factory)
+        ComplexCellItemsFactory().factory(byJoining: self).factory(byJoining: factory)
     }
 
     /// Joins different cell item factories
@@ -142,6 +149,6 @@ open class ViewCellItemsFactory<Object: CanBeDiff, View: UIView> {
     /// - Parameters:
     ///    - factory: a second cell item factory the associated type of which should be united
     public func factory(byJoining factory: ComplexCellItemsFactory) -> ComplexCellItemsFactory {
-        ComplexCellItemsFactory().factory(byJoining: factory).factory(byJoining: factory)
+        self.factory.factory(byJoining: factory)
     }
 }

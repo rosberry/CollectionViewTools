@@ -67,7 +67,7 @@ final class ContentViewSectionItemsFactory {
 
     // MARK: - Content
     private(set) lazy var cellItemFactory: ComplexCellItemsFactory = {
-       imageCellItemFactory.factory(byJoining: textCellItemFactory)
+        imageCellItemFactory.factory(byJoining: textCellItemFactory).factory(byJoining: dividerCellItemFactory)
     }()
 
     // MARK: - Description
@@ -115,12 +115,12 @@ final class ContentViewSectionItemsFactory {
         }
 
         factory.initializationHandler = { data in
-            let cellItem = factory.makeUniversalCellItem(object: data)
-            let separatorCellItem = self.dividerCellItemFactory.makeUniversalCellItem(object: .init(id: data.content.id))
+            let cellItem = factory.makeCellItem(object: data)
+            let separatorCellItem = self.dividerCellItemFactory.makeCellItem(object: .init(id: data.content.id))
             guard data.isExpanded else {
                 return [cellItem, separatorCellItem]
             }
-            let descriptionCellItem = self.descriptionCellItemFactory.makeUniversalCellItem(object: data)
+            let descriptionCellItem = self.descriptionCellItemFactory.makeCellItem(object: data)
             return [cellItem, descriptionCellItem, separatorCellItem]
         }
 

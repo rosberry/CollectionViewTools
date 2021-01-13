@@ -54,7 +54,12 @@ open class LazySectionItemsProvider: DictionarySectionItemsProvider {
                 return cellItem
             }
             guard let cellItem = makeCellItemHandler(indexPath) else {
-                sectionItem.cellItems.remove(at: indexPath.row)
+                if indexPath.row < sectionItem.cellItems.count {
+                    sectionItem.cellItems.remove(at: indexPath.row)
+                }
+                else {
+                    fatalError("❌ CollectionViewTools Error!!! Could not retrieve a cell item for indexPath: \(indexPath). If you use custom factory please check that it can handle provider `objectHandler` return type.")
+                }
                 return nil
             }
             if indexPath.row < sectionItem.cellItems.count {

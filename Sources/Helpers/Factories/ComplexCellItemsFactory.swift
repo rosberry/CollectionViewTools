@@ -68,7 +68,7 @@ public class ComplexCellItemsFactory {
     ///    - factory: a second cell item factory the associated type of which should be united
     @discardableResult
     public func factory<Object: CanBeDiff, View: UIView>(byJoining factory: ViewCellItemsFactory<Object, View>) -> ComplexCellItemsFactory {
-        let factory = AnyAssociatedCellItemsFactory(factory.factory)
+        let factory = AnyViewCellItemsFactory(factory)
         if let key = factory.hashKey {
             factories[key] = factory
         }

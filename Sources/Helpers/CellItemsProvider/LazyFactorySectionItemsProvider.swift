@@ -76,7 +76,7 @@ open class LazyFactorySectionItemsProvider<Object: CanBeDiff, Cell: UICollection
                guard let object = objectHandler(indexPath) else {
                    return nil
                }
-               return factory.makeUniversalCellItem(object: object)
+               return factory.makeCellItem(object: object)
             }
         )
     }

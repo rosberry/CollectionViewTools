@@ -27,7 +27,7 @@ final class LazySectionItemsExampleViewController: UIViewController {
                     return .zero
                 }
                 guard indexPath.row % 2 == 0 else {
-                    return .init(width: collectionView.bounds.width, height: 1)
+                    return .init(width: collectionView.bounds.width, height: 20)
                 }
                 let content = self.contentProvider.contents[indexPath.row / 2]
                 if let image = (content as? ImageContent)?.image {

@@ -27,7 +27,30 @@ final class AnyAssociatedCellItemsFactory<Object: CanBeDiff, Cell: UICollectionV
         guard let object = object as? Object else {
             return nil
         }
-        return factory.makeUniversalCellItem(object: object)
+        return factory.makeCellItem(object: object)
+    }
+}
+
+final class AnyViewCellItemsFactory<Object: CanBeDiff, View: UIView>: AnyCellItemsFactory {
+    private let factory: ViewCellItemsFactory<Object, View>
+    init(_ factory: ViewCellItemsFactory<Object, View>) {
+        self.factory = factory
+    }
+
+    let hashKey : String? = String(describing: Object.self)
+
+    func makeCellItems(object: Any) -> [CollectionViewCellItem] {
+        guard let object = object as? Object else {
+            return []
+        }
+        return factory.makeCellItems(object: object)
+    }
+
+    func makeCellItem(object: Any) -> CollectionViewCellItem? {
+        guard let object = object as? Object else {
+            return nil
+        }
+        return factory.makeCellItem(object: object)
     }
 }
 

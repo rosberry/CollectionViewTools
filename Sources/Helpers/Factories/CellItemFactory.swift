@@ -56,10 +56,10 @@ public class CellItemsFactory<Object: CanBeDiff, Cell: UICollectionViewCell> {
     ///    - object: an object to create a cell item for it 
     ///    - configure: a cell configuration handler
     ///    - size: a cell size configuration handler
-    public func makeCellItem(object: Object,
+    public func makeCellItem<ConcreteCellItem: CellItem>(object: Object,
                              configure configurationHandler: @escaping (Cell) -> Void,
-                             size sizeConfigurationHandler: @escaping (UICollectionView, CollectionViewSectionItem) -> CGSize) -> CollectionViewCellItem {
-        let cellItem = CellItem(object: object)
+                             size sizeConfigurationHandler: @escaping (UICollectionView, CollectionViewSectionItem) -> CGSize) -> ConcreteCellItem {
+        let cellItem = ConcreteCellItem(object: object)
         cellItem.configurationHandler = configurationHandler
         cellItem.sizeConfigurationHandler = sizeConfigurationHandler
         return cellItem
@@ -76,7 +76,7 @@ public class CellItemsFactory<Object: CanBeDiff, Cell: UICollectionViewCell> {
            }
        }
        else {
-           return [makeUniversalCellItem(object: object)]
+           return [makeCellItem(object: object)]
        }
     }
 
@@ -84,8 +84,17 @@ public class CellItemsFactory<Object: CanBeDiff, Cell: UICollectionViewCell> {
     ///
     /// - Parameters:
     ///    - object: an object to create a cell item for it
-    public func makeUniversalCellItem<ConcreteCellItem: CellItem>(object: Object) -> ConcreteCellItem {
+    public func makeCellItem<ConcreteCellItem: CellItem>(object: Object) -> ConcreteCellItem {
         let cellItem = ConcreteCellItem(object: object)
+        basicSetup(cellItem: cellItem, object: object)
+        return cellItem
+    }
+
+    /// Assigns cell configuration and size configuration handlers to factory handlers
+    ///
+    /// - Parameters:
+    ///    - object: an object to create a cell item for it
+    public func basicSetup<ConcreteCellItem: CellItem>(cellItem: ConcreteCellItem, object: Object) {
         cellItem.configurationHandler = { [weak self] cell in
             guard let self = self else {
                 return
@@ -102,7 +111,6 @@ public class CellItemsFactory<Object: CanBeDiff, Cell: UICollectionViewCell> {
         }
 
         cellItemConfigurationHandler?(cellItem)
-        return cellItem
     }
 
     /// Joins different cell item factories
@@ -119,7 +127,7 @@ public class CellItemsFactory<Object: CanBeDiff, Cell: UICollectionViewCell> {
     ///    - factory: a second cell item factory the associated type of which should be united
     @discardableResult
     public func factory<Object: CanBeDiff, View: UIView>(byJoining factory: ViewCellItemsFactory<Object, View>) -> ComplexCellItemsFactory {
-        ComplexCellItemsFactory().factory(byJoining: self).factory(byJoining: factory.factory)
+        ComplexCellItemsFactory().factory(byJoining: self).factory(byJoining: factory)
     }
 
     /// Joins different cell item factories
