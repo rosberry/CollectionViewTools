@@ -15,7 +15,6 @@ class CollectionViewToolsTests: CollectionViewTests {
 
     class TestScrollDelegate: NSObject, UIScrollViewDelegate {
 
-
         let view = TestZoomView()
 
         var willZoomingTriggered = false
@@ -49,7 +48,9 @@ class CollectionViewToolsTests: CollectionViewTests {
             willDraggingTriggered = true
         }
 
-        func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        func scrollViewWillEndDragging(_ scrollView: UIScrollView,
+                                       withVelocity velocity: CGPoint,
+                                       targetContentOffset: UnsafeMutablePointer<CGPoint>) {
             willEndDraggingTriggered = true
         }
 
@@ -118,7 +119,6 @@ class CollectionViewToolsTests: CollectionViewTests {
         XCTAssertTrue(delegate.didScrollToTopTriggered)
     }
 
-
     func testScrollTop() {
         // Given
         let numbers = Array(repeating: 0, count: 500)
@@ -142,7 +142,7 @@ class CollectionViewToolsTests: CollectionViewTests {
         let numbers = Array(0...500)
         let indexPath = IndexPath(row: 499, section: 0)
         // When
-        let cellItems = numbers.map { number in
+        let cellItems = numbers.map { _ in
            TestAsyncCollectionViewCellItem()
         }
         let cellItem = cellItems[indexPath.row]
@@ -266,7 +266,7 @@ class CollectionViewToolsTests: CollectionViewTests {
 
     func testLazyFactoryProvider() {
         // Given
-        let numbers = [Array(0..<3),Array(0..<5),Array(0..<2)]
+        let numbers = [Array(0..<3), Array(0..<5), Array(0..<2)]
         let indexPath = IndexPath(item: 0, section: 0)
 
         viewController.manager.sectionItemsProvider = LazyAssociatedFactorySectionItemsProvider<Int, TestCollectionViewCell>(
@@ -276,7 +276,7 @@ class CollectionViewToolsTests: CollectionViewTests {
             cellItemsNumberHandler: { section in
                 numbers[section].count
             },
-            makeSectionItemHandler: { index in
+            makeSectionItemHandler: { _ in
                 GeneralCollectionViewDiffSectionItem()
             },
             cellConfigurationHandler: { cell, cellItem in
@@ -308,10 +308,10 @@ class CollectionViewToolsTests: CollectionViewTests {
         let delegate = TestScrollDelegate()
 
         viewController.manager.sectionItemsProvider = LazyAssociatedFactorySectionItemsProvider<Int, TestCollectionViewCell>(
-            cellItemsNumberHandler: { section in
+            cellItemsNumberHandler: { _ in
                 numbers.count
             },
-            makeSectionItemHandler: { index in
+            makeSectionItemHandler: { _ in
                 LazyCollectionViewSectionItem()
             },
             cellConfigurationHandler: { cell, cellItem in

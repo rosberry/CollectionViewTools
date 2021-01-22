@@ -5,7 +5,7 @@
 //
 
 open class DictionarySectionItemsProvider: SectionItemsProvider {
-    
+
     var sectionItemsDictionary: [Int: CollectionViewSectionItem] = [:]
     var removedCellItems: [IndexPath: CollectionViewCellItem] = [:]
 

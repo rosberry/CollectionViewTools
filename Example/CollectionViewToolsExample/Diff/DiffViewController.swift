@@ -336,7 +336,7 @@ final class DiffViewController: UIViewController {
         }
         return headerItem
     }
-    
+
     private func makeGroupPlusCellItem(group: Group) -> TextCellItem {
         let cellItem = TextCellItem(text: "+",
                                     backgroundColor: .white,

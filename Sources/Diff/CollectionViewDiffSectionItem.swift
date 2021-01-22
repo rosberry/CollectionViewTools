@@ -16,7 +16,7 @@ extension CollectionViewSectionItem {
             cellItem as? CollectionViewDiffCellItem
         }
     }
-    
+
     /// Array of `CollectionViewDiffReusableViewItem` objects mapped from `reusableViewItems` array
     var diffReusableViewItems: [CollectionViewDiffReusableViewItem] {
         return reusableViewItems.compactMap { cellItem in
@@ -38,7 +38,7 @@ open class GeneralCollectionViewDiffSectionItem: GeneralCollectionViewSectionIte
                 areReusableViewsEqual(to: item) &&
                 areCellItemsEqual(to: item)
     }
-    
+
     open func areInsetsAndSpacingsEqual(to item: DiffItem) -> Bool {
         guard let item = item as? GeneralCollectionViewDiffSectionItem else {
             return false
@@ -47,7 +47,7 @@ open class GeneralCollectionViewDiffSectionItem: GeneralCollectionViewSectionIte
                 minimumInteritemSpacing == item.minimumInteritemSpacing &&
                 insets == item.insets
     }
-    
+
     open func areReusableViewsEqual(to item: DiffItem) -> Bool {
         guard let item = item as? GeneralCollectionViewDiffSectionItem else {
             return false
@@ -85,7 +85,7 @@ extension GeneralCollectionViewDiffSectionItem: Equatable {
 }
 
 extension GeneralCollectionViewDiffSectionItem: CustomStringConvertible {
-    
+
     public var description: String {
         return "\n\n sectionItem id = \(diffIdentifier) \ncellItems =\n\(cellItems)"
     }

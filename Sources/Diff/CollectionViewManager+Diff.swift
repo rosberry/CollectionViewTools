@@ -33,7 +33,7 @@ extension CollectionViewManager {
                animated: animated,
                completion: completion)
     }
-    
+
     /// Use this function if you need to set new diff section items.
     /// - Parameters:
     ///   - sectionItems: Array of `CollectionViewDiffSectionItem` objects.
@@ -120,7 +120,7 @@ extension CollectionViewManager {
             }
         }
     }
-    
+
     private func updateWithoutAnimation(sectionItems: [CollectionViewDiffSectionItem], shouldReload: Bool) {
         sectionItemsProvider.sectionItems = sectionItems
         registerSectionItems()

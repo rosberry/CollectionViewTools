@@ -42,7 +42,6 @@ final class TestCollectionViewCellItem: CollectionViewCellItem {
         itemCanMoveResolver = nil
     }
 
-
     func size(in collectionView: UICollectionView, sectionItem: CollectionViewSectionItem) -> CGSize {
         return CGSize(width: collectionView.bounds.width, height: 80)
     }

@@ -19,7 +19,7 @@ final class LazySectionItemsExampleViewController: UIViewController {
     private(set) lazy var sectionItemsProvider: SectionItemsProvider = {
         LazyFactorySectionItemsProvider(
             factory: factory.cellItemFactory,
-            cellItemsNumberHandler: { [weak self] index in
+            cellItemsNumberHandler: { [weak self] _ in
                 (self?.contentProvider.contents.count ?? 0) * 2
             },
             sizeHandler: { [weak self] indexPath, collectionView in

@@ -13,5 +13,3 @@ FOUNDATION_EXPORT double CollectionViewToolsVersionNumber;
 FOUNDATION_EXPORT const unsigned char CollectionViewToolsVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <CollectionViewTools/PublicHeader.h>
-
-

@@ -9,7 +9,7 @@ public final class CollectionViewDeepDiffAdaptor: CollectionViewDiffAdaptor {
 
     public init() {
     }
-    
+
     public func changes<T: DiffItem>(old: [T], new: [T]) -> [CollectionViewChange<T>] {
         let oldWrappers = old.map { item in
             DeepDiffItemWrapper(item: item)

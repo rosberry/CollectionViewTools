@@ -1,5 +1,7 @@
 //
-// Copyright (c) 2018 Rosberry. All rights reserved.
+//  Print.swift
+//
+//  Copyright © 2018 Rosberry. All rights reserved.
 //
 
 import Foundation

@@ -27,7 +27,7 @@ public enum ReuseType {
 }
 
 public extension UICollectionView {
-    
+
     func registerCell(with type: ReuseType) {
         switch type {
             case let .nib(nib, identifier):

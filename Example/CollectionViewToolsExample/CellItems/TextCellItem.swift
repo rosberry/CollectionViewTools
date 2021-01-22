@@ -1,11 +1,11 @@
 //
-// Copyright (c) 2018 Rosberry. All rights reserved.
+//  Copyright © 2018 Rosberry. All rights reserved.
 //
 
 import CollectionViewTools
 
 final class TextCellItem: CollectionViewDiffCellItem {
-    
+
     private typealias Cell = TextCollectionViewCell
 
     private static let sizeCell: Cell = .init()

@@ -7,12 +7,12 @@
 import UIKit
 
 public class ComplexCellItemFactory: CellItemFactory {
-    
+
     private var factories = [String: CellItemFactory]()
-    
+
     public init() {
     }
-    
+
     public func makeCellItems(array: [Any]) -> [CollectionViewCellItem] {
         var cellItems = [CollectionViewCellItem]()
         array.enumerated().forEach { index, object in
@@ -29,7 +29,7 @@ public class ComplexCellItemFactory: CellItemFactory {
         }
         return nil
     }
-    
+
     public func makeCellItems(object: Any, index: Int) -> [CollectionViewCellItem] {
         if let factory = factories[String(describing: type(of: object))] {
             return factory.makeCellItems(object: object, index: index)
@@ -43,7 +43,7 @@ public class ComplexCellItemFactory: CellItemFactory {
         }
         return nil
     }
-    
+
     @discardableResult
     public func factory(byJoining factory: CellItemFactory) -> CellItemFactory {
         if let factory = factory as? ComplexCellItemFactory {
@@ -56,7 +56,7 @@ public class ComplexCellItemFactory: CellItemFactory {
         }
         return self
     }
-    
+
     /// Removes a factory from complex hierarchy
     ///
     /// - Parameters:
@@ -71,7 +71,7 @@ public class ComplexCellItemFactory: CellItemFactory {
             }
         }
     }
-    
+
     public var hashKey: String? {
         return nil
     }

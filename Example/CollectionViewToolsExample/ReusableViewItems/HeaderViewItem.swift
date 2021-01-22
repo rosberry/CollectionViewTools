@@ -21,7 +21,7 @@ final class HeaderViewItem: CollectionViewDiffReusableViewItem {
     var isFolded: Bool
 
     var diffIdentifier: String = ""
-    
+
     init(title: String, backgroundColor: UIColor, isFolded: Bool) {
         self.title = title
         self.backgroundColor = backgroundColor

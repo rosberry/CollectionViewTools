@@ -7,7 +7,7 @@
 public protocol SectionItemsProvider {
 
     var numberOfSections: Int { get }
-    var sectionItems: [CollectionViewSectionItem] { get set}
+    var sectionItems: [CollectionViewSectionItem] { get set }
     var isEmpty: Bool { get }
     subscript(index: Int) -> CollectionViewSectionItem? { get set }
     subscript(indexPath: IndexPath) -> CollectionViewCellItem? { get set }

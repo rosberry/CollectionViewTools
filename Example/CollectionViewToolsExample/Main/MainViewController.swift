@@ -50,12 +50,11 @@ class MainViewController: UIViewController {
         return view
     }()
 
-    
     // MARK: Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         navigationItem.title = "CollectionViewTools"
         edgesForExtendedLayout = []
 
@@ -69,7 +68,7 @@ class MainViewController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+
         actionsCollectionView.frame.size.width = view.bounds.width
         actionsCollectionView.frame.size.height = 50 + bottomLayoutGuide.length
         actionsCollectionView.frame.origin.y = view.bounds.height - actionsCollectionView.frame.height

@@ -5,8 +5,8 @@
 //
 
 open class BaseSectionItemsProvider: SectionItemsProvider {
-    
-    public var sectionItems: Array<CollectionViewSectionItem> = []
+
+    public var sectionItems: [CollectionViewSectionItem] = []
 
     public var numberOfSections: Int {
         sectionItems.count

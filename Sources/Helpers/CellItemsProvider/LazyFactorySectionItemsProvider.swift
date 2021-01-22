@@ -27,7 +27,7 @@ open class LazyFactorySectionItemsProvider: LazySectionItemsProvider {
                     GeneralCollectionViewDiffSectionItem()
                 },
                 objectHandler: @escaping (IndexPath) -> Any?) {
-    
+
         super.init(sectionItemsNumberHandler: sectionItemsNumberHandler,
                    cellItemsNumberHandler: cellItemsNumberHandler,
                    sizeHandler: sizeHandler,
