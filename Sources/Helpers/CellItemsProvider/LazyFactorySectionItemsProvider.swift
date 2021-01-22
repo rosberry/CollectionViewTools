@@ -18,9 +18,7 @@ open class LazyFactorySectionItemsProvider: LazySectionItemsProvider {
     ///    - makeSectionItemHandler: block that returns section item to lazy load cell items in it, `GeneralCollectionViewDiffSectionItem` by default
     ///    - objectHandler: block that returns object at index path to associate it with cell item
     public init(factory: CellItemFactory,
-                sectionItemsNumberHandler: @escaping () -> Int = {
-                    1
-                },
+                sectionItemsNumberHandler: @autoclosure @escaping () -> Int = 1,
                 cellItemsNumberHandler: @escaping (Int) -> Int,
                 sizeHandler: @escaping (IndexPath, UICollectionView) -> CGSize,
                 makeSectionItemHandler: @escaping (Int) -> CollectionViewSectionItem? = { _ in
@@ -52,9 +50,7 @@ open class LazyAssociatedFactorySectionItemsProvider<U: GenericDiffItem, T: UICo
     ///    - cellConfigurationHandler: block to configure cell according it cell item
     ///    - sizeHandler: block that returns size of cell at index path
     ///    - objectHandler: block that returns object at index path to associate it with cell item
-    public init(sectionItemsNumberHandler: @escaping () -> Int = {
-                    1
-                },
+    public init(sectionItemsNumberHandler: @autoclosure @escaping () -> Int = 1,
                 cellItemsNumberHandler: @escaping (Int) -> Int,
                 makeSectionItemHandler: @escaping (Int) -> CollectionViewSectionItem? = { _ in
                     GeneralCollectionViewDiffSectionItem()
