@@ -1,6 +1,4 @@
 //
-//  Print.swift
-//
 //  Copyright © 2018 Rosberry. All rights reserved.
 //
 
