@@ -507,7 +507,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Scripts/swiftlint_script.sh\n";
+			shellScript = "../Scripts/swiftlint_script.sh\n";
 		};
 		0EB8E65B229BF9370000B921 /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
