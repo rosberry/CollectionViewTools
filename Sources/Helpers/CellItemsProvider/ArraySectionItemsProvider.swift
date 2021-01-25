@@ -43,7 +43,6 @@ open class ArraySectionItemsProvider: SectionItemsProvider {
             else {
                 self[indexPath.section]?.cellItems.remove(at: indexPath.row)
             }
-
         }
     }
 

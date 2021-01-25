@@ -39,7 +39,7 @@ open class DictionarySectionItemsProvider: SectionItemsProvider {
     public subscript(indexPath: IndexPath) -> CollectionViewCellItem? {
         get {
             guard let sectionItem = self[indexPath.section],
-                indexPath.row < sectionItem.cellItems.count else {
+                  indexPath.row < sectionItem.cellItems.count else {
                 return nil
             }
             let cellItem = sectionItem.cellItems[indexPath.row]
@@ -62,7 +62,7 @@ open class DictionarySectionItemsProvider: SectionItemsProvider {
 
     public func sizeForCellItem(at indexPath: IndexPath, in collectionView: UICollectionView) -> CGSize {
         guard let cellItem = self[indexPath],
-            let sectionItem = cellItem.sectionItem else {
+              let sectionItem = cellItem.sectionItem else {
             return .zero
         }
         let size = cellItem.size(in: collectionView, sectionItem: sectionItem)
@@ -101,8 +101,8 @@ open class DictionarySectionItemsProvider: SectionItemsProvider {
 
     public func forEachCellItem(actionHandler: (Int, CollectionViewCellItem) -> Void) {
         sectionItemsDictionary.values.forEach { sectionItem in
-            for i in 0..<sectionItem.cellItems.count {
-                actionHandler(i, sectionItem.cellItems[i])
+            sectionItem.cellItems.enumerated().forEach { i, cellItem in
+                actionHandler(i, cellItem)
             }
         }
     }

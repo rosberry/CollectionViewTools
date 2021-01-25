@@ -20,6 +20,7 @@ final class ContentViewSectionItemsFactory {
        private(set) lazy var imageCellItemFactory: CellItemFactory = {
            let factory: AssociatedCellItemFactory<ImageViewState, ImageCollectionViewCell> = makeFactory(id: "image")
            let cellConfigurationHandler = factory.cellConfigurationHandler
+
            factory.cellConfigurationHandler = { cell, cellItem in
                cell.imageView.image = cellItem.object.imageContent.image
                cell.removeActionHandler = { [weak self] in
@@ -27,6 +28,7 @@ final class ContentViewSectionItemsFactory {
                }
                cellConfigurationHandler?(cell, cellItem)
            }
+
            factory.sizeConfigurationHandler = { state, collectionView, sectionItem in
                let width = collectionView.bounds.width
                let aspectRatio = state.imageContent.image.size.width / state.imageContent.image.size.height
@@ -39,10 +41,12 @@ final class ContentViewSectionItemsFactory {
        private(set) lazy var textCellItemFactory: CellItemFactory = {
            let factory: AssociatedCellItemFactory<TextViewState, TextCollectionViewCell> = makeFactory(id: "text")
            let cellConfigurationHandler = factory.cellConfigurationHandler
+
            factory.cellConfigurationHandler = { cell, cellItem in
                cell.titleLabel.text = cellItem.object.textContent.text
                cellConfigurationHandler?(cell, cellItem)
            }
+
            factory.sizeConfigurationHandler = { data, collectionView, sectionItem in
                CGSize(width: collectionView.bounds.width, height: 60)
            }
@@ -52,10 +56,12 @@ final class ContentViewSectionItemsFactory {
        // MARK: - Divider
        private(set) lazy var dividerCellItemFactory: CellItemFactory = {
            let factory: AssociatedCellItemFactory<DividerState, DividerCell> = .init()
+
            factory.cellConfigurationHandler = { cell, _ in
                cell.dividerHeight = 1
                cell.dividerView.backgroundColor = .gray
            }
+
            factory.sizeConfigurationHandler = {_, collectionView, sectionItem in
                .init(width: collectionView.bounds.inset(by: sectionItem.insets).width, height: 1)
            }
@@ -71,15 +77,18 @@ final class ContentViewSectionItemsFactory {
        // MARK: - Description
        private(set) lazy var descriptionCellItemFactory: CellItemFactory = {
            let factory = AssociatedCellItemFactory<ContentViewState, TextCollectionViewCell>()
+
            factory.cellItemConfigurationHandler = { index, cellItem in
                cellItem.itemDidSelectHandler = { [weak self] _ in
                    cellItem.object.isExpanded.toggle()
                    self?.updateEventTriggered()
                }
            }
+
            factory.cellConfigurationHandler = { cell, cellItem in
                cell.titleLabel.text = cellItem.object.content.description
            }
+
            factory.sizeConfigurationHandler = { data, collectionView, sectionItem in
                CGSize(width: collectionView.bounds.width, height: 60)
            }
@@ -107,13 +116,14 @@ final class ContentViewSectionItemsFactory {
                }
            }
 
-           factory.initializationHandler = { index, data in
+           factory.initializationHandler = { [weak self] index, data in
                let cellItem = factory.makeUniversalCellItem(object: data, index: index)
                let separatorCellItem = DividerCellItem()
-               guard data.isExpanded else {
+               guard data.isExpanded,
+                     // TODO: Use makeCellItem instead after merge of `Get rid any`
+                     let descriptionCellItem = self?.descriptionCellItemFactory.makeCellItems(array: [data])[0] else {
                    return [cellItem, separatorCellItem]
                }
-               let descriptionCellItem = self.descriptionCellItemFactory.makeCellItems(array: [data])[0]
                return [cellItem, descriptionCellItem, separatorCellItem]
            }
 

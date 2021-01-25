@@ -20,7 +20,7 @@ final class FactoryExampleViewController: UIViewController {
 
     // MARK: Subviews
 
-    lazy var mainCollectionView: UICollectionView = {
+    private lazy var mainCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.backgroundColor = .clear
         collectionView.alwaysBounceVertical = true
