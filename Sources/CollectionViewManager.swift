@@ -46,6 +46,8 @@ open class CollectionViewManager: NSObject {
     /// By `default` `CollectionViewManager` works with array of section items where provided
     /// cellItem for any cell that should be displayed.
     /// Mode `lazy` allows to modify this logic to create cellItems only when they actually needed
+    /// Currently, `lazy` mode does not provide proper workflow with `diff`, hence needs to work with
+    /// `collectionViewManager` modifiers like insert and remove directly
     public var mode: Mode = .default {
         didSet {
             switch mode {

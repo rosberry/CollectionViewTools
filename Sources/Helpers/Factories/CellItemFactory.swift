@@ -6,7 +6,9 @@ import UIKit
 
 public protocol CellItemFactory {
 
-    /// Returns only main cellItem for provided object
+    /// Basically, you can configure cellItemsFactory to return any amount of cellItems associated with one object.
+    /// But in the case of lazy access we should stricly associate indexPath and cellItem. This method does not create
+    /// additional decorators cellItems to provide this association
     ///
     /// - Parameters:
     ///
