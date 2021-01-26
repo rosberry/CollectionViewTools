@@ -4,17 +4,9 @@
 
 open class DefaultSectionItemsWrapper {
     public var sectionItems: [CollectionViewSectionItem] = []
-
-    func registerKnownReuseTypes(in collectionView: UICollectionView) {
-        sectionItems.forEach { sectionItem in
-            sectionItem.cellItems.forEach { cellItem in
-                collectionView.registerCell(with: cellItem.reuseType)
-            }
-        }
-    }
 }
 
-// MARK: - IndustriousSectionItemsWrapper
+// MARK: - SectionItemsWrapper
 
 extension DefaultSectionItemsWrapper: SectionItemsWrapper {
 

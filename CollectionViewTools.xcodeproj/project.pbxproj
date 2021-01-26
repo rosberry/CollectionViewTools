@@ -152,14 +152,14 @@
 			path = Factories;
 			sourceTree = "<group>";
 		};
-		01F41E3D25062B3300612B33 /* CellItemsProvider */ = {
+		01F41E3D25062B3300612B33 /* SectionItemsWrapper */ = {
 			isa = PBXGroup;
 			children = (
 				01F41E3E25062B4D00612B33 /* SectionItemsWrapper.swift */,
 				015A4D0325146FDE000D6A97 /* DefaultSectionItemsWrapper.swift */,
 				01F41E442507359500612B33 /* LazySectionItemsWrapper.swift */,
 			);
-			path = CellItemsProvider;
+			path = SectionItemsWrapper;
 			sourceTree = "<group>";
 		};
 		0A37631B1F6251A600A80613 = {
@@ -204,6 +204,7 @@
 				0A37635C1F62545A00A80613 /* Info.plist */,
 				0A3763541F62545A00A80613 /* CollectionViewTools.h */,
 				0A3763531F62545A00A80613 /* CollectionViewManager.swift */,
+				01F41E3D25062B3300612B33 /* SectionItemsWrapper */,
 				0E0F4096222D4F0600B88DF3 /* Diff */,
 				0A3763511F62545A00A80613 /* Additions */,
 				0A3763551F62545A00A80613 /* Extensions */,
@@ -308,7 +309,6 @@
 			isa = PBXGroup;
 			children = (
 				01984A1D250B24DF00D217B4 /* Factories */,
-				01F41E3D25062B3300612B33 /* CellItemsProvider */,
 				629A64DA578C05AC298ECFFD /* Print.swift */,
 			);
 			path = Helpers;

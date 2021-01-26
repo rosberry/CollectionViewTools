@@ -148,8 +148,8 @@ open class CollectionViewManager: NSObject {
         cellItem.sectionItem = sectionItem
         cellItem.indexPath = indexPath
         cellItem.collectionView = collectionView
-        if let sectionItemsWrapper = self.sectionItemsWrapper as? LazySectionItemsWrapper {
-            sectionItemsWrapper.registerCellItemIfNeeded(cellItem)
+        if case .lazy = mode {
+            collectionView.registerCell(with: cellItem.reuseType)
         }
         return cellItem
     }
@@ -769,9 +769,7 @@ open class CollectionViewManager: NSObject {
                 register(viewItem)
             }
         }
-        if let sectionItemsWrapper = self.sectionItemsWrapper as? DefaultSectionItemsWrapper {
-            sectionItemsWrapper.registerKnownReuseTypes(in: collectionView)
-        }
+        sectionItemsWrapper.registerReuseTypes(in: collectionView)
     }
 
     func configureCellItems(animated: Bool = false) {

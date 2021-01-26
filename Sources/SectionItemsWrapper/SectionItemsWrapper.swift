@@ -49,3 +49,13 @@
     /// Returns first index of `sectionItem` in according collection of created items
     func firstIndex(of sectionItem: CollectionViewSectionItem) -> Int?
 }
+
+extension SectionItemsWrapper {
+    func registerReuseTypes(in collectionView: UICollectionView) {
+        sectionItems.forEach { sectionItem in
+            sectionItem.cellItems.forEach { cellItem in
+                collectionView.registerCell(with: cellItem.reuseType)
+            }
+        }
+    }
+}

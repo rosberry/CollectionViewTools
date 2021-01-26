@@ -101,14 +101,6 @@ public final class LazySectionItemsWrapper {
         self.sectionItemsNumberHandler = sectionItemsNumberHandler
         self.makeSectionItemHandler = makeSectionItemHandler
     }
-
-    // MARK: - Methods
-
-    func registerCellItemIfNeeded(_ cellItem: CollectionViewCellItem) {
-        // TODO: If it will lead to performance decreasing then use dictionary to check
-        // registered identifiers and just remove this comment in other case
-        cellItem.collectionView?.registerCell(with: cellItem.reuseType)
-    }
 }
 
 // MARK: - SectionItemsWrapper
