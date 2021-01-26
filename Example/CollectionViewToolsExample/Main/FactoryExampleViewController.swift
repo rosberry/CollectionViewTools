@@ -1,6 +1,4 @@
 //
-//  FactoryExampleViewController.swift
-//
 //  Copyright © 2019 Rosberry. All rights reserved.
 //
 
@@ -17,19 +15,19 @@ final class FactoryExampleViewController: UIViewController {
     }()
     private lazy var contentProvider: ContentProvider = .init()
     private lazy var contentViewStates: [ContentViewState] = {
-        contentProvider.contents.compactMap(factory.makeContentViewSate)
+        contentProvider.contents.compactMap(factory.makeContentViewState)
     }()
 
-    // MARK: Subviews
+    // MARK: - Subviews
 
-    lazy var mainCollectionView: UICollectionView = {
+    private lazy var mainCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.backgroundColor = .clear
         collectionView.alwaysBounceVertical = true
         return collectionView
     }()
 
-    // MARK: Lifecycle
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()

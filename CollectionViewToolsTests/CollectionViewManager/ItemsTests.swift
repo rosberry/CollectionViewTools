@@ -1,6 +1,4 @@
 //
-//  ItemsTests.swift
-//
 //  Copyright © 2020 Rosberry. All rights reserved.
 //
 
@@ -64,13 +62,15 @@ final class ItemsTests: CollectionViewTests {
         XCTAssertTrue(viewController.manager.collectionView(viewController.collectionView, shouldDeselectItemAt: indexPath),
                       "Cell should be deselectible")
 
-        XCTAssertTrue(viewController.manager.collectionView(viewController.collectionView, shouldSelectItemAt: IndexPath(item: 0, section: 1)),
+        XCTAssertTrue(viewController.manager.collectionView(viewController.collectionView,
+                                                            shouldSelectItemAt: IndexPath(item: 0, section: 1)),
                                     "Cell should not be selectible")
         viewController.manager.collectionView(viewController.collectionView, didSelectItemAt: indexPath)
         XCTAssertEqual(cell?.text, selectedStrings[indexPath.row], "Cell text should be equal '\(selectedStrings[indexPath.row])'")
         XCTAssertTrue(viewController.manager.collectionView(viewController.collectionView, shouldDeselectItemAt: indexPath),
                       "Cell should be selectible")
-        XCTAssertTrue(viewController.manager.collectionView(viewController.collectionView, shouldDeselectItemAt: IndexPath(item: 0, section: 1)),
+        XCTAssertTrue(viewController.manager.collectionView(viewController.collectionView,
+                                                            shouldDeselectItemAt: IndexPath(item: 0, section: 1)),
                                                   "Cell should not be deselectible")
         viewController.manager.collectionView(viewController.collectionView, didDeselectItemAt: indexPath)
         XCTAssertEqual(cell?.text, strings[indexPath.row], "Cell text should be equal '\(strings[indexPath.row])'")
@@ -102,14 +102,15 @@ final class ItemsTests: CollectionViewTests {
         }
         XCTAssertTrue(viewController.manager.collectionView(viewController.collectionView, shouldHighlightItemAt: indexPath),
         "Cell should be highlightable")
-        XCTAssertFalse(viewController.manager.collectionView(viewController.collectionView, shouldHighlightItemAt: IndexPath(item: 0, section: 1)),
-                    "Cell should not be highlightable")
+        XCTAssertFalse(viewController.manager.collectionView(viewController.collectionView,
+                                                             shouldHighlightItemAt: IndexPath(item: 0, section: 1)),
+
+                       "Cell should not be highlightable")
         viewController.manager.collectionView(viewController.collectionView, didHighlightItemAt: indexPath)
         XCTAssertEqual(cell?.text, highlightedStrings[indexPath.row], "Cell text should be equal '\(highlightedStrings[indexPath.row])'")
         viewController.manager.collectionView(viewController.collectionView, didUnhighlightItemAt: indexPath)
         XCTAssertEqual(cell?.text, strings[indexPath.row], "Cell text should be equal '\(strings[indexPath.row])'")
     }
-
 
     func testSubscripts() {
         //Given
@@ -127,7 +128,9 @@ final class ItemsTests: CollectionViewTests {
         wait(for: [expectation], timeout: 10)
         let createdSectionItem = viewController.manager[0]
         let createdCellItem = viewController.manager[indexPath] as? TestCollectionViewCellItem
-        XCTAssertEqual((createdSectionItem?.reusableViewItems.first as? TestReusableViewItem)?.title, reusableViewItem.title, "Section item title should be '\(title)'")
+        XCTAssertEqual((createdSectionItem?.reusableViewItems.first as? TestReusableViewItem)?.title,
+                       reusableViewItem.title,
+                       "Section item title should be '\(title)'")
         XCTAssertEqual(createdCellItem?.text, strings[0], "Cell item text should be '\(strings[0])'")
     }
 

@@ -1,6 +1,4 @@
 //
-//  CollectionViewSectionItem.swift
-//
 //  Copyright © 2017 Rosberry. All rights reserved.
 //
 
@@ -10,7 +8,7 @@ import ObjectiveC.runtime
 public protocol CollectionViewSectionItem: CollectionViewSiblingSectionItem {
     var cellItems: [CollectionViewCellItem] { get set }
     var reusableViewItems: [CollectionViewReusableViewItem] { get set }
-    
+
     var minimumLineSpacing: CGFloat { get set }
     var minimumInteritemSpacing: CGFloat { get set }
     var insets: UIEdgeInsets { get set }
@@ -36,7 +34,7 @@ extension CollectionViewSiblingSectionItem {
             objc_setAssociatedObject(self, &AssociatedKeys.collectionView, newValue, .OBJC_ASSOCIATION_ASSIGN)
         }
     }
-    
+
     public var index: Int? {
         get {
             if let object = objc_getAssociatedObject(self, &AssociatedKeys.index) as? Int {

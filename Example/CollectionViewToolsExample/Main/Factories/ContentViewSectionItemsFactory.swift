@@ -1,6 +1,4 @@
 //
-//  ContentViewCellItemFactory.swift
-//
 //  Copyright © 2020 Rosberry. All rights reserved.
 //
 
@@ -19,117 +17,127 @@ final class ContentViewSectionItemsFactory {
     // MARK: - Factories
 
     // MARK: - ImageContent
-    private(set) lazy var imageCellItemFactory: CellItemFactory = {
-       let factory: ViewCellItemsFactory<ImageViewState, ImageContentView> = makeFactory(id: "image")
-       let viewConfigurationHandler = factory.viewConfigurationHandler
-       factory.viewConfigurationHandler = { view, cellItem in
-           view.imageView.image = cellItem.object.imageContent.image
-           view.removeActionHandler = { [weak self] in
-               self?.removeEventTriggered(state: cellItem.object)
-           }
-           viewConfigurationHandler?(view, cellItem)
-       }
-        factory.sizeTypesConfigurationHandler = { _ in
-            .init(width: .fill, height: .contentRelated)
+
+    private(set) lazy var imageCellItemsFactory: CellItemFactory = {
+        let factory: AssociatedCellItemFactory<ImageViewState, ImageCollectionViewCell> = makeContentCellItemsFactory(id: "image")
+        let cellConfigurationHandler = factory.cellConfigurationHandler
+
+        factory.cellConfigurationHandler = { cell, cellItem in
+            cell.imageView.image = cellItem.object.imageContent.image
+            cell.removeActionHandler = { [weak self] in
+                self?.removeEventTriggered(state: cellItem.object)
+            }
+            cellConfigurationHandler?(cell, cellItem)
         }
-       return factory
+
+        factory.sizeConfigurationHandler = { state, collectionView, sectionItem in
+            let width = collectionView.bounds.width
+            let aspectRatio = state.imageContent.image.size.width / state.imageContent.image.size.height
+            return CGSize(width: width, height: width / aspectRatio)
+        }
+        return factory
     }()
 
     // MARK: - TextContent
-    private(set) lazy var textCellItemFactory: CellItemFactory = {
-        let factory: ViewCellItemsFactory<TextViewState, TextContentView> = makeFactory(id: "text")
-        let viewConfigurationHandler = factory.viewConfigurationHandler
-        factory.viewConfigurationHandler = { view, cellItem in
-           view.titleLabel.text = cellItem.object.textContent.text
-           viewConfigurationHandler?(view, cellItem)
-           return
+
+    private(set) lazy var textCellItemsFactory: CellItemFactory = {
+        let factory: AssociatedCellItemFactory<TextViewState, TextCollectionViewCell> = makeContentCellItemsFactory(id: "text")
+        let cellConfigurationHandler = factory.cellConfigurationHandler
+
+        factory.cellConfigurationHandler = { cell, cellItem in
+            cell.titleLabel.text = cellItem.object.textContent.text
+            cellConfigurationHandler?(cell, cellItem)
         }
-        factory.sizeTypesConfigurationHandler = { _ in
-            .init(width: .fill, height: .contentRelated)
+
+        factory.sizeConfigurationHandler = { data, collectionView, sectionItem in
+            CGSize(width: collectionView.bounds.width, height: 60)
         }
         return factory
     }()
 
     // MARK: - Divider
 
-    private(set) lazy var dividerCellItemFactory: CellItemFactory = {
-        let factory: ViewCellItemsFactory<DividerState, DividerView> = .init()
-        factory.viewConfigurationHandler = { view, _ in
-           view.dividerHeight = 1
-           view.dividerView.backgroundColor = .gray
+    private(set) lazy var dividerCellItemsFactory: CellItemFactory = {
+        let factory: AssociatedCellItemFactory<DividerState, DividerCell> = .init()
+
+        factory.cellConfigurationHandler = { cell, _ in
+            cell.dividerHeight = 1
+            cell.dividerView.backgroundColor = .gray
         }
-        factory.sizeTypesConfigurationHandler = { _ in
-            .init(width: .fill, height: .fixed(20))
+
+        factory.sizeConfigurationHandler = {_, collectionView, sectionItem in
+            .init(width: collectionView.bounds.inset(by: sectionItem.insets).width, height: 1)
         }
         return factory
     }()
 
     // MARK: - Content
-    private(set) lazy var cellItemFactory: CellItemFactory = {
-       imageCellItemFactory.factory(byJoining: textCellItemFactory)
-                           .factory(byJoining: dividerCellItemFactory)
-    }()
+
+    private(set) lazy var cellItemsFactory: CellItemFactory = imageCellItemsFactory.factory(byJoining: textCellItemsFactory)
+                             .factory(byJoining: dividerCellItemsFactory)
 
     // MARK: - Description
-    private(set) lazy var descriptionCellItemFactory: ViewCellItemsFactory<ContentViewState, TextContentView> = {
-        let factory = ViewCellItemsFactory<ContentViewState, TextContentView>()
-        factory.cellItemConfigurationHandler = { cellItem in
-            cellItem.itemDidSelectHandler = { [weak self] _ in
-                cellItem.object.isExpanded.toggle()
-                self?.updateEventTriggered()
-            }
-        }
-        factory.viewConfigurationHandler = { view, cellItem in
-            view.titleLabel.text = cellItem.object.content.description
-        }
-        factory.sizeTypesConfigurationHandler = { _ in
-            .init(width: .fill, height: .contentRelated)
-        }
 
-        return factory
-    }()
+    private(set) lazy var descriptionCellItemsFactory: CellItemFactory = {
+        let factory = AssociatedCellItemFactory<ContentViewState, TextCollectionViewCell>()
 
-    func makeContentViewSate(_ content: Content?) -> ContentViewState? {
-       guard let content = content else {
-           return nil
-       }
-       if let imageContent = content as? ImageContent {
-           return ImageViewState(imageContent: imageContent)
-       }
-       if let textContent = content as? TextContent {
-           return TextViewState(textContent: textContent)
-       }
-       return nil
-    }
-
-    // MARK: - Private
-    private func makeFactory<U: ContentViewState, V: UIView>(id: String) -> ViewCellItemsFactory<U, V> {
-        let factory = ViewCellItemsFactory<U, V>()
-
-        factory.cellItemConfigurationHandler = { cellItem in
+        factory.cellItemConfigurationHandler = { index, cellItem in
            cellItem.itemDidSelectHandler = { [weak self] _ in
                cellItem.object.isExpanded.toggle()
                self?.updateEventTriggered()
            }
         }
 
-        factory.initializationHandler = { data in
-            let cellItem = factory.makeCellItem(object: data)
-            let separatorCellItem = DividerCellItem()
-            guard data.isExpanded else {
-                return [cellItem, separatorCellItem]
-            }
-            let descriptionCellItem = self.descriptionCellItemFactory.makeUniversalCellItem(object: data)
-            return [cellItem, descriptionCellItem, separatorCellItem]
+        factory.cellConfigurationHandler = { cell, cellItem in
+            cell.titleLabel.text = cellItem.object.content.description
         }
 
-        factory.viewConfigurationHandler = { view, cellItem in
+        factory.sizeConfigurationHandler = { data, collectionView, sectionItem in
+            CGSize(width: collectionView.bounds.width, height: 60)
+        }
+        return factory
+    }()
+
+    func makeContentViewState(_ content: Content?) -> ContentViewState? {
+        if let imageContent = content as? ImageContent {
+            return ImageViewState(imageContent: imageContent)
+        }
+        if let textContent = content as? TextContent {
+            return TextViewState(textContent: textContent)
+        }
+        return nil
+    }
+
+    // MARK: - Private
+
+    private func makeContentCellItemsFactory<U: ContentViewState, T: UICollectionViewCell>(id: String) -> AssociatedCellItemFactory<U, T> {
+        let factory = AssociatedCellItemFactory<U, T>()
+
+        factory.cellItemConfigurationHandler = { index, cellItem in
+            cellItem.itemDidSelectHandler = { [weak self] _ in
+                cellItem.object.isExpanded.toggle()
+                self?.updateEventTriggered()
+            }
+        }
+
+        factory.initializationHandler = { [weak self] index, data in
+           let cellItem = factory.makeUniversalCellItem(object: data, index: index)
+           let separatorCellItem = DividerCellItem()
+           guard data.isExpanded,
+                 // TODO: Use makeCellItem instead after merge of `Get rid any`
+                 let descriptionCellItem = self?.descriptionCellItemsFactory.makeCellItems(array: [data])[0] else {
+               return [cellItem, separatorCellItem]
+           }
+           return [cellItem, descriptionCellItem, separatorCellItem]
+        }
+
+        factory.cellConfigurationHandler = { cell, cellItem in
             if cellItem.object.isExpanded {
-                view.layer.borderWidth = 2
-                view.layer.borderColor = UIColor.green.cgColor
+                cell.layer.borderWidth = 2
+                cell.layer.borderColor = UIColor.green.cgColor
             }
             else {
-                view.layer.borderWidth = 0
+                cell.layer.borderWidth = 0
             }
         }
         return factory
@@ -138,7 +146,7 @@ final class ContentViewSectionItemsFactory {
     // MARK: - Factory methods
 
     func makeSectionItems(contentViewStates: [ContentViewState]) -> [CollectionViewDiffSectionItem] {
-        let cellItems = cellItemFactory.makeCellItems(objects: contentViewStates)
+        let cellItems = cellItemsFactory.makeCellItems(array: contentViewStates)
         let sectionItem = GeneralCollectionViewDiffSectionItem(cellItems: cellItems)
         sectionItem.diffIdentifier = "Contents"
         return [sectionItem]

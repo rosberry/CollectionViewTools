@@ -1,6 +1,4 @@
 //
-//  CollectionViewCellItemDataSourcePrefetching.swift
-//
 //  Copyright © 2017 Rosberry. All rights reserved.
 //
 

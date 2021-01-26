@@ -7,7 +7,7 @@ public class CollectionViewDeleteInsertBase<T>: CustomStringConvertible {
 
     /// Deleted/inserted item.
     let item: T
-    
+
     /// Index of item.
     let index: Int
 
@@ -34,10 +34,10 @@ public final class CollectionViewUpdate<T>: Hashable, CustomStringConvertible {
 
     /// Item before update.
     let oldItem: T
-    
+
     /// New item.
     let newItem: T
-    
+
     /// Index of item.
     let index: Int
 
@@ -65,10 +65,10 @@ public final class CollectionViewMove<T>: CustomStringConvertible, Equatable {
 
     /// Moving item.
     var item: T
-    
+
     /// Index of item before moving.
     var from: Int
-    
+
     /// Index of item after moving.
     let to: Int
 
@@ -93,13 +93,13 @@ public final class CollectionViewChange<T>: CustomStringConvertible {
 
     /// Optional insertion.
     public var insert: CollectionViewInsert<T>?
-    
+
     /// Optional deletion.
     public var delete: CollectionViewDelete<T>?
-    
+
     /// Optional update.
     public var update: CollectionViewUpdate<T>?
-    
+
     /// Optional move.
     public var move: CollectionViewMove<T>?
 

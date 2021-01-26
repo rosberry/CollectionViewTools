@@ -1,19 +1,17 @@
 //
-//  ComplexCellItemFactory.swift
-//
 //  Copyright © 2019 Rosberry. All rights reserved.
 //
 
 import UIKit
 
 public class ComplexCellItemFactory: CellItemFactory {
-    
+
     private var factories = [String: CellItemFactory]()
-    
+
     public init() {
     }
-    
-    public func makeCellItems(objects: [Any]) -> [CollectionViewCellItem] {
+
+    public func makeCellItems(array: [Any]) -> [CollectionViewCellItem] {
         var cellItems = [CollectionViewCellItem]()
         objects.enumerated().forEach { index, object in
             if let factory = factories[String(describing: type(of: object))] {
@@ -25,7 +23,14 @@ public class ComplexCellItemFactory: CellItemFactory {
 
     public func makeCellItems(object: Any) -> [CollectionViewCellItem] {
         if let factory = factories[String(describing: type(of: object))] {
-            return factory.makeCellItems(object: object)
+            return factory.makeCellItem(object: object, index: index)
+        }
+        return nil
+    }
+
+    public func makeCellItems(object: Any, index: Int) -> [CollectionViewCellItem] {
+        if let factory = factories[String(describing: type(of: object))] {
+            return factory.makeCellItems(object: object, index: index)
         }
         return []
     }
@@ -36,7 +41,7 @@ public class ComplexCellItemFactory: CellItemFactory {
         }
         return nil
     }
-    
+
     @discardableResult
     public func factory(byJoining factory: CellItemFactory) -> CellItemFactory {
         if let factory = factory as? ComplexCellItemFactory {
@@ -49,7 +54,7 @@ public class ComplexCellItemFactory: CellItemFactory {
         }
         return self
     }
-    
+
     /// Removes a factory from complex hierarchy
     ///
     /// - Parameters:
@@ -64,7 +69,7 @@ public class ComplexCellItemFactory: CellItemFactory {
             }
         }
     }
-    
+
     public var hashKey: String? {
         return nil
     }
