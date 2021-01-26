@@ -8,45 +8,47 @@ import CollectionViewTools
 final class LazySectionItemsExampleViewController: UIViewController {
 
     private lazy var mainCollectionViewManager: CollectionViewManager = .init(collectionView: mainCollectionView)
+
     private lazy var factory: ContentViewSectionItemsFactory = {
         let factory = ContentViewSectionItemsFactory()
         factory.output = self
         return factory
     }()
+
     private lazy var contentProvider: ContentProvider = .init()
-    private(set) lazy var sectionItemsProvider: SectionItemsProvider = {
-        LazyFactorySectionItemsProvider(
-            factory: factory.cellItemFactory,
-            cellItemsNumberHandler: { [weak self] _ in
-                (self?.contentProvider.contents.count ?? 0) * 2
-            },
-            sizeHandler: { [weak self] indexPath, collectionView in
-                guard let self = self else {
-                    return .zero
-                }
-                guard indexPath.row % 2 == 0 else {
-                    return .init(width: collectionView.bounds.width, height: 1)
-                }
-                let content = self.contentProvider.contents[indexPath.row / 2]
-                if let image = (content as? ImageContent)?.image {
-                    let width = collectionView.bounds.width
-                    let aspectRatio = image.size.width / image.size.height
-                    return .init(width: width, height: width / aspectRatio)
-                }
-                return .init(width: collectionView.bounds.width, height: 80)
-            },
-            objectHandler: { [weak self] indexPath in
-                guard let self = self else {
-                    return nil
-                }
-                guard indexPath.row % 2 == 0 else {
-                    return DividerState()
-                }
-                let content = self.contentProvider.contents[indexPath.row / 2]
-                return self.factory.makeContentViewState(content)
+
+    private(set) lazy var sectionItemsProvider: LazySectionItemsWrapper = .init(
+        factory: factory.cellItemFactory,
+        cellItemsNumberHandler: { [weak self] _ in
+            (self?.contentProvider.contents.count ?? 0) * 2
+        },
+        sizeHandler: { [weak self] indexPath, collectionView in
+            guard let self = self else {
+                return .zero
             }
-        )
-    }()
+            guard indexPath.row % 2 == 0 else {
+                return .init(width: collectionView.bounds.width, height: 1)
+            }
+            let content = self.contentProvider.contents[indexPath.row / 2]
+            if let image = (content as? ImageContent)?.image {
+                let width = collectionView.bounds.width
+                let aspectRatio = image.size.width / image.size.height
+                return .init(width: width, height: width / aspectRatio)
+            }
+            return .init(width: collectionView.bounds.width, height: 80)
+        },
+        objectHandler: { [weak self] indexPath in
+            guard let self = self,
+                  indexPath.row < self.contentProvider.contents.count * 2 else {
+                return nil
+            }
+            guard indexPath.row % 2 == 0 else {
+                return DividerState()
+            }
+            let content = self.contentProvider.contents[indexPath.row / 2]
+            return self.factory.makeContentViewState(content)
+        }
+    )
 
     // MARK: Subviews
 
@@ -61,11 +63,10 @@ final class LazySectionItemsExampleViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         navigationItem.title = "Feeds"
         view.addSubview(mainCollectionView)
+        mainCollectionViewManager.mode = .lazy(provider: sectionItemsProvider)
         view.backgroundColor = .white
-        mainCollectionViewManager.sectionItemsProvider = sectionItemsProvider
         resetMainCollection()
     }
 
