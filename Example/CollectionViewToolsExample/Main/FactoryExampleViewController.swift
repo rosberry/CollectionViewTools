@@ -18,7 +18,7 @@ final class FactoryExampleViewController: UIViewController {
         contentProvider.contents.compactMap(sectionItemsFactory.makeContentViewState)
     }()
 
-    // MARK: Subviews
+    // MARK: - Subviews
 
     private lazy var mainCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -27,7 +27,7 @@ final class FactoryExampleViewController: UIViewController {
         return collectionView
     }()
 
-    // MARK: Lifecycle
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()

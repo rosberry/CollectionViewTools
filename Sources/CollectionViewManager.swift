@@ -35,18 +35,24 @@ open class CollectionViewManager: NSObject {
                                    _ sourceIndexPath: IndexPath,
                                    _ destinationIndexPath: IndexPath) -> Void)?
 
+    /// This module private property declares a way to acces section items and cellItems depends on
+    /// `mode` value
     var sectionItemsWrapper: SectionItemsWrapper = DefaultSectionItemsWrapper() {
         didSet {
             registerSectionItems()
         }
     }
 
+    /// By `default` `CollectionViewManager` works with array of section items where provided
+    /// cellItem for any cell that should be displayed.
+    /// Mode `lazy` allows to modify this logic to create cellItems only when they actually needed
     public var mode: Mode = .default {
         didSet {
             switch mode {
             case .default:
                 sectionItemsWrapper = DefaultSectionItemsWrapper()
             case let .lazy(provider):
+                provider.collectionView = collectionView
                 sectionItemsWrapper = provider
             }
         }
@@ -140,18 +146,7 @@ open class CollectionViewManager: NSObject {
     /// - Returns: A cell item associated with cell of the collection, or nil if the cell item
     /// wasn't added to manager or indexPath is out of range.
     open func cellItem(for indexPath: IndexPath) -> CellItem? {
-        guard let sectionItem = sectionItem(for: indexPath),
-            let cellItem = sectionItemsWrapper[indexPath] else {
-            return nil
-        }
-
-        cellItem.sectionItem = sectionItem
-        cellItem.indexPath = indexPath
-        cellItem.collectionView = collectionView
-        if case .lazy = mode {
-            collectionView.registerCell(with: cellItem.reuseType)
-        }
-        return cellItem
+        sectionItemsWrapper[indexPath]
     }
 
     /// Returns the reusable view item at the specified index path.
@@ -180,9 +175,6 @@ open class CollectionViewManager: NSObject {
         guard sectionItemsWrapper.numberOfSections > indexPath.section else {
             return nil
         }
-        let sectionItem = sectionItemsWrapper[indexPath.section]
-        sectionItem?.collectionView = collectionView
-        sectionItem?.index = indexPath.section
         return sectionItemsWrapper[indexPath.section]
     }
 

@@ -7,6 +7,7 @@ import UIKit
 public final class LazySectionItemsWrapper {
 
     var sectionItemsDictionary: [Int: CollectionViewSectionItem] = [:]
+    var collectionView: UICollectionView?
 
     // MARK: - Handlers
 
@@ -113,6 +114,8 @@ extension LazySectionItemsWrapper: SectionItemsWrapper {
                 return sectionItem
             }
             let sectionItem = makeSectionItemHandler(index)
+            sectionItem?.collectionView = collectionView
+            sectionItem?.index = index
             sectionItemsDictionary[index] = sectionItem
             return sectionItem
         }
@@ -141,7 +144,11 @@ extension LazySectionItemsWrapper: SectionItemsWrapper {
             else {
                 fatalError("Invalid cell item insertion")
             }
-
+            
+            cellItem.sectionItem = sectionItem
+            cellItem.indexPath = indexPath
+            cellItem.collectionView = collectionView
+            collectionView?.registerCell(with: cellItem.reuseType)
             return cellItem
         }
         set {

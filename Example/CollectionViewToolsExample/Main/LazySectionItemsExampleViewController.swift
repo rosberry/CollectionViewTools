@@ -18,7 +18,7 @@ final class LazySectionItemsExampleViewController: UIViewController {
     private lazy var contentProvider: ContentProvider = .init()
 
     private(set) lazy var sectionItemsProvider: LazySectionItemsWrapper = .init(
-        factory: factory.cellItemFactory,
+        factory: factory.cellItemsFactory,
         cellItemsNumberHandler: { [weak self] _ in
             (self?.contentProvider.contents.count ?? 0) * 2
         },
@@ -50,7 +50,7 @@ final class LazySectionItemsExampleViewController: UIViewController {
         }
     )
 
-    // MARK: Subviews
+    // MARK: - Subviews
 
     private lazy var mainCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -59,7 +59,7 @@ final class LazySectionItemsExampleViewController: UIViewController {
         return collectionView
     }()
 
-    // MARK: Lifecycle
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()

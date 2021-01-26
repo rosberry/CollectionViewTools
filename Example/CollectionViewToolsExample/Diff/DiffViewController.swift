@@ -16,7 +16,7 @@ final class DiffViewController: UIViewController {
     private var lastObjectId: Int = 1
     private let defaultObjectsCount: Int = 10
 
-    // MARK: Subviews
+    // MARK: - Subviews
 
     private lazy var mainCollectionViewDiffs: [Diff] = [("DeepDiff", CollectionViewDeepDiffAdaptor()),
                                                          ("IGListKit", CollectionViewIGListKitDiffAdaptor())]
@@ -44,7 +44,7 @@ final class DiffViewController: UIViewController {
         return view
     }()
 
-    // MARK: Lifecycle
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()

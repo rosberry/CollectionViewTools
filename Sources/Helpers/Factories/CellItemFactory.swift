@@ -9,7 +9,7 @@ public protocol CellItemFactory {
     /// Returns only main cellItem for provided object
     ///
     /// - Parameters:
-    // - Parameters:
+    ///
     ///    - object: an object to create a cell item for it
     ///    - index: the index of the object in the array
     func makeCellItem(object: Any, index: Int) -> CollectionViewCellItem?

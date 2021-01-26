@@ -9,7 +9,7 @@ final class HeaderView: UICollectionReusableView {
     var foldHandler: (() -> Void)?
     var removeHandler: (() -> Void)?
 
-    // MARK: Subviews
+    // MARK: - Subviews
 
     private(set) lazy var contentView: UIView = {
         let view = UIView()
