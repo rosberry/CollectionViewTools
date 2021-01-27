@@ -10,6 +10,7 @@
 		01078BFD25C11F7700A11E1D /* LazySectionItemsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01078BFA25C11F7700A11E1D /* LazySectionItemsProvider.swift */; };
 		01078BFE25C11F7700A11E1D /* DefaultSectionItemsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01078BFB25C11F7700A11E1D /* DefaultSectionItemsProvider.swift */; };
 		01078BFF25C11F7700A11E1D /* SectionItemsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01078BFC25C11F7700A11E1D /* SectionItemsProvider.swift */; };
+		01078C0125C1252B00A11E1D /* SizeTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0176C9D4258A0E85006CA94C /* SizeTypes.swift */; };
 		0143C23023F6672B00592288 /* TestCollectionVIewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143C22F23F6672B00592288 /* TestCollectionVIewCell.swift */; };
 		0143C23223F667B200592288 /* TestCollectionViewCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143C23123F667B200592288 /* TestCollectionViewCellItem.swift */; };
 		0145B98A2408F4E800F85782 /* CollectionViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0145B9892408F4E800F85782 /* CollectionViewTests.swift */; };
@@ -19,8 +20,6 @@
 		015A8AA9231394FC002600FF /* AssociatedCellItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A8AA8231394FC002600FF /* AssociatedCellItemFactory.swift */; };
 		015A8AAB23139525002600FF /* ComplexCellItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015A8AAA23139525002600FF /* ComplexCellItemFactory.swift */; };
 		0176C9D1258A0541006CA94C /* CollectionViewViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0176C9D0258A0541006CA94C /* CollectionViewViewCell.swift */; };
-		0176C9D3258A0630006CA94C /* ViewCellItemsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0176C9D2258A0630006CA94C /* ViewCellItemsFactory.swift */; };
-		0176C9D5258A0E85006CA94C /* SizeTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0176C9D4258A0E85006CA94C /* SizeTypes.swift */; };
 		0176C9D7258A101B006CA94C /* CollectionViewViewCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0176C9D6258A101B006CA94C /* CollectionViewViewCellItem.swift */; };
 		017ABDB323F6853D00A5AE34 /* TestReusableViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017ABDB223F6853D00A5AE34 /* TestReusableViewItem.swift */; };
 		017ABDB523F6856700A5AE34 /* TestReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017ABDB423F6856700A5AE34 /* TestReusableView.swift */; };
@@ -516,6 +515,7 @@
 				0A3763731F62545A00A80613 /* CollectionViewCellItem.swift in Sources */,
 				0A3763711F62545A00A80613 /* GeneralCollectionViewSectionItem.swift in Sources */,
 				0A3763671F62545A00A80613 /* ClosureWrapper.swift in Sources */,
+				01078C0125C1252B00A11E1D /* SizeTypes.swift in Sources */,
 				0E0F409E222D4F0600B88DF3 /* DiffItem.swift in Sources */,
 				1078655122E1DE6C0075C74A /* CollectionViewDiffReusableViewItem.swift in Sources */,
 				0A37636E1F62545A00A80613 /* CollectionViewManager+UIScrollViewDelegate.swift in Sources */,

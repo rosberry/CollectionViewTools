@@ -81,7 +81,7 @@ final class ContentViewSectionItemsFactory {
     private(set) lazy var descriptionCellItemsFactory: CellItemFactory = {
         let factory = AssociatedCellItemFactory<ContentViewState, TextCollectionViewCell>()
 
-        factory.cellItemConfigurationHandler = { index, cellItem in
+        factory.cellItemConfigurationHandler = { cellItem in
            cellItem.itemDidSelectHandler = { [weak self] _ in
                cellItem.object.isExpanded.toggle()
                self?.updateEventTriggered()
@@ -113,19 +113,18 @@ final class ContentViewSectionItemsFactory {
     private func makeContentCellItemsFactory<U: ContentViewState, T: UICollectionViewCell>(id: String) -> AssociatedCellItemFactory<U, T> {
         let factory = AssociatedCellItemFactory<U, T>()
 
-        factory.cellItemConfigurationHandler = { index, cellItem in
+        factory.cellItemConfigurationHandler = { cellItem in
             cellItem.itemDidSelectHandler = { [weak self] _ in
                 cellItem.object.isExpanded.toggle()
                 self?.updateEventTriggered()
             }
         }
 
-        factory.initializationHandler = { [weak self] index, data in
-           let cellItem = factory.makeUniversalCellItem(object: data, index: index)
+        factory.initializationHandler = { [weak self] data in
+           let cellItem = factory.makeUniversalCellItem(object: data)
            let separatorCellItem = DividerCellItem()
            guard data.isExpanded,
-                 // TODO: Use makeCellItem instead after merge of `Get rid any`
-                 let descriptionCellItem = self?.descriptionCellItemsFactory.makeCellItems(array: [data])[0] else {
+                 let descriptionCellItem = self?.descriptionCellItemsFactory.makeCellItem(object: data) else {
                return [cellItem, separatorCellItem]
            }
            return [cellItem, descriptionCellItem, separatorCellItem]
@@ -146,7 +145,7 @@ final class ContentViewSectionItemsFactory {
     // MARK: - Factory methods
 
     func makeSectionItems(contentViewStates: [ContentViewState]) -> [CollectionViewDiffSectionItem] {
-        let cellItems = cellItemsFactory.makeCellItems(array: contentViewStates)
+        let cellItems = cellItemsFactory.makeCellItems(objects: contentViewStates)
         let sectionItem = GeneralCollectionViewDiffSectionItem(cellItems: cellItems)
         sectionItem.diffIdentifier = "Contents"
         return [sectionItem]

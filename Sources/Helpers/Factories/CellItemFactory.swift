@@ -13,27 +13,19 @@ public protocol CellItemFactory {
     /// - Parameters:
     ///
     ///    - object: an object to create a cell item for it
-    ///    - index: the index of the object in the array
-    func makeCellItem(object: Any, index: Int) -> CollectionViewCellItem?
+    func makeCellItem(object: Any) -> CollectionViewCellItem?
 
     /// Returns an array of cell items
     ///
     /// - Parameters:
     ///    - array: an array of objects to create cell items for them
-    func makeCellItems(array: [Any]) -> [CollectionViewCellItem]
+    func makeCellItems(objects: [Any]) -> [CollectionViewCellItem]
 
     /// Returns a cell items for associated object
     ///
     /// - Parameters:
     ///    - object: an object associated with cell item
-    ///    - index: the position of the object in the array
-    func makeCellItems(object: Any, index: Int) -> [CollectionViewCellItem]
-
-    /// Returns a default cell item for object ignoring initialization handler
-    ///
-    /// - Parameters:
-    ///    - object: an object associated with cell item
-    func makeCellItem(object: Any) -> CollectionViewCellItem?
+    func makeCellItems(object: Any) -> [CollectionViewCellItem]
 
     /// Joins different cell item factories
     ///

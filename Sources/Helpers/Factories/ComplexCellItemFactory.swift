@@ -11,7 +11,7 @@ public class ComplexCellItemFactory: CellItemFactory {
     public init() {
     }
 
-    public func makeCellItems(array: [Any]) -> [CollectionViewCellItem] {
+    public func makeCellItems(objects: [Any]) -> [CollectionViewCellItem] {
         var cellItems = [CollectionViewCellItem]()
         objects.enumerated().forEach { index, object in
             if let factory = factories[String(describing: type(of: object))] {
@@ -23,14 +23,7 @@ public class ComplexCellItemFactory: CellItemFactory {
 
     public func makeCellItems(object: Any) -> [CollectionViewCellItem] {
         if let factory = factories[String(describing: type(of: object))] {
-            return factory.makeCellItem(object: object, index: index)
-        }
-        return nil
-    }
-
-    public func makeCellItems(object: Any, index: Int) -> [CollectionViewCellItem] {
-        if let factory = factories[String(describing: type(of: object))] {
-            return factory.makeCellItems(object: object, index: index)
+            return factory.makeCellItems(object: object)
         }
         return []
     }
