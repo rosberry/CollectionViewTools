@@ -300,7 +300,8 @@ open class CollectionViewManager: NSObject {
                 viewItem.sectionItem = sectionItem
             }
 
-            sectionItem.cellItems.enumerated().forEach { itemIndex, cellItem in
+            for itemIndex in 0..<sectionItem.cellItems.count {
+                let cellItem = sectionItem.cellItems[itemIndex]
                 cellItem.collectionView = collectionView
                 cellItem.indexPath = IndexPath(item: itemIndex, section: section)
                 cellItem.sectionItem = sectionItem
