@@ -2,9 +2,16 @@
 //  Copyright © 2020 Rosberry. All rights reserved.
 //
 
-import UIKit
-
-public final class LazySectionItemsWrapper {
+/// It  is an implementation of `SectionItemsProvider` that organizes an access to required
+/// cellItems and sectionItems on demand. It stores section created items in dictionary and calls
+/// defined handlers to configure cell items if needed. There are 3 ways of usage:
+/// - Describe all required handlers in initializer
+/// - Provide a factory that will create cell items in initializer. Note that `sizeHandler` of factory will not working
+///   because it need an object in argument, but it can be not retrieved yet.
+///   `LazySectionItemsProvider` has own `sizeHandler` that should provide a size without
+///   concrete object
+/// - Use generic initializer that creates associated factory itself
+public final class LazySectionItemsProvider {
 
     var sectionItemsDictionary: [Int: CollectionViewSectionItem] = [:]
     var collectionView: UICollectionView?
@@ -61,7 +68,7 @@ public final class LazySectionItemsWrapper {
             guard let object = objectHandler(indexPath) else {
                 return nil
             }
-            let cellItem = factory.makeCellItem(object: object, index: indexPath.row)
+            let cellItem = factory.makeCellItem(object: object)
             return cellItem
         }
         self.sizeHandler = sizeHandler
@@ -86,7 +93,7 @@ public final class LazySectionItemsWrapper {
         },
         cellConfigurationHandler: ((T, UniversalCollectionViewCellItem<U, T>) -> Void)?,
         sizeHandler: @escaping (IndexPath, UICollectionView) -> CGSize,
-        objectHandler: @escaping (IndexPath) -> Any?) {
+        objectHandler: @escaping (IndexPath) -> U?) {
 
         let factory = AssociatedCellItemFactory<U, T>()
         factory.cellConfigurationHandler = cellConfigurationHandler
@@ -96,7 +103,7 @@ public final class LazySectionItemsWrapper {
            guard let object = objectHandler(indexPath) else {
                return nil
            }
-           return factory.makeCellItem(object: object, index: indexPath.row)
+           return factory.makeCellItem(object: object)
         }
         self.sizeHandler = sizeHandler
         self.sectionItemsNumberHandler = sectionItemsNumberHandler
@@ -104,9 +111,9 @@ public final class LazySectionItemsWrapper {
     }
 }
 
-// MARK: - SectionItemsWrapper
+// MARK: - SectionItemsProvider
 
-extension LazySectionItemsWrapper: SectionItemsWrapper {
+extension LazySectionItemsProvider: SectionItemsProvider {
 
     public subscript(index: Int) -> CollectionViewSectionItem? {
         get {
@@ -169,7 +176,7 @@ extension LazySectionItemsWrapper: SectionItemsWrapper {
         sectionItemsNumberHandler()
     }
 
-    func numberOfCellItems(inSection section: Int) -> Int {
+    func numberOfCells(inSection section: Int) -> Int {
         cellItemsNumberHandler(section)
     }
 
@@ -185,14 +192,14 @@ extension LazySectionItemsWrapper: SectionItemsWrapper {
         }
     }
 
-    func insertSectionItem(_ sectionItem: CollectionViewSectionItem, at index: Int) {
+    func insert(_ sectionItem: CollectionViewSectionItem, at index: Int) {
         for key in sectionItemsDictionary.keys.sorted(by: >) where key >= index {
             self[key + 1] = sectionItems[key]
         }
         self[index] = sectionItem
     }
 
-    func insertSectionItems(_ sectionItems: [CollectionViewSectionItem], at index: Int) {
+    func insert(_ sectionItems: [CollectionViewSectionItem], at index: Int) {
         for key in sectionItemsDictionary.keys.sorted(by: >) where key >= index + sectionItems.count {
             self[key + sectionItems.count] = self[key]
         }
@@ -215,19 +222,5 @@ extension LazySectionItemsWrapper: SectionItemsWrapper {
         sectionItemsDictionary.first { _, element in
             element === sectionItem
         }?.key
-    }
-
-    func moveSectionItem(_ sectionItem: CollectionViewSectionItem?, at index: Int, to destinationIndex: Int) {
-        let keySectionItem = sectionItem ?? sectionItems[index]
-        sectionItemsDictionary.removeValue(forKey: index)
-        self[destinationIndex] = keySectionItem
-    }
-
-    func moveCellItem(at indexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let sourceSectionItem = self[indexPath.section]
-        let destinationIndexPathSectionItem = self[destinationIndexPath.section]
-        if let cellItem = sourceSectionItem?.cellItems.remove(at: indexPath.row) {
-            destinationIndexPathSectionItem?.cellItems.insert(cellItem, at: destinationIndexPath.row)
-        }
     }
 }

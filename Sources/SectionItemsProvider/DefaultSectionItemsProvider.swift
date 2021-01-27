@@ -2,13 +2,15 @@
 //  Copyright © 2020 Rosberry. All rights reserved.
 //
 
-open class DefaultSectionItemsWrapper {
+/// It is an implementation of `SectionItemsProvider` that just wraps sectionItems array
+/// and redirecst to it all required methods
+final class DefaultSectionItemsProvider {
     public var sectionItems: [CollectionViewSectionItem] = []
 }
 
-// MARK: - SectionItemsWrapper
+// MARK: - SectionItemsProvider
 
-extension DefaultSectionItemsWrapper: SectionItemsWrapper {
+extension DefaultSectionItemsProvider: SectionItemsProvider {
 
     var numberOfSections: Int {
         sectionItems.count
@@ -42,7 +44,7 @@ extension DefaultSectionItemsWrapper: SectionItemsWrapper {
         }
     }
 
-    func numberOfCellItems(inSection section: Int) -> Int {
+    func numberOfCells(inSection section: Int) -> Int {
         self[section]?.cellItems.count ?? 0
     }
 
@@ -58,11 +60,11 @@ extension DefaultSectionItemsWrapper: SectionItemsWrapper {
         return size
     }
 
-    func insertSectionItem(_ sectionItem: CollectionViewSectionItem, at index: Int) {
+    func insert(_ sectionItem: CollectionViewSectionItem, at index: Int) {
         sectionItems.insert(sectionItem, at: index)
     }
 
-    func insertSectionItems(_ sectionItems: [CollectionViewSectionItem], at index: Int) {
+    func insert(_ sectionItems: [CollectionViewSectionItem], at index: Int) {
         self.sectionItems.insert(contentsOf: sectionItems, at: index)
     }
 
@@ -72,23 +74,6 @@ extension DefaultSectionItemsWrapper: SectionItemsWrapper {
 
     func removeCellItem(at indexPath: IndexPath) {
         self[indexPath.section]?.cellItems.remove(at: indexPath.row)
-    }
-
-    func moveSectionItem(_ sectionItem: CollectionViewSectionItem?, at index: Int, to destinationIndex: Int) {
-        guard let keySectionItem = sectionItem ?? self[index] else {
-            return
-        }
-        sectionItems.remove(at: index)
-        sectionItems.insert(keySectionItem, at: index)
-    }
-
-    func moveCellItem(at indexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        guard let sourceSectionItem = self[indexPath.section],
-              let destinationIndexPathSectionItem = self[destinationIndexPath.section] else {
-            return
-        }
-        let cellItem = sourceSectionItem.cellItems.remove(at: indexPath.row)
-        destinationIndexPathSectionItem.cellItems.insert(cellItem, at: destinationIndexPath.row)
     }
 
     func firstIndex(of keySectionItem: CollectionViewSectionItem) -> Int? {
