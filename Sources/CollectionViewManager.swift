@@ -8,7 +8,7 @@ open class CollectionViewManager: NSObject {
 
     public enum Mode {
         case `default`
-        case `lazy`(provider: LazySectionItemsWrapper)
+        case `lazy`(provider: LazySectionItemsProvider)
     }
 
     public typealias SectionItem = CollectionViewSectionItem
@@ -37,25 +37,25 @@ open class CollectionViewManager: NSObject {
 
     /// This module private property declares a way to acces section items and cellItems depends on
     /// `mode` value
-    var sectionItemsWrapper: SectionItemsWrapper = DefaultSectionItemsWrapper() {
+    var sectionItemsProvider: SectionItemsProvider = DefaultSectionItemsProvider() {
         didSet {
             registerSectionItems()
         }
     }
 
-    /// By `default` `CollectionViewManager` works with array of section items where provided
+    /// By `default` `CollectionViewManager` works with array of section items with already created
     /// cellItem for any cell that should be displayed.
-    /// Mode `lazy` allows to modify this logic to create cellItems only when they actually needed
+    /// Mode `lazy` allows to modify this logic to create cellItems only when they are actually needed
     /// Currently, `lazy` mode does not provide proper workflow with `diff`, hence needs to work with
     /// `collectionViewManager` modifiers like insert and remove directly
     public var mode: Mode = .default {
         didSet {
             switch mode {
             case .default:
-                sectionItemsWrapper = DefaultSectionItemsWrapper()
+                sectionItemsProvider = DefaultSectionItemsProvider()
             case let .lazy(provider):
                 provider.collectionView = collectionView
-                sectionItemsWrapper = provider
+                sectionItemsProvider = provider
             }
         }
     }
@@ -64,7 +64,7 @@ open class CollectionViewManager: NSObject {
     /// Setting this property leads collection view to reload data. If you don't need this behaviour use update methods instead.
     public var sectionItems: [SectionItem] {
         get {
-            return sectionItemsWrapper.sectionItems
+            return sectionItemsProvider.sectionItems
         }
         set {
             update(newValue, shouldReloadData: true, completion: nil)
@@ -92,10 +92,10 @@ open class CollectionViewManager: NSObject {
     ///
     /// - Parameter index: The index of the section item to access.
     public subscript(index: Int) -> CollectionViewSectionItem? {
-        guard (0..<sectionItemsWrapper.numberOfSections).contains(index) else {
+        guard (0..<sectionItemsProvider.numberOfSections).contains(index) else {
             return nil
         }
-        return sectionItemsWrapper[index]
+        return sectionItemsProvider[index]
     }
 
     /// Accesses the cell item in the specified section and at the specified position.
@@ -148,7 +148,7 @@ open class CollectionViewManager: NSObject {
     /// - Returns: A cell item associated with cell of the collection, or nil if the cell item
     /// wasn't added to manager or indexPath is out of range.
     open func cellItem(for indexPath: IndexPath) -> CellItem? {
-        sectionItemsWrapper[indexPath]
+        sectionItemsProvider[indexPath]
     }
 
     /// Returns the reusable view item at the specified index path.
@@ -174,10 +174,10 @@ open class CollectionViewManager: NSObject {
     /// - Returns: A section item associated with section of the collection, or nil if the section item
     /// wasn't added to manager or indexPath.section is out of range.
     open func sectionItem(for indexPath: IndexPath) -> SectionItem? {
-        guard sectionItemsWrapper.numberOfSections > indexPath.section else {
+        guard sectionItemsProvider.numberOfSections > indexPath.section else {
             return nil
         }
-        return sectionItemsWrapper[indexPath.section]
+        return sectionItemsProvider[indexPath.section]
     }
 
     /// Use this method if you need to set new section items.
@@ -192,7 +192,7 @@ open class CollectionViewManager: NSObject {
                      completion: (() -> Void)? = nil) {
         if shouldReloadData {
             UIView.animate(withDuration: 0, animations: {
-                self.sectionItemsWrapper.sectionItems = sectionItems
+                self.sectionItemsProvider.sectionItems = sectionItems
                 self.registerSectionItems()
                 self.recalculateIndexes()
                 UIView.performWithoutAnimation {
@@ -203,7 +203,7 @@ open class CollectionViewManager: NSObject {
             })
         }
         else {
-            sectionItemsWrapper.sectionItems = sectionItems
+            sectionItemsProvider.sectionItems = sectionItems
             registerSectionItems()
             recalculateIndexes()
         }
@@ -258,8 +258,8 @@ open class CollectionViewManager: NSObject {
     /// Use this function to force update all indexes and index paths
     /// for section items and cell items during custom update operations.
     open func recalculateIndexPaths() {
-        for index in 0..<sectionItemsWrapper.numberOfSections {
-            guard let sectionItem = sectionItemsWrapper[index] else {
+        for index in 0..<sectionItemsProvider.numberOfSections {
+            guard let sectionItem = sectionItemsProvider[index] else {
                 return
             }
             sectionItem.index = index
@@ -275,10 +275,10 @@ open class CollectionViewManager: NSObject {
             return printContextWarning("It is impossible to setup indexPath to cellItems" +
                                        "because there is no index in sectionItem \(sectionItem)")
         }
-        let cellItemsCount = sectionItemsWrapper.numberOfCellItems(inSection: sectionIndex)
+        let cellItemsCount = sectionItemsProvider.numberOfCells(inSection: sectionIndex)
         for index in 0..<cellItemsCount {
             let indexPath = IndexPath(row: index, section: sectionIndex)
-            let cellItem = sectionItemsWrapper[indexPath]
+            let cellItem = sectionItemsProvider[indexPath]
             cellItem?.indexPath = indexPath
         }
     }
@@ -286,8 +286,8 @@ open class CollectionViewManager: NSObject {
     /// Use this function to force update indexes for all section
     /// items and inner cell items during custom update operations.
     open func recalculateIndexes() {
-        for section in 0..<sectionItemsWrapper.numberOfSections {
-            guard let sectionItem = sectionItemsWrapper[section] else {
+        for section in 0..<sectionItemsProvider.numberOfSections {
+            guard let sectionItem = sectionItemsProvider[section] else {
                 continue
             }
             sectionItem.collectionView = collectionView
@@ -300,7 +300,8 @@ open class CollectionViewManager: NSObject {
                 viewItem.sectionItem = sectionItem
             }
 
-            sectionItem.cellItems.enumerated().forEach { itemIndex, cellItem in
+            for itemIndex in 0..<sectionItem.cellItems.count {
+                let cellItem = sectionItem.cellItems[itemIndex]
                 cellItem.collectionView = collectionView
                 cellItem.indexPath = IndexPath(item: itemIndex, section: section)
                 cellItem.sectionItem = sectionItem
@@ -519,7 +520,7 @@ open class CollectionViewManager: NSObject {
                 return cellItem.indexPath
             }
             for indexPath in indexPaths.sorted(by: >) {
-                sectionItemsWrapper.removeCellItem(at: indexPath)
+                sectionItemsProvider.removeCellItem(at: indexPath)
             }
 
             recalculateIndexPaths()
@@ -588,7 +589,7 @@ open class CollectionViewManager: NSObject {
                      completion: Completion? = nil) {
         func insert(in collectionView: UICollectionView?) {
             for (sectionItem, index) in zip(sectionItems, indexes) {
-                sectionItemsWrapper.insertSectionItem(sectionItem, at: index)
+                sectionItemsProvider.insert(sectionItem, at: index)
             }
             recalculateIndexes()
             for section in 0..<sectionItems.count {
@@ -614,7 +615,7 @@ open class CollectionViewManager: NSObject {
     ///   - completion: A closure that either specifies any additional actions which should be performed after insertion.
     open func append(_ sectionItems: [CollectionViewSectionItem], completion: Completion? = nil) {
         insert(sectionItems,
-               at: Array(sectionItemsWrapper.numberOfSections..<sectionItemsWrapper.numberOfSections + sectionItems.count),
+               at: Array(sectionItemsProvider.numberOfSections..<sectionItemsProvider.numberOfSections + sectionItems.count),
                completion: completion)
     }
 
@@ -672,7 +673,7 @@ open class CollectionViewManager: NSObject {
         func replace(in collectionView: UICollectionView?) {
             if indexes.count == sectionItems.count {
                 for (sectionItem, index) in zip(sectionItems, indexes) {
-                    sectionItemsWrapper[index] = sectionItem
+                    sectionItemsProvider[index] = sectionItem
                     sectionItem.index = index
                     register(sectionItem)
                 }
@@ -681,10 +682,10 @@ open class CollectionViewManager: NSObject {
             else {
                 let firstIndex = indexes[0]
                 for index in indexes.sorted(by: >) {
-                    sectionItemsWrapper.removeSectionItem(at: index)
+                    sectionItemsProvider.removeSectionItem(at: index)
                 }
 
-                sectionItemsWrapper.insertSectionItems(sectionItems, at: firstIndex)
+                sectionItemsProvider.insert(sectionItems, at: firstIndex)
                 recalculateIndexes()
 
                 for index in 0..<sectionItems.count {
@@ -713,7 +714,7 @@ open class CollectionViewManager: NSObject {
                      performUpdates: Bool = true,
                      completion: Completion? = nil) {
         let indexes = sectionItems.compactMap { sectionItem in
-            sectionItemsWrapper.firstIndex(of: sectionItem)
+            sectionItemsProvider.firstIndex(of: sectionItem)
         }
         remove(sectionItemsAt: indexes,
                performUpdates: performUpdates,
@@ -734,7 +735,7 @@ open class CollectionViewManager: NSObject {
                 lhs > rhs
             }
             for index in sortedIndexes {
-                sectionItemsWrapper.removeSectionItem(at: index)
+                sectionItemsProvider.removeSectionItem(at: index)
             }
             recalculateIndexes()
             collectionView?.deleteSections(IndexSet(sortedIndexes))
@@ -758,16 +759,16 @@ open class CollectionViewManager: NSObject {
 
     /// Use this method to perform register all section items.
     func registerSectionItems() {
-        for index in 0..<sectionItemsWrapper.numberOfSections {
-            sectionItemsWrapper[index]?.reusableViewItems.forEach { viewItem in
+        for index in 0..<sectionItemsProvider.numberOfSections {
+            sectionItemsProvider[index]?.reusableViewItems.forEach { viewItem in
                 register(viewItem)
             }
         }
-        sectionItemsWrapper.registerReuseTypes(in: collectionView)
+        sectionItemsProvider.registerReuseTypes(in: collectionView)
     }
 
     func configureCellItems(animated: Bool = false) {
-        sectionItemsWrapper.sectionItems.forEach { sectionItem in
+        sectionItemsProvider.sectionItems.forEach { sectionItem in
             sectionItem.cellItems.forEach { cellItem in
                 guard let indexPath = cellItem.indexPath,
                       let cell = collectionView.cellForItem(at: indexPath) else {

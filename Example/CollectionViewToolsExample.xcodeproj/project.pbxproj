@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		010D807825BAE99300BA7044 /* CollectionViewTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 010D807525BAE98700BA7044 /* CollectionViewTools.framework */; };
-		010D807925BAE99300BA7044 /* CollectionViewTools.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 010D807525BAE98700BA7044 /* CollectionViewTools.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		01078BF725C11F5500A11E1D /* CollectionViewTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01078BF625C11F5500A11E1D /* CollectionViewTools.framework */; };
+		01078BF825C11F5500A11E1D /* CollectionViewTools.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 01078BF625C11F5500A11E1D /* CollectionViewTools.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0142A91E25249F3400A1CBC0 /* ContentViewSectionItemsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0142A91D25249F3400A1CBC0 /* ContentViewSectionItemsFactory.swift */; };
 		015F03FB258772A50033F11C /* LazySectionItemsExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015F03FA258772A50033F11C /* LazySectionItemsExampleViewController.swift */; };
 		015F03FE258775D00033F11C /* HeaderViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1078655322E1E5C60075C74A /* HeaderViewItem.swift */; };
@@ -65,23 +65,6 @@
 		629A6F552D5D656B36F4F52C /* TextCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A60E846B05B88D62C7880 /* TextCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		010D807425BAE98700BA7044 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 010D806F25BAE98700BA7044 /* CollectionViewTools.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0A3763251F6251A600A80613;
-			remoteInfo = CollectionViewTools;
-		};
-		010D807625BAE98700BA7044 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 010D806F25BAE98700BA7044 /* CollectionViewTools.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0A37632E1F6251A600A80613;
-			remoteInfo = CollectionViewToolsTests;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		010D807A25BAE99400BA7044 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -89,7 +72,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				010D807925BAE99300BA7044 /* CollectionViewTools.framework in Embed Frameworks */,
+				01078BF825C11F5500A11E1D /* CollectionViewTools.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -108,7 +91,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		010D806F25BAE98700BA7044 /* CollectionViewTools.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CollectionViewTools.xcodeproj; path = ../CollectionViewTools.xcodeproj; sourceTree = "<group>"; };
+		01078BF625C11F5500A11E1D /* CollectionViewTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CollectionViewTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0142A91D25249F3400A1CBC0 /* ContentViewSectionItemsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewSectionItemsFactory.swift; sourceTree = "<group>"; };
 		015F03FA258772A50033F11C /* LazySectionItemsExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazySectionItemsExampleViewController.swift; sourceTree = "<group>"; };
 		015F040225887C000033F11C /* DividerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerState.swift; sourceTree = "<group>"; };
@@ -163,7 +146,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				010D807825BAE99300BA7044 /* CollectionViewTools.framework in Frameworks */,
+				01078BF725C11F5500A11E1D /* CollectionViewTools.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,15 +163,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		010D807025BAE98700BA7044 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				010D807525BAE98700BA7044 /* CollectionViewTools.framework */,
-				010D807725BAE98700BA7044 /* CollectionViewToolsTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		0142A91A25249EC600A1CBC0 /* Factories */ = {
 			isa = PBXGroup;
 			children = (
@@ -239,7 +213,6 @@
 		0A3763761F62556300A80613 = {
 			isa = PBXGroup;
 			children = (
-				010D806F25BAE98700BA7044 /* CollectionViewTools.xcodeproj */,
 				0A3763811F62556300A80613 /* CollectionViewToolsExample */,
 				0A3763801F62556300A80613 /* Products */,
 				0ACA6FC41F62659500782C1E /* Frameworks */,
@@ -281,6 +254,7 @@
 		0ACA6FC41F62659500782C1E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				01078BF625C11F5500A11E1D /* CollectionViewTools.framework */,
 				10A34923232B7EED0064FB8C /* DeepDiff.framework */,
 				1028238E22E9B0950061C54F /* IGListKit.framework */,
 				FE6E86B31FB961B20027A8FE /* CollectionViewTools.framework */,
@@ -454,12 +428,6 @@
 			mainGroup = 0A3763761F62556300A80613;
 			productRefGroup = 0A3763801F62556300A80613 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 010D807025BAE98700BA7044 /* Products */;
-					ProjectRef = 010D806F25BAE98700BA7044 /* CollectionViewTools.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				0A37637E1F62556300A80613 /* CollectionViewToolsExample */,
@@ -467,23 +435,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		010D807525BAE98700BA7044 /* CollectionViewTools.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = CollectionViewTools.framework;
-			remoteRef = 010D807425BAE98700BA7044 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		010D807725BAE98700BA7044 /* CollectionViewToolsTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = CollectionViewToolsTests.xctest;
-			remoteRef = 010D807625BAE98700BA7044 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		0A37637D1F62556300A80613 /* Resources */ = {
