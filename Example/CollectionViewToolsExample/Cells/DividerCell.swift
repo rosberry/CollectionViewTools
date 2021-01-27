@@ -1,13 +1,11 @@
 //
-//  DividerCell.swift
-//
 //  Copyright © 2019 Rosberry. All rights reserved.
 //
 
 import UIKit
 
 final class DividerCell: UICollectionViewCell {
-    
+
     private(set) lazy var dividerView: DividerView = .init()
     var dividerInsets: UIEdgeInsets = .zero {
         didSet {
@@ -19,17 +17,17 @@ final class DividerCell: UICollectionViewCell {
             dividerView.dividerHeight = dividerHeight
         }
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         dividerView.frame = bounds
@@ -40,4 +38,5 @@ final class DividerCell: UICollectionViewCell {
     private func setup() {
         addSubview(dividerView)
     }
+
 }

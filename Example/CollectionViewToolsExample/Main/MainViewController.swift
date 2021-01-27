@@ -1,6 +1,4 @@
 //
-//  MainViewController.swift
-//
 //  Copyright © 2017 Rosberry. All rights reserved.
 //
 
@@ -29,7 +27,7 @@ class MainViewController: UIViewController {
     lazy var mainCollectionViewManager: CollectionViewManager = .init(collectionView: mainCollectionView)
     lazy var actionsCollectionViewManager: CollectionViewManager = .init(collectionView: actionsCollectionView)
 
-    // MARK: Subviews
+    // MARK: - Subviews
 
     private lazy var actionsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -50,12 +48,11 @@ class MainViewController: UIViewController {
         return view
     }()
 
-    
-    // MARK: Lifecycle
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         navigationItem.title = "CollectionViewTools"
         edgesForExtendedLayout = []
 
@@ -69,7 +66,7 @@ class MainViewController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+
         actionsCollectionView.frame.size.width = view.bounds.width
         actionsCollectionView.frame.size.height = 50 + bottomLayoutGuide.length
         actionsCollectionView.frame.origin.y = view.bounds.height - actionsCollectionView.frame.height
@@ -123,7 +120,7 @@ class MainViewController: UIViewController {
         return cellItem
     }
 
-    // MARK: Actions cell items
+    // MARK: - Actions cell items
 
     func makeActionsSectionItem() -> CollectionViewSectionItem {
         let sectionItem = makeActionsSectionItem(cellItems: [
@@ -163,7 +160,7 @@ class MainViewController: UIViewController {
         }
     }
 
-    // MARK: Insert cells
+    // MARK: - Insert cells
 
     func makePrependCellItemsActionCellItem() -> CollectionViewCellItem {
         return makeActionCellItem(title: "Prepend cells") { [weak self] in
@@ -220,7 +217,7 @@ class MainViewController: UIViewController {
         }
     }
 
-    // MARK: Insert sections
+    // MARK: - Insert sections
 
     func makeAppendSectionItemActionCellItem() -> CollectionViewCellItem {
         return makeActionCellItem(title: "Append section") { [weak self] in
@@ -290,7 +287,7 @@ class MainViewController: UIViewController {
         }
     }
 
-    // MARK: Remove cells
+    // MARK: - Remove cells
 
     func makeRemoveRandomCellActionCellItem() -> CollectionViewCellItem {
         return makeActionCellItem(title: "Remove random cell") { [weak self] in
@@ -327,7 +324,7 @@ class MainViewController: UIViewController {
         }
     }
 
-    // MARK: Remove sections
+    // MARK: - Remove sections
 
     func makeRemoveRandomSectionActionCellItem() -> CollectionViewCellItem {
         return makeActionCellItem(title: "Remove random section") { [weak self] in
@@ -358,7 +355,7 @@ class MainViewController: UIViewController {
         }
     }
 
-    // MARK: Replace cells
+    // MARK: - Replace cells
 
     func makeReplaceCellItemsActionCellItem() -> CollectionViewCellItem {
         return makeActionCellItem(title: "Replace cells") { [weak self] in
@@ -382,7 +379,7 @@ class MainViewController: UIViewController {
         }
     }
 
-    // MARK: Replace sections
+    // MARK: - Replace sections
 
     func makeReplaceSectionItemsActionCellItem() -> CollectionViewCellItem {
         return makeActionCellItem(title: "Replace sections") { [weak self] in
@@ -400,7 +397,7 @@ class MainViewController: UIViewController {
         }
     }
 
-    // MARK: Change images
+    // MARK: - Change images
 
     func makeChangeImagesActionCellItem() -> CollectionViewCellItem {
         return makeActionCellItem(title: "Change images") { [weak self] in
@@ -443,7 +440,7 @@ class MainViewController: UIViewController {
         }
     }
 
-    // MARK: Common
+    // MARK: - Common
 
     func makeActionCellItem(title: String, action: @escaping (() -> Void)) -> CollectionViewCellItem {
         let cellItem = TextCellItem(text: title, backgroundColor: .white, roundCorners: true)

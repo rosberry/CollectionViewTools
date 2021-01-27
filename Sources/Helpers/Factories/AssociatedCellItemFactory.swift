@@ -4,7 +4,7 @@
 
 import UIKit
 
-public class CellItemsFactory<Object: CanBeDiff, Cell: UICollectionViewCell> {
+public class AssociatedCellItemFactory<Object: GenericDiffItem, Cell: UICollectionViewCell> {
 
     public typealias CellItem = UniversalCollectionViewCellItem<Object, Cell>
 
@@ -45,54 +45,35 @@ public class CellItemsFactory<Object: CanBeDiff, Cell: UICollectionViewCell> {
     /// - Parameters:
     ///    - objects: an array of objects to create cell items for them
     public func makeCellItems(objects: [Object]) -> [CollectionViewCellItem] {
-        objects.flatMap(makeCellItems)
+        var cellItems = [CollectionViewCellItem]()
+        for index in 0..<objects.count {
+            let object = objects[index]
+            cellItems.append(contentsOf: makeCellItems(object: object))
+        }
+        return cellItems
     }
 
     /// Returns an instance of `UniversalCollectionViewCellItem` and associates provided handlers with them
     ///
     /// - Parameters:
-    ///    - object: an object to create a cell item for it
+    ///    - object: an object to create a cell item for it 
     ///    - configure: a cell configuration handler
     ///    - size: a cell size configuration handler
-    public func makeCellItem<ConcreteCellItem: CellItem>(object: Object,
+    public func makeCellItem(object: Object,
                              configure configurationHandler: @escaping (Cell) -> Void,
-                             size sizeConfigurationHandler: @escaping (UICollectionView, CollectionViewSectionItem) -> CGSize) -> ConcreteCellItem {
-        let cellItem = ConcreteCellItem(object: object)
+                             size sizeConfigurationHandler: @escaping (UICollectionView, CollectionViewSectionItem) -> CGSize) -> CollectionViewCellItem {
+        let cellItem = CellItem(object: object)
         cellItem.configurationHandler = configurationHandler
         cellItem.sizeConfigurationHandler = sizeConfigurationHandler
         return cellItem
     }
 
-    /// Returns a cell items for associated object
-    ///
-    /// - Parameters:
-    ///    - object: an object associated with cell item
-    public func makeCellItems(object: Object) -> [CollectionViewCellItem] {
-       if let initializationHandler = self.initializationHandler {
-           return initializationHandler(object).compactMap { cellItem in
-               cellItem
-           }
-       }
-       else {
-           return [makeCellItem(object: object)]
-       }
-    }
-
     /// Returns an instance of `UniversalCollectionViewCellItem` and associates provided handlers with them
     ///
     /// - Parameters:
     ///    - object: an object to create a cell item for it
-    public func makeCellItem<ConcreteCellItem: CellItem>(object: Object) -> ConcreteCellItem {
+    public func makeUniversalCellItem<ConcreteCellItem: CellItem>(object: Object) -> ConcreteCellItem {
         let cellItem = ConcreteCellItem(object: object)
-        basicSetup(cellItem: cellItem, object: object)
-        return cellItem
-    }
-
-    /// Assigns cell configuration and size configuration handlers to factory handlers
-    ///
-    /// - Parameters:
-    ///    - object: an object to create a cell item for it
-    public func basicSetup<ConcreteCellItem: CellItem>(cellItem: ConcreteCellItem, object: Object) {
         cellItem.configurationHandler = { [weak self] cell in
             guard let self = self else {
                 return
@@ -109,30 +90,48 @@ public class CellItemsFactory<Object: CanBeDiff, Cell: UICollectionViewCell> {
         }
 
         cellItemConfigurationHandler?(cellItem)
+        return cellItem
+    }
+}
+
+extension AssociatedCellItemFactory: CellItemFactory {
+
+    public func makeCellItem(object: Any) -> CollectionViewCellItem? {
+        guard let object = object as? Object else {
+            return nil
+        }
+        return makeUniversalCellItem(object: object)
     }
 
-    /// Joins different cell item factories
-    ///
-    /// - Parameters:
-    ///    - factory: a second cell item factory the associated type of which should be united
-    public func factory<Object: CanBeDiff, Cell: UICollectionViewCell>(byJoining factory: CellItemsFactory<Object, Cell>) -> ComplexCellItemsFactory {
-        ComplexCellItemsFactory().factory(byJoining: self).factory(byJoining: factory)
+    public func makeCellItems(objects: [Any]) -> [CollectionViewCellItem] {
+        if let objects = objects as? [Object] {
+            return makeCellItems(objects: objects)
+        }
+        return []
     }
 
-    /// Joins different cell item factories
-    ///
-    /// - Parameters:
-    ///    - factory: a second cell item factory the associated type of which should be united
-    @discardableResult
-    public func factory<Object: CanBeDiff, View: UIView>(byJoining factory: ViewCellItemsFactory<Object, View>) -> ComplexCellItemsFactory {
-        ComplexCellItemsFactory().factory(byJoining: self).factory(byJoining: factory)
+    public func makeCellItems(object: Any) -> [CollectionViewCellItem] {
+        if let object = object as? Object {
+            if let initializationHandler = self.initializationHandler {
+                return initializationHandler(object).compactMap { cellItem in
+                    cellItem
+                }
+            }
+            else {
+                return [makeUniversalCellItem(object: object)]
+            }
+        }
+        return []
     }
 
-    /// Joins different cell item factories
-    ///
-    /// - Parameters:
-    ///    - factory: a second cell item factory the associated type of which should be united
-    public func factory(byJoining factory: ComplexCellItemsFactory) -> ComplexCellItemsFactory {
-        ComplexCellItemsFactory().factory(byJoining: self).factory(byJoining: factory)
+    public func factory(byJoining factory: CellItemFactory) -> CellItemFactory {
+        let complexFactory = ComplexCellItemFactory()
+        complexFactory.factory(byJoining: self)
+        complexFactory.factory(byJoining: factory)
+        return complexFactory
+    }
+
+    public var hashKey: String? {
+        return String(describing: Object.self)
     }
 }
