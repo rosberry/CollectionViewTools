@@ -27,7 +27,7 @@ final class LazySectionItemsExampleViewController: UIViewController {
                 return .zero
             }
             guard indexPath.row % 2 == 0 else {
-                return .init(width: collectionView.bounds.width, height: 1)
+                return .init(width: collectionView.bounds.width, height: 20)
             }
             let content = self.contentProvider.contents[indexPath.row / 2]
             if let image = (content as? ImageContent)?.image {
@@ -42,10 +42,10 @@ final class LazySectionItemsExampleViewController: UIViewController {
                   indexPath.row < self.contentProvider.contents.count * 2 else {
                 return nil
             }
-            guard indexPath.row % 2 == 0 else {
-                return DividerState()
-            }
             let content = self.contentProvider.contents[indexPath.row / 2]
+            guard indexPath.row % 2 == 0 else {
+                return DividerState(id: content.id)
+            }
             return self.factory.makeContentViewState(content)
         }
     )

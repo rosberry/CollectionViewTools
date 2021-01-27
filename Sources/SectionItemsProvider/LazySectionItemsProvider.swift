@@ -48,13 +48,13 @@ public final class LazySectionItemsProvider {
     /// `LazySectionItemsProvider` initializer
     ///
     /// - Parameters:
-    ///    - factory: CellItemFactory to create and configure cellItems
+    ///    - factory: ComplexCellItemsFactory to create and configure cellItems
     ///    - sectionItemsNumberHandler: block that returns number of sections, returns 1 by default
     ///    - cellItemsNumberHandler: block that returns number of items in section
     ///    - makeSectionItemHandler: block that returns section item to lazy load cell items in it, `GeneralCollectionViewDiffSectionItem` by default
     ///    - sizeHandler: block that returns size of cell at index path
     ///    - objectHandler: block that returns object at index path to associate it with cell item
-    public init(factory: CellItemFactory,
+    public init(factory: ComplexCellItemsFactory,
                 sectionItemsNumberHandler: @autoclosure @escaping () -> Int = 1,
                 cellItemsNumberHandler: @escaping (Int) -> Int,
                 makeSectionItemHandler: @escaping (Int) -> CollectionViewSectionItem? = { _ in
@@ -85,7 +85,7 @@ public final class LazySectionItemsProvider {
     ///    - cellConfigurationHandler: block to configure cell according it cell item
     ///    - sizeHandler: block that returns size of cell at index path
     ///    - objectHandler: block that returns object at index path to associate it with cell item
-    public init<U: GenericDiffItem, T: UICollectionViewCell>(
+    public init<U: CanBeDiff, T: UICollectionViewCell>(
         sectionItemsNumberHandler: @autoclosure @escaping () -> Int = 1,
         cellItemsNumberHandler: @escaping (Int) -> Int,
         makeSectionItemHandler: @escaping (Int) -> CollectionViewSectionItem? = { _ in
@@ -95,7 +95,7 @@ public final class LazySectionItemsProvider {
         sizeHandler: @escaping (IndexPath, UICollectionView) -> CGSize,
         objectHandler: @escaping (IndexPath) -> U?) {
 
-        let factory = AssociatedCellItemFactory<U, T>()
+        let factory = CellItemsFactory<U, T>()
         factory.cellConfigurationHandler = cellConfigurationHandler
         self.cellItemsNumberHandler = cellItemsNumberHandler
 
