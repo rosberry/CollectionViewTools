@@ -4,7 +4,6 @@
 
 protocol AnyCellItemsFactory {
     var hashKey: String? { get }
-    func makeCellItems(object: Any) -> [CollectionViewCellItem]
     func makeCellItem(object: Any) -> CollectionViewCellItem?
 }
 
@@ -15,13 +14,6 @@ final class AnyAssociatedCellItemsFactory<Object: CanBeDiff, Cell: UICollectionV
     }
 
     let hashKey : String? = String(describing: Object.self)
-
-    func makeCellItems(object: Any) -> [CollectionViewCellItem] {
-        guard let object = object as? Object else {
-            return []
-        }
-        return factory.makeCellItems(object: object)
-    }
 
     func makeCellItem(object: Any) -> CollectionViewCellItem? {
         guard let object = object as? Object else {
@@ -39,13 +31,6 @@ final class AnyViewCellItemsFactory<Object: CanBeDiff, View: UIView>: AnyCellIte
 
     let hashKey : String? = String(describing: Object.self)
 
-    func makeCellItems(object: Any) -> [CollectionViewCellItem] {
-        guard let object = object as? Object else {
-            return []
-        }
-        return factory.makeCellItems(object: object)
-    }
-
     func makeCellItem(object: Any) -> CollectionViewCellItem? {
         guard let object = object as? Object else {
             return nil
@@ -62,10 +47,6 @@ final class AnyComplexCellItemsFactory: AnyCellItemsFactory {
     }
 
     let hashKey : String? = nil
-
-    func makeCellItems(object: Any) -> [CollectionViewCellItem] {
-        factory.makeCellItems(object: object)
-    }
 
     func makeCellItem(object: Any) -> CollectionViewCellItem? {
         factory.makeCellItem(object: object)

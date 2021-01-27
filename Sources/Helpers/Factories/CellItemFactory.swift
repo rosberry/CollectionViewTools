@@ -8,13 +8,6 @@ public class CellItemsFactory<Object: CanBeDiff, Cell: UICollectionViewCell> {
 
     public typealias CellItem = UniversalCollectionViewCellItem<Object, Cell>
 
-    /// Set this handler to retrieve a specific set of cell items for the associated object
-    ///
-    /// - Parameters:
-    ///    - Int: the index of an object in the provided array
-    ///    - U: the object associated with a cell item
-    public var initializationHandler: ((Object) -> [CollectionViewCellItem?])?
-
     /// Set this handler to configure the size of cell
     ///
     /// - Parameters:
@@ -45,7 +38,7 @@ public class CellItemsFactory<Object: CanBeDiff, Cell: UICollectionViewCell> {
     /// - Parameters:
     ///    - objects: an array of objects to create cell items for them
     public func makeCellItems(objects: [Object]) -> [CollectionViewCellItem] {
-        objects.flatMap(makeCellItems)
+        objects.compactMap(makeCellItem)
     }
 
     /// Returns an instance of `UniversalCollectionViewCellItem` and associates provided handlers with them
@@ -61,21 +54,6 @@ public class CellItemsFactory<Object: CanBeDiff, Cell: UICollectionViewCell> {
         cellItem.configurationHandler = configurationHandler
         cellItem.sizeConfigurationHandler = sizeConfigurationHandler
         return cellItem
-    }
-
-    /// Returns a cell items for associated object
-    ///
-    /// - Parameters:
-    ///    - object: an object associated with cell item
-    public func makeCellItems(object: Object) -> [CollectionViewCellItem] {
-       if let initializationHandler = self.initializationHandler {
-           return initializationHandler(object).compactMap { cellItem in
-               cellItem
-           }
-       }
-       else {
-           return [makeCellItem(object: object)]
-       }
     }
 
     /// Returns an instance of `UniversalCollectionViewCellItem` and associates provided handlers with them

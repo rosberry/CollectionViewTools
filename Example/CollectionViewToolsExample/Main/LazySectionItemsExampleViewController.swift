@@ -44,9 +44,15 @@ final class LazySectionItemsExampleViewController: UIViewController {
             }
             let content = self.contentProvider.contents[indexPath.row / 2]
             guard indexPath.row % 2 == 0 else {
-                return DividerState(id: content.id)
+                return DividerViewState(id: content.id)
             }
-            return self.factory.makeContentViewState(content)
+            if let imageContent = content as? ImageContent {
+                return ImageViewState(content: imageContent)
+            }
+            if let textContent = content as? TextContent {
+                return TextViewState(content: textContent)
+            }
+            return nil
         }
     )
 
@@ -84,9 +90,10 @@ final class LazySectionItemsExampleViewController: UIViewController {
 }
 
 extension LazySectionItemsExampleViewController: ContentViewCellItemFactoryOutput {
-    func removeContentViewState(_ state: ContentViewState) {
+
+    func removeContentView(for viewState: ImageViewState) {
         let removingIndex = contentProvider.contents.firstIndex { content in
-            content.id == state.content.id
+            content.id == viewState.id
         }
         guard let index = removingIndex,
               let cellItem = sectionItemsProvider[.init(row: index * 2, section: 0)] else {
@@ -100,7 +107,7 @@ extension LazySectionItemsExampleViewController: ContentViewCellItemFactoryOutpu
         mainCollectionViewManager.remove(cellItems)
     }
 
-    func reloadCollectionView() {
+    func updateContentView(for viewState: ViewState & Expandable) {
         resetMainCollection()
     }
 }

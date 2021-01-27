@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/nick/Documents/GitHub/CollectionViewTools/Example/CollectionViewToolsExample/Main/ContentViewState/DeskriptionViewState.swift">
+   </FileRef>
+   <FileRef
       location = "group:CollectionViewTools.xcodeproj">
    </FileRef>
    <FileRef

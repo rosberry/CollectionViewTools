@@ -10,12 +10,6 @@ open class ViewCellItemsFactory<Object: CanBeDiff, View: UIView> {
     public typealias CellItem = CollectionViewViewCellItem<Object, View>
     typealias Factory = CellItemsFactory<Object, Cell>
 
-    /// Set this handler to retrieve a specific set of cell items for the associated object
-    ///
-    /// - Parameters:
-    ///    - Object: the object associated with a cell item
-    public var initializationHandler: ((Object) -> [CollectionViewCellItem?])?
-
     /// Set this handler to configure the cell item
     ///
     /// - Parameters:
@@ -70,6 +64,7 @@ open class ViewCellItemsFactory<Object: CanBeDiff, View: UIView> {
 
     private(set) lazy var factory: Factory = {
         let factory = Factory()
+
         factory.cellItemConfigurationHandler = { [weak self] cellItem in
             guard let cellItem = cellItem as? CellItem else {
                 return
@@ -78,6 +73,7 @@ open class ViewCellItemsFactory<Object: CanBeDiff, View: UIView> {
             cellItem.sizeCell = self?.sizeCell
             self?.cellItemConfigurationHandler?(cellItem)
         }
+
         factory.cellConfigurationHandler = { [weak self] cell, cellItem in
             guard let self = self,
                   let cellItem = cellItem as? CellItem else {
@@ -93,43 +89,12 @@ open class ViewCellItemsFactory<Object: CanBeDiff, View: UIView> {
                 self.viewConfigurationHandler?(view, cellItem)
             }
         }
-        factory.initializationHandler = { [weak self] object in
-            if let initializationHandler = self?.initializationHandler {
-                return initializationHandler(object)
-            }
-            if let cellItems = self?.makeCellItems(object: object) {
-                return cellItems
-            }
-            return []
-        }
+
         return factory
     }()
 
     public init() {
         
-    }
-
-    /// Returns an array of cell items
-    ///
-    /// - Parameters:
-    ///    - objects: an array of objects to create cell items for them
-    public func makeCellItems(objects: [Object]) -> [CollectionViewCellItem] {
-        factory.makeCellItems(objects: objects)
-    }
-
-    /// Returns a cell items for associated object
-    ///
-    /// - Parameters:
-    ///    - object: an object associated with cell item
-    public func makeCellItems(object: Object) -> [CollectionViewCellItem] {
-        if let initializationHandler = self.initializationHandler {
-            return initializationHandler(object).compactMap { cellItem in
-                cellItem
-            }
-        }
-        else {
-            return [makeCellItem(object: object)]
-        }
     }
 
     /// Returns an instance of `UniversalCollectionViewCellItem` and associates provided handlers with them

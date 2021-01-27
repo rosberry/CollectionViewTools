@@ -20,22 +20,12 @@ public class ComplexCellItemsFactory {
     public func makeCellItems(objects: [Any]) -> [CollectionViewCellItem] {
         var cellItems = [CollectionViewCellItem]()
         objects.enumerated().forEach { index, object in
-            if let factory = factories[String(describing: type(of: object))] {
-                cellItems.append(contentsOf: factory.makeCellItems(object: object))
+            if let factory = factories[String(describing: type(of: object))],
+               let cellItem = factory.makeCellItem(object: object) {
+                cellItems.append(cellItem)
             }
         }
         return cellItems
-    }
-
-    /// Returns a cell items for associated object
-    ///
-    /// - Parameters:
-    ///    - object: an object associated with cell item
-    public func makeCellItems(object: Any) -> [CollectionViewCellItem] {
-        if let factory = factories[String(describing: type(of: object))] {
-            return factory.makeCellItems(object: object)
-        }
-        return []
     }
 
     /// Returns an instance of `CollectionViewCellItem`
