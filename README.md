@@ -30,22 +30,35 @@ Effective framework, similar to [TableViewTools](https://github.com/rosberry/Tab
 
 ## Installation
 
-#### Depo
-You can use [Depo](https://github.com/rosberry/depo) to install `CollectionViewTools` by adding it to your `Depofile`:
+### Depo
+
+[Depo](https://github.com/rosberry/depo) is a universal dependency manager that combines Carthage, SPM and CocoaPods and provides common user interface to all of them.
+
+To install `CollectionViewTools` via Carthage using Depo you need to add this to your `Depofile`:
 ```yaml
 carts:
   - kind: github
     identifier: rosberry/CollectionViewTools
 ```
 
-#### Carthage
+<details>
+  <summary>To install CollectionViewTools via CocoaPods</summary>
+  Add this to your Depofile:
+
+  ```yaml
+  pods:
+    - name: CollectionViewTools
+  ```
+</details>
+
+### Carthage
 Create a `Cartfile` that lists the framework and run `carthage update`. Follow the [instructions](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add the framework to your project.
 
 ```
 github "rosberry/CollectionViewTools"
 ```
 
-#### CocoaPods
+### CocoaPods
 You can use [CocoaPods](http://cocoapods.org/) to install `CollectionViewTools` by adding it to your `Podfile`:
 
 ```ruby
@@ -53,7 +66,7 @@ platform :ios, '8.2'
 use_frameworks!
 pod 'CollectionViewTools'
 ```
-#### Manually
+### Manually
 
 Drag `Sources` folder from [last release](https://github.com/rosberry/CollectionViewTools/releases) into your project.
 
