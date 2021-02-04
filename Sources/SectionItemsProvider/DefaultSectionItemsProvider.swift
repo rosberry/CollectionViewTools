@@ -3,7 +3,7 @@
 //
 
 /// It is an implementation of `SectionItemsProvider` that just wraps sectionItems array
-/// and redirecst to it all required methods
+/// and redirects to it all required methods
 final class DefaultSectionItemsProvider {
     public var sectionItems: [CollectionViewSectionItem] = []
 }
@@ -12,7 +12,7 @@ final class DefaultSectionItemsProvider {
 
 extension DefaultSectionItemsProvider: SectionItemsProvider {
 
-    var numberOfSections: Int {
+    var numberOfSectionItems: Int {
         sectionItems.count
     }
 
@@ -44,7 +44,7 @@ extension DefaultSectionItemsProvider: SectionItemsProvider {
         }
     }
 
-    func numberOfCells(inSection section: Int) -> Int {
+    func numberOfCellItems(inSection section: Int) -> Int {
         self[section]?.cellItems.count ?? 0
     }
 

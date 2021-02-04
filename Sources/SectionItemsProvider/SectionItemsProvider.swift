@@ -10,7 +10,7 @@
 /// - Dictionary based implementation that provides access to `cellItem` and `sectionItem` on demand
  protocol SectionItemsProvider {
     /// Returns number of section that should be displayed
-    var numberOfSections: Int { get }
+    var numberOfSectionItems: Int { get }
 
     /// Provides access to already initialized sectionItems or allows to write them
     var sectionItems: [CollectionViewSectionItem] { get set }
@@ -22,7 +22,7 @@
     subscript(indexPath: IndexPath) -> CollectionViewCellItem? { get set }
 
     /// Returns number of cells in `section` that should be displayed
-    func numberOfCells(inSection section: Int) -> Int
+    func numberOfCellItems(inSection section: Int) -> Int
 
     /// Retuns size for cell item at `indexPath`.
     /// In the case of 'on demand' access it should not retrieve the object to calculate the size
