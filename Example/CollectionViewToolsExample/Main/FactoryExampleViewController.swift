@@ -1,6 +1,4 @@
 //
-//  FactoryExampleViewController.swift
-//
 //  Copyright © 2019 Rosberry. All rights reserved.
 //
 
@@ -16,37 +14,40 @@ final class FactoryExampleViewController: UIViewController {
         return factory
     }()
     private lazy var contentProvider: ContentProvider = .init()
-    
-    // MARK: Subviews
-    
-    lazy var mainCollectionView: UICollectionView = {
+    private lazy var contentViewStates: [ContentViewState] = {
+        contentProvider.contents.compactMap(sectionItemsFactory.makeContentViewState)
+    }()
+
+    // MARK: - Subviews
+
+    private lazy var mainCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.backgroundColor = .clear
         collectionView.alwaysBounceVertical = true
         return collectionView
     }()
-    
-    // MARK: Lifecycle
-    
+
+    // MARK: - Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         navigationItem.title = "Feeds"
         view.addSubview(mainCollectionView)
         view.backgroundColor = .white
         resetMainCollection()
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         mainCollectionView.frame = view.bounds
         mainCollectionView.contentInset.bottom = bottomLayoutGuide.length
     }
-    
+
     // MARK: - Private
-    
+
     private func resetMainCollection() {
-        let sectionItems = sectionItemsFactory.makeSectionItems()
+        let sectionItems = sectionItemsFactory.makeSectionItems(contentViewStates: contentViewStates)
         if mainCollectionViewManager.sectionItems.isEmpty {
             mainCollectionViewManager.sectionItems = sectionItems
         }
@@ -57,11 +58,14 @@ final class FactoryExampleViewController: UIViewController {
 }
 
 extension FactoryExampleViewController: ContentViewCellItemFactoryOutput {
-    func reloadCollectionView() {
+    func removeContentViewState(_ state: ContentViewState) {
+        contentViewStates.removeAll { viewState in
+            viewState.content.id == state.content.id
+        }
         resetMainCollection()
     }
 
-    var contents: [Content] {
-        contentProvider.contents
+    func reloadCollectionView() {
+        resetMainCollection()
     }
 }

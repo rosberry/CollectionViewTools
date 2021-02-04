@@ -1,6 +1,4 @@
 //
-//  CollectionViewToolsTests.swift
-//
 //  Copyright © 2017 Rosberry. All rights reserved.
 //
 
@@ -14,7 +12,6 @@ class CollectionViewToolsTests: CollectionViewTests {
     }
 
     class TestScrollDelegate: NSObject, UIScrollViewDelegate {
-
 
         let view = TestZoomView()
 
@@ -49,7 +46,9 @@ class CollectionViewToolsTests: CollectionViewTests {
             willDraggingTriggered = true
         }
 
-        func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        func scrollViewWillEndDragging(_ scrollView: UIScrollView,
+                                       withVelocity velocity: CGPoint,
+                                       targetContentOffset: UnsafeMutablePointer<CGPoint>) {
             willEndDraggingTriggered = true
         }
 
@@ -118,7 +117,6 @@ class CollectionViewToolsTests: CollectionViewTests {
         XCTAssertTrue(delegate.didScrollToTopTriggered)
     }
 
-
     func testScrollTop() {
         // Given
         let numbers = Array(repeating: 0, count: 500)
@@ -142,7 +140,7 @@ class CollectionViewToolsTests: CollectionViewTests {
         let numbers = Array(0...500)
         let indexPath = IndexPath(row: 499, section: 0)
         // When
-        let cellItems = numbers.map { number in
+        let cellItems = numbers.map { _ in
            TestAsyncCollectionViewCellItem()
         }
         let cellItem = cellItems[indexPath.row]
@@ -262,5 +260,84 @@ class CollectionViewToolsTests: CollectionViewTests {
         XCTAssertTrue(delegate.willDeceleratingTriggered)
         XCTAssertTrue(delegate.didDeceleratingTriggered)
         XCTAssertTrue(delegate.endAnimationTriggered)
+    }
+
+    func testLazyFactoryProvider() {
+        // Given
+        let numbers = [Array(0..<3), Array(0..<5), Array(0..<2)]
+        let indexPath = IndexPath(item: 0, section: 0)
+
+        viewController.manager.sectionItemsProvider = LazyAssociatedFactorySectionItemsProvider<Int, TestCollectionViewCell>(
+            sectionItemsNumberHandler: {
+                numbers.count
+            },
+            cellItemsNumberHandler: { section in
+                numbers[section].count
+            },
+            makeSectionItemHandler: { _ in
+                GeneralCollectionViewDiffSectionItem()
+            },
+            cellConfigurationHandler: { cell, cellItem in
+                cell.text = "\(cellItem.object)"
+            },
+            sizeHandler: { _, collectionView in
+                .init(width: collectionView.bounds.width, height: 80)
+            },
+            objectHandler: { indexPath in
+                numbers[indexPath.section][indexPath.row]
+            }
+        )
+
+        // When
+        wait(for: [expectation], timeout: 10)
+
+        //Then
+        for cell in viewController.collectionView.visibleCells {
+            XCTAssertTrue(cell is TestCollectionViewCell, "Cell should be an instance of `TestCollectionViewCell`")
+        }
+        let cell = viewController.collectionView.cellForItem(at: indexPath) as? TestCollectionViewCell
+        XCTAssertEqual(cell?.text, String(numbers[0][0]), "Cell text should be equal '\(numbers[indexPath.row])'")
+    }
+
+    func testLazySectionItems() {
+        // Given
+        let numbers = Array(0...1000)
+        let indexPath = IndexPath(item: 1000, section: 0)
+        let delegate = TestScrollDelegate()
+
+        viewController.manager.sectionItemsProvider = LazyAssociatedFactorySectionItemsProvider<Int, TestCollectionViewCell>(
+            cellItemsNumberHandler: { _ in
+                numbers.count
+            },
+            makeSectionItemHandler: { _ in
+                LazyCollectionViewSectionItem()
+            },
+            cellConfigurationHandler: { cell, cellItem in
+                cell.text = "\(cellItem.object)"
+            },
+            sizeHandler: { _, collectionView in
+                .init(width: collectionView.bounds.width, height: 80)
+            },
+            objectHandler: { indexPath in
+                numbers[indexPath.row]
+            }
+        )
+
+        // When
+        viewController.manager.scrollDelegate = delegate
+        //Then
+        wait(for: [expectation], timeout: 10)
+        viewController.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: false)
+        XCTAssertGreaterThan(viewController.collectionView.contentOffset.y, viewController.view.bounds.height)
+    }
+}
+
+extension Int: GenericDiffItem {
+    public var diffIdentifier: String {
+        "\(self)"
+    }
+
+    public func isEqual(to item: Int) -> Bool {
+        return self == item
     }
 }

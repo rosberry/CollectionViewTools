@@ -1,6 +1,4 @@
 //
-//  TestCollectionViewCellItem.swift
-//
 //  Copyright © 2020 Rosberry. All rights reserved.
 //
 
@@ -41,7 +39,6 @@ final class TestCollectionViewCellItem: CollectionViewCellItem {
         itemDidUnhighlightHandler = itemDidDeselectHandler
         itemCanMoveResolver = nil
     }
-
 
     func size(in collectionView: UICollectionView, sectionItem: CollectionViewSectionItem) -> CGSize {
         return CGSize(width: collectionView.bounds.width, height: 80)

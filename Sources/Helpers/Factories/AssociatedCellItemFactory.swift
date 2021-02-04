@@ -1,6 +1,4 @@
 //
-//  AssociatedCellItemFactory.swift
-//
 //  Copyright © 2019 Rosberry. All rights reserved.
 //
 
@@ -11,10 +9,10 @@ public class AssociatedCellItemFactory<U: GenericDiffItem, T: UICollectionViewCe
     /// Set this handler to retrieve a specific set of cell items for the associated object
     ///
     /// - Parameters:
-    ///    - Int: the index path of an object in the provided array
+    ///    - Int: the index of an object in the provided array
     ///    - Any: the object associated with a cell item
     public var initializationHandler: ((Int, U) -> [CollectionViewCellItem?])?
-    
+
     /// Set this handler to configure the size of cell
     ///
     /// - Parameters:
@@ -22,26 +20,24 @@ public class AssociatedCellItemFactory<U: GenericDiffItem, T: UICollectionViewCe
     ///    - UICollectionView: collection view where cell should be placed
     ///    - CollectionViewSectionItem: a section item in the section of which the cell should be placed
     public var sizeConfigurationHandler: ((U, UICollectionView, CollectionViewSectionItem) -> CGSize)?
-    
+
     /// Set this handler to configure the cell item
     ///
     /// - Parameters:
-    ///    - Any: the object associated with a cell item
+    ///    - Int: the index of an object in the provided array
     ///    - CollectionViewCellItem: a cell item that should be cofigured
     public var cellItemConfigurationHandler: ((Int, UniversalCollectionViewCellItem<U, T>) -> Void)?
-    
+
     /// Set this handler to configure the cell
     ///
     /// - Parameters:
-    ///    - Any: the object associated with a cell item
     ///    - UICollectionViewCell: the cell that should be configured
     ///    - CollectionViewCellItem: the cell item that performs a cell configuration
     public var cellConfigurationHandler: ((T, UniversalCollectionViewCellItem<U, T>) -> Void)?
-    
+
     public init() {
     }
-    
-    
+
     /// Returns an array of cell items
     ///
     /// - Parameters:
@@ -54,7 +50,7 @@ public class AssociatedCellItemFactory<U: GenericDiffItem, T: UICollectionViewCe
         }
         return cellItems
     }
-    
+
     /// Returns an instance of `UniversalCollectionViewCellItem` and associates provided handlers with them
     ///
     /// - Parameters:
@@ -65,10 +61,11 @@ public class AssociatedCellItemFactory<U: GenericDiffItem, T: UICollectionViewCe
         cellItemConfigurationHandler?(index, cellItem)
         return cellItem
     }
-    
+
     /// Returns an instance of `UniversalCollectionViewCellItem` and associates provided handlers with them
     ///
     /// - Parameters:
+    ///    - object: an object to create a cell item for it 
     ///    - configure: a cell configuration handler
     ///    - size: a cell size configuration handler
     public func makeCellItem(object: U,
@@ -123,7 +120,7 @@ extension AssociatedCellItemFactory: CellItemFactory {
         }
         return []
     }
-    
+
     public func makeCellItems(object: Any, index: Int) -> [CollectionViewCellItem] {
         if let object = object as? U {
             if let initializationHandler = self.initializationHandler {
@@ -137,14 +134,21 @@ extension AssociatedCellItemFactory: CellItemFactory {
         }
         return []
     }
-    
+
+    public func makeCellItem(object: Any, index: Int) -> CollectionViewCellItem? {
+        guard let object = object as? U else {
+            return nil
+        }
+        return makeUniversalCellItem(object: object, index: index)
+    }
+
     public func factory(byJoining factory: CellItemFactory) -> CellItemFactory {
         let complexFactory = ComplexCellItemFactory()
         complexFactory.factory(byJoining: self)
         complexFactory.factory(byJoining: factory)
         return complexFactory
     }
-    
+
     public var hashKey: String? {
         return String(describing: U.self)
     }

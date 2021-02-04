@@ -1,6 +1,4 @@
 //
-//  ImageCollectionViewCell.swift
-//
 //  Copyright © 2017 Rosberry. All rights reserved.
 //
 
@@ -34,5 +32,5 @@ final class ColorCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         label.frame = contentView.bounds
-    }    
+    }
 }

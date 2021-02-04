@@ -30,7 +30,7 @@ extension GenericDiffItem {
 /// areReusableViewsEqual: Compares section item reusable view items.
 /// areCellItemsEqual: Compares section item cell items.
 public protocol DiffSectionItem: DiffItem {
-    
+
     func areInsetsAndSpacingsEqual(to item: DiffItem) -> Bool
     func areReusableViewsEqual(to item: DiffItem) -> Bool
     func areCellItemsEqual(to item: DiffItem) -> Bool
@@ -55,4 +55,3 @@ final class DiffItemWrapper: DiffItem {
         return self.item.isEqual(to: wrapper.item)
     }
 }
-

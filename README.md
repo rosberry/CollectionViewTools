@@ -93,23 +93,23 @@ manager.sectionItems = [sectionItem]
 
 ```swift
 class ExampleCollectionViewCellItem: CollectionViewCellItem {
-    
+
     typealias Cell = ExampleCollectionViewCell
     private(set) var reuseType: ReuseType = .class(Cell.self)
-    
+
     private let title: String
-    
+
     init(title: String) {
         self.title = title
     }
-    
+
     func configure(_ cell: UICollectionViewCell) {
         guard let cell = cell as? Cell else {
             return
         }
         cell.titleLabel.text = title
     }
-    
+
     func size() -> CGSize {
         return CGSize(width: 100, height: 40)
     }
@@ -149,9 +149,9 @@ public protocol DiffItem {
 #### Cell item implementation
 ```swift
 class ExampleCollectionViewCellItem: CollectionViewCellItem, DiffItem {
-        
+
     // MARK: - DiffItem
-    
+
     var diffIdentifier: String = ""
 
     func isEqual(to item: DiffItem) -> Bool {
@@ -177,7 +177,7 @@ struct Object {
 let objects = [Object(id: 1, title: "Item 1"),
                Object(id: 2, title: "Item 2"), 
                Object(id: 3, title: "Item 3")]
-               
+           
 var cellItems = objects.map { object -> ExampleCollectionViewCellItem in
     let cellItem = ExampleCollectionViewCellItem(title: object.title)
     cellItem.diffIdentifier = "\(object.id)"

@@ -1,6 +1,4 @@
 //
-//  Group.swift
-//
 //  Copyright © 2019 Rosberry. All rights reserved.
 //
 

@@ -11,7 +11,7 @@ extension CollectionViewManager {
 
     /// Array of `CollectionViewDiffSectionItem` objects mapped from `sectionItems` array
     var diffSectionItems: [CollectionViewDiffSectionItem] {
-        return sectionItems.compactMap { sectionItem in
+        return sectionItemsProvider.sectionItems.compactMap { sectionItem in
             sectionItem as? CollectionViewDiffSectionItem
         }
     }
@@ -33,7 +33,7 @@ extension CollectionViewManager {
                animated: animated,
                completion: completion)
     }
-    
+
     /// Use this function if you need to set new diff section items.
     /// - Parameters:
     ///   - sectionItems: Array of `CollectionViewDiffSectionItem` objects.
@@ -47,7 +47,7 @@ extension CollectionViewManager {
                      animated: Bool,
                      completion: DiffCompletion? = nil) {
         if animated {
-            if self.sectionItems.isEmpty {
+            if self.sectionItemsProvider.sectionItems.isEmpty {
                 updateEmptyCollectionView(with: sectionItems, completion: completion)
                 return
             }
@@ -120,9 +120,9 @@ extension CollectionViewManager {
             }
         }
     }
-    
+
     private func updateWithoutAnimation(sectionItems: [CollectionViewDiffSectionItem], shouldReload: Bool) {
-        _sectionItems = sectionItems
+        sectionItemsProvider.sectionItems = sectionItems
         registerSectionItems()
         recalculateIndexes()
 

@@ -86,4 +86,3 @@ extension ListIndexSetResult {
         return strings.isEmpty ? "no changes" : strings.joined(separator: ", ")
     }
 }
-
