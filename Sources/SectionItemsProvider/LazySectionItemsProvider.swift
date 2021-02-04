@@ -2,12 +2,12 @@
 //  Copyright © 2020 Rosberry. All rights reserved.
 //
 
-/// It  is an implementation of `SectionItemsProvider` that organizes an access to required
-/// cellItems and sectionItems on demand. It stores section created items in dictionary and calls
+/// It is an implementation of `SectionItemsProvider` that organizes an access to required
+/// cellItems and sectionItems on demand. It stores created section items in dictionary and calls
 /// defined handlers to configure cell items if needed. There are 3 ways of usage:
 /// - Describe all required handlers in initializer
 /// - Provide a factory that will create cell items in initializer. Note that `sizeHandler` of factory will not working
-///   because it need an object in argument, but it can be not retrieved yet.
+///   because it needs an object as an argument, but it can't be retrieved yet.
 ///   `LazySectionItemsProvider` has own `sizeHandler` that should provide a size without
 ///   concrete object
 /// - Use generic initializer that creates associated factory itself
@@ -172,11 +172,11 @@ extension LazySectionItemsProvider: SectionItemsProvider {
         sizeHandler(indexPath, collectionView)
     }
 
-    var numberOfSections: Int {
+    var numberOfSectionItems: Int {
         sectionItemsNumberHandler()
     }
 
-    func numberOfCells(inSection section: Int) -> Int {
+    func numberOfCellItems(inSection section: Int) -> Int {
         cellItemsNumberHandler(section)
     }
 
