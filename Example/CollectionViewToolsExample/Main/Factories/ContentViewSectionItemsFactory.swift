@@ -31,11 +31,7 @@ final class ContentViewSectionItemsFactory {
         }
 
         factory.sizeTypesConfigurationHandler = { cellItem in
-            let state = cellItem.object
-            let width = cellItem.collectionView?.bounds.width ?? 0
-            let aspectRatio = state.imageContent.image.size.width / state.imageContent.image.size.height
-            let height = width / aspectRatio
-            return .init(width: .fill, height: .fixed(height))
+            .init(width: .fill, height: .contentRelated)
         }
 
         return factory

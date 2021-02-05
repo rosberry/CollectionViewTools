@@ -97,11 +97,7 @@ open class ViewCellItemsFactory<Object: GenericDiffItem, View: UIView> {
     }
 
     public func makeCellItems(objects: [Object]) -> [CollectionViewCellItem] {
-        factory.makeCellItems(objects: objects)
-    }
-
-    public func makeDiffCellItems(objects: [Object]) -> [CollectionViewDiffCellItem] {
-        (makeCellItems(objects: objects) as? [CollectionViewDiffCellItem]) ?? []
+        (factory.makeCellItems(objects: objects) as? [CollectionViewDiffCellItem]) ?? []
     }
 
     public func makeUniversalCellItem(object: Object) -> CellItem {

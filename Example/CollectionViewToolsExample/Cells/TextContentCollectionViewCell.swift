@@ -11,7 +11,7 @@ final class TextContentCollectionViewCell: UICollectionViewCell {
             textContentView.isHighlighted
         }
         set {
-            textContentView.isHighlighted = isHighlighted
+            textContentView.isHighlighted = newValue
         }
     }
 
@@ -19,6 +19,7 @@ final class TextContentCollectionViewCell: UICollectionViewCell {
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        setup()
     }
 
     override init(frame: CGRect) {

@@ -23,7 +23,8 @@ final class SpacerView: UIView {
        super.layoutSubviews()
        dividerView.frame = CGRect(x: dividerInsets.left,
                                   y: dividerInsets.top == 0 ? bounds.height - dividerInsets.bottom - dividerHeight : dividerInsets.top,
-                                  width: bounds.width - dividerInsets.left - dividerInsets.right, height: dividerHeight)
+                                  width: bounds.width - dividerInsets.left - dividerInsets.right,
+                                  height: dividerHeight)
     }
 
     // MARK: - Private
