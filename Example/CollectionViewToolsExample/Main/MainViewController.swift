@@ -410,7 +410,7 @@ class MainViewController: UIViewController {
                     guard let cell = cellItem.cell as? ImageCollectionViewCell else {
                         return
                     }
-                    cell.imageView.image = self.images[Int.random(in: 0..<self.images.count)]
+                    cell.imageContentView.imageView.image = self.images[Int.random(in: 0..<self.images.count)]
                 }
             }
         }

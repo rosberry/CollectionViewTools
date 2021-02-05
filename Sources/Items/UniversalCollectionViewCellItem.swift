@@ -4,10 +4,17 @@
 
 import UIKit
 
+/// `UniversalCollectionViewCellItem` is implementation of `CollectionViewDiffCellItem` that use generic types association and
+/// additional handlers to avoid derivation.
 public class UniversalCollectionViewCellItem<U: GenericDiffItem, T: UICollectionViewCell>: CollectionViewDiffCellItem {
 
+    /// Defines the type of cell that should be instantiated.
     public lazy var reuseType = ReuseType.classWithIdentifier(T.self, identifier: diffIdentifier)
+
+    /// Defines an identifier to find the difference between logically different cell items.
     public lazy var diffIdentifier: String = "\(String(describing: type(of: self))){\(object.diffIdentifier)}"
+
+    /// Provides an association of object that presents data model or view state of cell item
     public let object: U
 
     required init(object: U) {

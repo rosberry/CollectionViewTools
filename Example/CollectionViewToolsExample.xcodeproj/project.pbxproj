@@ -43,7 +43,7 @@
 		0EB8E648229BF9370000B921 /* TextCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A6D49B5E8DB9CAACD07CE /* TextCellItem.swift */; };
 		0EB8E649229BF9370000B921 /* ColorCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1EDA56228934A80087253A /* ColorCellItem.swift */; };
 		0EB8E64A229BF9370000B921 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4CB58B22967386002A3C59 /* Group.swift */; };
-		0EB8E64B229BF9370000B921 /* TextCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A60E846B05B88D62C7880 /* TextCollectionViewCell.swift */; };
+		0EB8E64B229BF9370000B921 /* TextContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A60E846B05B88D62C7880 /* TextContentCollectionViewCell.swift */; };
 		0EB8E64C229BF9370000B921 /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1EDA58228934D50087253A /* ColorCollectionViewCell.swift */; };
 		0EB8E64D229BF9370000B921 /* Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4CB58D2296739E002A3C59 /* Object.swift */; };
 		0EB8E64F229BF9370000B921 /* CollectionViewIGListKitDiffAdaptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E506C0E228EBC3600E16640 /* CollectionViewIGListKitDiffAdaptor.swift */; };
@@ -62,7 +62,7 @@
 		10FF9F5E23040224003B7169 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FF9F5D23040224003B7169 /* DetailViewController.swift */; };
 		629A63FBA018222A355686F6 /* ExampleSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A688DD33578289A57B452 /* ExampleSectionItem.swift */; };
 		629A6E35B86008DC359DB40B /* TextCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A6D49B5E8DB9CAACD07CE /* TextCellItem.swift */; };
-		629A6F552D5D656B36F4F52C /* TextCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A60E846B05B88D62C7880 /* TextCollectionViewCell.swift */; };
+		629A6F552D5D656B36F4F52C /* TextContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A60E846B05B88D62C7880 /* TextContentCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -132,7 +132,7 @@
 		10A34923232B7EED0064FB8C /* DeepDiff.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeepDiff.framework; path = ../Carthage/Build/iOS/DeepDiff.framework; sourceTree = "<group>"; };
 		10E7BC7223756EE5009095ED /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		10FF9F5D23040224003B7169 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		629A60E846B05B88D62C7880 /* TextCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextCollectionViewCell.swift; sourceTree = "<group>"; };
+		629A60E846B05B88D62C7880 /* TextContentCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextContentCollectionViewCell.swift; sourceTree = "<group>"; };
 		629A688DD33578289A57B452 /* ExampleSectionItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleSectionItem.swift; sourceTree = "<group>"; };
 		629A6D49B5E8DB9CAACD07CE /* TextCellItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextCellItem.swift; sourceTree = "<group>"; };
 		855613B322B77FC900F59CD1 /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
@@ -276,7 +276,7 @@
 			children = (
 				0ACA6FCB1F626D2E00782C1E /* ImageCollectionViewCell.swift */,
 				0E1EDA58228934D50087253A /* ColorCollectionViewCell.swift */,
-				629A60E846B05B88D62C7880 /* TextCollectionViewCell.swift */,
+				629A60E846B05B88D62C7880 /* TextContentCollectionViewCell.swift */,
 				01C2CC1522F4377C00873DC0 /* SpacerCell.swift */,
 			);
 			path = Cells;
@@ -547,7 +547,7 @@
 				015F040325887C000033F11C /* SpacerState.swift in Sources */,
 				015F040125877EC00033F11C /* HeaderView.swift in Sources */,
 				0142A91E25249F3400A1CBC0 /* ContentViewSectionItemsFactory.swift in Sources */,
-				629A6F552D5D656B36F4F52C /* TextCollectionViewCell.swift in Sources */,
+				629A6F552D5D656B36F4F52C /* TextContentCollectionViewCell.swift in Sources */,
 				0E1EDA59228934D50087253A /* ColorCollectionViewCell.swift in Sources */,
 				0186E543252498A70032B88D /* ImageViewState.swift in Sources */,
 				015F03FB258772A50033F11C /* LazySectionItemsExampleViewController.swift in Sources */,
@@ -572,7 +572,7 @@
 				0EB8E649229BF9370000B921 /* ColorCellItem.swift in Sources */,
 				10FF9F5B23040139003B7169 /* ReusableView.swift in Sources */,
 				0EB8E64A229BF9370000B921 /* Group.swift in Sources */,
-				0EB8E64B229BF9370000B921 /* TextCollectionViewCell.swift in Sources */,
+				0EB8E64B229BF9370000B921 /* TextContentCollectionViewCell.swift in Sources */,
 				0EB8E64C229BF9370000B921 /* ColorCollectionViewCell.swift in Sources */,
 				0EB8E64D229BF9370000B921 /* Object.swift in Sources */,
 				0EB8E64F229BF9370000B921 /* CollectionViewIGListKitDiffAdaptor.swift in Sources */,

@@ -26,6 +26,7 @@
 		017B9F0C2409129800C765BD /* TestAsyncCollectionViewCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B9F0B2409129800C765BD /* TestAsyncCollectionViewCellItem.swift */; };
 		01929DAC22F190B8004D5605 /* CellItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01929DAB22F190B7004D5605 /* CellItemFactory.swift */; };
 		019849BB2508E6C800D217B4 /* Collection+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019849BA2508E6C800D217B4 /* Collection+Safe.swift */; };
+		01BA6CB025CD66B300C705BB /* ViewCellItemsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0176C9D2258A0630006CA94C /* ViewCellItemsFactory.swift */; };
 		01F2086323F67657009B069E /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F2086223F67657009B069E /* TestViewController.swift */; };
 		0A37632F1F6251A600A80613 /* CollectionViewTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3763251F6251A600A80613 /* CollectionViewTools.framework */; };
 		0A3763341F6251A600A80613 /* CollectionViewManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763331F6251A600A80613 /* CollectionViewManagerTests.swift */; };
@@ -499,6 +500,7 @@
 				0A3763741F62545A00A80613 /* CollectionViewReusableViewItem.swift in Sources */,
 				0E0F40A1222D4F0600B88DF3 /* CollectionViewDiffAdaptor.swift in Sources */,
 				0A37636F1F62545A00A80613 /* UICollectionView+Registration.swift in Sources */,
+				01BA6CB025CD66B300C705BB /* ViewCellItemsFactory.swift in Sources */,
 				015A8AAB23139525002600FF /* ComplexCellItemFactory.swift in Sources */,
 				0A37636A1F62545A00A80613 /* CollectionViewManager+UICollectionViewDataSource.swift in Sources */,
 				0A37636D1F62545A00A80613 /* CollectionViewManager+UICollectionViewDelegateFlowLayout.swift in Sources */,

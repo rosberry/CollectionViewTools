@@ -12,10 +12,6 @@ final class ImageCollectionViewCell: UICollectionViewCell {
         }
     }
 
-    var imageView: UIImageView {
-        imageContentView.imageView
-    }
-
     private(set) lazy var imageContentView: ImageContentView = .init()
 
     override init(frame: CGRect) {
