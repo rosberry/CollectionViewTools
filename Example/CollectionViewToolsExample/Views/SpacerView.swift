@@ -4,7 +4,7 @@
 
 import UIKit
 
-final class DividerView: UIView {
+final class SpacerView: UIView {
     private(set) lazy var dividerView: UIView = .init()
     var dividerInsets: UIEdgeInsets = .zero
     var dividerHeight: CGFloat = 1

@@ -55,14 +55,14 @@ final class ContentViewSectionItemsFactory {
         return factory
     }()
 
-    // MARK: - Divider
+    // MARK: - Spacer
 
-    private(set) lazy var dividerCellItemsFactory: CellItemFactory = {
-        let factory: AssociatedCellItemFactory<DividerState, DividerCell> = .init()
+    private(set) lazy var spacerCellItemsFactory: CellItemFactory = {
+        let factory: AssociatedCellItemFactory<SpacerState, SpacerCell> = .init()
 
         factory.cellConfigurationHandler = { cell, _ in
-            cell.dividerHeight = 1
-            cell.dividerView.backgroundColor = .gray
+            cell.spacerView.dividerHeight = 1
+            cell.spacerView.backgroundColor = .gray
         }
 
         factory.sizeConfigurationHandler = {_, collectionView, sectionItem in
@@ -74,7 +74,7 @@ final class ContentViewSectionItemsFactory {
     // MARK: - Content
 
     private(set) lazy var cellItemsFactory: CellItemFactory = imageCellItemsFactory.factory(byJoining: textCellItemsFactory)
-                             .factory(byJoining: dividerCellItemsFactory)
+                             .factory(byJoining: spacerCellItemsFactory)
 
     // MARK: - Description
 
@@ -122,7 +122,7 @@ final class ContentViewSectionItemsFactory {
 
         factory.initializationHandler = { [weak self] data in
            let cellItem = factory.makeUniversalCellItem(object: data)
-           let separatorCellItem = DividerCellItem()
+           let separatorCellItem = SpacerCellItem()
            guard data.isExpanded,
                  let descriptionCellItem = self?.descriptionCellItemsFactory.makeCellItem(object: data) else {
                return [cellItem, separatorCellItem]
