@@ -2,11 +2,13 @@
 //  Copyright © 2020 Rosberry. All rights reserved.
 //
 
+// This factory type eraser that allows to organize different factory access in `ComplexCellItemsFactory`
 protocol AnyCellItemsFactory {
     var hashKey: String? { get }
     func makeCellItem(object: Any) -> CollectionViewCellItem?
 }
 
+// Type eraser for `CellItemsFactory<Object, Cell>`
 final class AnyAssociatedCellItemsFactory<Object: CanBeDiff, Cell: UICollectionViewCell>: AnyCellItemsFactory {
     private let factory: CellItemsFactory<Object, Cell>
     init(_ factory: CellItemsFactory<Object, Cell>) {
@@ -23,6 +25,7 @@ final class AnyAssociatedCellItemsFactory<Object: CanBeDiff, Cell: UICollectionV
     }
 }
 
+// Type eraser for `ViewCellItemsFactory<Object, View>`
 final class AnyViewCellItemsFactory<Object: CanBeDiff, View: UIView>: AnyCellItemsFactory {
     private let factory: ViewCellItemsFactory<Object, View>
     init(_ factory: ViewCellItemsFactory<Object, View>) {
@@ -39,6 +42,7 @@ final class AnyViewCellItemsFactory<Object: CanBeDiff, View: UIView>: AnyCellIte
     }
 }
 
+// Type eraser for `ComplexCellItemsFactory`
 final class AnyComplexCellItemsFactory: AnyCellItemsFactory {
 
     private let factory: ComplexCellItemsFactory

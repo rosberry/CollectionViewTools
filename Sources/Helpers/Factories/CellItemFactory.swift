@@ -11,7 +11,7 @@ public class CellItemsFactory<Object: CanBeDiff, Cell: UICollectionViewCell> {
     /// Set this handler to configure the size of cell
     ///
     /// - Parameters:
-    ///    - Any: the object associated with a cell item
+    ///    - Object: the object associated with a cell item
     ///    - UICollectionView: collection view where cell should be placed
     ///    - CollectionViewSectionItem: a section item in the section of which the cell should be placed
     public var sizeConfigurationHandler: ((Object, UICollectionView, CollectionViewSectionItem) -> CGSize)?
@@ -19,15 +19,14 @@ public class CellItemsFactory<Object: CanBeDiff, Cell: UICollectionViewCell> {
     /// Set this handler to configure the cell item
     ///
     /// - Parameters:
-    ///    - Int: the index of an object in the provided array
-    ///    - CollectionViewCellItem: a cell item that should be cofigured
+    ///    - CellItem: generated universal cell item. Associated object can be retrieved via `cellItem.object`.
     public var cellItemConfigurationHandler: ((CellItem) -> Void)?
 
     /// Set this handler to configure the cell
     ///
     /// - Parameters:
     ///    - UICollectionViewCell: the cell that should be configured
-    ///    - CollectionViewCellItem: the cell item that performs a cell configuration
+    ///    - CellItem: generated universal cell item. Associated object can be retrieved via `cellItem.object`.
     public var cellConfigurationHandler: ((Cell, CellItem) -> Void)?
 
     public init() {

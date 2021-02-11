@@ -44,7 +44,7 @@ final class LazySectionItemsExampleViewController: UIViewController {
             }
             let content = self.contentProvider.contents[indexPath.row / 2]
             guard indexPath.row % 2 == 0 else {
-                return SpacerState()
+                return SpacerState(content: content)
             }
             if let imageContent = content as? ImageContent {
                 return ImageViewState(content: imageContent)

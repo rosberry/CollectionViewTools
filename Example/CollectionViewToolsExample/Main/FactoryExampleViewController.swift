@@ -67,8 +67,8 @@ final class FactoryExampleViewController: UIViewController {
             else {
                 return []
             }
-            let dividerState = DividerViewState(content: content)
-            return  [contentState, dividerState]
+            let spacerState = SpacerState(content: content)
+            return  [contentState, spacerState]
         }
     }
 }

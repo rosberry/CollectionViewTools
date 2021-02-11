@@ -2,14 +2,14 @@
 //  Copyright © 2020 Rosberry. All rights reserved.
 //
 
-final class DividerViewState: ViewState {
+final class SpacerState: ViewState {
     convenience init(content: Content) {
         self.init(id: content.id)
     }
 }
 
-extension DividerViewState: Equatable {
-    static func == (lhs: DividerViewState, rhs: DividerViewState) -> Bool {
+extension SpacerState: Equatable {
+    static func == (lhs: SpacerState, rhs: SpacerState) -> Bool {
         true
     }
 }
