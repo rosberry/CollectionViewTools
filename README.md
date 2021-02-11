@@ -204,17 +204,12 @@ manager.update(with: [sectionItem], diffAdaptor: adaptor, animated: true)
 Instead of cell item declaration you can declare a factory that will create generic cell items. It allows you skip extra code to cast cells and cell items to required type. Moreover, it already implements `diffIdentifier` and `isEqual` method based on associated object type.
 
 ```swift
-let factory = AssociatedCellItemFactory<Object, Cell>() // Object: GenericDiffItem, Cell: UICollectionViewCell
+let factory = CellItemFactory<Object, Cell>() // Object: GenericDiffItem, Cell: UICollectionViewCell
 
 factory.cellItemConfigurationHandler = { index, cellItem in
     cellItem.itemDidSelectHandler = { _ in
         // Handle cell selection
     }
-}
-
-factory.initializationHandler = { index, object in // Optional handler.
-    let cellItem = factory.makeUniversalCellItem(object: object, index: index) // Here you can customize cell items set associated with single object,
-    return [cellItem] // such as dividers, desriptions and other
 }
 
 factory.cellConfigurationHandler = { cell, cellItem in
