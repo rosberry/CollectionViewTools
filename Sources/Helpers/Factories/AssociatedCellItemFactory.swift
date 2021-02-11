@@ -11,7 +11,6 @@ public class AssociatedCellItemFactory<Object: GenericDiffItem, Cell: UICollecti
     /// Set this handler to retrieve a specific set of cell items for the associated object
     ///
     /// - Parameters:
-    ///    - Int: the index of an object in the provided array
     ///    - Object: the object associated with a cell item
     public var initializationHandler: ((Object) -> [CollectionViewCellItem?])?
 
@@ -20,20 +19,20 @@ public class AssociatedCellItemFactory<Object: GenericDiffItem, Cell: UICollecti
     /// - Parameters:
     ///    - UICollectionView: collection view where cell should be placed.
     ///    - CollectionViewSectionItem: a section item in the section of which the cell should be placed.
-    ///    - CellItem: generated universal cell item or defined in `initializationHandler`  for this object. Associated object can be retrieved with `cellItem.object`.
+    ///    - CellItem: generated or defined in `initializationHandler` universal cell item. Associated object can be retrieved via `cellItem.object`.
     public var sizeConfigurationHandler: ((UICollectionView, CollectionViewSectionItem, CellItem) -> CGSize)?
 
     /// Set this handler to configure the cell item
     ///
     /// - Parameters:
-    ///    - CollectionViewCellItem: a cell item that should be cofigured. Associated object can be retrieved with `cellItem.object`.
+    ///    - CellItem: generated or defined in `initializationHandler` universal cell item. Associated object can be retrieved via `cellItem.object`.
     public var cellItemConfigurationHandler: ((CellItem) -> Void)?
 
     /// Set this handler to configure the cell
     ///
     /// - Parameters:
-    ///    - UICollectionViewCell: the cell that should be configured
-    ///    - CollectionViewCellItem: the cell item that performs a cell configuration. Associated object can be retrieved with `cellItem.object`.
+    ///    - Cell: the cell that should be configured
+    ///    - CellItem: a cell item that should be cofigured. Associated object can be retrieved via `cellItem.object`.
     public var cellConfigurationHandler: ((Cell, CellItem) -> Void)?
 
     public init() {
