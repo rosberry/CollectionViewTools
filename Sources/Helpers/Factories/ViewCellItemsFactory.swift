@@ -13,31 +13,19 @@ open class ViewCellItemsFactory<Object: CanBeDiff, View: UIView> {
     /// Set this handler to configure the cell item
     ///
     /// - Parameters:
-    ///    - CellItem: generated universal cell item or defined in `initializationHandler`  for this object
+    ///    - CellItem: generated or defined in `initializationHandler` universal cell item. Associated object can be retrieved via `cellItem.object`.
     public var cellItemConfigurationHandler: ((CellItem) -> Void)?
-
-    /// Set this handler to configure the size of cell
-    ///
-    /// - Parameters:
-    ///    - Object: the object associated with a cell item
-    ///    - UICollectionView: collection view where cell should be placed
-    ///    - CollectionViewSectionItem: a section item in the section of which the cell should be placed
-    public var sizeConfigurationHandler: ((Object, UICollectionView, CollectionViewSectionItem) -> CGSize)? {
-        didSet {
-            factory.sizeConfigurationHandler = sizeConfigurationHandler
-        }
-    }
 
     /// Set this handler to provide size types for cellItem
     ///
     /// - Parameters:
-    ///    - Object: the object associated with a cell item
-    public var sizeTypesConfigurationHandler: ((Object) -> SizeTypes)?
+    ///    - CellItem: generated or defined in `initializationHandler` universal cell item. Associated object can be retrieved via `cellItem.object`.
+    public var sizeTypesConfigurationHandler: ((CellItem) -> SizeTypes)?
 
     /// Set this handler to provide specific an instance of `View`
     ///
     /// - Parameters:
-    ///    - CellItem: generated universal cell item or defined in `initializationHandler`  for this object
+    ///    - CellItem: generated or defined in `initializationHandler` universal cell item. Associated object can be retrieved via `cellItem.object`.
     public var viewInitializer: ((CellItem) -> View)? = { _ in
         .init()
     }
@@ -46,14 +34,14 @@ open class ViewCellItemsFactory<Object: CanBeDiff, View: UIView> {
     ///
     /// - Parameters:
     ///    - View: an instance  associated with `CellItem`
-    ///    - CellItem: generated universal cell item or defined in `initializationHandler`  for this object
+    ///    - CellItem: generated or defined in `initializationHandler` universal cell item. Associated object can be retrieved via `cellItem.object`.
     public var viewInitialConfigurationHandler: ((View, CellItem) -> Void)?
 
     // Set this handler to perform view configuration on collection view cell reloading
     ///
     /// - Parameters:
     ///    - View: an instance  associated with `CellItem`
-    ///    - CellItem: generated universal cell item or defined in `initializationHandler`  for this object
+    ///    - CellItem: generated universal cell item or defined in `initializationHandler`  for this object. Associated object can be retrieved with `cellItem.object`.
     public var viewConfigurationHandler: ((View, CellItem) -> Void)?
 
     private lazy var sizeCell: CollectionViewViewCell<View> = {
@@ -69,7 +57,7 @@ open class ViewCellItemsFactory<Object: CanBeDiff, View: UIView> {
             guard let cellItem = cellItem as? CellItem else {
                 return
             }
-            cellItem.sizeTypes = self?.sizeTypesConfigurationHandler?(cellItem.object)
+            cellItem.sizeTypes = self?.sizeTypesConfigurationHandler?(cellItem)
             cellItem.sizeCell = self?.sizeCell
             self?.cellItemConfigurationHandler?(cellItem)
         }
@@ -94,7 +82,7 @@ open class ViewCellItemsFactory<Object: CanBeDiff, View: UIView> {
     }()
 
     public init() {
-        
+
     }
 
     /// Returns an instance of `UniversalCollectionViewCellItem` and associates provided handlers with them

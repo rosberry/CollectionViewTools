@@ -4,7 +4,7 @@
 
 import UIKit
 
-final class DividerView: UIView {
+final class SpacerView: UIView {
     private(set) lazy var dividerView: UIView = .init()
     var dividerInsets: UIEdgeInsets = .zero
     var dividerHeight: CGFloat = 1
@@ -23,7 +23,8 @@ final class DividerView: UIView {
        super.layoutSubviews()
        dividerView.frame = CGRect(x: dividerInsets.left,
                                   y: dividerInsets.top == 0 ? bounds.height - dividerInsets.bottom - dividerHeight : dividerInsets.top,
-                                  width: bounds.width - dividerInsets.left - dividerInsets.right, height: dividerHeight)
+                                  width: bounds.width - dividerInsets.left - dividerInsets.right,
+                                  height: dividerHeight)
     }
 
     // MARK: - Private

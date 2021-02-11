@@ -4,22 +4,22 @@
 
 import UIKit
 
-final class TextCollectionViewCell: UICollectionViewCell {
+final class TextContentCollectionViewCell: UICollectionViewCell {
 
     override var isHighlighted: Bool {
-        didSet {
-            textContentView.isHighlighted = isHighlighted
+        get {
+            textContentView.isHighlighted
+        }
+        set {
+            textContentView.isHighlighted = newValue
         }
     }
 
     lazy var textContentView: TextContentView = .init()
 
-    var titleLabel: UILabel {
-        textContentView.titleLabel
-    }
-
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        setup()
     }
 
     override init(frame: CGRect) {

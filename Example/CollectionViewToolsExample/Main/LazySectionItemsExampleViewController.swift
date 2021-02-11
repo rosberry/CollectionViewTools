@@ -44,7 +44,7 @@ final class LazySectionItemsExampleViewController: UIViewController {
             }
             let content = self.contentProvider.contents[indexPath.row / 2]
             guard indexPath.row % 2 == 0 else {
-                return DividerViewState(id: content.id)
+                return SpacerState()
             }
             if let imageContent = content as? ImageContent {
                 return ImageViewState(content: imageContent)
@@ -100,8 +100,8 @@ extension LazySectionItemsExampleViewController: ContentViewCellItemFactoryOutpu
             return
         }
         var cellItems = [cellItem]
-        if let dividerCellItem = sectionItemsProvider[.init(row: index * 2 + 1, section: 0)] {
-            cellItems.append(dividerCellItem)
+        if let spacerCellItem = sectionItemsProvider[.init(row: index * 2 + 1, section: 0)] {
+            cellItems.append(spacerCellItem)
         }
         contentProvider.contents.remove(at: index)
         mainCollectionViewManager.remove(cellItems)
