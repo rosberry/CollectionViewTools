@@ -35,6 +35,8 @@ final class ContentViewSectionItemsFactory {
 
         factory.viewConfigurationHandler = { view, cellItem in
             view.imageView.image = cellItem.object.image
+            view.layer.borderColor = UIColor.green.cgColor
+            view.layer.borderWidth = cellItem.object.isExpanded ? 1 : 0
             view.removeActionHandler = { [weak self] in
                 self?.output?.removeContentView(for: cellItem.object)
             }
@@ -61,6 +63,8 @@ final class ContentViewSectionItemsFactory {
 
         factory.viewConfigurationHandler = { view, cellItem in
             view.titleLabel.text = cellItem.object.text
+            view.layer.borderColor = UIColor.green.cgColor
+            view.layer.borderWidth = cellItem.object.isExpanded ? 1 : 0
         }
 
         factory.sizeTypesConfigurationHandler = { _ in
