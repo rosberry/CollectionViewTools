@@ -4,16 +4,16 @@
 
 import CollectionViewTools
 
-final class DividerState {
+final class SpacerState {
 
 }
 
-extension DividerState: GenericDiffItem {
+extension SpacerState: GenericDiffItem {
     var diffIdentifier: String {
-        "divider"
+        "spacer"
     }
 
-    func isEqual(to item: DividerState) -> Bool {
+    func isEqual(to item: SpacerState) -> Bool {
         true
     }
 }

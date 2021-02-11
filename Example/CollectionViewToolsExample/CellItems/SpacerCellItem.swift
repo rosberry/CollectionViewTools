@@ -4,9 +4,9 @@
 
 import CollectionViewTools
 
-final class DividerCellItem: CollectionViewDiffCellItem {
+final class SpacerCellItem: CollectionViewDiffCellItem {
 
-    typealias Cell = DividerCell
+    typealias Cell = SpacerCell
 
     let reuseType: ReuseType = .class(Cell.self)
     let diffIdentifier: String = String(describing: Cell.self)
@@ -19,8 +19,8 @@ final class DividerCellItem: CollectionViewDiffCellItem {
         guard let cell = cell as? Cell else {
             return
         }
-        cell.dividerView.backgroundColor = .lightGray
-        cell.dividerInsets = .init(top: 9, left: 0, bottom: 0, right: 0)
+        cell.spacerView.dividerView.backgroundColor = .lightGray
+        cell.spacerView.dividerInsets = .init(top: 9, left: 0, bottom: 0, right: 0)
     }
 
     func size(in collectionView: UICollectionView, sectionItem: CollectionViewSectionItem) -> CGSize {

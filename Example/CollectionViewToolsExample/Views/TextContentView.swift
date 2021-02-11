@@ -1,39 +1,48 @@
 //
-//  Copyright © 2018 Rosberry. All rights reserved.
+//  Copyright © 2020 Rosberry. All rights reserved.
 //
 
 import UIKit
 
-final class TextCollectionViewCell: UICollectionViewCell {
+final class TextContentView: UIView {
 
-    override var isHighlighted: Bool {
+    var isHighlighted: Bool = false {
         didSet {
-            contentView.alpha = isHighlighted ? 0.7 : 1.0
+            alpha = isHighlighted ? 0.7 : 1.0
         }
     }
 
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
+        label.numberOfLines = 0
         return label
     }()
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
+        setup()
     }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(titleLabel)
+        setup()
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        titleLabel.frame = contentView.bounds
+        titleLabel.frame = bounds
     }
 
     override func sizeThatFits(_ size: CGSize) -> CGSize {
-        return titleLabel.sizeThatFits(.init(width: CGFloat.greatestFiniteMagnitude,
+        return titleLabel.sizeThatFits(.init(width: size.width,
                                              height: .greatestFiniteMagnitude))
+    }
+
+    // MARK: - Private
+
+    private func setup() {
+        addSubview(titleLabel)
+        backgroundColor = .white
     }
 }

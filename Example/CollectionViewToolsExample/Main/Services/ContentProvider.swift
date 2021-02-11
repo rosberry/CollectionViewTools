@@ -5,7 +5,7 @@
 final class ContentProvider {
     var contents: [Content] = [ImageContent(id: 0,
                                             image: #imageLiteral(resourceName: "nightlife-1"),
-                                            description: "First image description"),
+                                            description: "First image description. First image description. First image description.\n First image description. First image description. First image description. First image description."),
                                TextContent(id: 5,
                                            text: "Fist topic",
                                            description: "First topic description"),

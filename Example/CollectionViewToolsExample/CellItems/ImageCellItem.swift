@@ -17,7 +17,7 @@ final class ImageCellItem: CollectionViewCellItem {
         guard let cell = cell as? Cell else {
             return
         }
-        cell.imageView.image = image
+        cell.imageContentView.imageView.image = image
         cell.removeActionHandler = removeActionHandler
     }
 

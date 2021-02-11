@@ -6,7 +6,7 @@ import CollectionViewTools
 
 final class TextCellItem: CollectionViewDiffCellItem {
 
-    private typealias Cell = TextCollectionViewCell
+    private typealias Cell = TextContentCollectionViewCell
 
     private static let sizeCell: Cell = .init()
 
@@ -36,8 +36,8 @@ final class TextCellItem: CollectionViewDiffCellItem {
         }
         cell.contentView.backgroundColor = backgroundColor
         cell.contentView.layer.cornerRadius = roundCorners ? 4 : 0
-        cell.titleLabel.font = font
-        cell.titleLabel.text = text
+        cell.textContentView.titleLabel.font = font
+        cell.textContentView.titleLabel.text = text
     }
 
     func size(in collectionView: UICollectionView, sectionItem: CollectionViewSectionItem) -> CGSize {
