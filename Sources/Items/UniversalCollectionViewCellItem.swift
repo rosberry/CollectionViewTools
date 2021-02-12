@@ -20,8 +20,8 @@ public class UniversalCollectionViewCellItem<Object: CanBeDiff, Cell: UICollecti
     private let originalObject: Object
 
     required init(object: Object) {
-        if let object = object as? NSCopying {
-            self.originalObject = object.copy(with: nil) as! Object
+        if let coppingObject = object as? NSCopying {
+            self.originalObject = (coppingObject.copy(with: nil) as? Object) ?? object
         }
         else {
             self.originalObject = object

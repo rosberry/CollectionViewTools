@@ -9,7 +9,6 @@ final class TextViewState: ViewState, Expandable {
     let description: String
     var isExpanded: Bool = false
 
-
     init(id: Int, text: String, description: String) {
         self.text = text
         self.description = description

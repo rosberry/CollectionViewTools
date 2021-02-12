@@ -7,9 +7,9 @@
 import UIKit
 
 public class ComplexCellItemsFactory {
-    
+
     private var factories = [String: AnyCellItemsFactory]()
-    
+
     public init() {
     }
 
@@ -19,7 +19,7 @@ public class ComplexCellItemsFactory {
     ///    - objects: an array of objects to create cell items for them
     public func makeCellItems(objects: [Any]) -> [CollectionViewCellItem] {
         var cellItems = [CollectionViewCellItem]()
-        objects.enumerated().forEach { index, object in
+        objects.forEach { object in
             if let factory = factories[String(describing: type(of: object))],
                let cellItem = factory.makeCellItem(object: object) {
                 cellItems.append(cellItem)
@@ -76,8 +76,7 @@ public class ComplexCellItemsFactory {
         }
         return self
     }
-    
-    
+
     /// Removes a factory from complex hierarchy
     ///
     /// - Parameters:

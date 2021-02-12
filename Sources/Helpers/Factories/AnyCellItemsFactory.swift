@@ -15,7 +15,7 @@ final class AnyAssociatedCellItemsFactory<Object: CanBeDiff, Cell: UICollectionV
         self.factory = factory
     }
 
-    let hashKey : String? = String(describing: Object.self)
+    let hashKey: String? = String(describing: Object.self)
 
     func makeCellItem(object: Any) -> CollectionViewCellItem? {
         guard let object = object as? Object else {
@@ -32,7 +32,7 @@ final class AnyViewCellItemsFactory<Object: CanBeDiff, View: UIView>: AnyCellIte
         self.factory = factory
     }
 
-    let hashKey : String? = String(describing: Object.self)
+    let hashKey: String? = String(describing: Object.self)
 
     func makeCellItem(object: Any) -> CollectionViewCellItem? {
         guard let object = object as? Object else {
@@ -50,7 +50,7 @@ final class AnyComplexCellItemsFactory: AnyCellItemsFactory {
         self.factory = factory
     }
 
-    let hashKey : String? = nil
+    let hashKey: String? = nil
 
     func makeCellItem(object: Any) -> CollectionViewCellItem? {
         factory.makeCellItem(object: object)

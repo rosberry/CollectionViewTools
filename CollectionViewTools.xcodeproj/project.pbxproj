@@ -27,7 +27,6 @@
 		017ABDB523F6856700A5AE34 /* TestReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017ABDB423F6856700A5AE34 /* TestReusableView.swift */; };
 		017B9F0C2409129800C765BD /* TestAsyncCollectionViewCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B9F0B2409129800C765BD /* TestAsyncCollectionViewCellItem.swift */; };
 		019849BB2508E6C800D217B4 /* Collection+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019849BA2508E6C800D217B4 /* Collection+Safe.swift */; };
-		01BA6CB025CD66B300C705BB /* ViewCellItemsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0176C9D2258A0630006CA94C /* ViewCellItemsFactory.swift */; };
 		01F2086323F67657009B069E /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F2086223F67657009B069E /* TestViewController.swift */; };
 		0A37632F1F6251A600A80613 /* CollectionViewTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3763251F6251A600A80613 /* CollectionViewTools.framework */; };
 		0A3763341F6251A600A80613 /* CollectionViewManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763331F6251A600A80613 /* CollectionViewManagerTests.swift */; };
@@ -561,7 +560,7 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		010D807B25BAEADD00BA7044 /* Analyze */ = {
+		01DA34AA25D69E0B00EE469C /* Analyze */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -624,7 +623,7 @@
 			};
 			name = Analyze;
 		};
-		010D807C25BAEADD00BA7044 /* Analyze */ = {
+		01DA34AB25D69E0B00EE469C /* Analyze */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
@@ -648,7 +647,7 @@
 			};
 			name = Analyze;
 		};
-		010D807D25BAEADD00BA7044 /* Analyze */ = {
+		01DA34AC25D69E0B00EE469C /* Analyze */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -864,7 +863,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0A3763371F6251A600A80613 /* Debug */,
-				010D807B25BAEADD00BA7044 /* Analyze */,
+				01DA34AA25D69E0B00EE469C /* Analyze */,
 				0A3763381F6251A600A80613 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -874,7 +873,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0A37633A1F6251A600A80613 /* Debug */,
-				010D807C25BAEADD00BA7044 /* Analyze */,
+				01DA34AB25D69E0B00EE469C /* Analyze */,
 				0A37633B1F6251A600A80613 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -884,7 +883,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0A37633D1F6251A600A80613 /* Debug */,
-				010D807D25BAEADD00BA7044 /* Analyze */,
+				01DA34AC25D69E0B00EE469C /* Analyze */,
 				0A37633E1F6251A600A80613 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;

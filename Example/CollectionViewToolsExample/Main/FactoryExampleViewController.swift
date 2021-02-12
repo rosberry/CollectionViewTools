@@ -54,7 +54,6 @@ final class FactoryExampleViewController: UIViewController {
         }
     }
 
-
     private func makeViewStates() -> [ViewState] {
         contentProvider.contents.flatMap { content -> [ViewState] in
             let contentState: ViewState

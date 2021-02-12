@@ -151,7 +151,7 @@ extension LazySectionItemsProvider: SectionItemsProvider {
             else {
                 fatalError("Invalid cell item insertion")
             }
-            
+
             cellItem.sectionItem = sectionItem
             cellItem.indexPath = indexPath
             cellItem.collectionView = collectionView

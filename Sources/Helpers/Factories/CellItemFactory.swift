@@ -47,8 +47,8 @@ public class CellItemsFactory<Object: CanBeDiff, Cell: UICollectionViewCell> {
     ///    - configure: a cell configuration handler
     ///    - size: a cell size configuration handler
     public func makeCellItem<ConcreteCellItem: CellItem>(object: Object,
-                             configure configurationHandler: @escaping (Cell) -> Void,
-                             size sizeConfigurationHandler: @escaping (UICollectionView, CollectionViewSectionItem) -> CGSize) -> ConcreteCellItem {
+                                                         configure configurationHandler: @escaping (Cell) -> Void,
+                                                         size sizeConfigurationHandler: @escaping (UICollectionView, CollectionViewSectionItem) -> CGSize) -> ConcreteCellItem {
         let cellItem = ConcreteCellItem(object: object)
         cellItem.configurationHandler = configurationHandler
         cellItem.sizeConfigurationHandler = sizeConfigurationHandler
