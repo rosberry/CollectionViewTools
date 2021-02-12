@@ -4,7 +4,7 @@
 
 import UIKit
 
-public class UniversalCollectionViewCellItem<Object: CanBeDiff, Cell: UICollectionViewCell>: CollectionViewDiffCellItem {
+public class UniversalCollectionViewCellItem<Object: DiffCompatible, Cell: UICollectionViewCell>: CollectionViewDiffCellItem {
 
     public lazy var reuseType = ReuseType.class(Cell.self)
 
@@ -57,6 +57,8 @@ public class UniversalCollectionViewCellItem<Object: CanBeDiff, Cell: UICollecti
         guard let cellItem = item as? UniversalCollectionViewCellItem<Object, Cell> else {
             return false
         }
-        return object == cellItem.object && object == originalObject && cellItem.object == originalObject
+        return object == cellItem.object &&
+               object == originalObject &&
+               cellItem.object == originalObject
     }
 }

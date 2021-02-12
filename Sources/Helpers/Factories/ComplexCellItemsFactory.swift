@@ -1,6 +1,4 @@
 //
-//  ComplexCellItemFactory.swift
-//
 //  Copyright © 2019 Rosberry. All rights reserved.
 //
 
@@ -44,7 +42,7 @@ public class ComplexCellItemsFactory {
     /// - Parameters:
     ///    - factory: a second cell item factory the associated type of which should be united
     @discardableResult
-    public func factory<Object: CanBeDiff, Cell: UICollectionViewCell>(byJoining factory: CellItemsFactory<Object, Cell>) -> ComplexCellItemsFactory {
+    public func factory<Object: DiffCompatible, Cell: UICollectionViewCell>(byJoining factory: CellItemsFactory<Object, Cell>) -> ComplexCellItemsFactory {
         let factory = AnyAssociatedCellItemsFactory(factory)
         if let key = factory.hashKey {
             factories[key] = factory
@@ -57,7 +55,7 @@ public class ComplexCellItemsFactory {
     /// - Parameters:
     ///    - factory: a second cell item factory the associated type of which should be united
     @discardableResult
-    public func factory<Object: CanBeDiff, View: UIView>(byJoining factory: ViewCellItemsFactory<Object, View>) -> ComplexCellItemsFactory {
+    public func factory<Object: DiffCompatible, View: UIView>(byJoining factory: ViewCellItemsFactory<Object, View>) -> ComplexCellItemsFactory {
         let factory = AnyViewCellItemsFactory(factory)
         if let key = factory.hashKey {
             factories[key] = factory
@@ -71,7 +69,7 @@ public class ComplexCellItemsFactory {
     ///    - factory: a second cell item factory the associated type of which should be united
     @discardableResult
     public func factory(byJoining factory: ComplexCellItemsFactory) -> ComplexCellItemsFactory {
-        factory.factories.forEach { (key, value) in
+        factory.factories.forEach { key, value in
             factories[key] = value
         }
         return self
@@ -81,7 +79,7 @@ public class ComplexCellItemsFactory {
     ///
     /// - Parameters:
     ///     - factory: a factory that should be removed
-    public func unjoin<Object: CanBeDiff, Cell: UICollectionViewCell>(factory: CellItemsFactory<Object, Cell>) {
+    public func unjoin<Object: DiffCompatible, Cell: UICollectionViewCell>(factory: CellItemsFactory<Object, Cell>) {
         factories.removeValue(forKey: String(describing: Object.self))
     }
 
@@ -90,7 +88,7 @@ public class ComplexCellItemsFactory {
     /// - Parameters:
     ///     - factory: a factory that should be removed
     public func unjoin(factory: ComplexCellItemsFactory) {
-        factory.factories.forEach { (key, _) in
+        factory.factories.forEach { key, _ in
             factories.removeValue(forKey: key)
         }
     }

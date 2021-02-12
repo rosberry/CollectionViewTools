@@ -85,7 +85,7 @@ public final class LazySectionItemsProvider {
     ///    - cellConfigurationHandler: block to configure cell according it cell item
     ///    - sizeHandler: block that returns size of cell at index path
     ///    - objectHandler: block that returns object at index path to associate it with cell item
-    public init<U: CanBeDiff, T: UICollectionViewCell>(
+    public init<U: DiffCompatible, T: UICollectionViewCell>(
         sectionItemsNumberHandler: @autoclosure @escaping () -> Int = 1,
         cellItemsNumberHandler: @escaping (Int) -> Int,
         makeSectionItemHandler: @escaping (Int) -> CollectionViewSectionItem? = { _ in

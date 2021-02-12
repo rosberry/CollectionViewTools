@@ -4,7 +4,7 @@
 
 import UIKit
 
-public class CellItemsFactory<Object: CanBeDiff, Cell: UICollectionViewCell> {
+public class CellItemsFactory<Object: DiffCompatible, Cell: UICollectionViewCell> {
 
     public typealias CellItem = UniversalCollectionViewCellItem<Object, Cell>
 
@@ -61,7 +61,7 @@ public class CellItemsFactory<Object: CanBeDiff, Cell: UICollectionViewCell> {
     ///    - object: an object to create a cell item for it
     public func makeCellItem<ConcreteCellItem: CellItem>(object: Object) -> ConcreteCellItem {
         let cellItem = ConcreteCellItem(object: object)
-        basicSetup(cellItem: cellItem, object: object)
+        setup(cellItem: cellItem, object: object)
         return cellItem
     }
 
@@ -69,7 +69,7 @@ public class CellItemsFactory<Object: CanBeDiff, Cell: UICollectionViewCell> {
     ///
     /// - Parameters:
     ///    - object: an object to create a cell item for it
-    public func basicSetup<ConcreteCellItem: CellItem>(cellItem: ConcreteCellItem, object: Object) {
+    public func setup<ConcreteCellItem: CellItem>(cellItem: ConcreteCellItem, object: Object) {
         cellItem.configurationHandler = { [weak self] cell in
             guard let self = self else {
                 return
@@ -92,7 +92,7 @@ public class CellItemsFactory<Object: CanBeDiff, Cell: UICollectionViewCell> {
     ///
     /// - Parameters:
     ///    - factory: a second cell item factory the associated type of which should be united
-    public func factory<Object: CanBeDiff, Cell: UICollectionViewCell>(byJoining factory: CellItemsFactory<Object, Cell>) -> ComplexCellItemsFactory {
+    public func factory<Object: DiffCompatible, Cell: UICollectionViewCell>(byJoining factory: CellItemsFactory<Object, Cell>) -> ComplexCellItemsFactory {
         ComplexCellItemsFactory().factory(byJoining: self).factory(byJoining: factory)
     }
 
@@ -101,7 +101,7 @@ public class CellItemsFactory<Object: CanBeDiff, Cell: UICollectionViewCell> {
     /// - Parameters:
     ///    - factory: a second cell item factory the associated type of which should be united
     @discardableResult
-    public func factory<Object: CanBeDiff, View: UIView>(byJoining factory: ViewCellItemsFactory<Object, View>) -> ComplexCellItemsFactory {
+    public func factory<Object: DiffCompatible, View: UIView>(byJoining factory: ViewCellItemsFactory<Object, View>) -> ComplexCellItemsFactory {
         ComplexCellItemsFactory().factory(byJoining: self).factory(byJoining: factory)
     }
 

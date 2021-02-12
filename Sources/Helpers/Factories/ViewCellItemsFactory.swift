@@ -4,7 +4,7 @@
 
 import UIKit
 
-open class ViewCellItemsFactory<Object: CanBeDiff, View: UIView> {
+open class ViewCellItemsFactory<Object: DiffCompatible, View: UIView> {
 
     public typealias Cell = CollectionViewViewCell<View>
     public typealias CellItem = CollectionViewViewCellItem<Object, View>
@@ -97,7 +97,7 @@ open class ViewCellItemsFactory<Object: CanBeDiff, View: UIView> {
     ///
     /// - Parameters:
     ///    - factory: a second cell item factory the associated type of which should be united
-    public func factory<Object: CanBeDiff, Cell: UICollectionViewCell>(byJoining factory: CellItemsFactory<Object, Cell>) -> ComplexCellItemsFactory {
+    public func factory<Object: DiffCompatible, Cell: UICollectionViewCell>(byJoining factory: CellItemsFactory<Object, Cell>) -> ComplexCellItemsFactory {
         self.factory.factory(byJoining: factory)
     }
 
@@ -105,7 +105,7 @@ open class ViewCellItemsFactory<Object: CanBeDiff, View: UIView> {
     ///
     /// - Parameters:
     ///    - factory: a second cell item factory the associated type of which should be united
-    public func factory<Object: CanBeDiff, View: UIView>(byJoining factory: ViewCellItemsFactory<Object, View>) -> ComplexCellItemsFactory {
+    public func factory<Object: DiffCompatible, View: UIView>(byJoining factory: ViewCellItemsFactory<Object, View>) -> ComplexCellItemsFactory {
         ComplexCellItemsFactory().factory(byJoining: self).factory(byJoining: factory)
     }
 

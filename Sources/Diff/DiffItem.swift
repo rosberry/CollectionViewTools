@@ -4,7 +4,7 @@
 
 import Foundation
 
-public typealias CanBeDiff = Equatable & CustomDebugStringConvertible
+public typealias DiffCompatible = Equatable & CustomDebugStringConvertible
 
 /// Your cell items and reusable view items must conform `DiffItem` protocol to work with diffing.
 /// diffIdentifier: Each item must be uniquely(!!!) identified by `diffIdentifier`. Otherwise diff algorithm can work incorrectly.

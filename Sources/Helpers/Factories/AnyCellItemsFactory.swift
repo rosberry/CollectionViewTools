@@ -9,7 +9,7 @@ protocol AnyCellItemsFactory {
 }
 
 // Type eraser for `CellItemsFactory<Object, Cell>`
-final class AnyAssociatedCellItemsFactory<Object: CanBeDiff, Cell: UICollectionViewCell>: AnyCellItemsFactory {
+final class AnyAssociatedCellItemsFactory<Object: DiffCompatible, Cell: UICollectionViewCell>: AnyCellItemsFactory {
     private let factory: CellItemsFactory<Object, Cell>
     init(_ factory: CellItemsFactory<Object, Cell>) {
         self.factory = factory
@@ -26,7 +26,7 @@ final class AnyAssociatedCellItemsFactory<Object: CanBeDiff, Cell: UICollectionV
 }
 
 // Type eraser for `ViewCellItemsFactory<Object, View>`
-final class AnyViewCellItemsFactory<Object: CanBeDiff, View: UIView>: AnyCellItemsFactory {
+final class AnyViewCellItemsFactory<Object: DiffCompatible, View: UIView>: AnyCellItemsFactory {
     private let factory: ViewCellItemsFactory<Object, View>
     init(_ factory: ViewCellItemsFactory<Object, View>) {
         self.factory = factory

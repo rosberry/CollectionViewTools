@@ -41,6 +41,7 @@ identifier_name:
     - i
     - to
     - of
+    - id
 
 statement_position:
   statement_mode: uncuddled_else

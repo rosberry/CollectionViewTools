@@ -4,7 +4,7 @@
 
 import UIKit
 
-public class CollectionViewViewCellItem<Object: CanBeDiff, View: UIView>: UniversalCollectionViewCellItem<Object, CollectionViewViewCell<View>> {
+public class CollectionViewViewCellItem<Object: DiffCompatible, View: UIView>: UniversalCollectionViewCellItem<Object, CollectionViewViewCell<View>> {
 
     var cachedConstrainedSize: CGSize?
     var sizeTypes: SizeTypes?
