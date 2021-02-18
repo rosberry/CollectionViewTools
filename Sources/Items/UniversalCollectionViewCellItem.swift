@@ -4,20 +4,28 @@
 
 import UIKit
 
-/// `UniversalCollectionViewCellItem` is implementation of `CollectionViewDiffCellItem` that use generic types association and
-/// additional handlers to avoid derivation.
-public class UniversalCollectionViewCellItem<U: GenericDiffItem, T: UICollectionViewCell>: CollectionViewDiffCellItem {
+public class UniversalCollectionViewCellItem<Object: DiffCompatible, Cell: UICollectionViewCell>: CollectionViewDiffCellItem {
 
-    /// Defines the type of cell that should be instantiated.
-    public lazy var reuseType = ReuseType.classWithIdentifier(T.self, identifier: diffIdentifier)
+    public lazy var reuseType = ReuseType.class(Cell.self)
 
-    /// Defines an identifier to find the difference between logically different cell items.
-    public lazy var diffIdentifier: String = "\(String(describing: type(of: self))){\(object.diffIdentifier)}"
+    public var diffIdentifier: String {
+        "\(object.debugDescription):\(reuseIdentifier)"
+    }
 
-    /// Provides an association of object that presents data model or view state of cell item
-    public let object: U
+    private var reuseIdentifier: String {
+        String(describing: type(of: self))
+    }
 
-    required init(object: U) {
+    public let object: Object
+    private let originalObject: Object
+
+    required init(object: Object) {
+        if let coppingObject = object as? NSCopying {
+            self.originalObject = (coppingObject.copy(with: nil) as? Object) ?? object
+        }
+        else {
+            self.originalObject = object
+        }
         self.object = object
     }
 
@@ -25,7 +33,7 @@ public class UniversalCollectionViewCellItem<U: GenericDiffItem, T: UICollection
     ///
     /// - Parameters:
     ///    - UICollectionViewCell: collection view cell that should be configured
-    public var configurationHandler: ((T) -> Void)?
+    public var configurationHandler: ((Cell) -> Void)?
 
     /// Set this handler to configure the size of cell
     ///
@@ -35,7 +43,7 @@ public class UniversalCollectionViewCellItem<U: GenericDiffItem, T: UICollection
     public var sizeConfigurationHandler: ((UICollectionView, CollectionViewSectionItem) -> CGSize)?
 
     public func configure(_ cell: UICollectionViewCell) {
-        guard let cell = cell as? T else {
+        guard let cell = cell as? Cell else {
             return
         }
         configurationHandler?(cell)
@@ -46,9 +54,11 @@ public class UniversalCollectionViewCellItem<U: GenericDiffItem, T: UICollection
     }
 
     public func isEqual(to item: DiffItem) -> Bool {
-        guard let cellItem = item as? UniversalCollectionViewCellItem<U, T> else {
+        guard let cellItem = item as? UniversalCollectionViewCellItem<Object, Cell> else {
             return false
         }
-        return object.isEqual(to: cellItem)
+        return object == cellItem.object &&
+               object == originalObject &&
+               cellItem.object == originalObject
     }
 }

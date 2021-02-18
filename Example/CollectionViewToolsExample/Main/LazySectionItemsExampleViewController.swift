@@ -27,7 +27,7 @@ final class LazySectionItemsExampleViewController: UIViewController {
                 return .zero
             }
             guard indexPath.row % 2 == 0 else {
-                return .init(width: collectionView.bounds.width, height: 1)
+                return .init(width: collectionView.bounds.width, height: 20)
             }
             let content = self.contentProvider.contents[indexPath.row / 2]
             if let image = (content as? ImageContent)?.image {
@@ -42,11 +42,17 @@ final class LazySectionItemsExampleViewController: UIViewController {
                   indexPath.row < self.contentProvider.contents.count * 2 else {
                 return nil
             }
-            guard indexPath.row % 2 == 0 else {
-                return SpacerState()
-            }
             let content = self.contentProvider.contents[indexPath.row / 2]
-            return self.factory.makeContentViewState(content)
+            guard indexPath.row % 2 == 0 else {
+                return SpacerState(content: content)
+            }
+            if let imageContent = content as? ImageContent {
+                return ImageViewState(content: imageContent)
+            }
+            if let textContent = content as? TextContent {
+                return TextViewState(content: textContent)
+            }
+            return nil
         }
     )
 
@@ -84,9 +90,10 @@ final class LazySectionItemsExampleViewController: UIViewController {
 }
 
 extension LazySectionItemsExampleViewController: ContentViewCellItemFactoryOutput {
-    func removeContentViewState(_ state: ContentViewState) {
+
+    func removeContentView(for viewState: ImageViewState) {
         let removingIndex = contentProvider.contents.firstIndex { content in
-            content.id == state.content.id
+            content.id == viewState.id
         }
         guard let index = removingIndex,
               let cellItem = sectionItemsProvider[.init(row: index * 2, section: 0)] else {
@@ -100,7 +107,7 @@ extension LazySectionItemsExampleViewController: ContentViewCellItemFactoryOutpu
         mainCollectionViewManager.remove(cellItems)
     }
 
-    func reloadCollectionView() {
+    func updateContentView(for viewState: ViewState & Expandable) {
         resetMainCollection()
     }
 }
