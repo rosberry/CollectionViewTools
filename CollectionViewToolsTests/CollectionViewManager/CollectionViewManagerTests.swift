@@ -4,6 +4,7 @@
 
 import UIKit
 import XCTest
+import DeepDiff
 @testable import CollectionViewTools
 
 class CollectionViewToolsTests: CollectionViewTests {
@@ -267,26 +268,26 @@ class CollectionViewToolsTests: CollectionViewTests {
         let numbers = [Array(0..<3), Array(0..<5), Array(0..<2)]
         let indexPath = IndexPath(item: 0, section: 0)
 
-        viewController.manager.sectionItemsProvider = LazyAssociatedFactorySectionItemsProvider<Int, TestCollectionViewCell>(
-            sectionItemsNumberHandler: {
-                numbers.count
-            },
-            cellItemsNumberHandler: { section in
-                numbers[section].count
-            },
-            makeSectionItemHandler: { _ in
-                GeneralCollectionViewDiffSectionItem()
-            },
-            cellConfigurationHandler: { cell, cellItem in
-                cell.text = "\(cellItem.object)"
-            },
-            sizeHandler: { _, collectionView in
-                .init(width: collectionView.bounds.width, height: 80)
-            },
-            objectHandler: { indexPath in
-                numbers[indexPath.section][indexPath.row]
-            }
-        )
+//        viewController.manager.sectionItemsProvider = LazyAssociatedFactorySectionItemsProvider<Int, TestCollectionViewCell>(
+//            sectionItemsNumberHandler: {
+//                numbers.count
+//            },
+//            cellItemsNumberHandler: { section in
+//                numbers[section].count
+//            },
+//            makeSectionItemHandler: { _ in
+//                GeneralCollectionViewDiffSectionItem()
+//            },
+//            cellConfigurationHandler: { cell, cellItem in
+//                cell.text = "\(cellItem.object)"
+//            },
+//            sizeHandler: { _, collectionView in
+//                .init(width: collectionView.bounds.width, height: 80)
+//            },
+//            objectHandler: { indexPath in
+//                numbers[indexPath.section][indexPath.row]
+//            }
+//        )
 
         // When
         wait(for: [expectation], timeout: 10)
@@ -305,23 +306,23 @@ class CollectionViewToolsTests: CollectionViewTests {
         let indexPath = IndexPath(item: 1000, section: 0)
         let delegate = TestScrollDelegate()
 
-        viewController.manager.sectionItemsProvider = LazyAssociatedFactorySectionItemsProvider<Int, TestCollectionViewCell>(
-            cellItemsNumberHandler: { _ in
-                numbers.count
-            },
-            makeSectionItemHandler: { _ in
-                LazyCollectionViewSectionItem()
-            },
-            cellConfigurationHandler: { cell, cellItem in
-                cell.text = "\(cellItem.object)"
-            },
-            sizeHandler: { _, collectionView in
-                .init(width: collectionView.bounds.width, height: 80)
-            },
-            objectHandler: { indexPath in
-                numbers[indexPath.row]
-            }
-        )
+//        viewController.manager.sectionItemsProvider = LazyAssociatedFactorySectionItemsProvider<Int, TestCollectionViewCell>(
+//            cellItemsNumberHandler: { _ in
+//                numbers.count
+//            },
+//            makeSectionItemHandler: { _ in
+//                LazyCollectionViewSectionItem()
+//            },
+//            cellConfigurationHandler: { cell, cellItem in
+//                cell.text = "\(cellItem.object)"
+//            },
+//            sizeHandler: { _, collectionView in
+//                .init(width: collectionView.bounds.width, height: 80)
+//            },
+//            objectHandler: { indexPath in
+//                numbers[indexPath.row]
+//            }
+//        )
 
         // When
         viewController.manager.scrollDelegate = delegate
@@ -332,12 +333,12 @@ class CollectionViewToolsTests: CollectionViewTests {
     }
 }
 
-extension Int: GenericDiffItem {
-    public var diffIdentifier: String {
-        "\(self)"
-    }
-
-    public func isEqual(to item: Int) -> Bool {
-        return self == item
-    }
-}
+//extension Int: GenericDiffItem {
+//    public var diffIdentifier: String {
+//        "\(self)"
+//    }
+//
+//    public func isEqual(to item: Int) -> Bool {
+//        return self == item
+//    }
+//}
