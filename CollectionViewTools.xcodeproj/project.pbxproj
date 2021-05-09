@@ -54,6 +54,7 @@
 		1028238622E9AA680061C54F /* CollectionViewDeepDiffAdaptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028238222E9A92A0061C54F /* CollectionViewDeepDiffAdaptor.swift */; };
 		1078655122E1DE6C0075C74A /* CollectionViewDiffReusableViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1078655022E1DE6C0075C74A /* CollectionViewDiffReusableViewItem.swift */; };
 		629A6091BFB23B9D95D9BF56 /* Print.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A64DA578C05AC298ECFFD /* Print.swift */; };
+		85CBC92C26480D3E0031DE1B /* DeepDiff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85CBC92B26480D3E0031DE1B /* DeepDiff.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,6 +120,7 @@
 		1078655022E1DE6C0075C74A /* CollectionViewDiffReusableViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewDiffReusableViewItem.swift; sourceTree = "<group>"; };
 		10EF870E2359ACE200D42245 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		629A64DA578C05AC298ECFFD /* Print.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Print.swift; sourceTree = "<group>"; };
+		85CBC92B26480D3E0031DE1B /* DeepDiff.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeepDiff.framework; path = Carthage/Build/iOS/DeepDiff.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85CBC92C26480D3E0031DE1B /* DeepDiff.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -189,6 +192,7 @@
 				0A3763501F62545A00A80613 /* Sources */,
 				0A3763321F6251A600A80613 /* CollectionViewToolsTests */,
 				0A3763261F6251A600A80613 /* Products */,
+				85CBC92A26480D3D0031DE1B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -332,6 +336,14 @@
 				629A64DA578C05AC298ECFFD /* Print.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		85CBC92A26480D3D0031DE1B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				85CBC92B26480D3E0031DE1B /* DeepDiff.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
