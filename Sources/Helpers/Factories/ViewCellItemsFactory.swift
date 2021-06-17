@@ -93,6 +93,16 @@ open class ViewCellItemsFactory<Object: DiffCompatible, View: UIView> {
         factory.makeCellItem(object: object)
     }
 
+    /// Returns an instances of `UniversalCollectionViewCellItem` and associates provided handlers with them
+    ///
+    /// - Parameters:
+    ///    - objects: an array of object to create a cell item for it
+    public func makeCellItems(objects: [Object]) -> [CellItem] {
+        objects.map { object in
+            makeCellItem(object: object)
+        }
+    }
+
     /// Joins different cell item factories
     ///
     /// - Parameters:
