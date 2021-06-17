@@ -277,11 +277,20 @@ extension CollectionViewManager {
         }
         collectionView.performBatchUpdates({
             diffResult.cellUpdatesMap.forEach { (update, cellChanges) in
-                replace(cellItemsAt: cellChanges.updatedIndexes,
-                        with: cellChanges.updatedItems,
-                        in: update.oldItem,
-                        performUpdates: false,
-                        configureAnimated: animated)
+                switch cellUpdateMode {
+                case .soft:
+                    softUpdate(cellItemsAt: cellChanges.updatedIndexes,
+                               with: cellChanges.updatedItems,
+                               in: update.oldItem,
+                               performUpdates: false,
+                               configureAnimated: animated)
+                case .default:
+                    replace(cellItemsAt: cellChanges.updatedIndexes,
+                            with: cellChanges.updatedItems,
+                            in: update.oldItem,
+                            performUpdates: false,
+                            configureAnimated: animated)
+                }
             }
             if diffResult.hasSectionUpdates {
                 var sectionUpdatedIndexes: [Int] = []
