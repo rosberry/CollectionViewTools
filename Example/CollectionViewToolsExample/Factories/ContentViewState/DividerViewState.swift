@@ -2,14 +2,21 @@
 //  Copyright © 2020 Rosberry. All rights reserved.
 //
 
+import CollectionViewTools
+
 final class SpacerState: ViewState {
     convenience init(content: Content) {
         self.init(id: content.id)
     }
 }
 
-extension SpacerState: Equatable {
-    static func == (lhs: SpacerState, rhs: SpacerState) -> Bool {
+extension SpacerState: DiffCompatible {
+    
+    var diffIdentifier: String {
+        "\(id)"
+    }
+
+    func makeDiffComparator() -> Bool {
         true
     }
 }

@@ -39,6 +39,10 @@
 		01F2E2B0267A20650019B822 /* DeepDiff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01F2E2AF267A20650019B822 /* DeepDiff.framework */; };
 		01F2E2B4267A20720019B822 /* CollectionViewTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01F2E2B3267A20720019B822 /* CollectionViewTools.framework */; };
 		01F2E2B5267A20720019B822 /* CollectionViewTools.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 01F2E2B3267A20720019B822 /* CollectionViewTools.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		01F2E2B8267A21080019B822 /* SoftCellUpdateExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F2E2B7267A21080019B822 /* SoftCellUpdateExampleViewController.swift */; };
+		01F2E2BA267A257E0019B822 /* HorizontalCollectionSectionItemsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F2E2B9267A257E0019B822 /* HorizontalCollectionSectionItemsFactory.swift */; };
+		01F2E2BC267A26A90019B822 /* Pack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F2E2BB267A26A90019B822 /* Pack.swift */; };
+		01F2E2BE267A278A0019B822 /* Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F2E2BD267A278A0019B822 /* Template.swift */; };
 		01FF0AE4253969C200F76477 /* SpacerCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FF0AE3253969C200F76477 /* SpacerCellItem.swift */; };
 		0A3763831F62556300A80613 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763821F62556300A80613 /* AppDelegate.swift */; };
 		0A37638A1F62556300A80613 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A3763891F62556300A80613 /* Assets.xcassets */; };
@@ -138,6 +142,10 @@
 		01F2E281267A1AC00019B822 /* FactoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactoriesViewController.swift; sourceTree = "<group>"; };
 		01F2E2AF267A20650019B822 /* DeepDiff.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeepDiff.framework; path = Carthage/Build/iOS/DeepDiff.framework; sourceTree = "<group>"; };
 		01F2E2B3267A20720019B822 /* CollectionViewTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CollectionViewTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		01F2E2B7267A21080019B822 /* SoftCellUpdateExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftCellUpdateExampleViewController.swift; sourceTree = "<group>"; };
+		01F2E2B9267A257E0019B822 /* HorizontalCollectionSectionItemsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCollectionSectionItemsFactory.swift; sourceTree = "<group>"; };
+		01F2E2BB267A26A90019B822 /* Pack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pack.swift; sourceTree = "<group>"; };
+		01F2E2BD267A278A0019B822 /* Template.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Template.swift; sourceTree = "<group>"; };
 		01FF0AE3253969C200F76477 /* SpacerCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacerCellItem.swift; sourceTree = "<group>"; };
 		0A37637F1F62556300A80613 /* CollectionViewToolsExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionViewToolsExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3763821F62556300A80613 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -206,6 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				0142A91D25249F3400A1CBC0 /* ContentViewSectionItemsFactory.swift */,
+				01F2E2B9267A257E0019B822 /* HorizontalCollectionSectionItemsFactory.swift */,
 			);
 			path = Factories;
 			sourceTree = "<group>";
@@ -233,6 +242,8 @@
 				0186E539252496E80032B88D /* Content.swift */,
 				0186E53B252497500032B88D /* ImageContent.swift */,
 				0186E53D252497EC0032B88D /* TextContent.swift */,
+				01F2E2BB267A26A90019B822 /* Pack.swift */,
+				01F2E2BD267A278A0019B822 /* Template.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -268,6 +279,7 @@
 				01F2E281267A1AC00019B822 /* FactoriesViewController.swift */,
 				01929DAD22F19233004D5605 /* FactoryExampleViewController.swift */,
 				015F03FA258772A50033F11C /* LazySectionItemsExampleViewController.swift */,
+				01F2E2B7267A21080019B822 /* SoftCellUpdateExampleViewController.swift */,
 			);
 			path = Factories;
 			sourceTree = "<group>";
@@ -646,6 +658,7 @@
 				01F2E2A5267A1EEC0019B822 /* SpacerView.swift in Sources */,
 				01F2E2A0267A1ED30019B822 /* TextContentView.swift in Sources */,
 				01F2E296267A1E130019B822 /* FactoryExampleViewController.swift in Sources */,
+				01F2E2BE267A278A0019B822 /* Template.swift in Sources */,
 				0113EA95267A17FC00E5A399 /* AppDelegate.swift in Sources */,
 				01F2E282267A1AC00019B822 /* FactoriesViewController.swift in Sources */,
 				01F2E28E267A1DF50019B822 /* ImageViewState.swift in Sources */,
@@ -657,8 +670,11 @@
 				01F2E2A1267A1ED30019B822 /* ImageContentView.swift in Sources */,
 				01F2E299267A1E1D0019B822 /* LazySectionItemsExampleViewController.swift in Sources */,
 				01F2E28D267A1DF50019B822 /* ViewState.swift in Sources */,
+				01F2E2BA267A257E0019B822 /* HorizontalCollectionSectionItemsFactory.swift in Sources */,
 				01F2E287267A1DCD0019B822 /* ContentViewSectionItemsFactory.swift in Sources */,
+				01F2E2BC267A26A90019B822 /* Pack.swift in Sources */,
 				01F2E28F267A1DF50019B822 /* TextViewState.swift in Sources */,
+				01F2E2B8267A21080019B822 /* SoftCellUpdateExampleViewController.swift in Sources */,
 				01F2E29E267A1EA60019B822 /* ImageContent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

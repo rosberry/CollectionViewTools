@@ -71,6 +71,7 @@ final class FactoriesViewController: UIViewController {
     }
 
     @objc private func softCellUpdateExampleButtonPressed() {
-
+        let viewController = SoftCellUpdateExampleViewController()
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }
