@@ -31,7 +31,7 @@ final class SoftCellUpdateExampleViewController: UIViewController {
             .init(id: "3.1", text: "I"),
             .init(id: "3.2", text: "J"),
             .init(id: "3.3", text: "K"),
-            .init(id: "3.3", text: "L")
+            .init(id: "3.4", text: "L")
         ]),
         .init(id: "4", thumbnail: #imageLiteral(resourceName: "nightlife-3"), templates: [
             .init(id: "4.1", text: "M"),
