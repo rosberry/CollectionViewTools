@@ -13,8 +13,8 @@ final class HorizontalCollectionSectionItemsFactory {
 
     weak var output: HorizontalCollectionSectionItemsFactoryOutput?
 
-    private lazy var packCellItemFactory: ViewCellItemsFactory<Pack, ImageContentView> = {
-        let factory = ViewCellItemsFactory<Pack, ImageContentView>()
+    private lazy var packCellItemFactory: ViewCellItemsFactory<Pack, SimpleImageContentView> = {
+        let factory = ViewCellItemsFactory<Pack, SimpleImageContentView>()
 
         factory.cellItemConfigurationHandler = { cellItem in
             cellItem.itemDidSelectHandler = { [weak self] indexPath in
@@ -24,8 +24,11 @@ final class HorizontalCollectionSectionItemsFactory {
 
         factory.viewConfigurationHandler = { view, cellItem in
             view.imageView.image = cellItem.object.thumbnail
+            view.imageView.contentMode = .scaleAspectFill
             view.layer.borderColor = UIColor.green.cgColor
             view.layer.borderWidth = cellItem.object.isExpanded ? 1 : 0
+            view.layer.cornerRadius = 8
+            view.clipsToBounds = true
         }
 
         factory.sizeTypesConfigurationHandler = { cellItem in
@@ -35,8 +38,8 @@ final class HorizontalCollectionSectionItemsFactory {
         return factory
     }()
 
-    private lazy var templatesCellItemFactory: ViewCellItemsFactory<Template, TextContentView> = {
-        let factory = ViewCellItemsFactory<Template, TextContentView>()
+    private lazy var templatesCellItemFactory: ViewCellItemsFactory<Template, FavoritableTextContentView> = {
+        let factory = ViewCellItemsFactory<Template, FavoritableTextContentView>()
 
         factory.cellItemConfigurationHandler = { cellItem in
             cellItem.itemDidSelectHandler = { [weak self] indexPath in
@@ -46,8 +49,18 @@ final class HorizontalCollectionSectionItemsFactory {
 
         factory.viewConfigurationHandler = { view, cellItem in
             view.titleLabel.text = cellItem.object.text
-            view.layer.borderColor = (cellItem.object.isFavorite ? UIColor.red : UIColor.lightGray).cgColor
+            view.titleLabel.textColor = .black
+            if cellItem.object.isFavorite {
+                view.layer.borderColor = UIColor.red.cgColor
+                view.favoriteImageView.image = #imageLiteral(resourceName: "favorite")
+            }
+            else {
+                view.layer.borderColor = UIColor.lightGray.cgColor
+                view.favoriteImageView.image = nil
+            }
             view.layer.borderWidth = 1
+            view.layer.cornerRadius = 8
+            view.clipsToBounds = true
         }
 
         factory.sizeTypesConfigurationHandler = { cellItem in
@@ -67,6 +80,7 @@ final class HorizontalCollectionSectionItemsFactory {
             let sectionItem = GeneralCollectionViewDiffSectionItem(cellItems: cellItems)
             sectionItem.diffIdentifier = pack.id
             sectionItem.insets = .init(top: 2, left: 2, bottom: 2, right: 2)
+            sectionItem.minimumInteritemSpacing = 2
             return sectionItem
         }
     }

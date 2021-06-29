@@ -64,6 +64,7 @@ final class SoftCellUpdateExampleViewController: UIViewController {
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = UIColor.green.cgColor
         imageView.backgroundColor = .lightGray
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
 
@@ -76,6 +77,15 @@ final class SoftCellUpdateExampleViewController: UIViewController {
         return switchControl
     }()
 
+    lazy var placeholderLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.textColor = .gray
+        label.text = "Unfold any pack from bottom placed picker and tap some nested item.\nUse switch at top right corner to change cell update mode"
+        return label
+    }()
+
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -83,6 +93,7 @@ final class SoftCellUpdateExampleViewController: UIViewController {
         view.addSubview(collectionView)
         view.addSubview(imageView)
         view.addSubview(switchControl)
+        view.addSubview(placeholderLabel)
         updateCollection()
     }
 
@@ -99,6 +110,7 @@ final class SoftCellUpdateExampleViewController: UIViewController {
         let imageWidth = view.bounds.width - 2 * imageInset
         let imageHeight = collectionView.frame.minY - view.safeAreaInsets.top - 2 * imageInset
         imageView.frame = .init(x: imageInset, y: top + imageInset, width: imageWidth, height: imageHeight)
+        placeholderLabel.frame = imageView.frame
 
         switchControl.frame = .init(x: imageWidth - 50, y: top + 40, width: 51, height: 31)
     }
@@ -146,7 +158,7 @@ final class SoftCellUpdateExampleViewController: UIViewController {
         guard templates.isEmpty == false else {
             return nil
         }
-        let pack = Pack(id: "0", thumbnail: #imageLiteral(resourceName: "nightlife-5"), templates: templates)
+        let pack = Pack(id: "0", thumbnail: #imageLiteral(resourceName: "favorite"), templates: templates)
         if let first = displayedPacks.first,
            first.id == "0" {
             pack.isExpanded = first.isExpanded
@@ -160,8 +172,10 @@ extension SoftCellUpdateExampleViewController: HorizontalCollectionSectionItemsF
     func toggle(pack: Pack) {
         if pack.isExpanded {
             pack.isExpanded.toggle()
+            placeholderLabel.isHidden = false
         }
         else {
+            placeholderLabel.isHidden = true
             displayedPacks.forEach { storedPack in
                 storedPack.isExpanded = pack.id == storedPack.id
             }
