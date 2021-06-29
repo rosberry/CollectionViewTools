@@ -70,6 +70,7 @@ final class SoftCellUpdateExampleViewController: UIViewController {
 
     private lazy var switchControl: UISwitch = {
         let switchControl = UISwitch()
+        switchControl.isOn = true
         switchControl.backgroundColor = UIColor.red
         switchControl.layer.cornerRadius = 15
         switchControl.clipsToBounds = true
@@ -122,7 +123,7 @@ final class SoftCellUpdateExampleViewController: UIViewController {
         case true:
             manager.cellUpdateMode = .soft
         case false:
-            manager.cellUpdateMode = .default
+            manager.cellUpdateMode = .hard
         }
     }
 

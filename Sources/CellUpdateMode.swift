@@ -3,6 +3,6 @@
 //
 
 public enum CellUpdateMode {
-    case `default`
+    case hard
     case soft
 }

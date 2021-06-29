@@ -284,7 +284,7 @@ extension CollectionViewManager {
                                in: update.oldItem,
                                performUpdates: false,
                                configureAnimated: animated)
-                case .default:
+                case .hard:
                     replace(cellItemsAt: cellChanges.updatedIndexes,
                             with: cellChanges.updatedItems,
                             in: update.oldItem,

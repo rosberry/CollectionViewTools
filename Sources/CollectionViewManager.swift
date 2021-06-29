@@ -60,12 +60,13 @@ open class CollectionViewManager: NSObject {
         }
     }
 
-    /// By `default` `CollectionViewManager` completely replaces cells when only content is updated
-    /// Mode `soft` allows to configure cells with updates without replacing
-    public var cellUpdateMode: CellUpdateMode = .default
+    /// Previosly `CollectionViewManager` completely replaced cells when only content is updated
+    /// Mode `soft` allows to configure cells with updates without replacing (default value)
+    /// Mode `hard` allows to restore previos behavior
+    public var cellUpdateMode: CellUpdateMode = .soft
 
     /// Provider of `CollectionViewSectionItem` objects, which respond for configuration of specified section in collection view.
-    /// Setting this property leads collection view to reload data. If you don't need this behaviour use update methods instead.
+    /// Setting this property leads collection view to reload data. If you don't need this behavior use update methods instead.
     public var sectionItems: [SectionItem] {
         get {
             return sectionItemsProvider.sectionItems
