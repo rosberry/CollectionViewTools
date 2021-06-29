@@ -11,9 +11,3 @@ class ViewState {
         self.id = id
     }
 }
-
-extension ViewState: CustomDebugStringConvertible {
-    var debugDescription: String {
-        "\(id)"
-    }
-}

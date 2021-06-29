@@ -125,10 +125,6 @@ class MainViewController: UIViewController {
     func makeActionsSectionItem() -> CollectionViewSectionItem {
         let sectionItem = makeActionsSectionItem(cellItems: [
             makeResetActionCellItem(),
-            // Factory example
-            makeFactoryExampleActionCellItem(),
-            // Lazy items example
-            makeLazySectionItemsExampleActionCellItem(),
             // Insert cells
             makePrependCellItemsActionCellItem(),
             makeAppendCellItemsActionCellItem(),
@@ -413,30 +409,6 @@ class MainViewController: UIViewController {
                     cell.imageContentView.imageView.image = self.images[Int.random(in: 0..<self.images.count)]
                 }
             }
-        }
-    }
-
-    // MARK: - Factory example
-
-    func makeFactoryExampleActionCellItem() -> CollectionViewCellItem {
-        return makeActionCellItem(title: "Factory example") { [weak self] in
-            guard let `self` = self else {
-                return
-            }
-            let viewController = FactoryExampleViewController()
-            self.navigationController?.pushViewController(viewController, animated: true)
-        }
-    }
-
-    // MARK: - Lazy section items axample
-
-    func makeLazySectionItemsExampleActionCellItem() -> CollectionViewCellItem {
-        return makeActionCellItem(title: "Lazy items example") { [weak self] in
-            guard let `self` = self else {
-                return
-            }
-            let viewController = LazySectionItemsExampleViewController()
-            self.navigationController?.pushViewController(viewController, animated: true)
         }
     }
 

@@ -9,7 +9,7 @@ public class UniversalCollectionViewCellItem<Object: DiffCompatible, Cell: UICol
     public lazy var reuseType = ReuseType.class(Cell.self)
 
     public var diffIdentifier: String {
-        "\(object.debugDescription):\(reuseIdentifier)"
+        "\(object.diffIdentifier):\(reuseIdentifier)"
     }
 
     private var reuseIdentifier: String {
@@ -17,15 +17,10 @@ public class UniversalCollectionViewCellItem<Object: DiffCompatible, Cell: UICol
     }
 
     public let object: Object
-    private let originalObject: Object
+    private let comparator: Object.DiffComparator
 
     required init(object: Object) {
-        if let coppingObject = object as? NSCopying {
-            self.originalObject = (coppingObject.copy(with: nil) as? Object) ?? object
-        }
-        else {
-            self.originalObject = object
-        }
+        self.comparator = object.makeDiffComparator()
         self.object = object
     }
 
@@ -57,8 +52,10 @@ public class UniversalCollectionViewCellItem<Object: DiffCompatible, Cell: UICol
         guard let cellItem = item as? UniversalCollectionViewCellItem<Object, Cell> else {
             return false
         }
-        return object == cellItem.object &&
-               object == originalObject &&
-               cellItem.object == originalObject
+        let objectDescriptor = object.makeDiffComparator()
+        let cellItemObjectDescriptor = cellItem.object.makeDiffComparator()
+        return comparator == cellItem.comparator &&
+               comparator == objectDescriptor &&
+               objectDescriptor == cellItemObjectDescriptor
     }
 }

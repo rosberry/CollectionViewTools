@@ -17,8 +17,12 @@ final class DescriptionViewState: ViewState {
     }
 }
 
-extension DescriptionViewState: Equatable {
-    static func == (lhs: DescriptionViewState, rhs: DescriptionViewState) -> Bool {
-        lhs.text == rhs.text
+extension DescriptionViewState: DiffCompatible {
+    var diffIdentifier: String {
+        "\(id)"
+    }
+
+    func makeDiffComparator() -> Bool {
+        true
     }
 }

@@ -15,6 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.backgroundColor = .white
         #if DIFF
         window?.rootViewController = UINavigationController(rootViewController: DiffViewController())
+        #elseif FACTORIES
+        window?.rootViewController = UINavigationController(rootViewController: FactoriesViewController())
         #else
         window?.rootViewController = UINavigationController(rootViewController: MainViewController())
         #endif
