@@ -221,6 +221,7 @@ extension SoftCellUpdateExampleViewController: HorizontalCollectionSectionItemsF
         guard template.id == String(id) else {
             return
         }
-        toggleFavorite(template: template)
+        template.isFavorite = false
+        updateCollection()
     }
 }
