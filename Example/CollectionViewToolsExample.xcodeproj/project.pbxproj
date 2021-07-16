@@ -70,7 +70,6 @@
 		0EB8E651229BF9370000B921 /* ExampleSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A688DD33578289A57B452 /* ExampleSectionItem.swift */; };
 		0EB8E657229BF9370000B921 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A37638B1F62556400A80613 /* LaunchScreen.storyboard */; };
 		0EB8E658229BF9370000B921 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A3763891F62556300A80613 /* Assets.xcassets */; };
-		0EB8E662229BFA710000B921 /* DiffInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0EB8E661229BFA710000B921 /* DiffInfo.plist */; };
 		1028238F22E9B0950061C54F /* IGListKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1028238E22E9B0950061C54F /* IGListKit.framework */; };
 		1078655822E1EADB0075C74A /* HeaderViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1078655322E1E5C60075C74A /* HeaderViewItem.swift */; };
 		1078655922E1EADF0075C74A /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1078655622E1E7060075C74A /* HeaderView.swift */; };
@@ -564,7 +563,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EB8E657229BF9370000B921 /* LaunchScreen.storyboard in Resources */,
-				0EB8E662229BFA710000B921 /* DiffInfo.plist in Resources */,
 				0EB8E658229BF9370000B921 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
