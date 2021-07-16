@@ -27,7 +27,7 @@ Effective framework, similar to TableViewTools for making your UICollectionView 
   s.author           = { 'Dmitry Frishbuter' => 'dmitry.frishbuter@rosberry.com' }
   s.source           = { :git => 'https://github.com/rosberry/CollectionViewTools.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '8.2'
+  s.ios.deployment_target = '10.3'
 
   s.source_files = 'Sources/**/*'
 
