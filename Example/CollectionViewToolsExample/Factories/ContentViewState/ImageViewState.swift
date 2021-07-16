@@ -2,7 +2,7 @@
 //  Copyright © 2020 Rosberry. All rights reserved.
 //
 
-import UIKit
+import CollectionViewTools
 
 final class ImageViewState: ViewState, Expandable {
 
@@ -21,16 +21,12 @@ final class ImageViewState: ViewState, Expandable {
     }
 }
 
-extension ImageViewState: Equatable {
-    static func == (lhs: ImageViewState, rhs: ImageViewState) -> Bool {
-        lhs.isExpanded == rhs.isExpanded && lhs.id == rhs.id
+extension ImageViewState: DiffCompatible {
+    var diffIdentifier: String {
+        "\(id)"
     }
-}
 
-extension ImageViewState: NSCopying {
-    func copy(with zone: NSZone? = nil) -> Any {
-        let state = ImageViewState(id: id, image: image, description: description)
-        state.isExpanded = isExpanded
-        return state
+    func makeDiffComparator() -> Bool {
+        isExpanded
     }
 }

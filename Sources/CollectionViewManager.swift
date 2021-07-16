@@ -60,8 +60,13 @@ open class CollectionViewManager: NSObject {
         }
     }
 
+    /// Previosly `CollectionViewManager` completely replaced cells when only content is updated
+    /// Mode `soft` allows to configure cells with updates without replacing (default value)
+    /// Mode `hard` allows to restore previos behavior
+    public var cellUpdateMode: CellUpdateMode = .soft
+
     /// Provider of `CollectionViewSectionItem` objects, which respond for configuration of specified section in collection view.
-    /// Setting this property leads collection view to reload data. If you don't need this behaviour use update methods instead.
+    /// Setting this property leads collection view to reload data. If you don't need this behavior use update methods instead.
     public var sectionItems: [SectionItem] {
         get {
             return sectionItemsProvider.sectionItems
@@ -445,65 +450,38 @@ open class CollectionViewManager: NSObject {
                       performUpdates: Bool = true,
                       configureAnimated: Bool = false,
                       completion: Completion? = nil) {
-        guard indexes.count > 0 else {
-            return
-        }
+        replace(cellItemsAt: indexes,
+                with: cellItems,
+                in: sectionItem,
+                performUpdates: performUpdates,
+                configureAnimated: configureAnimated,
+                needReloadItems: true,
+                completion: completion)
+    }
 
-        guard let section = sectionItem.index else {
-            printContextWarning("It is impossible to replace cell items in sectionItem \(sectionItem)" +
-                                        "because there is no index in it")
-            return
-        }
-
-        func replace(in collectionView: UICollectionView?) {
-            for index in 0..<cellItems.count {
-                let cellItem = cellItems[index]
-                register(cellItem)
-                cellItem.sectionItem = sectionItem
-            }
-            if indexes.count == cellItems.count {
-                var indexPaths: [IndexPath] = []
-                for (cellItem, index) in zip(cellItems, indexes) where index < sectionItem.cellItems.count {
-                    sectionItem.cellItems[index] = cellItem
-                    let indexPath = IndexPath(row: index, section: section)
-                    cellItem.indexPath = indexPath
-                    if !cellItem.isReplacementAnimationEnabled,
-                       let cell = collectionView?.cellForItem(at: indexPath) {
-                        cellItem.context.shouldConfigureAnimated = true
-                        cellItem.configure(cell)
-                        cellItem.context.shouldConfigureAnimated = false
-                    }
-                    else {
-                        indexPaths.append(indexPath)
-                    }
-                }
-
-                collectionView?.reloadItems(at: indexPaths)
-            }
-            else {
-                var removeIndexPaths: [IndexPath] = []
-                let firstIndex = indexes[0]
-                for index in indexes.sorted(by: >) {
-                    sectionItem.cellItems.remove(at: index)
-                    removeIndexPaths.append(.init(row: index, section: section))
-                }
-
-                let insertIndexPaths: [IndexPath] = Array(firstIndex..<firstIndex + cellItems.count).map { index in
-                    return .init(row: index, section: section)
-                }
-                sectionItem.cellItems.insert(contentsOf: cellItems, at: firstIndex)
-
-                recalculateIndexPaths(in: sectionItem)
-                collectionView?.deleteItems(at: removeIndexPaths)
-                collectionView?.insertItems(at: insertIndexPaths)
-            }
-        }
-        if performUpdates {
-            perform(updates: replace, completion: completion)
-        }
-        else {
-            replace(in: collectionView)
-        }
+    /// Replaces cell items inside the specified section item, and then updates corresponding cells within section.
+    ///
+    /// - Parameters:
+    ///   - indexes: An array of locations, that contains indexes of cell items to replace inside specified section item
+    ///   - cellItems: An array of replacement cell items, which respond for cell configuration at specified index path
+    ///   - sectionItem: Section item within which cell items should be replaced
+    ///   - performUpdates: A Boolean value determines whether the performBatchUpdates is called.
+    ///   - configureAnimated: A Boolean value determines whether configuration of cell item performed animated.
+    /// Cell item isReplacementAnimationEnabled value should be false in that case.
+    ///   - completion: A closure that either specifies any additional actions which should be performed after replacing.
+    open func softUpdate(cellItemsAt indexes: [Int],
+                         with cellItems: [CellItem],
+                         in sectionItem: SectionItem,
+                         performUpdates: Bool = true,
+                         configureAnimated: Bool = false,
+                         completion: Completion? = nil) {
+        replace(cellItemsAt: indexes,
+                with: cellItems,
+                in: sectionItem,
+                performUpdates: performUpdates,
+                configureAnimated: configureAnimated,
+                needReloadItems: false,
+                completion: completion)
     }
 
     /// Removes cell items and then removes cells at the corresponding locations.
@@ -778,6 +756,99 @@ open class CollectionViewManager: NSObject {
                 cellItem.configure(cell)
                 cellItem.context.shouldConfigureAnimated = false
             }
+        }
+    }
+
+    /// Replaces cell items inside the specified section item, and then replaces corresponding cells within section.
+    ///
+    /// - Parameters:
+    ///   - indexes: An array of locations, that contains indexes of cell items to replace inside specified section item
+    ///   - cellItems: An array of replacement cell items, which respond for cell configuration at specified index path
+    ///   - sectionItem: Section item within which cell items should be replaced
+    ///   - performUpdates: A Boolean value determines whether the performBatchUpdates is called.
+    ///   - configureAnimated: A Boolean value determines whether configuration of cell item performed animated.
+    /// Cell item isReplacementAnimationEnabled value should be false in that case.
+    ///   - completion: A closure that either specifies any additional actions which should be performed after replacing.
+    private func replace(cellItemsAt indexes: [Int],
+                      with cellItems: [CellItem],
+                      in sectionItem: SectionItem,
+                      performUpdates: Bool = true,
+                      configureAnimated: Bool = false,
+                      needReloadItems: Bool = true,
+                      completion: Completion? = nil) {
+        guard indexes.count > 0 else {
+            return
+        }
+
+        guard let section = sectionItem.index else {
+            printContextWarning("It is impossible to replace cell items in sectionItem \(sectionItem)" +
+                                        "because there is no index in it")
+            return
+        }
+
+        func iterateCellItems(in collectionView: UICollectionView?, fallbackHandler: (IndexPath, UICollectionViewCell?, CellItem) -> Void) {
+            for (cellItem, index) in zip(cellItems, indexes) where index < sectionItem.cellItems.count {
+                sectionItem.cellItems[index] = cellItem
+                let indexPath = IndexPath(row: index, section: section)
+                cellItem.indexPath = indexPath
+                let optionalCell = collectionView?.cellForItem(at: indexPath)
+                if !cellItem.isReplacementAnimationEnabled,
+                   let cell = optionalCell {
+                    cellItem.context.shouldConfigureAnimated = true
+                    cellItem.configure(cell)
+                    cellItem.context.shouldConfigureAnimated = false
+                }
+                else {
+                    fallbackHandler(indexPath, optionalCell, cellItem)
+                }
+            }
+        }
+
+        func replace(in collectionView: UICollectionView?) {
+            for index in 0..<cellItems.count {
+                let cellItem = cellItems[index]
+                register(cellItem)
+                cellItem.sectionItem = sectionItem
+            }
+            if indexes.count == cellItems.count {
+                if needReloadItems {
+                    var indexPaths: [IndexPath] = []
+                    iterateCellItems(in: collectionView) { indexPath, _, _ in
+                        indexPaths.append(indexPath)
+                    }
+                    collectionView?.reloadItems(at: indexPaths)
+                }
+                else {
+                    iterateCellItems(in: collectionView) { _, cell, cellItem in
+                        if let cell = cell {
+                            cellItem.configure(cell)
+                        }
+                    }
+                }
+            }
+            else {
+                var removeIndexPaths: [IndexPath] = []
+                let firstIndex = indexes[0]
+                for index in indexes.sorted(by: >) {
+                    sectionItem.cellItems.remove(at: index)
+                    removeIndexPaths.append(.init(row: index, section: section))
+                }
+
+                let insertIndexPaths: [IndexPath] = Array(firstIndex..<firstIndex + cellItems.count).map { index in
+                    return .init(row: index, section: section)
+                }
+                sectionItem.cellItems.insert(contentsOf: cellItems, at: firstIndex)
+
+                recalculateIndexPaths(in: sectionItem)
+                collectionView?.deleteItems(at: removeIndexPaths)
+                collectionView?.insertItems(at: insertIndexPaths)
+            }
+        }
+        if performUpdates {
+            perform(updates: replace, completion: completion)
+        }
+        else {
+            replace(in: collectionView)
         }
     }
 }
