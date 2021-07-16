@@ -7,9 +7,10 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'CollectionViewTools'
-  s.version          = '0.1.5'
+  s.name             = 'Rosberry-CollectionViewTools'
+  s.version          = '0.1.6'
   s.summary          = 'Powerful tool for making UICollectionView usage simple and comfortable.'
+  s.swift_version    = ['5.0']
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -23,12 +24,14 @@ Effective framework, similar to TableViewTools for making your UICollectionView 
 
   s.homepage         = 'https://github.com/rosberry/CollectionViewTools'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'Dmitry Frishbuter' => 'dmitry.frishbuter@rosberry.com' }
+  s.author           = { 'Rosberry' => 'apple@rosberry.com' }
   s.source           = { :git => 'https://github.com/rosberry/CollectionViewTools.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '10.3'
 
   s.source_files = 'Sources/**/*'
+
+  s.dependency 'DeepDiff'
 
   # s.resource_bundles = {
   #   'CollectionViewTools' => ['Assets/*.png']
