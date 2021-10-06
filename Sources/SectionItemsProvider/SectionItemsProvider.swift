@@ -2,6 +2,8 @@
 //  Copyright © 2020 Rosberry. All rights reserved.
 //
 
+import UIKit
+
 /// Default implementation of `CollectionViewManager` implies that at any moment you have
 /// actual `cellItem` for any cell that should be displayed. But when you works with large dataset
 /// this way leads to performance decreasing. `SectionItemsProvider` simulates default workflow

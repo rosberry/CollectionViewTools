@@ -2,6 +2,8 @@
 //  Copyright © 2020 Rosberry. All rights reserved.
 //
 
+import UIKit
+
 /// It is an implementation of `SectionItemsProvider` that organizes an access to required
 /// cellItems and sectionItems on demand. It stores created section items in dictionary and calls
 /// defined handlers to configure cell items if needed. There are 3 ways of usage:

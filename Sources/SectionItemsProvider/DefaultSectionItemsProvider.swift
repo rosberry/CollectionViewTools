@@ -2,6 +2,8 @@
 //  Copyright © 2020 Rosberry. All rights reserved.
 //
 
+import UIKit
+
 /// It is an implementation of `SectionItemsProvider` that just wraps sectionItems array
 /// and redirects to it all required methods
 final class DefaultSectionItemsProvider {

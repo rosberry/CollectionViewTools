@@ -2,6 +2,8 @@
 //  Copyright © 2020 Rosberry. All rights reserved.
 //
 
+import UIKit
+
 // This factory type eraser that allows to organize different factory access in `ComplexCellItemsFactory`
 protocol AnyCellItemsFactory {
     var hashKey: String? { get }

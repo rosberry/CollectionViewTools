@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -54,8 +54,8 @@
 		0E4B31D1229C02B800CE0B13 /* CollectionViewChanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4B31D0229C02B800CE0B13 /* CollectionViewChanges.swift */; };
 		1028238622E9AA680061C54F /* CollectionViewDeepDiffAdaptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028238222E9A92A0061C54F /* CollectionViewDeepDiffAdaptor.swift */; };
 		1078655122E1DE6C0075C74A /* CollectionViewDiffReusableViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1078655022E1DE6C0075C74A /* CollectionViewDiffReusableViewItem.swift */; };
+		3664059926B2954000858DF9 /* DeepDiff.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3664059826B2954000858DF9 /* DeepDiff.xcframework */; };
 		629A6091BFB23B9D95D9BF56 /* Print.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A64DA578C05AC298ECFFD /* Print.swift */; };
-		85CBC92C26480D3E0031DE1B /* DeepDiff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85CBC92B26480D3E0031DE1B /* DeepDiff.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,8 +121,8 @@
 		1028238222E9A92A0061C54F /* CollectionViewDeepDiffAdaptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDeepDiffAdaptor.swift; sourceTree = "<group>"; };
 		1078655022E1DE6C0075C74A /* CollectionViewDiffReusableViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewDiffReusableViewItem.swift; sourceTree = "<group>"; };
 		10EF870E2359ACE200D42245 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		3664059826B2954000858DF9 /* DeepDiff.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = DeepDiff.xcframework; path = Carthage/Build/DeepDiff.xcframework; sourceTree = "<group>"; };
 		629A64DA578C05AC298ECFFD /* Print.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Print.swift; sourceTree = "<group>"; };
-		85CBC92B26480D3E0031DE1B /* DeepDiff.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeepDiff.framework; path = Carthage/Build/iOS/DeepDiff.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,7 +130,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				85CBC92C26480D3E0031DE1B /* DeepDiff.framework in Frameworks */,
+				3664059926B2954000858DF9 /* DeepDiff.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,7 +352,7 @@
 		85CBC92A26480D3D0031DE1B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				85CBC92B26480D3E0031DE1B /* DeepDiff.framework */,
+				3664059826B2954000858DF9 /* DeepDiff.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -397,7 +397,6 @@
 				0A37632A1F6251A600A80613 /* Sources */,
 				0A37632B1F6251A600A80613 /* Frameworks */,
 				0A37632C1F6251A600A80613 /* Resources */,
-				0143C23323F6735A00592288 /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -488,27 +487,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "./Scripts/swiftlint_script.sh\n";
-		};
-		0143C23323F6735A00592288 /* Carthage */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/DeepDiff.framework",
-			);
-			name = Carthage;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/DeepDiff.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
-			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -662,8 +640,12 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/CollectionViewTools/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewTools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -678,7 +660,11 @@
 				DEVELOPMENT_TEAM = GPVA8JVMU3;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				INFOPLIST_FILE = CollectionViewToolsTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewToolsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -796,7 +782,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -819,8 +806,12 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/CollectionViewTools/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewTools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -843,8 +834,12 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/CollectionViewTools/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewTools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -860,7 +855,11 @@
 				DEVELOPMENT_TEAM = GPVA8JVMU3;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				INFOPLIST_FILE = CollectionViewToolsTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewToolsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -874,7 +873,11 @@
 				DEVELOPMENT_TEAM = GPVA8JVMU3;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				INFOPLIST_FILE = CollectionViewToolsTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewToolsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
