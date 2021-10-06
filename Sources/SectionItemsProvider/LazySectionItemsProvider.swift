@@ -149,7 +149,7 @@ extension LazySectionItemsProvider: SectionItemsProvider {
                 sectionItem.cellItems.append(cellItem)
             }
             else {
-                fatalError("Invalid cell item insertion")
+                return nil
             }
 
             cellItem.sectionItem = sectionItem
