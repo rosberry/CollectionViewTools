@@ -7,7 +7,7 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'Rosberry-CollectionViewTools'
+  s.name             = 'CollectionViewTools'
   s.version          = '0.1.7'
   s.summary          = 'Powerful tool for making UICollectionView usage simple and comfortable.'
   s.swift_version    = ['5.0']
