@@ -91,7 +91,6 @@
 		019849BA2508E6C800D217B4 /* Collection+Safe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Safe.swift"; sourceTree = "<group>"; };
 		01F2086223F67657009B069E /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		01F2E323267B2B550019B822 /* CellUpdateMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellUpdateMode.swift; sourceTree = "<group>"; };
-		06B2AE0E21F6FFE8004A9CBB /* CollectionViewTools.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = CollectionViewTools.podspec; sourceTree = "<group>"; };
 		0A3763251F6251A600A80613 /* CollectionViewTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CollectionViewTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A37632E1F6251A600A80613 /* CollectionViewToolsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CollectionViewToolsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3763331F6251A600A80613 /* CollectionViewManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewManagerTests.swift; sourceTree = "<group>"; };
@@ -168,7 +167,6 @@
 		0147E60D26A159E70040EF98 /* CollectionViewTools */ = {
 			isa = PBXGroup;
 			children = (
-				0A37635C1F62545A00A80613 /* Info.plist */,
 			);
 			path = CollectionViewTools;
 			sourceTree = "<group>";
@@ -197,9 +195,9 @@
 		0A37631B1F6251A600A80613 = {
 			isa = PBXGroup;
 			children = (
+				0A37635C1F62545A00A80613 /* Info.plist */,
 				0147E60D26A159E70040EF98 /* CollectionViewTools */,
 				10EF870E2359ACE200D42245 /* README.md */,
-				06B2AE0E21F6FFE8004A9CBB /* CollectionViewTools.podspec */,
 				0A3763501F62545A00A80613 /* Sources */,
 				0A3763321F6251A600A80613 /* CollectionViewToolsTests */,
 				0A3763261F6251A600A80613 /* Products */,
@@ -638,7 +636,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/CollectionViewTools/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -804,7 +802,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/CollectionViewTools/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -832,7 +830,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/CollectionViewTools/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
