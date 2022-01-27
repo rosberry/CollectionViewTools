@@ -151,7 +151,8 @@ extension LazySectionItemsProvider: SectionItemsProvider {
                 sectionItem.cellItems.append(cellItem)
             }
             else {
-                return nil
+                let diff = indexPath.row - (sectionItem.cellItems.count - 1)
+                sectionItem.cellItems.append(contentsOf: Array(repeating: cellItem, count: diff))
             }
 
             cellItem.sectionItem = sectionItem
