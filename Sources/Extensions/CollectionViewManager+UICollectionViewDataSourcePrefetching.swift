@@ -16,7 +16,7 @@ extension CollectionViewManager: UICollectionViewDataSourcePrefetching {
 
     open func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
         indexPaths.forEach { indexPath in
-            if let cellItem = cellItem(for: indexPath) {
+            if let cellItem = cellItem(for: indexPath, onlyFetch: true) {
                 cellItem.cancelPrefetchingData()
             }
         }
