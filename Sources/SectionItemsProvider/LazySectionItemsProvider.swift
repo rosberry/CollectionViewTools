@@ -13,9 +13,10 @@ import UIKit
 ///   `LazySectionItemsProvider` has own `sizeHandler` that should provide a size without
 ///   concrete object
 /// - Use generic initializer that creates associated factory itself
-public final class LazySectionItemsProvider {
+open class LazySectionItemsProvider {
 
     var sectionItemsDictionary: [Int: CollectionViewSectionItem] = [:]
+    private var cellItemsDictionary: [IndexPath: CollectionViewCellItem] = [:]
     var collectionView: UICollectionView?
 
     // MARK: - Handlers
@@ -133,15 +134,16 @@ extension LazySectionItemsProvider: SectionItemsProvider {
         }
     }
 
-    public subscript(indexPath: IndexPath) -> CollectionViewCellItem? {
+    public subscript(indexPath: IndexPath, onlyFetch: Bool) -> CollectionViewCellItem? {
         get {
             guard let sectionItem = self[indexPath.section] else {
                 return nil
             }
-            if let cellItem = sectionItem.cellItems[safe: indexPath.row] {
+            if let cellItem = cellItemsDictionary[indexPath] {
                 return cellItem
             }
-            guard let cellItem = makeCellItemHandler(indexPath) else {
+            guard onlyFetch == false,
+                  let cellItem = makeCellItemHandler(indexPath) else {
                 return nil
             }
             if indexPath.row < sectionItem.cellItems.count {
@@ -154,6 +156,7 @@ extension LazySectionItemsProvider: SectionItemsProvider {
                 let diff = indexPath.row - (sectionItem.cellItems.count - 1)
                 sectionItem.cellItems.append(contentsOf: Array(repeating: cellItem, count: diff))
             }
+            cellItemsDictionary[indexPath] = cellItem
 
             cellItem.sectionItem = sectionItem
             cellItem.indexPath = indexPath

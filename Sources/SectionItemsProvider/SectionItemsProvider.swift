@@ -21,7 +21,7 @@ import UIKit
     subscript(index: Int) -> CollectionViewSectionItem? { get set }
 
     /// Provides `cellItem` by `indexPath` if it is possible
-    subscript(indexPath: IndexPath) -> CollectionViewCellItem? { get set }
+     subscript(indexPath: IndexPath, onlyFetch: Bool) -> CollectionViewCellItem? { get set }
 
     /// Returns number of cells in `section` that should be displayed
     func numberOfCellItems(inSection section: Int) -> Int

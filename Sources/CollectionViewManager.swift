@@ -152,8 +152,8 @@ open class CollectionViewManager: NSObject {
     /// - Parameter indexPath: The index path locating the item in the collection view.
     /// - Returns: A cell item associated with cell of the collection, or nil if the cell item
     /// wasn't added to manager or indexPath is out of range.
-    open func cellItem(for indexPath: IndexPath) -> CellItem? {
-        sectionItemsProvider[indexPath]
+    open func cellItem(for indexPath: IndexPath, onlyFetch: Bool = false) -> CellItem? {
+        sectionItemsProvider[indexPath, onlyFetch]
     }
 
     /// Returns the reusable view item at the specified index path.
@@ -283,7 +283,7 @@ open class CollectionViewManager: NSObject {
         let cellItemsCount = sectionItemsProvider.numberOfCellItems(inSection: sectionIndex)
         for index in 0..<cellItemsCount {
             let indexPath = IndexPath(row: index, section: sectionIndex)
-            let cellItem = sectionItemsProvider[indexPath]
+            let cellItem = sectionItemsProvider[indexPath, true]
             cellItem?.indexPath = indexPath
         }
     }

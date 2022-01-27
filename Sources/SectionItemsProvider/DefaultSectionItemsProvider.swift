@@ -32,7 +32,7 @@ extension DefaultSectionItemsProvider: SectionItemsProvider {
         }
     }
 
-    subscript(indexPath: IndexPath) -> CollectionViewCellItem? {
+    subscript(indexPath: IndexPath, onlyFetch: Bool) -> CollectionViewCellItem? {
         get {
             self[indexPath.section]?.cellItems[safe: indexPath.row]
         }
