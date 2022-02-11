@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -36,9 +36,6 @@
 		01F2E2A3267A1ED80019B822 /* TextContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A60E846B05B88D62C7880 /* TextContentCollectionViewCell.swift */; };
 		01F2E2A5267A1EEC0019B822 /* SpacerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0180E953258A1F7A0061788E /* SpacerView.swift */; };
 		01F2E2A7267A1F020019B822 /* ContentProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186E54725249A2C0032B88D /* ContentProvider.swift */; };
-		01F2E2B0267A20650019B822 /* DeepDiff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01F2E2AF267A20650019B822 /* DeepDiff.framework */; };
-		01F2E2B4267A20720019B822 /* CollectionViewTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01F2E2B3267A20720019B822 /* CollectionViewTools.framework */; };
-		01F2E2B5267A20720019B822 /* CollectionViewTools.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 01F2E2B3267A20720019B822 /* CollectionViewTools.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		01F2E2B8267A21080019B822 /* SoftCellUpdateExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F2E2B7267A21080019B822 /* SoftCellUpdateExampleViewController.swift */; };
 		01F2E2BA267A257E0019B822 /* HorizontalCollectionSectionItemsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F2E2B9267A257E0019B822 /* HorizontalCollectionSectionItemsFactory.swift */; };
 		01F2E2BC267A26A90019B822 /* Pack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F2E2BB267A26A90019B822 /* Pack.swift */; };
@@ -81,6 +78,10 @@
 		629A63FBA018222A355686F6 /* ExampleSectionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A688DD33578289A57B452 /* ExampleSectionItem.swift */; };
 		629A6E35B86008DC359DB40B /* TextCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A6D49B5E8DB9CAACD07CE /* TextCellItem.swift */; };
 		629A6F552D5D656B36F4F52C /* TextContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A60E846B05B88D62C7880 /* TextContentCollectionViewCell.swift */; };
+		A9A9CC7627B6539B0039D77A /* DeepDiff.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A9CC6E27B652770039D77A /* DeepDiff.xcframework */; };
+		A9A9CC7727B6539B0039D77A /* DeepDiff.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A9A9CC6E27B652770039D77A /* DeepDiff.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A9A9CC7927B653B50039D77A /* CollectionViewTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE6E86B31FB961B20027A8FE /* CollectionViewTools.framework */; };
+		A9A9CC7A27B653B50039D77A /* CollectionViewTools.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FE6E86B31FB961B20027A8FE /* CollectionViewTools.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -95,17 +96,6 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		01F2E2B6267A20720019B822 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				01F2E2B5267A20720019B822 /* CollectionViewTools.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		0E5676E422C5DEC0008A88EA /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -113,6 +103,18 @@
 			dstSubfolderSpec = 10;
 			files = (
 				0E5676E322C5DEC0008A88EA /* CollectionViewTools.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9A9CC7827B6539B0039D77A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A9A9CC7727B6539B0039D77A /* DeepDiff.xcframework in Embed Frameworks */,
+				A9A9CC7A27B653B50039D77A /* CollectionViewTools.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -179,6 +181,7 @@
 		629A6D49B5E8DB9CAACD07CE /* TextCellItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextCellItem.swift; sourceTree = "<group>"; };
 		855613B322B77FC900F59CD1 /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
 		855613B522B7803800F59CD1 /* ReusableViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableViewItem.swift; sourceTree = "<group>"; };
+		A9A9CC6E27B652770039D77A /* DeepDiff.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = DeepDiff.xcframework; path = ../Carthage/Build/DeepDiff.xcframework; sourceTree = "<group>"; };
 		FE6E86B31FB961B20027A8FE /* CollectionViewTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CollectionViewTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -187,8 +190,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				01F2E2B0267A20650019B822 /* DeepDiff.framework in Frameworks */,
-				01F2E2B4267A20720019B822 /* CollectionViewTools.framework in Frameworks */,
+				A9A9CC7627B6539B0039D77A /* DeepDiff.xcframework in Frameworks */,
+				A9A9CC7927B653B50039D77A /* CollectionViewTools.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,6 +339,7 @@
 		0ACA6FC41F62659500782C1E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A9A9CC6E27B652770039D77A /* DeepDiff.xcframework */,
 				01F2E2B3267A20720019B822 /* CollectionViewTools.framework */,
 				01F2E2AF267A20650019B822 /* DeepDiff.framework */,
 				01078BF625C11F5500A11E1D /* CollectionViewTools.framework */,
@@ -441,8 +445,7 @@
 				0113EA74267A159100E5A399 /* Sources */,
 				0113EA75267A159100E5A399 /* Frameworks */,
 				0113EA76267A159100E5A399 /* Resources */,
-				F297C92578FA954187F1C925 /* Carthage */,
-				01F2E2B6267A20720019B822 /* Embed Frameworks */,
+				A9A9CC7827B6539B0039D77A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -608,26 +611,6 @@
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
 			showEnvVarsInLog = 0;
-		};
-		F297C92578FA954187F1C925 /* Carthage */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"$(SRCROOT)/Carthage/xcfilelists/FactoriesExample-inputPaths.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = Carthage;
-			outputFileListPaths = (
-				"$(SRCROOT)/Carthage/xcfilelists/FactoriesExample-outputPaths.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
 		};
 		SU6GBKOWJH8IOEGFXJRK654W /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;

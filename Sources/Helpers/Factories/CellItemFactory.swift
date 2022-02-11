@@ -70,8 +70,9 @@ public class CellItemsFactory<Object: DiffCompatible, Cell: UICollectionViewCell
     /// - Parameters:
     ///    - object: an object to create a cell item for it
     public func setup<ConcreteCellItem: CellItem>(cellItem: ConcreteCellItem, object: Object) {
-        cellItem.configurationHandler = { [weak self] cell in
-            guard let self = self else {
+        cellItem.configurationHandler = { [weak self, weak cellItem] cell in
+            guard let self = self,
+            let cellItem = cellItem else {
                 return
             }
             guard let configurationHandler = self.cellConfigurationHandler else {
