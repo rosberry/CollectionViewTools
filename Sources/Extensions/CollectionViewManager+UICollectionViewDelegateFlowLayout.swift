@@ -9,7 +9,9 @@ extension CollectionViewManager: UICollectionViewDelegateFlowLayout {
     open func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              sizeForItemAt indexPath: IndexPath) -> CGSize {
-        sectionItemsProvider.sizeForCellItem(at: indexPath, in: collectionView)
+        cellSizeManager.sizeForCellItem(at: indexPath) {
+            sectionItemsProvider.sizeForCellItem(at: indexPath, in: collectionView)
+        }
     }
 
     open func collectionView(_ collectionView: UICollectionView,

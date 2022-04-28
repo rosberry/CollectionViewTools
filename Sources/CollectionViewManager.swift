@@ -43,6 +43,19 @@ open class CollectionViewManager: NSObject {
         }
     }
 
+    /// Set true if you need the same size for all cells in collection
+    public var isUsingSameSize: Bool {
+        get {
+            cellSizeManager.isSameSize
+        }
+        set {
+            cellSizeManager.isSameSize = newValue
+        }
+    }
+
+    /// This property is responsible for reusing the cell sizes
+    var cellSizeManager: CollectionViewCellSizeManager = .init()
+    
     /// By `default` `CollectionViewManager` works with array of section items with already created
     /// cellItem for any cell that should be displayed.
     /// Mode `lazy` allows to modify this logic to create cellItems only when they are actually needed
@@ -283,8 +296,14 @@ open class CollectionViewManager: NSObject {
         let cellItemsCount = sectionItemsProvider.numberOfCellItems(inSection: sectionIndex)
         for index in 0..<cellItemsCount {
             let indexPath = IndexPath(row: index, section: sectionIndex)
-            let cellItem = sectionItemsProvider[indexPath]
-            cellItem?.indexPath = indexPath
+            if let cellItem = sectionItemsProvider[indexPath] {
+                if let oldIndexPath = cellItem.indexPath {
+                    if oldIndexPath != indexPath {
+                        cellSizeManager.markAsDirtyIfNeeded(cellItem: cellItem, oldIndexPath: oldIndexPath)
+                    }
+                }
+                cellItem.indexPath = indexPath
+            }
         }
     }
 
