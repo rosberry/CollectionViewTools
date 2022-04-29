@@ -298,9 +298,7 @@ open class CollectionViewManager: NSObject {
             let indexPath = IndexPath(row: index, section: sectionIndex)
             if let cellItem = sectionItemsProvider[indexPath] {
                 if let oldIndexPath = cellItem.indexPath {
-                    if oldIndexPath != indexPath {
-                        cellSizeManager.markAsDirtyIfNeeded(cellItem: cellItem, oldIndexPath: oldIndexPath)
-                    }
+                    cellSizeManager.markAsDirtyIfNeeded(cellItem: cellItem, oldIndexPath: oldIndexPath)
                 }
                 cellItem.indexPath = indexPath
             }
