@@ -1,4 +1,6 @@
 //
+//  ClosureWrapper.swift
+//
 //  Copyright © 2016 Rosberry. All rights reserved.
 //
 

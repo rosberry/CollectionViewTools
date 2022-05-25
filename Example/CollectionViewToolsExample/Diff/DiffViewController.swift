@@ -1,4 +1,6 @@
 //
+//  DiffViewController.swift
+//
 //  Copyright © 2019 Rosberry. All rights reserved.
 //
 
@@ -16,7 +18,7 @@ final class DiffViewController: UIViewController {
     private var lastObjectId: Int = 1
     private let defaultObjectsCount: Int = 10
 
-    // MARK: - Subviews
+    // MARK: Subviews
 
     private lazy var mainCollectionViewDiffs: [Diff] = [("DeepDiff", CollectionViewDeepDiffAdaptor()),
                                                          ("IGListKit", CollectionViewIGListKitDiffAdaptor())]
@@ -44,7 +46,7 @@ final class DiffViewController: UIViewController {
         return view
     }()
 
-    // MARK: - Lifecycle
+    // MARK: Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -321,7 +323,7 @@ final class DiffViewController: UIViewController {
         let headerItem = HeaderViewItem(title: group.title,
                                         backgroundColor: group.color.uiColor,
                                         isFolded: group.isFolded)
-        headerItem.diffIdentifier = "group_header_\(group.id)"
+//        headerItem.diffIdentifier = "group_header_\(group.id)"
         headerItem.foldHandler = { [weak self] in
             if let group = self?.group(forId: group.id) {
                 group.isFolded.toggle()
@@ -334,7 +336,7 @@ final class DiffViewController: UIViewController {
         }
         return headerItem
     }
-
+    
     private func makeGroupPlusCellItem(group: Group) -> TextCellItem {
         let cellItem = TextCellItem(text: "+",
                                     backgroundColor: .white,

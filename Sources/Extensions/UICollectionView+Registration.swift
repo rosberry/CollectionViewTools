@@ -1,4 +1,6 @@
 //
+//  UICollectionView+Registration.swift
+//
 //  Copyright © 2017 Rosberry. All rights reserved.
 //
 
@@ -25,7 +27,7 @@ public enum ReuseType {
 }
 
 public extension UICollectionView {
-
+    
     func registerCell(with type: ReuseType) {
         switch type {
             case let .nib(nib, identifier):

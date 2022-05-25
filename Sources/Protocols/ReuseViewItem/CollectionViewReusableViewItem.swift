@@ -1,4 +1,6 @@
 //
+//  CollectionViewReusableViewItem.swift
+//
 //  Copyright © 2017 Rosberry. All rights reserved.
 //
 
@@ -10,20 +12,22 @@ public enum ReusableViewType {
 
     public var kind: String {
         switch self {
-            case .header:
-                return UICollectionView.elementKindSectionHeader
-            case .footer:
-                return UICollectionView.elementKindSectionFooter
+        case .header:
+            return UICollectionView.elementKindSectionHeader
+        case .footer:
+            return UICollectionView.elementKindSectionFooter
         }
     }
 }
 
-public protocol CollectionViewReusableViewItem: CollectionViewSiblingItem {
-
+public protocol CollectionViewReusableViewItem: CollectionViewSiblingCellItem {
+    
     var type: ReusableViewType { get set }
-
+    
     var reuseType: ReuseType { get }
-
+    
     func size(for collectionView: UICollectionView, with layout: UICollectionViewLayout) -> CGSize
     func configure(_ view: UICollectionReusableView)
 }
+
+

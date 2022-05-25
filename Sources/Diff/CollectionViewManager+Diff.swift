@@ -11,7 +11,7 @@ extension CollectionViewManager {
 
     /// Array of `CollectionViewDiffSectionItem` objects mapped from `sectionItems` array
     var diffSectionItems: [CollectionViewDiffSectionItem] {
-        return sectionItemsProvider.sectionItems.compactMap { sectionItem in
+        return sectionItems.compactMap { sectionItem in
             sectionItem as? CollectionViewDiffSectionItem
         }
     }
@@ -33,7 +33,7 @@ extension CollectionViewManager {
                animated: animated,
                completion: completion)
     }
-
+    
     /// Use this function if you need to set new diff section items.
     /// - Parameters:
     ///   - sectionItems: Array of `CollectionViewDiffSectionItem` objects.
@@ -47,7 +47,7 @@ extension CollectionViewManager {
                      animated: Bool,
                      completion: DiffCompletion? = nil) {
         if animated {
-            if self.sectionItemsProvider.sectionItems.isEmpty {
+            if self.sectionItems.isEmpty {
                 updateEmptyCollectionView(with: sectionItems, completion: completion)
                 return
             }
@@ -66,10 +66,6 @@ extension CollectionViewManager {
     // MARK: - Private
 
     private func logBadItems(for sectionItems: [CollectionViewDiffSectionItem]) {
-        guard isLoggingEnabled else {
-            return
-        }
-
         var badSectionItems: [CollectionViewSectionItem] = []
         var badCellItems: [CollectionViewCellItem] = []
         var badReusableViewItems: [CollectionViewReusableViewItem] = []
@@ -120,13 +116,15 @@ extension CollectionViewManager {
             }
         }
     }
-
+    
     private func updateWithoutAnimation(sectionItems: [CollectionViewDiffSectionItem], shouldReload: Bool) {
-        sectionItemsProvider.sectionItems = sectionItems
+        _sectionItems = sectionItems
         registerSectionItems()
         recalculateIndexes()
 
+        #if DEBUG
         logBadItems(for: sectionItems)
+        #endif
 
         if shouldReload {
             collectionView.reloadData()
@@ -176,8 +174,9 @@ extension CollectionViewManager {
 
         registerSectionItems()
         recalculateIndexes()
-
+        #if DEBUG
         logBadItems(for: sectionItems)
+        #endif
 
         itemsWereUpdated = true
         complete()
@@ -277,20 +276,11 @@ extension CollectionViewManager {
         }
         collectionView.performBatchUpdates({
             diffResult.cellUpdatesMap.forEach { (update, cellChanges) in
-                switch cellUpdateMode {
-                case .soft:
-                    softUpdate(cellItemsAt: cellChanges.updatedIndexes,
-                               with: cellChanges.updatedItems,
-                               in: update.oldItem,
-                               performUpdates: false,
-                               configureAnimated: animated)
-                case .hard:
-                    replace(cellItemsAt: cellChanges.updatedIndexes,
-                            with: cellChanges.updatedItems,
-                            in: update.oldItem,
-                            performUpdates: false,
-                            configureAnimated: animated)
-                }
+                replace(cellItemsAt: cellChanges.updatedIndexes,
+                        with: cellChanges.updatedItems,
+                        in: update.oldItem,
+                        performUpdates: false,
+                        configureAnimated: animated)
             }
             if diffResult.hasSectionUpdates {
                 var sectionUpdatedIndexes: [Int] = []

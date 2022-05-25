@@ -1,11 +1,13 @@
 //
+//  ColorCellItem.swift
+//
 //  Copyright © 2019 Rosberry. All rights reserved.
 //
 
 import CollectionViewTools
 import Foundation
 
-final class ColorCellItem: CollectionViewDiffCellItem {
+final class ColorCellItem: CollectionViewDiffCellItem, CustomStringConvertible {
 
     typealias Cell = ColorCollectionViewCell
     private(set) var reuseType: ReuseType = .class(Cell.self)
@@ -33,7 +35,7 @@ final class ColorCellItem: CollectionViewDiffCellItem {
         return .init(width: width, height: width)
     }
 
-    // MARK: - DiffItem
+    // MARK: - CollectionViewDiffableItem
 
     var diffIdentifier: String = ""
 
@@ -43,5 +45,12 @@ final class ColorCellItem: CollectionViewDiffCellItem {
         }
         return color == item.color
             && title == item.title
+    }
+
+    // MARK: - CustomStringConvertible
+
+    var description: String {
+        let colorString = "\(color)".replacingOccurrences(of: "UIExtendedSRGBColorSpace ", with: "")
+        return "\n cellItem id = \(diffIdentifier), color = \(colorString), title = \(title)"
     }
 }

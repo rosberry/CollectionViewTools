@@ -1,4 +1,6 @@
 //
+//  ImageCollectionViewCell.swift
+//
 //  Copyright © 2017 Rosberry. All rights reserved.
 //
 
@@ -11,6 +13,8 @@ final class ColorCollectionViewCell: UICollectionViewCell {
             contentView.alpha = isHighlighted ? 0.7 : 1.0
         }
     }
+
+    // MARK: Subviews
 
     private(set) lazy var label: UILabel = {
         let label = UILabel()
@@ -32,5 +36,5 @@ final class ColorCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         label.frame = contentView.bounds
-    }
+    }    
 }

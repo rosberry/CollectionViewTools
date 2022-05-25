@@ -1,11 +1,15 @@
 //
+//  ReusableViewItem.swift
+//  CollectionViewToolsExample
+//
+//  Created by Стас Клюхин on 17/06/2019.
 //  Copyright © 2019 Rosberry. All rights reserved.
 //
 
 import CollectionViewTools
 
 final class ReusableViewItem: CollectionViewReusableViewItem {
-
+    
     var type: ReusableViewType = .header
 
     var reuseType: ReuseType = .class(ReusableView.self)

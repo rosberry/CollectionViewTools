@@ -1,4 +1,6 @@
 //
+//  CollectionViewManager+UICollectionViewDelegateFlowLayout.swift
+//
 //  Copyright © 2017 Rosberry. All rights reserved.
 //
 
@@ -9,31 +11,41 @@ extension CollectionViewManager: UICollectionViewDelegateFlowLayout {
     open func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              sizeForItemAt indexPath: IndexPath) -> CGSize {
-        sectionItemsProvider.sizeForCellItem(at: indexPath, in: collectionView)
+        if let dataSource = dataSource {
+            return dataSource.itemDataSource(at: indexPath.section)?.sizeForCell(at: indexPath.row, in: collectionView) ?? .zero
+        }
+
+        guard let cellItem = cellItem(for: indexPath) else {
+            return .zero
+        }
+        return cellItem.size()
     }
 
     open func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              insetForSectionAt section: Int) -> UIEdgeInsets {
-        return sectionItemsProvider[section]?.insets ?? .zero
+        let sectionItem = dataSource?.sectionItem(at: section) ?? _sectionItems[section]
+        return sectionItem.insets
     }
 
     open func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return sectionItemsProvider[section]?.minimumLineSpacing ?? 0
+        let sectionItem = dataSource?.sectionItem(at: section) ?? _sectionItems[section]
+        return sectionItem.minimumLineSpacing
     }
 
     open func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return sectionItemsProvider[section]?.minimumInteritemSpacing ?? 0
+        let sectionItem = dataSource?.sectionItem(at: section) ?? _sectionItems[section]
+        return sectionItem.minimumInteritemSpacing
     }
 
     open func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              referenceSizeForHeaderInSection section: Int) -> CGSize {
-        let optionalItem = sectionItemsProvider[section]?.reusableViewItems.first { reusableViewItem in
+        let optionalItem = _sectionItems[section].reusableViewItems.first { reusableViewItem in
             reusableViewItem.type == .header
         }
         guard let item = optionalItem else {
@@ -45,7 +57,7 @@ extension CollectionViewManager: UICollectionViewDelegateFlowLayout {
     open func collectionView(_ collectionView: UICollectionView,
                              layout collectionViewLayout: UICollectionViewLayout,
                              referenceSizeForFooterInSection section: Int) -> CGSize {
-        let optionalItem = sectionItemsProvider[section]?.reusableViewItems.first { reusableViewItem in
+        let optionalItem = _sectionItems[section].reusableViewItems.first { reusableViewItem in
             reusableViewItem.type == .footer
         }
         guard let item = optionalItem else {

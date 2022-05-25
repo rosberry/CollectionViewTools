@@ -9,10 +9,10 @@ final class CollectionViewIGListKitDiffAdaptor: CollectionViewDiffAdaptor {
 
     func changes<T: DiffItem>(old: [T], new: [T]) -> [CollectionViewChange<T>] {
         let oldWrappers = old.map { item in
-            IGListKitDiffItemWrapper(item: item)
+            IGListKitDiffableItemWrapper(item: item)
         }
         let newWrappers = new.map { item in
-            IGListKitDiffItemWrapper(item: item)
+            IGListKitDiffableItemWrapper(item: item)
         }
         let result = ListDiff(oldArray: oldWrappers, newArray: newWrappers, option: .equality)
         let inserts = result.inserts.map { index in
@@ -22,25 +22,32 @@ final class CollectionViewIGListKitDiffAdaptor: CollectionViewDiffAdaptor {
             CollectionViewChange(delete: .init(item: old[index], index: index))
         }
         let moves = result.moves.map { move in
-            CollectionViewChange(move: .init(item: new[move.to], from: move.from, to: move.to))
+            CollectionViewChange(move: CollectionViewMove(item: new[move.to],
+                                                          from: move.from,
+                                                          to: move.to))
         }
         let updates = result.updates.map { index -> CollectionViewChange<T> in
             let oldItem = old[index]
-            let newItemTuple = new.enumerated().first { (_, item) -> Bool in
-                oldItem.diffIdentifier == item.diffIdentifier
+            var newItem: T?
+            var newIndex: Int?
+            for (index, item) in new.enumerated() {
+                guard oldItem.diffIdentifier == item.diffIdentifier else {
+                    continue
+                }
+                newItem = item
+                newIndex = index
+                break
             }
-            let change = CollectionViewChange<T>()
-            if let newItem = newItemTuple?.element, let newIndex = newItemTuple?.offset {
-                change.update = .init(oldItem: oldItem, newItem: newItem, index: newIndex)
-            }
-            return change
+            return CollectionViewChange(update: CollectionViewUpdate(oldItem: oldItem,
+                                                                     newItem: newItem,
+                                                                     index: newIndex))
         }
         let changes = inserts + deletes + updates + moves
         return changes
     }
 }
 
-public final class IGListKitDiffItemWrapper<T: DiffItem>: ListDiffable {
+public final class IGListKitDiffableItemWrapper<T: DiffItem>: ListDiffable {
 
     let item: T
 
@@ -53,7 +60,7 @@ public final class IGListKitDiffItemWrapper<T: DiffItem>: ListDiffable {
     }
 
     public func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
-        guard let wrapper = object as? IGListKitDiffItemWrapper<T> else {
+        guard let wrapper = object as? IGListKitDiffableItemWrapper<T> else {
             return false
         }
         return item.isEqual(to: wrapper.item)
@@ -86,3 +93,4 @@ extension ListIndexSetResult {
         return strings.isEmpty ? "no changes" : strings.joined(separator: ", ")
     }
 }
+
