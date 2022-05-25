@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -36,6 +36,8 @@
 		13F1E97F232661BB0007F0C3 /* GeneralCollectionViewSectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F1E97C232661BB0007F0C3 /* GeneralCollectionViewSectionDataSource.swift */; };
 		13F1E980232661BB0007F0C3 /* CollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F1E97D232661BB0007F0C3 /* CollectionViewDataSource.swift */; };
 		629A6091BFB23B9D95D9BF56 /* Print.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629A64DA578C05AC298ECFFD /* Print.swift */; };
+		8568C8DE283DBA3F0043DC1D /* DeepDiff.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8568C8DD283DBA3F0043DC1D /* DeepDiff.xcframework */; };
+		8568C8DF283DBA3F0043DC1D /* DeepDiff.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8568C8DD283DBA3F0043DC1D /* DeepDiff.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,20 @@
 			remoteInfo = CollectionViewTools;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8568C8E0283DBA3F0043DC1D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8568C8DF283DBA3F0043DC1D /* DeepDiff.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		06B2AE0E21F6FFE8004A9CBB /* CollectionViewTools.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = CollectionViewTools.podspec; sourceTree = "<group>"; };
@@ -82,6 +98,7 @@
 		13F1E97C232661BB0007F0C3 /* GeneralCollectionViewSectionDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralCollectionViewSectionDataSource.swift; sourceTree = "<group>"; };
 		13F1E97D232661BB0007F0C3 /* CollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSource.swift; sourceTree = "<group>"; };
 		629A64DA578C05AC298ECFFD /* Print.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Print.swift; sourceTree = "<group>"; };
+		8568C8DD283DBA3F0043DC1D /* DeepDiff.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = DeepDiff.xcframework; path = Carthage/Build/DeepDiff.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8568C8DE283DBA3F0043DC1D /* DeepDiff.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,6 +128,7 @@
 				0A3763501F62545A00A80613 /* Sources */,
 				0A3763321F6251A600A80613 /* CollectionViewToolsTests */,
 				0A3763261F6251A600A80613 /* Products */,
+				8568C8DC283DBA3F0043DC1D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -255,6 +274,14 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		8568C8DC283DBA3F0043DC1D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8568C8DD283DBA3F0043DC1D /* DeepDiff.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -277,6 +304,7 @@
 				0A3763211F6251A600A80613 /* Frameworks */,
 				0A3763221F6251A600A80613 /* Headers */,
 				0A3763231F6251A600A80613 /* Resources */,
+				8568C8E0283DBA3F0043DC1D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -530,7 +558,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -554,7 +583,11 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewTools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -578,7 +611,11 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewTools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -592,7 +629,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = GPVA8JVMU3;
 				INFOPLIST_FILE = CollectionViewToolsTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewToolsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -605,7 +646,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = GPVA8JVMU3;
 				INFOPLIST_FILE = CollectionViewToolsTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.CollectionViewToolsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
