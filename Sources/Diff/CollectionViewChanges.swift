@@ -7,23 +7,13 @@ public class CollectionViewDeleteInsertBase<T>: CustomStringConvertible {
 
     /// Deleted/inserted item.
     let item: T
-    
+
     /// Index of item.
     let index: Int
 
     public init(item: T, index: Int) {
         self.item = item
         self.index = index
-    }
-
-    public convenience init?(item: T?, index: Int?) {
-        if let item = item,
-            let index = index {
-            self.init(item: item, index: index)
-        }
-        else {
-            return nil
-        }
     }
 
     public var description: String {
@@ -44,10 +34,10 @@ public final class CollectionViewUpdate<T>: Hashable, CustomStringConvertible {
 
     /// Item before update.
     let oldItem: T
-    
+
     /// New item.
     let newItem: T
-    
+
     /// Index of item.
     let index: Int
 
@@ -55,17 +45,6 @@ public final class CollectionViewUpdate<T>: Hashable, CustomStringConvertible {
         self.oldItem = oldItem
         self.newItem = newItem
         self.index = index
-    }
-
-    public convenience init?(oldItem: T?, newItem: T?, index: Int?) {
-        if let oldItem = oldItem,
-            let newItem = newItem,
-            let index = index {
-            self.init(oldItem: oldItem, newItem: newItem, index: index)
-        }
-        else {
-            return nil
-        }
     }
 
     public var description: String {
@@ -86,10 +65,10 @@ public final class CollectionViewMove<T>: CustomStringConvertible, Equatable {
 
     /// Moving item.
     var item: T
-    
+
     /// Index of item before moving.
     var from: Int
-    
+
     /// Index of item after moving.
     let to: Int
 
@@ -97,17 +76,6 @@ public final class CollectionViewMove<T>: CustomStringConvertible, Equatable {
         self.item = item
         self.from = from
         self.to = to
-    }
-
-    public convenience init?(item: T?, from: Int?, to: Int?) {
-        if let item = item,
-            let from = from,
-            let to = to {
-            self.init(item: item, from: from, to: to)
-        }
-        else {
-            return nil
-        }
     }
 
     public var description: String {
@@ -124,33 +92,33 @@ public final class CollectionViewMove<T>: CustomStringConvertible, Equatable {
 public final class CollectionViewChange<T>: CustomStringConvertible {
 
     /// Optional insertion.
-    let insertion: CollectionViewInsert<T>?
-    
+    public var insert: CollectionViewInsert<T>?
+
     /// Optional deletion.
-    let deletion: CollectionViewDelete<T>?
-    
+    public var delete: CollectionViewDelete<T>?
+
     /// Optional update.
-    let update: CollectionViewUpdate<T>?
-    
+    public var update: CollectionViewUpdate<T>?
+
     /// Optional move.
-    let move: CollectionViewMove<T>?
+    public var move: CollectionViewMove<T>?
 
     public init(insert: CollectionViewInsert<T>? = nil,
                 delete: CollectionViewDelete<T>? = nil,
                 update: CollectionViewUpdate<T>? = nil,
                 move: CollectionViewMove<T>? = nil) {
-        self.insertion = insert
-        self.deletion = delete
+        self.insert = insert
+        self.delete = delete
         self.update = update
         self.move = move
     }
 
     public var description: String {
         var strings: [String] = []
-        if let insert = insertion {
+        if let insert = insert {
             strings.append("insert \(insert)")
         }
-        else if let delete = deletion {
+        else if let delete = delete {
             strings.append("delete \(delete)")
         }
         else if let update = update {
@@ -196,13 +164,13 @@ final class CollectionViewChanges<T>: CustomStringConvertible {
         var updatedItems: [T] = []
 
         for change in changes {
-            if let insert = change.insertion,
+            if let insert = change.insert,
                 let item = insert.item.item as? T {
                 inserts.append(CollectionViewInsert(item: item, index: insert.index))
                 insertedIndexes.append(insert.index)
                 insertedItems.append(item)
             }
-            else if let delete = change.deletion,
+            else if let delete = change.delete,
                 let item = delete.item.item as? T {
                 deletes.append(CollectionViewDelete(item: item, index: delete.index))
                 deletedIndexes.append(delete.index)

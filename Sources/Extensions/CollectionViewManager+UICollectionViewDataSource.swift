@@ -1,6 +1,4 @@
 //
-//  CollectionViewManager+UICollectionViewDataSource.swift
-//
 //  Copyright © 2017 Rosberry. All rights reserved.
 //
 
@@ -9,27 +7,18 @@ import UIKit.UICollectionView
 extension CollectionViewManager: UICollectionViewDataSource {
 
     open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let dataSource = dataSource {
-            return dataSource.itemDataSource(at: section)?.itemCount ?? 0
-        }
-
-        return _sectionItems[section].cellItems.count
+        sectionItemsProvider.numberOfCellItems(inSection: section)
     }
 
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellItem = self.cellItem(for: indexPath)!
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellItem.reuseType.identifier, for: indexPath)
         cellItem.configure(cell)
-        cellItem.configure(cell, animated: false)
         return cell
     }
 
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
-        if let dataSource = dataSource {
-            return dataSource.sectionCount
-        }
-
-        return _sectionItems.count
+        return sectionItemsProvider.numberOfSectionItems
     }
 
     open func collectionView(_ collectionView: UICollectionView,
@@ -48,7 +37,7 @@ extension CollectionViewManager: UICollectionViewDataSource {
     }
 
     open func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
-        return cellItem(for: indexPath)?.canMove() ?? false
+        return cellItem(for: indexPath)?.canMove(at: indexPath) ?? false
     }
 
     open func collectionView(_ collectionView: UICollectionView,

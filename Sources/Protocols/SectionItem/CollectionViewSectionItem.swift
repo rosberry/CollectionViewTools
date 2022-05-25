@@ -1,6 +1,4 @@
 //
-//  CollectionViewSectionItem.swift
-//
 //  Copyright © 2017 Rosberry. All rights reserved.
 //
 
@@ -11,9 +9,9 @@ public protocol CollectionViewSectionItem: CollectionViewSiblingSectionItem {
     var cellItems: [CollectionViewCellItem] { get set }
     var reusableViewItems: [CollectionViewReusableViewItem] { get set }
 
-    var minimumLineSpacing: CGFloat { get }
-    var minimumInteritemSpacing: CGFloat { get }
-    var insets: UIEdgeInsets { get }
+    var minimumLineSpacing: CGFloat { get set }
+    var minimumInteritemSpacing: CGFloat { get set }
+    var insets: UIEdgeInsets { get set }
 }
 
 // MARK: - CollectionViewSiblingSectionItem
@@ -29,6 +27,7 @@ extension CollectionViewSiblingSectionItem {
             if let object = objc_getAssociatedObject(self, &AssociatedKeys.collectionView) as? UICollectionView {
                 return object
             }
+            printContextWarning("We found out that collectionView property for \(self) is nil")
             return nil
         }
         set {
@@ -41,6 +40,7 @@ extension CollectionViewSiblingSectionItem {
             if let object = objc_getAssociatedObject(self, &AssociatedKeys.index) as? Int {
                 return object
             }
+            printContextWarning("We found out that index property for \(self) is nil")
             return nil
         }
         set {

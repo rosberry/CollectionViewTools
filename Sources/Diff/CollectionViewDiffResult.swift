@@ -46,8 +46,8 @@ final class CollectionViewDiffResult {
         self.cellDeletesInsertsMovesMap = cellDeletesInsertsMovesMap
 
         hasSectionUpdates = sectionUpdates.count > 0
-        self.hasCellUpdates = cellUpdatesMap.count > 0
-        self.hasCellDeletesInsertsMoves = cellDeletesInsertsMovesMap.count > 0
+        hasCellUpdates = cellUpdatesMap.count > 0
+        hasCellDeletesInsertsMoves = cellDeletesInsertsMovesMap.count > 0
     }
 
     static func diffResult(for sectionItems: [CollectionViewDiffSectionItem],

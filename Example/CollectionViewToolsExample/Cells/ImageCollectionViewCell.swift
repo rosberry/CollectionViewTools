@@ -1,54 +1,42 @@
 //
-//  ImageCollectionViewCell.swift
-//
 //  Copyright © 2017 Rosberry. All rights reserved.
 //
 
 import UIKit
 
 final class ImageCollectionViewCell: UICollectionViewCell {
-    
-    var removeActionHandler: (() -> Void)?
-    
-    // MARK: Subviews
-    
-    let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    
-    private lazy var removeButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("X", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .bold)
-        button.backgroundColor = .white
-        button.addTarget(self, action: #selector(removeButtonPressed), for: .touchUpInside)
-        return button
-    }()
-    
+
+    var removeActionHandler: (() -> Void)? {
+        didSet {
+            imageContentView.removeActionHandler = removeActionHandler
+        }
+    }
+
+    private(set) lazy var imageContentView: ImageContentView = .init()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(imageView)
-        contentView.addSubview(removeButton)
+        setup()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
+        setup()
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        imageView.frame = contentView.bounds
-        
-        let side = contentView.bounds.width / 8
-        removeButton.frame = .init(x: contentView.bounds.width - side, y: 0, width: side, height: side)
+
+        imageContentView.frame = contentView.bounds
     }
-    
-    // MARK: Actions
-    
+
     @objc private func removeButtonPressed() {
         removeActionHandler?()
+    }
+
+    // MARK: - Private
+
+    private func setup() {
+        contentView.addSubview(imageContentView)
     }
 }

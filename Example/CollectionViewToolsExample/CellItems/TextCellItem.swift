@@ -1,12 +1,12 @@
 //
-// Copyright (c) 2018 Rosberry. All rights reserved.
+//  Copyright © 2018 Rosberry. All rights reserved.
 //
 
 import CollectionViewTools
 
-final class TextCellItem: CollectionViewDiffCellItem, CustomStringConvertible {
-    
-    private typealias Cell = TextCollectionViewCell
+final class TextCellItem: CollectionViewDiffCellItem {
+
+    private typealias Cell = TextContentCollectionViewCell
 
     private static let sizeCell: Cell = .init()
 
@@ -36,8 +36,8 @@ final class TextCellItem: CollectionViewDiffCellItem, CustomStringConvertible {
         }
         cell.contentView.backgroundColor = backgroundColor
         cell.contentView.layer.cornerRadius = roundCorners ? 4 : 0
-        cell.titleLabel.font = font
-        cell.titleLabel.text = text
+        cell.textContentView.titleLabel.font = font
+        cell.textContentView.titleLabel.text = text
     }
 
     func size(in collectionView: UICollectionView, sectionItem: CollectionViewSectionItem) -> CGSize {
@@ -56,7 +56,7 @@ final class TextCellItem: CollectionViewDiffCellItem, CustomStringConvertible {
         }
     }
 
-    // MARK: - CollectionViewDiffableItem
+    // MARK: - DiffItem
 
     var diffIdentifier: String = ""
 
@@ -69,12 +69,5 @@ final class TextCellItem: CollectionViewDiffCellItem, CustomStringConvertible {
             && font == item.font
             && roundCorners == item.roundCorners
             && contentRelatedWidth == item.contentRelatedWidth
-    }
-
-    // MARK: - CustomStringConvertible
-
-    var description: String {
-        let colorString = "\(backgroundColor)".replacingOccurrences(of: "UIExtendedSRGBColorSpace ", with: "")
-        return "\n cellItem id = \(diffIdentifier), color = \(colorString), text = \(text)"
     }
 }

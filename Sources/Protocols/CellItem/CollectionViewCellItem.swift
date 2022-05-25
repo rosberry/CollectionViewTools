@@ -1,6 +1,4 @@
 //
-//  CollectionViewCellItem.swift
-//
 //  Copyright © 2017 Rosberry. All rights reserved.
 //
 
@@ -14,7 +12,7 @@ public protocol CollectionViewCellItem: CollectionViewConfigureCellItem,
                                         CollectionViewSizeCellItem,
                                         CollectionViewGeneralCellItem,
                                         CollectionViewCellItemDataSource,
-                                        CollectionViewSiblingCellItem {
+                                        CollectionViewSiblingItem {
 
 }
 
@@ -27,84 +25,128 @@ public protocol CollectionViewReuseCellItem: AnyObject {
 // MARK: - CollectionViewSizeCellItem
 
 public protocol CollectionViewSizeCellItem: AnyObject {
-    func size() -> CGSize
+    var cachedSize: CGSize? { get set }
+    func size(in collectionView: UICollectionView, sectionItem: CollectionViewSectionItem) -> CGSize
 }
 
 // MARK: - CollectionViewConfigureCellItem
 
 public protocol CollectionViewConfigureCellItem: AnyObject {
+    /// Use this property to disable default animation of UICollectionView when cell items replaced using `replace` function of `CollectionViewManager`.
     var isReplacementAnimationEnabled: Bool { get }
+
+    /// Use this function to configure cell.
+    ///
+    /// - Parameters:
+    ///   - cell: Configurable cell
     func configure(_ cell: UICollectionViewCell)
-    func configure(_ cell: UICollectionViewCell, animated: Bool)
 }
 
 public extension CollectionViewConfigureCellItem {
     var isReplacementAnimationEnabled: Bool {
         return true
     }
-    func configure(_ cell: UICollectionViewCell, animated: Bool) {
-    }
+}
+
+final class CollectionViewCellItemContext {
+    weak var collectionView: UICollectionView?
+    weak var sectionItem: CollectionViewSectionItem?
+    var indexPath: IndexPath?
+    var shouldConfigureAnimated: Bool = false
 }
 
 // MARK: - CollectionViewSiblingCellItem
 
-public protocol CollectionViewSiblingCellItem: AnyObject {
+public protocol CollectionViewSiblingItem: AnyObject {
     var collectionView: UICollectionView? { get set }
     var indexPath: IndexPath? { get set }
     var sectionItem: CollectionViewSectionItem? { get set }
+    var cell: UICollectionViewCell? { get }
+    var shouldConfigureAnimated: Bool { get }
 }
 
-extension CollectionViewSiblingCellItem {
+extension CollectionViewSizeCellItem {
+    public var cachedSize: CGSize? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.cellItemSize) as? CGSize
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.cellItemSize, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+}
+
+extension CollectionViewSiblingItem {
+
+    var context: CollectionViewCellItemContext {
+        if let object = objc_getAssociatedObject(self, &AssociatedKeys.cellItemContext) as? CollectionViewCellItemContext {
+            return object
+        }
+        let context = CollectionViewCellItemContext()
+        objc_setAssociatedObject(self, &AssociatedKeys.cellItemContext, context, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        return context
+    }
+
     public weak var collectionView: UICollectionView? {
         get {
-            if let object = objc_getAssociatedObject(self, &AssociatedKeys.collectionView) as? UICollectionView {
-                return object
+            if let collectionView = context.collectionView {
+                return collectionView
             }
+            printContextWarning("We found out that collectionView property for \(self) is nil")
             return nil
         }
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.collectionView, newValue, .OBJC_ASSOCIATION_ASSIGN)
+            context.collectionView = newValue
         }
     }
 
+    /// An indexPath associated with the cellItem
     public var indexPath: IndexPath? {
         get {
-            if let object = objc_getAssociatedObject(self, &AssociatedKeys.indexPath) as? IndexPath {
-                return object
+            if let indexPath = context.indexPath {
+                return indexPath
             }
+            printContextWarning("We found out that indexPath property for \(self) is nil")
             return nil
         }
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.indexPath, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            context.indexPath = newValue
         }
     }
 
+    /// A sectionItem in what the cellItem placed
     public weak var sectionItem: CollectionViewSectionItem? {
         get {
-            if let object = objc_getAssociatedObject(self, &AssociatedKeys.sectionItem) as? CollectionViewSectionItem {
-                return object
+            if let sectionItem = context.sectionItem {
+                return sectionItem
             }
+            printContextWarning("We found out that sectionItem property for \(self) is nil")
             return nil
         }
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.sectionItem, newValue, .OBJC_ASSOCIATION_ASSIGN)
+            context.sectionItem = newValue
         }
     }
 
+    /// Returns a cell from collection view that corresponds to cellItem's indexPath
     public var cell: UICollectionViewCell? {
-        guard let collectionView = collectionView, let indexPath = indexPath else {
-            return nil
+        if let indexPath = self.indexPath {
+            return collectionView?.cellForItem(at: indexPath)
         }
+        return nil
+    }
 
-        return collectionView.cellForItem(at: indexPath)
+    /// Use this property to detect if cell should be configured with animation (for example you can use it for nested collection).
+    public var shouldConfigureAnimated: Bool {
+        return context.shouldConfigureAnimated
     }
 }
 
 // MARK: - CollectionViewGeneralCellItem
 
-public typealias ActionHandler = () -> Void
-public typealias ActionResolver = () -> Bool
-public typealias CellActionHandler = (UICollectionViewCell) -> Void
+public typealias ActionHandler = (IndexPath) -> Void
+public typealias ActionResolver = (IndexPath) -> Bool
+public typealias CellActionHandler = (UICollectionViewCell, IndexPath) -> Void
 public typealias ViewActionHandler = (UICollectionReusableView, String, UICollectionView, IndexPath) -> Void
 
 public protocol CollectionViewGeneralCellItem: AnyObject {
@@ -125,17 +167,17 @@ public protocol CollectionViewGeneralCellItem: AnyObject {
 
     var itemCanMoveResolver: ActionResolver? { get set }
 
-    func shouldHighlight() -> Bool
-    func didHighlight()
-    func didUnhighlight()
+    func shouldHighlight(at indexPath: IndexPath) -> Bool
+    func didHighlight(at indexPath: IndexPath)
+    func didUnhighlight(at indexPath: IndexPath)
 
-    func shouldSelect() -> Bool
-    func shouldDeselect() -> Bool
-    func didSelect()
-    func didDeselect()
+    func shouldSelect(at indexPath: IndexPath) -> Bool
+    func shouldDeselect(at indexPath: IndexPath) -> Bool
+    func didSelect(at indexPath: IndexPath)
+    func didDeselect(at indexPath: IndexPath)
 
-    func willDisplay(cell: UICollectionViewCell)
-    func didEndDisplaying(cell: UICollectionViewCell)
+    func willDisplay(cell: UICollectionViewCell, at indexPath: IndexPath)
+    func didEndDisplaying(cell: UICollectionViewCell, at indexPath: IndexPath)
 
     func willDisplay(view: UICollectionReusableView, for elementKind: String, for collectionView: UICollectionView, at indexPath: IndexPath)
     func didEndDisplaying(view: UICollectionReusableView,
@@ -143,7 +185,7 @@ public protocol CollectionViewGeneralCellItem: AnyObject {
                           for collectionView: UICollectionView,
                           at indexPath: IndexPath)
 
-    func canMove() -> Bool
+    func canMove(at indexPath: IndexPath) -> Bool
 }
 
 private enum AssociatedKeys {
@@ -160,10 +202,8 @@ private enum AssociatedKeys {
     static var didEndDisplayingCellHandler = "rsb_didEndDisplayingCellHandler"
     static var didEndDisplayingViewHandler = "rsb_didEndDisplayingViewHandler"
     static var canMoveHandler = "rsb_canMoveHandler"
-
-    static var collectionView = "rsb_collectionView"
-    static var indexPath = "rsb_indexPath"
-    static var sectionItem = "rsb_sectionItem"
+    static var cellItemContext = "rsb_cellItemContext"
+    static var cellItemSize = "rsb_cellItemSize"
 }
 
 public extension CollectionViewGeneralCellItem {
@@ -280,48 +320,44 @@ public extension CollectionViewGeneralCellItem {
 
     // MARK: - Functions
 
-    func shouldHighlight() -> Bool {
-        return itemShouldHighlightResolver?() ?? true
+    func shouldHighlight(at indexPath: IndexPath) -> Bool {
+        return itemShouldHighlightResolver?(indexPath) ?? true
     }
 
-    func didHighlight() {
-        itemDidHighlightHandler?()
+    func didHighlight(at indexPath: IndexPath) {
+        itemDidHighlightHandler?(indexPath)
     }
 
-    func didUnhighlight() {
-        itemDidUnhighlightHandler?()
+    func didUnhighlight(at indexPath: IndexPath) {
+        itemDidUnhighlightHandler?(indexPath)
     }
 
-    func shouldSelect() -> Bool {
-        return itemShouldSelectResolver?() ?? true
+    func shouldSelect(at indexPath: IndexPath) -> Bool {
+        return itemShouldSelectResolver?(indexPath) ?? true
     }
 
-    func shouldDeselect() -> Bool {
-        return itemShouldDeselectResolver?() ?? true
+    func shouldDeselect(at indexPath: IndexPath) -> Bool {
+        return itemShouldDeselectResolver?(indexPath) ?? true
     }
 
-    func didSelect() {
-        itemDidSelectHandler?()
+    func didSelect(at indexPath: IndexPath) {
+        itemDidSelectHandler?(indexPath)
     }
 
-    func didDeselect() {
-        itemDidDeselectHandler?()
+    func didDeselect(at indexPath: IndexPath) {
+        itemDidDeselectHandler?(indexPath)
     }
 
-    func willDisplay(cell: UICollectionViewCell) {
-        itemWillDisplayCellHandler?(cell)
+    func willDisplay(cell: UICollectionViewCell, at indexPath: IndexPath) {
+        itemWillDisplayCellHandler?(cell, indexPath)
     }
 
-    func didEndDisplaying(cell: UICollectionViewCell) {
-        itemDidEndDisplayingCellHandler?(cell)
+    func didEndDisplaying(cell: UICollectionViewCell, at indexPath: IndexPath) {
+        itemDidEndDisplayingCellHandler?(cell, indexPath)
     }
 
-    func canMove() -> Bool {
-        return itemCanMoveResolver?() ?? false
-    }
-
-    func size() -> CGSize {
-        return CGSize(width: 50, height: 50)
+    func canMove(at indexPath: IndexPath) -> Bool {
+        return itemCanMoveResolver?(indexPath) ?? false
     }
 
     func willDisplay(view: UICollectionReusableView,
