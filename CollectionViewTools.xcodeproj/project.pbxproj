@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		013BE53628C9C28E00AE399F /* DeepDiff.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 013BE53528C9C28E00AE399F /* DeepDiff.xcframework */; };
 		0143C23023F6672B00592288 /* TestCollectionVIewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143C22F23F6672B00592288 /* TestCollectionVIewCell.swift */; };
 		0143C23223F667B200592288 /* TestCollectionViewCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143C23123F667B200592288 /* TestCollectionViewCellItem.swift */; };
 		0145B98A2408F4E800F85782 /* CollectionViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0145B9892408F4E800F85782 /* CollectionViewTests.swift */; };
@@ -19,7 +20,6 @@
 		017ABDB523F6856700A5AE34 /* TestReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017ABDB423F6856700A5AE34 /* TestReusableView.swift */; };
 		017B9F0C2409129800C765BD /* TestAsyncCollectionViewCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017B9F0B2409129800C765BD /* TestAsyncCollectionViewCellItem.swift */; };
 		01929DAC22F190B8004D5605 /* CellItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01929DAB22F190B7004D5605 /* CellItemFactory.swift */; };
-		01DB96502536B65F00A90C29 /* DeepDiff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01B80DD52536B15200A336AF /* DeepDiff.framework */; platformFilter = maccatalyst; };
 		01F2086323F67657009B069E /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F2086223F67657009B069E /* TestViewController.swift */; };
 		0A37632F1F6251A600A80613 /* CollectionViewTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3763251F6251A600A80613 /* CollectionViewTools.framework */; };
 		0A3763341F6251A600A80613 /* CollectionViewManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3763331F6251A600A80613 /* CollectionViewManagerTests.swift */; };
@@ -60,6 +60,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		013BE53528C9C28E00AE399F /* DeepDiff.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = DeepDiff.xcframework; path = Carthage/Build/DeepDiff.xcframework; sourceTree = "<group>"; };
 		0143C22F23F6672B00592288 /* TestCollectionVIewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCollectionVIewCell.swift; sourceTree = "<group>"; };
 		0143C23123F667B200592288 /* TestCollectionViewCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCollectionViewCellItem.swift; sourceTree = "<group>"; };
 		0145B9892408F4E800F85782 /* CollectionViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewTests.swift; sourceTree = "<group>"; };
@@ -113,7 +114,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				01DB96502536B65F00A90C29 /* DeepDiff.framework in Frameworks */,
+				013BE53628C9C28E00AE399F /* DeepDiff.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,6 +142,7 @@
 		01B80DD02536B12D00A336AF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				013BE53528C9C28E00AE399F /* DeepDiff.xcframework */,
 				01B80DD52536B15200A336AF /* DeepDiff.framework */,
 				01B80DD12536B12D00A336AF /* DeepDiff.framework */,
 			);
