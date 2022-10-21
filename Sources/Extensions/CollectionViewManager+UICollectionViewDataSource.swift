@@ -11,9 +11,7 @@ extension CollectionViewManager: UICollectionViewDataSource {
     }
 
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cellItem = self.cellItem(for: indexPath) else {
-            return .init()
-        }
+        let cellItem = self.cellItem(for: indexPath)!
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellItem.reuseType.identifier, for: indexPath)
         cellItem.configure(cell)
         return cell

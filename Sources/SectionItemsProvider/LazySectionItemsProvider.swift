@@ -136,12 +136,15 @@ extension LazySectionItemsProvider: SectionItemsProvider {
     public subscript(indexPath: IndexPath) -> CollectionViewCellItem? {
         get {
             guard let sectionItem = self[indexPath.section] else {
+                print(">>> catch me", indexPath)
                 return nil
             }
             if let cellItem = sectionItem.cellItems[safe: indexPath.row] {
+                print(">>> catch me", indexPath)
                 return cellItem
             }
             guard let cellItem = makeCellItemHandler(indexPath) else {
+                print(">>> catch me", indexPath)
                 return nil
             }
             if indexPath.row < sectionItem.cellItems.count {
@@ -151,6 +154,7 @@ extension LazySectionItemsProvider: SectionItemsProvider {
                 sectionItem.cellItems.append(cellItem)
             }
             else {
+                print(">>> catch me", indexPath)
                 return nil
             }
 
